@@ -104,7 +104,7 @@ class External_Source_Data(models.Model):
 #    parent = models.ForeignKey(External_Source_Data)
 
 class External_Choice_Task(models.Model):
-    id_hard = models.CharField(max_length = 100)
+    id_hard = models.CharField(max_length = 100) #Source Document ID, not DjangoPK
     ext_src_data = models.ForeignKey(External_Source_Data)
     ext_src_data_name = models.CharField(max_length = 100)
     amount = models.IntegerField()
@@ -116,6 +116,23 @@ class External_Choice_Task(models.Model):
     a6 = models.CharField(max_length = 15, default = "empty")
     a7 = models.CharField(max_length = 15, default = "empty")
     a8 = models.CharField(max_length = 15, default = "empty")
+    used = models.BooleanField()
+    linked_pcpt = models.ForeignKey(Participant, null = True, blank = True)
+    raw_src_line = models.CharField(max_length = 100)
+
+class External_Baseline_Choice_Task(models.Model):
+    #identifies a 'Baseline Participant!
+    id_hard = models.CharField(max_length = 100) #Source Document ID, not DjangoPK
+    #Source ID Task Number, currently max value = 21 (3*7)
+    task = models.IntegerField()
+    ext_src_data = models.ForeignKey(External_Source_Data)
+    ext_src_data_name = models.CharField(max_length = 100)
+    #amount is not needed, 5 Alternatives is hardcoded.
+    a1 = models.CharField(max_length = 15, default = "empty")
+    a2 = models.CharField(max_length = 15, default = "empty")
+    a3 = models.CharField(max_length = 15, default = "empty")
+    a4 = models.CharField(max_length = 15, default = "empty")
+    a5 = models.CharField(max_length = 15, default = "empty")
     used = models.BooleanField()
     linked_pcpt = models.ForeignKey(Participant, null = True, blank = True)
     raw_src_line = models.CharField(max_length = 100)
