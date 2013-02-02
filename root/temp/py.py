@@ -1,4 +1,45 @@
+import os
+folder = './new folder/'
+filename = 'myfile.py'
+if os.path.isdir(folder):
+    f= open(folder + filename,'w')
+    f.write('print writing another line...')
+else:
+    os.makedirs(folder)
+    f= open(folder + filename,'w')
+    f.write('print writing another line...')
+f.close()
 
+'''
+#random mersenne twister generation
+import random
+
+rnd1 = random.Random()
+rnd1.seed(20125)
+print rnd1.uniform(7,16)
+
+rnd2 = random.Random()
+rnd2.seed(20126)
+print rnd2.uniform(7,16)
+
+ls = [1,2,3,4,5,6,7,8,9]
+
+#lstr = str(ls)
+#renew = map(int, lstr[1:-1].split(','))
+
+anew = []
+rnd1.shuffle(ls, anew)
+print 'segsegseg\n\n\n'
+print anew
+print ls
+print 'segsegseg\n\n\n'
+rnd1.shuffle(ls)
+print ls
+rnd1.shuffle(ls)
+print ls
+rnd1.shuffle(ls)
+print ls
+'''
 
 '''
 #calling a script with arguments

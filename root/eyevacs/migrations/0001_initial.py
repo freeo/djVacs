@@ -100,6 +100,24 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('eyevacs', ['External_Choice_Task'])
 
+        # Adding model 'External_Baseline_Choice_Task'
+        db.create_table('eyevacs_external_baseline_choice_task', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('id_hard', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('task', self.gf('django.db.models.fields.IntegerField')()),
+            ('ext_src_data', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['eyevacs.External_Source_Data'])),
+            ('ext_src_data_name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('a1', self.gf('django.db.models.fields.CharField')(default='empty', max_length=15)),
+            ('a2', self.gf('django.db.models.fields.CharField')(default='empty', max_length=15)),
+            ('a3', self.gf('django.db.models.fields.CharField')(default='empty', max_length=15)),
+            ('a4', self.gf('django.db.models.fields.CharField')(default='empty', max_length=15)),
+            ('a5', self.gf('django.db.models.fields.CharField')(default='empty', max_length=15)),
+            ('used', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('linked_pcpt', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['eyevacs.Participant'], null=True, blank=True)),
+            ('raw_src_line', self.gf('django.db.models.fields.CharField')(max_length=100)),
+        ))
+        db.send_create_signal('eyevacs', ['External_Baseline_Choice_Task'])
+
         # Adding model 'External_Order_Scale'
         db.create_table('eyevacs_external_order_scale', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -129,6 +147,9 @@ class Migration(SchemaMigration):
         # Deleting model 'External_Choice_Task'
         db.delete_table('eyevacs_external_choice_task')
 
+        # Deleting model 'External_Baseline_Choice_Task'
+        db.delete_table('eyevacs_external_baseline_choice_task')
+
         # Deleting model 'External_Order_Scale'
         db.delete_table('eyevacs_external_order_scale')
 
@@ -146,6 +167,22 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'language': ('django.db.models.fields.CharField', [], {'max_length': '2'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
+        'eyevacs.external_baseline_choice_task': {
+            'Meta': {'object_name': 'External_Baseline_Choice_Task'},
+            'a1': ('django.db.models.fields.CharField', [], {'default': "'empty'", 'max_length': '15'}),
+            'a2': ('django.db.models.fields.CharField', [], {'default': "'empty'", 'max_length': '15'}),
+            'a3': ('django.db.models.fields.CharField', [], {'default': "'empty'", 'max_length': '15'}),
+            'a4': ('django.db.models.fields.CharField', [], {'default': "'empty'", 'max_length': '15'}),
+            'a5': ('django.db.models.fields.CharField', [], {'default': "'empty'", 'max_length': '15'}),
+            'ext_src_data': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['eyevacs.External_Source_Data']"}),
+            'ext_src_data_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'id_hard': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'linked_pcpt': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['eyevacs.Participant']", 'null': 'True', 'blank': 'True'}),
+            'raw_src_line': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'task': ('django.db.models.fields.IntegerField', [], {}),
+            'used': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         },
         'eyevacs.external_choice_task': {
             'Meta': {'object_name': 'External_Choice_Task'},

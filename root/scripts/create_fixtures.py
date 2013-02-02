@@ -7,7 +7,6 @@ Decsription: Loads initial external data files, creates JSON fixtures of them. C
 
 import sys
 import os
-import re
 from eyevacs.models import Experiment, External_Source_Data, External_Choice_Task, External_Order_Scale, External_Baseline_Choice_Task
 
 '''
@@ -15,52 +14,28 @@ global variables
 '''
 
 experiment_name = ''
-extsrcdata_fixture_counter = External_Source_Data.objects.count()
-extctdata_fixture_counter = External_Choice_Task.objects.count()
-extbsldata_fixture_counter = External_Baseline_Choice_Task.objects.count()
-current_exp_id = 0
-
-print '\n!!!!!!!!!!!!!!!!!!!!!!!!!!!\n'
-print '\n'
-print 'LOADING INITIAL DATA SCRIPT'
-print '\n'
-print '\n!!!!!!!!!!!!!!!!!!!!!!!!!!!\n'
-
+extsrcdata_fixture_counter = None
+extctdata_fixture_counter = None
+extbsldata_fixture_counter = None
+current_exp_id = None
 
 #testing proper relative addressing by printing an echo from the correct folder:
-execfile("./initial_data/init_data_echo.py")
+#execfile("./initial_data/init_data_echo.py")
 #Note: "../" gives the parent folder
 
 
 #Steps:
-init_path = "./initial_data/"
-output_path ='./eyevacs/fixtures/'
-dirlist = os.listdir(init_path)
-print 'Files of ', init_path,': '
-print dirlist
-#filename = raw_input('enter filename to convert to xml fixture: \n')
-#csv_file = open(init_path + filename, 'r')
+init_path = ""
+output_path =''
 
-#list header of first opened file
-#for i in range(0,5,1):
-#    print csv_file.readline()
+def initDjangoPKcounters():
+    global extsrcdata_fixture_counter
+    global extctdata_fixture_counter
+    global extbsldata_fixture_counter
+    extsrcdata_fixture_counter = External_Source_Data.objects.count()
+    extctdata_fixture_counter = External_Choice_Task.objects.count()
+    extbsldata_fixture_counter = External_Baseline_Choice_Task.objects.count()
 
-csv_lists = []
-for i in range(0,len(dirlist),1):
-    if '.csv' in dirlist[i]:
-        csv_file = open(init_path + dirlist[i], 'r')
-        csv_list = csv_file.readlines()
-        csv_lists.append(csv_list)
-
-'''
-#checking header of all imported files
-for i in range(0,len(csv_lists),1):
-    print csv_lists[i][0]
-    print csv_lists[i][1]
-    print csv_lists[i][2]
-    print csv_lists[i][3]
-    print csv_lists[i][4]
-'''
 def ConvStringlist(thestring):
     output = thestring.rstrip('\n')
     return output.split(',',thestring.count(','))
@@ -76,15 +51,6 @@ def Analyze_List(current):
             break
 #    print 'counter: '+str(counter)
     return (counter, total_tasks)
-
-def SetExperimentDjangoPK():
-    '''Gets a free personal key identifier for the new current Experiment Model.'''
-
-    global current_exp_id
-    exp_count = Experiment.objects.count()
-    # print 'Existing Experiments: ', exp_count
-    current_exp_id = exp_count + 1
-    return current_exp_id
 
 def GetExperimentDjangoPK():
     return current_exp_id
@@ -132,6 +98,7 @@ x external_choice_task fixtures (x = total_tasks divided by amount).'''
     ext_data_pk = GetExtSrcDataDjangoPK()
     header = PrepareHeaderForFixture(model[0])
     ext_data_fields = r'"filetype":"ctask","header":"%s","exp_name":"%s","experiment":%s' % (header, experiment_name, GetExperimentDjangoPK())
+    print '-- EXP ID: ',GetExperimentDjangoPK() , ' --'
     ext_data_model = single_model % ("eyevacs.External_Source_Data", ext_data_pk, ext_data_fields)
     #Testing the output:
     #print 'External data Fixture: \n'
@@ -144,10 +111,8 @@ x external_choice_task fixtures (x = total_tasks divided by amount).'''
     ext_ct_ax = r',"raw_src_line":"%s","a1":"%s","a2":"%s","a3":"%s","a4":"%s","a5":"%s","a6":"%s","a7":"%s","a8":"%s"'
 
     #collecting data from file and export string
-    print 'total tasks: ', total_tasks
     ctask_list = []
     ext_src_data_name = "CT_" + str(amount) + "_" + total_tasks +"_"+experiment_name
-    print 'model length', len(model)
     for i in range(0, int(total_tasks),1):
         #if i < 10:
         #    print "i+", i
@@ -177,7 +142,7 @@ x external_choice_task fixtures (x = total_tasks divided by amount).'''
         ctask_list.append(ct_output)
     #!!!! DIRECT OUTPUT TO EXTERNAL FILE
     fixturename = experiment_name + '_CT' +str(amount)+'_ID'+str(ext_data_pk)+'.json'
-    print fixturename, '\n'
+
     tempfile = open (output_path + fixturename, 'w')
     tempfile.write("[" + ext_data_model + ",\n")
     for k in range(0,len(ctask_list)-1,1):
@@ -186,31 +151,10 @@ x external_choice_task fixtures (x = total_tasks divided by amount).'''
     tempfile.write(str(ctask_list[len(ctask_list)-1]) + '\n')
     tempfile.write("]")
     tempfile.close()
-
-def MakeExperiment(name, language):
-    '''Create an Experiment Model Fixture.'''
-    single_model = r'{"model":"%s","pk":%s,"fields":{%s}}'
-    output = "[%s]"
-    existing_experiments = Experiment.objects.all()
-    #OVERWRITE or new experiment?
-    djangoPK = 0
-    for current_exp in existing_experiments:
-        ascii_name = re.sub("[u']","",current_exp.name) #regular expression!
-        if ascii_name == name:
-            print 'NAME MATCHED! ID and fixture will override an existing Experiment!'
-            global current_exp_id
-            djangoPK = current_exp_id = current_exp.pk
-            break
-        else:
-            djangoPK = SetExperimentDjangoPK() #django get unused experiment ID, counts existing exeriments + 1
-    #djangoLANGUAGE = 'de' #has to be dynamic, will be gotten by admin form or by manual overwrite in the internal django admin app
-    experiment_fields = r'"name":"%s","language":"%s"'
-    experiment = ('eyevacs.Experiment', djangoPK, experiment_fields % (name, language))
-    filename = 'EXP_' + name + '_' +language + '_' + str(djangoPK) + '_FIX.json'
-    f = open (output_path + filename, 'w')
-    experiment_output = output % single_model % experiment
-    f.write(experiment_output)
-    f.close()
+    print '-- ', fixturename, ' --'
+    print 'total tasks: ', total_tasks
+    print 'model length', len(model)
+    print ''
 
 def MakeBaselineFixture(model):
     '''Similar to MakeFixture, but for baseline choice task files.'''
@@ -226,7 +170,7 @@ def MakeBaselineFixture(model):
         else:
             break
     #XXX
-    print 'bsl max cts: ' + str(bsl_max_cts)
+    print '-- Max Baseline CTs: ' + str(bsl_max_cts) + ' --'
     
     #basic strings
     single_model = r'{"model":"%s","pk":%s,"fields":{%s}}'
@@ -234,8 +178,7 @@ def MakeBaselineFixture(model):
     ext_data_pk = GetExtSrcDataDjangoPK()
     header = PrepareHeaderForFixture(model[0])
     ext_data_fields = r'"filetype":"ctask","header":"%s","exp_name":"%s","experiment":%s' % (header, experiment_name, GetExperimentDjangoPK())
-    print GetExperimentDjangoPK()
-    print GetExperimentDjangoPK()    
+    print '-- ID: ',GetExperimentDjangoPK() , ' --'
     ext_data_model = single_model % ("eyevacs.External_Source_Data", ext_data_pk, ext_data_fields)
 
     #EXTERNAL_BASELINE_CHOICE_TASK fixtures
@@ -246,7 +189,7 @@ def MakeBaselineFixture(model):
 
     ctask_list = []
     ext_src_data_name = "CT_BSL_" + str(bsl_max_cts) + "_" + total_tasks +"_"+experiment_name
-    print 'model length', len(model)
+    print '-- Baseline length:', len(model) , ' --'
     for i in range(0, int(total_tasks),1): #participant: ID_HARD
         for j in range (0,int(bsl_max_cts),1): #pcpt.task
             BSL_DjangoPK = GetExtBSLDjangoPK()
@@ -272,68 +215,72 @@ def MakeBaselineFixture(model):
 
     #OUTPUT TO EXTERNAL FILE
     fixturename = experiment_name + '_CT_BSL' +str(bsl_max_cts)+'_ID'+str(ext_data_pk)+'.json'
-    print fixturename, '\n'
+    #print fixturename
     tempfile = open (output_path + fixturename, 'w')
     #Parent Object
     tempfile.write("[" + ext_data_model + ",\n")
     #Child Object
-    print 'length: ', len(ctask_list)
+    #print '-- Baseline length: ', len(ctask_list), ' --'
     for l in range(0,len(ctask_list)-1,1):
         tempfile.write(str(ctask_list[l]) + ',\n')
     #LAST ENTRY MUST OMIT ',' BECAUSE OF .JSON File Format!
     tempfile.write(str(ctask_list[len(ctask_list)-1]) + '\n')
     tempfile.write("]")
     tempfile.close()
-    print '\n---Baseline fixture has been created under: '+ output_path + fixturename
+    #print '\n-- Baseline fixture '+ fixturename + ' created --'
+    print '-- ', fixturename, ' --'
+    print 'total tasks: ', total_tasks
+    print 'model length', len(model)
+    print '\n'
 
 
-def main():
+def main(exp_id, ext_data_path, fixture_path):
     '''Processing all found .csv files in folder ./initial_data/'''
+
+    print '\n***********************\n'
+    print '    Creating Fixtures'
+    print '\n***********************\n'
 
     #Baseline CT Group: Amount of alternatives
     bsl_amount = 5
-    #DEBUG switches
-    switch_exp_name_on = 0
-    #
-    #
-    #Experiment
-    #Create Fixture, input: name and language
-    global experiment_name
-    if switch_exp_name_on:
-        experiment_name = raw_input('Enter Name of EXPERIMENT to CREATE/OVERWRITE: \n -->')
-    else:
-        experiment_name = 'OXIQUATL'
-    lang_choices = ("de","en")
-    def CheckLang():
-        choice = raw_input('Enter Language, possible choices: "de" or "en": \n -->')
-        if choice not in lang_choices:
-            CheckLang()
-        else:
-            return choice
-    experiment_language = CheckLang()
-    MakeExperiment(experiment_name, experiment_language)
 
+    global experiment_name
+    global current_exp_id
+    global init_path
+    global output_path
+    exp = Experiment.objects.get(pk=exp_id)
+    experiment_name = exp.name
+    current_exp_id = exp.pk
+    init_path = ext_data_path
+    output_path = fixture_path
+
+    initDjangoPKcounters()
+
+    #load ext data files
+    dirlist = os.listdir(init_path)
+    print 'Files of', init_path,': '
+    print dirlist
+    csv_lists = []
+    csv_filenames = []
+    for i in range(0,len(dirlist),1):
+        if '.csv' in dirlist[i]:
+            csv_file = open(init_path + dirlist[i], 'r')
+            csv_list = csv_file.readlines()
+            csv_lists.append(csv_list)
+            csv_filenames.append(dirlist[i])
+    print '-- ',len(csv_lists),' CSVs found! --'
+
+    #Parse files to fixtures
     #A fixture object contains: 
     #the header object of Ext Source DATA and all appendant Ext Source Choice Tasks 
     data_properties = []
     fixtures_list = [] 
     for i in range(0,len(csv_lists),1):
-        if not 'baseline' in dirlist[i].lower():
+        if not 'baseline' in csv_filenames[i].lower():
             data_properties.append(Analyze_List(csv_lists[i]))
-            fixtures_list.append(MakeFixture(csv_lists[i], data_properties[i][0],data_properties[i][1]))
+            fixture = MakeFixture(csv_lists[i], data_properties[i][0],data_properties[i][1])
+            fixtures_list.append(fixture)
         else:
+            data_properties.append(Analyze_List(csv_lists[i]))
             MakeBaselineFixture(csv_lists[i])
-
-    ##checking temp results
-    print data_properties
-
-main()
-
-#register file name to db (needs new model!), check for existency
-
-#.model object to .json (fixture data)
-
-#.import fixture data
-
-#.done: sql can use the choice task columns, mapped by the yet undefined "model object"
 
