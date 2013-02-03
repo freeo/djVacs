@@ -9,6 +9,7 @@ from eyevacs.models import Experiment, External_Source_Data, External_Choice_Tas
 root = sys.path[0]
 external_data_path = './external_data/'
 fixture_output = './eyevacs/fixtures/'
+output_data_path = './eyevacs/'
 experiment_name = ''
 exp_filename = ''
 current_exp_id = None
@@ -24,10 +25,7 @@ def SetExperimentDjangoPK():
 
 def MakeExperiment(name, language):
     '''Create an Experiment Model Fixture.'''
-    global exp_filename
-    #create folder
-    if not os.path.isdir(fixture_output):
-        os.makedirs(fixture_output)
+
     single_model = r'{"model":"%s","pk":%s,"fields":{%s}}'
     output = "[%s]"
     existing_experiments = Experiment.objects.all()
@@ -46,8 +44,9 @@ def MakeExperiment(name, language):
     #djangoLANGUAGE = 'de' #has to be dynamic, will be gotten by admin form or by manual overwrite in the internal django admin app
     experiment_fields = r'"name":"%s","language":"%s"'
     experiment = ('eyevacs.Experiment', djangoPK, experiment_fields % (name, language))
+    global exp_filename
     exp_filename = 'EXP_' + name + '_' +language + '_' + str(djangoPK) + '_FIX.json'
-    full_path = fixture_output + exp_filename
+    full_path = fixture_output + experiment_name + '/' + exp_filename
     f = open (full_path, 'w')
     experiment_output = output % single_model % experiment
     f.write(experiment_output)
@@ -64,6 +63,32 @@ def LoadExpFixture(exp_json_filename):
     except:
         print '############### ERROR importing experiment...'
         print exp_json_filename
+
+def InitPaths():
+    #global vars
+    global root
+    global external_data_path
+    global fixture_output
+    global output_data_path
+
+    #root path
+    temp_root = sys.path[0]
+    #regular expression substitution
+    root = re.sub(r"\\","/",temp_root)
+    print root
+
+    external_data_path = './external_data/'
+    fixture_output = './eyevacs/fixtures/'
+    #Experiment fixture folder
+    if not os.path.isdir(fixture_output):
+        os.makedirs(fixture_output)
+    #rnd data folder
+    rnd_data_fullpath = './eyevacs/data/' + experiment_name + '/'
+    if not os.path.isdir(rnd_data_fullpath):
+        os.makedirs(rnd_data_fullpath)
+    global output_data_path
+    output_data_path = rnd_data_fullpath
+
 
 
 def main():
@@ -92,16 +117,17 @@ def main():
     experiment_language = CheckLang()
     fixture_output += experiment_name + '/'
 
+    InitPaths()
+
     MakeExperiment(experiment_name, experiment_language)
     if not switch_rnd:
         LoadExpFixture(fixture_output+ exp_filename)
         create_fixtures.main(current_exp_id, external_data_path, fixture_output)
         load_fixtures.Run(root, fixture_output)
-        create_rnd_scale.main(root + external_data_path, current_exp_id)
+        #create_rnd_scale.main(root + external_data_path, current_exp_id)
     else:
-        print 'args:'
-        print root + external_data_path, current_exp_id
-        create_rnd_scale.main(root + external_data_path, current_exp_id)
+        #create_rnd_scale.main(root + output_data_path[1:], current_exp_id)
+        create_rnd_scale.main(current_exp_id)
 
 main()
 

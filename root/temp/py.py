@@ -1,4 +1,12 @@
-import os
+org ='E:\djVacs\root./external_data/'
+r1 = 'E:\djVacs\root/external_data/'
+r2 = 'E:\\djVacs\\root/external_data/'
+asf = 'astupidfile.asf'
+f = open(r2+asf,'w')
+f.write('ololol')
+f.close()
+
+'''import os
 folder = './new folder/'
 filename = 'myfile.py'
 if os.path.isdir(folder):
@@ -9,6 +17,7 @@ else:
     f= open(folder + filename,'w')
     f.write('print writing another line...')
 f.close()
+'''
 
 '''
 #random mersenne twister generation
@@ -24,11 +33,14 @@ print rnd2.uniform(7,16)
 
 ls = [1,2,3,4,5,6,7,8,9]
 
-#lstr = str(ls)
-#renew = map(int, lstr[1:-1].split(','))
+lstr = str(ls)
+renew = map(int, lstr[1:-1].split(','))
+
+print lstr[1:-1]
+print renew
 
 anew = []
-rnd1.shuffle(ls, anew)
+#rnd1.shuffle(ls, anew)
 print 'segsegseg\n\n\n'
 print anew
 print ls
