@@ -123,7 +123,7 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('id_hard', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('scale_rnd_order_ext', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('linked_pcpt', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['eyevacs.Participant'])),
+            ('linked_pcpt', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['eyevacs.Participant'], null=True, blank=True)),
         ))
         db.send_create_signal('eyevacs', ['External_Order_Scale'])
 
@@ -207,7 +207,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'External_Order_Scale'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'id_hard': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'linked_pcpt': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['eyevacs.Participant']"}),
+            'linked_pcpt': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['eyevacs.Participant']", 'null': 'True', 'blank': 'True'}),
             'scale_rnd_order_ext': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         'eyevacs.external_source_data': {

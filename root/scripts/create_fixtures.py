@@ -248,6 +248,7 @@ def main(exp_id, ext_data_path, fixture_path):
     global current_exp_id
     global init_path
     global output_path
+    print 'EXP IOD', exp_id
     exp = Experiment.objects.get(pk=exp_id)
     experiment_name = exp.name
     current_exp_id = exp.pk

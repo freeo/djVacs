@@ -140,5 +140,5 @@ class External_Baseline_Choice_Task(models.Model):
 class External_Order_Scale(models.Model):
     id_hard = models.CharField(max_length = 100)
     scale_rnd_order_ext = models.CharField(max_length = 100)
-    linked_pcpt = models.ForeignKey(Participant)
+    linked_pcpt = models.ForeignKey(Participant, null = True, blank = True)
 
