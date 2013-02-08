@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>DreamWeaver Scale</title>
+
+{% load static from staticfiles %}
+<link href="{% static "css/forms.css" %}" rel="stylesheet" type="text/css" />
+<link href="{% static "css/strings.css" %}" rel="stylesheet" type="text/css" />
+<link href="{% static "css/layout.css" %}" rel="stylesheet" type="text/css" />
+
+</head>
+<!--/*
+Six item maximizing scale from Nenkov et al. (2008) – follow up paper of Schwartz et al. (2002):
+Randomize order of items
+We’d like to start with some general statements about how you behave in daily situations.
+Please indicate your degree of agreement with the following statements (-3 = I do not agree with the statement at all, +3 = I agree with the statement very much) 
+•	When I am in the car listening to the radio, I often check other stations to see if something better is playing, even if I am relatively satisfied with what I’m listening to.
+•	No matter how satisfied I am with my job, it’s only right for me to be on the lookout for better opportunities.
+•	I often find it difficult to shop for a gift for a friend.
+•	Renting videos is really difficult. I’m always struggling to pick the best one.
+•	No matter what I do, I have the highest standards for myself.
+•	I never settle for second best.
+*/-->
+<body id="body_black">
+
+<div id="center_content">
+<div id="target_screen_layout">
+
+<div class="question_title">
+We’d like to start with some general statements about how you behave in daily situations.
+Please indicate your degree of agreement with the following statements (-3 = I do not agree with the statement at all, +3 = I agree with the statement very much)
+</div>
+
+<br/>
+
+<form action="{{next_page}}" method="post" name="{{scale_name}}" id="{{scale_id}}">
+
+<table width="1400px" border="0" align="center" cellspacing="0">
+  <tr >
+    <td class="sc_table_question_spacer"></td>
+    <td class="sc_table_spacer"></td>
+    <td class="cell_white"><p class="sc_table_legend">+3</p></td>
+    <td class="cell_grey"></td>
+    <td class="cell_white"></td>
+    <td class="cell_grey"></td>
+    <td class="cell_white"></td>
+    <td class="cell_grey"></td>
+    <td class="cell_white"><p class="sc_table_legend">-3</p></td>
+  </tr>
+  <!--NEXT QUESTION-->
+  <tr>
+    <td class="sc_question">When I am in the car listening to the radio, I often check other stations to see if something better is playing, even if I am relatively satisfied with what I’m listening to.</td>
+    <!--question_spacer--><td class="sc_table_spacer"></td>
+    <td class="cell_white">
+    <label>
+    <input type="radio" name="q1" id="+3" />
+    </label></td>
+    <td class="cell_grey">
+    <label><input type="radio" name="q1" id="+2" /></label></td>
+    <td class="cell_white">
+    <label><input type="radio" name="q1" id="+1" /></label></td>
+    <td class="cell_grey">
+    <label><input type="radio" name="q1" id="0" /></label></td>
+    <td class="cell_white">
+    <label><input type="radio" name="q1" id="-1" /></label></td>
+    <td class="cell_grey">
+    <label><input type="radio" name="q1" id="-2" /></label></td>
+    <td class="cell_white">
+    <label><input type="radio" name="q1" id="-3" /></label></td>            
+  </tr>
+  <tr>
+    <td class="sc_question">No matter how satisfied I am with my job, it’s only right for me to be on the lookout for better opportunities.</td>
+    <!--question_spacer--><td class="sc_table_spacer"></td>
+    <td class="cell_white">
+    <label>
+    <input type="radio" name="q1" id="+3" />
+    </label></td>
+    <td class="cell_grey">
+    <label><input type="radio" name="q2" id="+2" /></label></td>
+    <td class="cell_white">
+    <label><input type="radio" name="q2" id="+1" /></label></td>
+    <td class="cell_grey">
+    <label><input type="radio" name="q2" id="0" /></label></td>
+    <td class="cell_white">
+    <label><input type="radio" name="q2" id="-1" /></label></td>
+    <td class="cell_grey">
+    <label><input type="radio" name="q2" id="-2" /></label></td>
+    <td class="cell_white">
+    <label><input type="radio" name="q2" id="-3" /></label></td>            
+  </tr>
+</table>
+
+<input name="begin_radio_weiter" type="submit" class="weiter" id="{{bt_continue_id}}" value="{{lb_button_continue}}" />
+</form>
+<!--#################################-->
+</div>
+</div>
+</body>
+</html>

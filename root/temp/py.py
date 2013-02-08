@@ -1,3 +1,27 @@
+
+import os
+import re
+# here() gives us file paths from the root of the system to the directory
+# holding the current file.
+here = lambda * x: os.path.join(os.path.abspath(os.path.dirname(__file__)), *x)
+
+PROJECT_ROOT = here("..")
+# root() gives us file paths from the root of the system to whatever
+# folder(s) we pass it starting at the parent directory of the current file.
+root = lambda * x: os.path.join(os.path.abspath(PROJECT_ROOT), *x)
+print root(here())
+print root()
+print here()
+#print str(re.sub('\\', '/', temp))
+
+
+'''
+print 'stuff'
+stra = 'asdf'
+aa= []
+aa.app
+'''
+'''
 org ='E:\djVacs\root./external_data/'
 r1 = 'E:\djVacs\root/external_data/'
 r2 = 'E:\\djVacs\\root/external_data/'
@@ -5,6 +29,7 @@ asf = 'astupidfile.asf'
 f = open(r2+asf,'w')
 f.write('ololol')
 f.close()
+'''
 
 '''import os
 folder = './new folder/'
@@ -126,7 +151,7 @@ os.system('batch.bat')
 
 total_tasks = 2
 bsl_max_cts = 21
-for i in range(0, int(total_tasks),1):    
+for i in range(0, int(total_tasks),1):
     for j in range (0,bsl_max_cts,1):
         index = ''
         for k in range(0,5,1):

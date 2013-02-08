@@ -3,4 +3,4 @@ from django.http import HttpResponse
 
 def index(request):
 #    return render_to_response('index.html')
-    return HttpResponse('this is the TRUE index!')
+    return HttpResponse('Project root index.html')

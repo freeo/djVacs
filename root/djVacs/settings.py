@@ -20,15 +20,45 @@ DATABASES = {
     }
 }
 
+#beatiful snippet from 'getting started with django', first tutorial.
+#used template, locale and static paths!
+import os
+# here() gives us file paths from the root of the system to the directory
+# holding the current file.
+here = lambda * x: os.path.join(os.path.abspath(os.path.dirname(__file__)), *x)
+
+PROJECT_ROOT = here("..")
+# root() gives us file paths from the root of the system to whatever
+# folder(s) we pass it starting at the parent directory of the current file.
+root = lambda * x: os.path.join(os.path.abspath(PROJECT_ROOT), *x)
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
 TIME_ZONE = 'Europe/Berlin'
 
+ugettext = lambda s: s
+
+LANGUAGES = (
+    ('de', ugettext('German')),
+    ('en', ugettext('English')),
+)
+'''
+LANGUAGES = (
+  ('de', 'German'),
+  ('en', 'English'),
+  #('de', _('German')),
+  #('en', _('English')),
+)
+'''
+
+
+
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
+#LANGUAGE_CODE = 'de-de'
 
 SITE_ID = 1
 
@@ -56,7 +86,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = root() + '\\static\\'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -88,8 +118,9 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -102,12 +133,32 @@ ROOT_URLCONF = 'djVacs.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'djVacs.wsgi.application'
 
+#MANUALLY IMPORTED!!! Was not here before, but I need ...request
+TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
+    #added:
+    'django.core.context_processors.request'
+    )
+
+
+
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    "E:/djVacs/templates",
+    #"E:/djVacs/templates",
+    root() + '\\templates',
 )
+
+LOCALE_PATHS = (
+    root() + '\\locale',
+)
+
 
 INSTALLED_APPS = (
     'django.contrib.auth',

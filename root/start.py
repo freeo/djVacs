@@ -144,7 +144,7 @@ def main():
     switch_ct = 0
     switch_default_rnd = 0
     switch_rnd = 0 #overridden by default rnd
-    switch_load_fixtures = 1
+    switch_load_fixtures = 0
 
     if switch_new_exp:
         #NEW EXPERIMENT

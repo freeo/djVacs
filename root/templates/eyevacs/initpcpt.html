@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block body %}
+Language: <br/>
+---------<br/>
+{{ request.LANGUAGE_CODE }}<br/>
+{% trans "This is a language test... The currently selected language is:" %} {{ request.LANGUAGE_CODE }}<br/>
+<br/>
+{% trans "not Indian gibberish!" as some_language %}
+{% blocktrans %} English was selected! The LANGUAGE CODE is {{ some_language }} ! <br/><br/>{% endblocktrans %}
+
+{%if request.LANGUAGE_CODE == "de" %}
+    Es wurde Deutsch ausgewaehlt.<br/>
+{% endif %}
+{%if request.LANGUAGE_CODE == "en" %}
+    English was selected. just the if clause... sadly a complicated way of solvin the problem :-/
+{% endif %}
+{% blocktrans %} Assuming, that English is the default language, I will have to translate this (originally English) paragraph to German. I hope it works as described in the documentation... <br/>
+{% endblocktrans %}
+{% for item in info_list %}
+<li> {{ item }} 
+{% endfor %}
+<br/>
+Amount of existing participants in this experiment({{exp_name}}) :<br/>
+-->{{exp.external_source_data_set.count }}<br/>
+<br/>
+
+{# <form action="/eye/exp{{ exp_id }}/pcpt{{ pcpt_id }}/" method="post">{% csrf_token %} #}
+<form action="/eye/exp{{ exp_id }}/pcptinit/" method="post">{% csrf_token %}
+  going to: <br/>  
+/eye/exp{{ exp_id }}/pcpt{{ pcpt_id }}/
+<br/><br/>
+<label><input type="radio" name="ct_size" id="7 main tasks" />7 tasks</label>
+<label><input type="radio" name="ct_size" id="14 main tasks" />14 tasks</label>
+<label><input type="radio" name="ct_size" id="21 main tasks" />21 tasks</label>
+<br/>
+Select a participant ID manually: <br/>
+<input type="text" value="Enter desired ID" name="input_pcptid" />
+<br/>
+<input type="submit" value="New Participant" />
+</form>
+{% endblock %}

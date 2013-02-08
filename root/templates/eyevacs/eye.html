@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block body %}
+
+Chosen Language: {{lang}} <br>
+Experiments:
+{% for exp in exp_list %}
+<li><a href='./exp{{exp.pk}}/'>{{exp.name}}</a>
+{% endfor %}
+
+
+{% endblock %}

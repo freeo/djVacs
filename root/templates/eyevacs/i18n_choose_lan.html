@@ -1,0 +1,13 @@
+{#i18n tag ist wichtig, da get_language_info_list sonst nicht funktioniert!!!#}
+{% load i18n %}
+<form action="/i18n/setlang/" method="post">
+{% csrf_token %}
+<input name="next" type="hidden" value="{{ redirect_to }}" />
+<select name="language">
+{% get_language_info_list for LANGUAGES as languages %}
+{% for language in languages %}
+<option value="{{ language.code }}">{{ language.name_local }} ({{ language.code }})</option>
+{% endfor %}
+</select>
+<input type="submit" value="Go" />
+</form>

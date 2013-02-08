@@ -4,26 +4,32 @@
 	font-size: 36px;
 	font-weight: bold;
 	color: #000;
-	/*	position: absolute;
-*/	text-align: center;
-	/*width: 1650px;*/
+	text-align: center;
 	width: 100%;
 	margin: 0px auto;
 	clear: both;
-/*	height: 90px;
-	line-height: 90px;*/
 }
 .general_text {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 24px;
 	font-weight: normal;
 	color: #000;
-	/*	position: absolute;
-*/	text-align: center;
+	text-align: center;
 	width: 100%;
 	margin: 0px auto;
-/*	line-height: 20px;
-*/}
+}
+.question_title{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 28px;
+	font-weight: normal;
+	color: #000;
+	text-align: left;
+	padding: 35px;
+	margin-top: 0px;
+	margin-right: auto;
+	margin-bottom: 0px;
+	margin-left: auto;
+}
 .general_text_left {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 32px;
@@ -50,4 +56,23 @@
 	padding-top: 20px;
 	top: 0px;
 	margin: 0px;
+}
+.sc_question{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 24px;
+	font-weight: normal;
+	color: #000;
+	text-align: left;
+	position: relative;
+	padding-right: 20px;
+	padding-left: 30px;
+	padding-top: 30px;
+	top: 0px;
+	margin: 0px;
+}
+
+.sc_table_legend {
+	font-family: "Arial Black", Gadget, sans-serif;
+	font-size: 14px;
+	color: #555;
 }
