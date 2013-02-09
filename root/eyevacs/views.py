@@ -1,8 +1,8 @@
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render_to_response, render, get_object_or_404
 from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.template import Context, Template
-from eyevacs.models import Experiment
+from eyevacs.models import Experiment, Participant
 from django.utils.translation import ugettext
 from django.utils import translation
 from eyevacs import views_pcpt as pcpt
@@ -54,8 +54,11 @@ def experiment_id(request, exp_id):
     #return HttpResponse('hello eyetracker')
 
 def initParticipant(request, exp_id ):
-    postdata = request.POST['input_pcptid']
-    return HttpResponse(postdata)
+    pcpt_id = request.POST['input_pcptid']
+    max_scale_context = pcpt.max_scale_context(pcpt_id)
+
+    return render_to_response('eyevacs/scale.html', max_scale_context)
+    #return HttpResponse(postdata)
 
 def participant(request, exp_id, pcpt):
     return render_to_response('eyevacs/scale.html')
