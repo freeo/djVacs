@@ -1,9 +1,9 @@
 import os
 import sys
 import re
-from scripts import load_fixtures, create_fixtures, create_rnd_scale
+from scripts import load_fixtures, create_fixtures, create_rnd_scale, scale_questions
 from subprocess import call
-from eyevacs.models import Experiment, External_Source_Data, External_Choice_Task, External_Order_Scale, External_Baseline_Choice_Task
+from eyevacs.models import Experiment, External_Source_Data, External_Choice_Task, External_Order_Scale, External_Baseline_Choice_Task, Scale, Scale_Question
 
 #paths
 root = '' #sys.path[0]
@@ -59,7 +59,7 @@ def MakeExperiment(name, language):
     f.close()
 
 def LoadExpFixture(exp_json_filename):
-#    relative_path = 
+#    relative_path =
     try:
         print '\n*** Importing external fixtures ***: \n'
         #print sys.executable, root,'\\manage.py loaddata', exp_json_filename
@@ -108,11 +108,14 @@ def CheckLang():
 def Echo():
     print 'Database Content:'
     print '-----------------'
-    print 'Experiment Count: ', Experiment.objects.count()
-    print 'Ext Src Data Count: ', External_Source_Data.objects.count()
-    print 'Ext ChoiceTask Count: ', External_Choice_Task.objects.count()
-    print 'Ext BaselineCT Count: ', External_Baseline_Choice_Task.objects.count()
-    print 'Random Order Count: ', External_Order_Scale.objects.count()
+    print '1. Experiment Count: ', Experiment.objects.count()
+    print '2. Ext Src Data Count: ', External_Source_Data.objects.count()
+    print '2.1. Ext Src Data SCALE Count: ', External_Source_Data.objects.filter(filetype = 'scale').count()
+    print '3. Ext ChoiceTask Count: ', External_Choice_Task.objects.count()
+    print '4. Ext BaselineCT Count: ', External_Baseline_Choice_Task.objects.count()
+    print '5. Random Order Count: ', External_Order_Scale.objects.count()
+    print '6. Scales Count:' , Scale.objects.count()
+    print '7. Scale Questions Count: ', Scale_Question.objects.count()
     print ''
 
 def FlushAll():
@@ -129,6 +132,32 @@ def FlushAll():
         print '\n ### Deletion ABORTED ###! \n'
     Echo()
 
+def Flush():
+    Echo()
+    Elements = [Experiment.objects.all(), External_Source_Data.objects.all(), External_Source_Data.objects.filter(filetype = 'scale'), External_Choice_Task.objects.all(), External_Baseline_Choice_Task.objects.all(), External_Order_Scale.objects.all()]
+    for ind, ele in enumerate(Elements):
+        print ind, ' -- ', ele,' \n'
+    print '\n\n What do uo want to FLUSH?'
+    print 'Enter all numbers seperated by ","!'
+    to_flush = raw_input('-->')
+    print to_flush.split(',')
+    for element in to_flush.split(','):
+        print Elements[int(element)], ' will be deleted. \n'
+        sure = raw_input(' --- Are you sure? --- \n type "yes" to to DELETE!\n --- every other key to abort. ---\n -->')
+        if sure == 'yes':
+            Elements[int(element)].delete()
+
+        # Experiment.objects.all().delete()
+        # External_Source_Data.objects.all().delete()
+        # External_Source_Data.objects.filter(filetype = 'scale').count()
+        # External_Choice_Task.objects.all().delete()
+        # External_Baseline_Choice_Task.objects.all().delete()
+        # External_Order_Scale.objects.all().delete()
+        # print '\n ### Objects have been deleted ###!\n'
+        else:
+            print '\n ### Deletion ABORTED ###! \n'
+    Echo()
+
 def main():
 
     print '********************'
@@ -140,11 +169,14 @@ def main():
     global experiment_name
     global fixture_output
     #DEBUG switches, do the work in CHUNCKS: dont load at first! (last switch)
-    switch_new_exp= 0
-    switch_ct = 0
-    switch_default_rnd = 0
+    switch_new_exp=                 0
+    switch_ct =                     0
+    switch_default_rnd =            0
     switch_rnd = 0 #overridden by default rnd
-    switch_load_fixtures = 0
+    switch_load_fixtures =          0
+    switch_load_scale_questions =   1
+
+    Echo()
 
     if switch_new_exp:
         #NEW EXPERIMENT
@@ -176,7 +208,9 @@ def main():
     if switch_load_fixtures:
         print root
         load_fixtures.Run('.'+root, fixture_output[1:], output_data_path[1:])
-
+    if switch_load_scale_questions:
+        curr_exp = Experiment.objects.get(pk = current_exp_id )
+        scale_questions.load_scale_questions(curr_exp)
     Echo()
 
     print '\n___________________________'

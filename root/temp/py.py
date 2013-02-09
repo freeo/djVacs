@@ -1,4 +1,8 @@
-
+stringlist = 'abcdefgh lalala a0woijef'
+liste = stringlist.split()
+print liste
+print liste.index('lalala')
+'''
 import os
 import re
 # here() gives us file paths from the root of the system to the directory
@@ -14,7 +18,7 @@ print root()
 print here()
 #print str(re.sub('\\', '/', temp))
 
-
+'''
 '''
 print 'stuff'
 stra = 'asdf'

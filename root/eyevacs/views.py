@@ -55,7 +55,7 @@ def experiment_id(request, exp_id):
 
 def initParticipant(request, exp_id ):
     pcpt_id = request.POST['input_pcptid']
-    max_scale_context = pcpt.max_scale_context(pcpt_id)
+    max_scale_context = pcpt.get_scale_context(pcpt_id, 'rnd_max')
 
     return render_to_response('eyevacs/scale.html', max_scale_context)
     #return HttpResponse(postdata)

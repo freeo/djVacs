@@ -122,15 +122,15 @@ def GetExtSrcDataDjangoPK():
 def write_json(rnd_orderings):
     #writes a list to json
 
-    #parent 
+    #parent
     #subs: pk, fields
     ext_source_data = '{"model":"eyevacs.External_Source_Data","pk":"%s","fields":%s}'
     #subs: header expname expid
     ext_source_data_fields = '{"filetype":"scale","header":"%s","exp_name":"%s","experiment":"%s"}'
     output = '[%s, %s]'
-    pk = GetExtSrcDataDjangoPK()
+    pk_parent = GetExtSrcDataDjangoPK()
     fields_content = (filename[:-5], experiment_name, experiment_id)
-    data = ext_source_data % (pk, (ext_source_data_fields % fields_content))
+    data = ext_source_data % (pk_parent, (ext_source_data_fields % fields_content))
 
     output = open(fixture_path + filename,'w')
     output.write('[')
@@ -139,11 +139,11 @@ def write_json(rnd_orderings):
     #children
     #pk # fields
     rnd_frame = '{"model":"eyevacs.External_Order_Scale","pk":"%s","fields":%s}'
-    #i # str(ordering)
-    rnd_fields = '{"id_hard":"%s","scale_rnd_order_ext":"%s","linked_pcpt":null}'
+    #i # str(ordering) #source_file pk
+    rnd_fields = '{"id_hard":"%s","scale_rnd_order_ext":"%s","source_file":%s,"linked_pcpt":null}'
     for i in range(1,len(rnd_orderings),1):
         pk = GetOrderDjangoPK()
-        rnd_content = (i, rnd_orderings[i])
+        rnd_content = (i, rnd_orderings[i], pk_parent)
         line = rnd_frame % (pk, (rnd_fields % rnd_content))
         output.write(',\n')
         output.write(line)
@@ -208,7 +208,7 @@ def main(exp_id, args=('',None,None)):
         upper = args[2]
     initIDs()
     this_id = order_counter_db + order_counter_file + order_counter_running
-    filename = 'RND_id%s_%s.json' % (this_id,name)
+    filename = 'RND_%s.json' % (name)#this_id was included before
     untidy = shuffle_scale(lower, upper) #includes header with its seed
     write_json(untidy)
     writeInternalIDs()

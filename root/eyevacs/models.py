@@ -28,7 +28,7 @@ class Experiment(models.Model):
     #participants:wird als foreign key bei den participants geloest
 
 class Participant(models.Model):
-    #bool, real participant = 1 or "Test-Experiments" = 0 
+    #bool, real participant = 1 or "Test-Experiments" = 0
     genuine = models.BooleanField()
     date = models.DateTimeField("date created")
     #inc, dec, bsl
@@ -61,8 +61,8 @@ class Participant(models.Model):
     #extracted order, less database dependence
     scale_rnd_order = models.CharField(max_length = 100)
     #array with ordered values of the max regret scale
-    scale_max_regret = models.CharField(max_length = 100) #ca. 18*2 +17 felder 
-    #array of choices in the heuristics scale, length: 6 
+    scale_max_regret = models.CharField(max_length = 100) #ca. 18*2 +17 felder
+    #array of choices in the heuristics scale, length: 6
     heur_choice = models.CharField(max_length = 6+5)
     #demographics
     demo_gender = models.CharField(max_length=6, choices= GENDER_CHOICES)
@@ -86,7 +86,7 @@ class Attribute(models.Model):
     position = models.SmallIntegerField()
 
 class Level(models.Model):
-    #quantity of alternatives 
+    #quantity of alternatives
     link_attribute = models.ForeignKey(Attribute)
     name = models.CharField(max_length = 100)
     #numerical value to represent the name of the level
@@ -140,5 +140,16 @@ class External_Baseline_Choice_Task(models.Model):
 class External_Order_Scale(models.Model):
     id_hard = models.CharField(max_length = 100)
     scale_rnd_order_ext = models.CharField(max_length = 100)
+    source_file = models.ForeignKey(External_Source_Data, null = True, blank = True)
     linked_pcpt = models.ForeignKey(Participant, null = True, blank = True)
 
+class Scale(models.Model):
+    name = models.CharField(max_length = 100)
+    experiment = models.ForeignKey(Experiment)
+    rnd_file = models.OneToOneField(External_Source_Data, primary_key=True)
+
+class Scale_Question(models.Model):
+    linked_scale = models.ForeignKey(Scale)
+    text = models.TextField()
+    #initial order of the question!
+    id_order = models.IntegerField()
