@@ -1,7 +1,90 @@
-stringlist = 'abcdefgh lalala a0woijef'
+scale_name_string = 'rnd_max'
+question_title = 'gnihihihi'
+next_page = './temp/'
+scale_name = scale_name_string
+scale_id = '' #css id design for the form! will STAY EMPTY!!!
+order_id = 2
+question_order = [4,2,1,3]
+questions = {}
+for i in range(1, len(question_order),1):
+    qtext = 'text: ', i
+    qid = question_order[i]
+    q = {'text':qtext,'id':qid}
+    questions[scale_name_string + str(qid)] = q
+
+name_scale_continue_button = scale_name_string + '_button'
+bt_continue_id = ''
+lb_button_continue = 'Continue'
+context = {'question_title': question_title,
+'next_page':next_page,
+'scale_name':scale_name,
+'scale_id':scale_id,
+'questions ':questions,
+'name_scale_continue_button':name_scale_continue_button,
+'bt_continue_id':bt_continue_id,
+'lb_button_continue':lb_button_continue
+}
+print context
+
+
+'''
+def infoObject(*args):
+    output = ''
+    if len(args) > 0:
+        for arg in args:
+            output += arg + '\n'
+    return output
+
+
+print infoObject('ololo','hihi','krass')
+'''
+'''
+import random, re
+
+
+def createGrouping(seed):
+    rnd = random.Random()
+    rnd.seed(seed)
+    grouping = [0]*900
+    for i in range(0,900,1):
+        grouping[i] = rnd.randint(1,3)
+
+    proc_grouping = re.sub(',','\n',str(grouping))[1:-1]
+
+    fname = 'grp_%s.csv' % seed
+    f = open(fname, 'w')
+    f.write(str(seed) + '\n')
+    f.write(proc_grouping)
+    f.close()
+#print grouping
+
+in_seed = raw_input(' --- Enter SEED for grouping randomization: ---\n -->')
+try:
+    seed = int(in_seed)
+except:
+    raise Exception(' *** The seed you entered is not a valid integer *** \n *** ABORTING *** ')
+
+createGrouping(seed)
+
+#for i in range(0,50,1):
+#    createGrouping(random.randint(1000000,9999999))
+'''
+'''
+d = {'name':'peter','age':74}
+for k in d.keys():
+    print k
+for v in d.values():
+    print v
+# print d.keys, d.values
+
+'''
+
+
+'''stringlist = 'abcdefgh lalala a0woijef'
 liste = stringlist.split()
 print liste
 print liste.index('lalala')
+'''
 '''
 import os
 import re

@@ -12,6 +12,20 @@ rnd_involvement_questions = ['Overall, how familiar are you with booking vacatio
 rnd_searchgoals_questions = ['Even if I found a vacation package that I was relatively satisfied with, I still looked to the other available vacation packages before deciding.', 'I tried to find the best vacation package in each of the previous choice task.', 'I had in mind some ideal vacation package(s), and I tried to look for vacation packages similar to my ideal package(s).', 'I made my decision in each choice task as soon as I found a vacation package that was good enough. ']
 rnd_happiness_questions = ['In general, I consider myself:', 'Compared to most of my peers, I consider myself:', 'Some people are generally very happy. They enjoy life regardless of what is going on, getting the most out of everything. To what extent does this characterization describe you?', 'Some people are generally very happy. They enjoy life regardless of what is going on, getting the most out of everything. To what extent does this characterization describe you?']
 
+##XXX###################################################################
+
+rnd_max_title = 'We’d like to start with some general statements about how you behave in daily situations. \nPlease indicate your degree of agreement with the following statements (-3 = I do not agree with the statement at all, +3 = I agree with the statement very much)'
+
+rnd_regret_title = 'The following statements are related to choices in daily situations. \nPlease indicate your degree of agreement with the following statements (-3 = I do not agree with the statement at all, +3 = I agree with the statement very much)'
+
+rnd_involvement_title = ''
+
+rnd_searchgoals_title = 'Let’s come back to vacation packages:\nPlease indicate your degree of agreement with the following statements (-3 = I do not agree with the statement at all, +3 = I agree with the statement very much)'
+
+rnd_happiness_title = 'For each of the following statements and/or questions, please mark the point on the scale that you feel is most appropriate in describing you.'
+
+question_titles = {'rnd_max':rnd_max_title,'rnd_regret':rnd_regret_title, 'rnd_involvement':rnd_involvement_title,'rnd_searchgoals':rnd_searchgoals_title, 'rnd_happiness':rnd_happiness_title}
+
 questions = {'rnd_max':rnd_max_questions,'rnd_regret':rnd_regret_questions, 'rnd_involvement':rnd_involvement_questions,'rnd_searchgoals':rnd_searchgoals_questions, 'rnd_happiness':rnd_happiness_questions}
 
 def load_rnd_files():

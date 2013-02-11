@@ -153,3 +153,10 @@ class Scale_Question(models.Model):
     text = models.TextField()
     #initial order of the question!
     id_order = models.IntegerField()
+
+class Grouping(models.Model):
+    experiment = models.OneToOneField(Experiment)
+    seed = models.IntegerField()
+    counter = models.IntegerField()
+    #JSON-serialized (text) version of group numberlist
+    group_nr = models.TextField(null=True)

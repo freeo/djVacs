@@ -35,7 +35,7 @@
   <!--QUESTIONIONS-->
   {% for question in questions %}
   <tr>
-    <td class="sc_question">{{question.text }}</td>
+    <td class="sc_question">{{question.text}}</td>
     <!--question_spacer--><td class="sc_table_spacer"></td>
     <td class="cell_white">
     <label>
@@ -52,11 +52,12 @@
     <td class="cell_grey">
     <label><input type="radio" name="{{question.id}}" id="-2" /></label></td>
     <td class="cell_white">
-    <label><input type="radio" name="{{question.id}}" id="-3" /></label></td>            
+        <label><input type="radio" name="{{question.id}}" id="-3" /></label></td>           {% endfor %}
   </tr>
 </table>
 
 <input name="{{name_scale_continue_button }}" type="submit" class="weiter" id="{{bt_continue_id}}" value="{{lb_button_continue}}" />
+{{request.POST}}
 </form>
 <!--#################################-->
 </div>

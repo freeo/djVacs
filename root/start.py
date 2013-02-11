@@ -1,9 +1,10 @@
 import os
 import sys
 import re
-from scripts import load_fixtures, create_fixtures, create_rnd_scale, scale_questions
+import random
+from scripts import load_fixtures, create_fixtures, create_rnd_scale, scale_questions, grouping
 from subprocess import call
-from eyevacs.models import Experiment, External_Source_Data, External_Choice_Task, External_Order_Scale, External_Baseline_Choice_Task, Scale, Scale_Question
+from eyevacs.models import Experiment, External_Source_Data, External_Choice_Task, External_Order_Scale, External_Baseline_Choice_Task, Scale, Scale_Question, Grouping
 
 #paths
 root = '' #sys.path[0]
@@ -105,10 +106,19 @@ def CheckLang():
             CheckLang()
         else:
             return choice
+
+def CreateGrouping(exp):
+    try:
+        exp.grouping.delete()
+    except:
+        print 'The experiment wasnt assigned a grouping yet.'
+    grouping.main(exp)
+
 def Echo():
     print 'Database Content:'
     print '-----------------'
     print '1. Experiment Count: ', Experiment.objects.count()
+    print '1.1. Grouping Count: ', Grouping.objects.count()
     print '2. Ext Src Data Count: ', External_Source_Data.objects.count()
     print '2.1. Ext Src Data SCALE Count: ', External_Source_Data.objects.filter(filetype = 'scale').count()
     print '3. Ext ChoiceTask Count: ', External_Choice_Task.objects.count()
@@ -146,14 +156,6 @@ def Flush():
         sure = raw_input(' --- Are you sure? --- \n type "yes" to to DELETE!\n --- every other key to abort. ---\n -->')
         if sure == 'yes':
             Elements[int(element)].delete()
-
-        # Experiment.objects.all().delete()
-        # External_Source_Data.objects.all().delete()
-        # External_Source_Data.objects.filter(filetype = 'scale').count()
-        # External_Choice_Task.objects.all().delete()
-        # External_Baseline_Choice_Task.objects.all().delete()
-        # External_Order_Scale.objects.all().delete()
-        # print '\n ### Objects have been deleted ###!\n'
         else:
             print '\n ### Deletion ABORTED ###! \n'
     Echo()
@@ -169,12 +171,12 @@ def main():
     global experiment_name
     global fixture_output
     #DEBUG switches, do the work in CHUNCKS: dont load at first! (last switch)
-    switch_new_exp=                 0
+    switch_new_exp=                 1
     switch_ct =                     0
     switch_default_rnd =            0
     switch_rnd = 0 #overridden by default rnd
     switch_load_fixtures =          0
-    switch_load_scale_questions =   1
+    switch_load_scale_questions =   0
 
     Echo()
 
@@ -198,6 +200,7 @@ def main():
     InitPaths()
     MakeExperiment(experiment_name, experiment_language)
     LoadExpFixture(fixture_output+ exp_filename)
+    CreateGrouping(Experiment.objects.get(pk=current_exp_id))
     print ' ### CURRENT EXP ID:', current_exp_id
     if switch_ct:
         create_fixtures.main(current_exp_id, external_data_path, fixture_output)
