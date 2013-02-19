@@ -2,9 +2,9 @@ import os
 import sys
 import re
 import random
-from scripts import load_fixtures, create_fixtures, create_rnd_scale, scale_questions, grouping
+from scripts import load_fixtures, create_fixtures, create_rnd_scale, scale_questions, grouping, load_setup
 from subprocess import call
-from eyevacs.models import Experiment, External_Source_Data, External_Choice_Task, External_Order_Scale, External_Baseline_Choice_Task, Scale, Scale_Question, Grouping
+from eyevacs.models import Experiment, External_Source_Data, External_Choice_Task, External_Order_Scale, External_Baseline_Choice_Task, Scale, Scale_Question, Grouping, Attribute, Level
 
 #paths
 root = '' #sys.path[0]
@@ -114,11 +114,15 @@ def CreateGrouping(exp):
         print 'The experiment wasnt assigned a grouping yet.'
     grouping.main(exp)
 
+
 def Echo():
+    print ''
     print 'Database Content:'
     print '-----------------'
     print '1. Experiment Count: ', Experiment.objects.count()
     print '1.1. Grouping Count: ', Grouping.objects.count()
+    print '1.2. Attributes: ', Attribute.objects.count()
+    print '1.2.1 Levels: ', Level.objects.count()
     print '2. Ext Src Data Count: ', External_Source_Data.objects.count()
     print '2.1. Ext Src Data SCALE Count: ', External_Source_Data.objects.filter(filetype = 'scale').count()
     print '3. Ext ChoiceTask Count: ', External_Choice_Task.objects.count()
@@ -133,6 +137,8 @@ def FlushAll():
     sure = raw_input('FLUSHING ALL DJANGO MODEL OBJECTS!!!\n --- Are you sure? --- \n type "yes" to to DELETE!\n --- every other key to abort. ---')
     if sure == 'yes':
         Experiment.objects.all().delete()
+        Attribute.objects.all().delete()
+        Level.objects.all().delete()
         External_Source_Data.objects.all().delete()
         External_Choice_Task.objects.all().delete()
         External_Baseline_Choice_Task.objects.all().delete()
@@ -144,7 +150,7 @@ def FlushAll():
 
 def Flush():
     Echo()
-    Elements = [Experiment.objects.all(), External_Source_Data.objects.all(), External_Source_Data.objects.filter(filetype = 'scale'), External_Choice_Task.objects.all(), External_Baseline_Choice_Task.objects.all(), External_Order_Scale.objects.all()]
+    Elements = [Experiment.objects.all(), Attribute.objects.all(), Level.objects.all(), External_Source_Data.objects.all(), External_Source_Data.objects.filter(filetype = 'scale'), External_Choice_Task.objects.all(), External_Baseline_Choice_Task.objects.all(), External_Order_Scale.objects.all()]
     for ind, ele in enumerate(Elements):
         print ind, ' -- ', ele,' \n'
     print '\n\n What do uo want to FLUSH?'
@@ -171,12 +177,13 @@ def main():
     global experiment_name
     global fixture_output
     #DEBUG switches, do the work in CHUNCKS: dont load at first! (last switch)
-    switch_new_exp=                 1
+    switch_new_exp=                 0
     switch_ct =                     0
     switch_default_rnd =            0
     switch_rnd = 0 #overridden by default rnd
     switch_load_fixtures =          0
     switch_load_scale_questions =   0
+    switch_load_experimentsetup =   1
 
     Echo()
 
@@ -214,6 +221,11 @@ def main():
     if switch_load_scale_questions:
         curr_exp = Experiment.objects.get(pk = current_exp_id )
         scale_questions.load_scale_questions(curr_exp)
+    if switch_load_experimentsetup:
+        Attribute.objects.all().delete()
+        Level.objects.all().delete()
+        print ' --- flushed old Attributes & Levels ---'
+        load_setup.main(curr_exp)
     Echo()
 
     print '\n___________________________'

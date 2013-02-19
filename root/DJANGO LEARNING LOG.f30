@@ -57,3 +57,4 @@ Seitenablauf:
 Idee: Jede Seite gibt nach "Weiter" den PAGE_CODE zurück. NextPage(PREVIOUS_PAGE_CODE) verarbeitet den alten page code und gibt den neuen zurück.
 Data Container: DICTIONARY! Name: page_sequence = {'intro':1,'sc_max':2,'sc_regret':3, 'filler1':4,'filler2':5,'filler3':6,'pl_purchase':7,'explanation':8,'ct':9,'hc':10,'sc_searchgoals,'sc_happiness':11,'demographics':12,'tourn_sel':13}
 
+

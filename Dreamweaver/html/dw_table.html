@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>DreamWeaver Table Base</title>
+<link href="../css/forms.css" rel="stylesheet" type="text/css" />
+<link href="../css/strings.css" rel="stylesheet" type="text/css" />
+<link href="../css/layout.css" rel="stylesheet" type="text/css" />
+<style>
+.checkboxgroup{
+    display:inline-block;
+    text-align:center;
+}
+</style>
+
+</head>
+<body id="body_black">
+<div id="center_content">
+<div id="target_screen_layout">
+
+<div class="question_title">
+Please choose a vacation package:
+</div>
+
+<br/>
+
+<form action="{{next_page}}" method="post" name="{{scale_name}}" value="{{scale_id}}">
+
+<table width="1400px" border="0" align="center" cellspacing="0">
+  <tr >
+    <td class="sc_table_question_spacer"></td>
+    <td class="sc_table_spacer"></td>
+    <td class="cell_white"><p class="sc_table_legend">+3</p></td>
+    <td class="cell_grey"></td>
+    <td class="cell_white"></td>
+    <td class="cell_grey"></td>
+    <td class="cell_white"></td>
+    <td class="cell_grey"></td>
+    <td class="cell_white"><p class="sc_table_legend">-3</p></td>
+  </tr>
+  <!--NEXT QUESTION-->
+  <tr>
+    <td class="sc_question">When I am in the car listening to the radio, I often check other stations to see if something better is playing, even if I am relatively satisfied with what I’m listening to.</td>
+    <!--question_spacer--><td class="sc_table_spacer"></td>
+    <td class="cell_white">
+    <label>
+    <input type="radio" name="q1" id="+3" />
+    </label></td>
+    <td class="cell_grey">
+    <label><input type="radio" name="q1" id="+2" /></label></td>
+    <td class="cell_white">
+    <label><input type="radio" name="q1" id="+1" /></label></td>
+    <td class="cell_grey">
+    <label><input type="radio" name="q1" id="0" /></label></td>
+    <td class="cell_white">
+    <label><input type="radio" name="q1" id="-1" /></label></td>
+    <td class="cell_grey">
+    <label><input type="radio" name="q1" id="-2" /></label></td>
+    <td class="cell_white">
+    <label><input type="radio" name="q1" id="-3" /></label></td>            
+  </tr>
+  <tr>
+    <td class="sc_question">No matter how satisfied I am with my job, it’s only right for me to be on the lookout for better opportunities.</td>
+    <!--question_spacer--><td class="sc_table_spacer"></td>
+    <td class="cell_white">
+    <label>
+    <input type="radio" name="q1" id="+3" />
+    </label></td>
+    <td class="cell_grey">
+    <label><input type="radio" name="q2" id="+2" /></label></td>
+    <td class="cell_white">
+    <label><input type="radio" name="q2" id="+1" /></label></td>
+    <td class="cell_grey">
+    <label><input type="radio" name="q2" id="0" /></label></td>
+    <td class="cell_white">
+    <label><input type="radio" name="q2" id="-1" /></label></td>
+    <td class="cell_grey">
+    <label><input type="radio" name="q2" id="-2" /></label></td>
+    <td class="cell_white">
+    <label><input type="radio" name="q2" id="-3" /></label></td>            
+  </tr>
+</table>
+
+<input name="begin_radio_weiter" type="submit" class="weiter" id="{{bt_continue_id}}" value="{{lb_button_continue}}" />
+</form>
+<!--#################################-->
+</div>
+</div>
+</body>
+</html>

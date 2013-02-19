@@ -104,7 +104,7 @@ x external_choice_task fixtures (x = total_tasks divided by amount).'''
     #print 'External data Fixture: \n'
     #print ext_data_model
 
-    #EXTERNAL_CHOICE_TASK 's 
+    #EXTERNAL_CHOICE_TASK 's
     #template strings
     ext_ct_model = r'{"model":"eyevacs.External_Choice_Task","pk":%s,"fields":{%s}}'
     ext_ct_fields = r'"id_hard":"%s","ext_src_data":"%s","ext_src_data_name":"%s","amount":%s,"used":false,"linked_pcpt":%s'
@@ -171,13 +171,13 @@ def MakeBaselineFixture(model):
             break
     #XXX
     print '-- Max Baseline CTs: ' + str(bsl_max_cts) + ' --'
-    
+
     #basic strings
     single_model = r'{"model":"%s","pk":%s,"fields":{%s}}'
     #EXTERNAL_SOURCE_DATA ctask json fixture
     ext_data_pk = GetExtSrcDataDjangoPK()
     header = PrepareHeaderForFixture(model[0])
-    ext_data_fields = r'"filetype":"ctask","header":"%s","exp_name":"%s","experiment":%s' % (header, experiment_name, GetExperimentDjangoPK())
+    ext_data_fields = r'"filetype":"bltsk","header":"%s","exp_name":"%s","experiment":%s' % (header, experiment_name, GetExperimentDjangoPK())
     print '-- ID: ',GetExperimentDjangoPK() , ' --'
     ext_data_model = single_model % ("eyevacs.External_Source_Data", ext_data_pk, ext_data_fields)
 
@@ -196,7 +196,7 @@ def MakeBaselineFixture(model):
             a0 =  " | "
             concept_list = ["-"]*5
             for k in range(0,5,1): #pcpt.task.concept
-                index = i*int(bsl_max_cts)*5+j*5+k+1 #skipping header                
+                index = i*int(bsl_max_cts)*5+j*5+k+1 #skipping header
                 currentLine = ConvStringlist(model[index]) #is a list
                 a0 += model[index].rstrip('\n') +  " | "
                 concept_list[int(currentLine[2])-1] = currentLine[3:9]
@@ -272,10 +272,10 @@ def main(exp_id, ext_data_path, fixture_path):
     print '-- ',len(csv_lists),' CSVs found! --'
 
     #Parse files to fixtures
-    #A fixture object contains: 
-    #the header object of Ext Source DATA and all appendant Ext Source Choice Tasks 
+    #A fixture object contains:
+    #the header object of Ext Source DATA and all appendant Ext Source Choice Tasks
     data_properties = []
-    fixtures_list = [] 
+    fixtures_list = []
     for i in range(0,len(csv_lists),1):
         if not 'baseline' in csv_filenames[i].lower():
             data_properties.append(Analyze_List(csv_lists[i]))

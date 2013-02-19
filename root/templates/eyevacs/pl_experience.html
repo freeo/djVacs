@@ -1,0 +1,92 @@
+{% extends 'eyevacs/0preview1650.html' %}
+{% block body %}
+{% load i18n %}    
+<!-- ################################################################# -->
+
+</br>
+<p class="question_title">Let’s come to a different topic now:</p>
+<br />
+&nbsp;
+
+<form action={{ destination }} method="post" name="pl_experience">
+{% csrf_token %}
+<div class="rg">
+<table width="1200px" border="0" align="center" summary="layout table which contains all 4 radio groups including their questions.">
+  <tr>
+    <td valign="top">
+    	<p class="rg_question_text" >When was the last time you booked a vacation package?</p>
+   
+        <table class="rg_inner_container">
+          <tr>
+            <td class="rg_text_line_no_lite"><label>
+              <input type="radio" name="rg_recent" value="recent"/>
+            Within the last 12 months</label></td>
+          </tr>
+          <tr>
+            <td class="rg_text_line_hi_lite"><label>
+              <input type="radio" name="rg_recent" value="recent"/>
+              Between the last 12 and 36 months</label></td>
+          </tr>
+          <tr>
+            <td class="rg_text_line_no_lite"><label>
+              <input type="radio" name="rg_recent" value="recent"/>
+              Longer than 36 months ago</label></td>
+          </tr>
+          <tr>
+            <td class="rg_text_line_hi_lite"><label>
+              <input type="radio" name="rg_recent" value="recent"/>
+              I never booked a vacation package before.</label></td>
+          </tr>
+        </table>
+      
+    </td>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+    <p class="rg_question_text">Are you planning to book a vacation package within the next 12 months?</p>
+        <table class="rg_inner_container">
+          <tr>
+            <td class="rg_text_line_no_lite"><label >
+              <input type="radio" name="rg_bool" value="bool_planning"/>
+            Yes</label></td>
+          </tr>
+          <tr>
+            <td class="rg_text_line_hi_lite"><label>
+              <input type="radio" name="rg_bool" value="bool_planning"/>
+              No</label></td>
+          </tr>
+        </table>
+    </td>
+</tr>
+
+    <td valign="top">
+    <p class="rg_question_text">When it comes to booking a vacation package, what would you say: How long do you search for information before you decide which vacation package to book?</p>
+        <table class="rg_inner_container">
+          <tr>
+            <td class="rg_text_line_no_lite"><label>
+              <input type="radio" name="rg_quantity" value="searchduration"/>
+            Less than one week</label></td>
+          </tr>
+          <tr>
+            <td class="rg_text_line_hi_lite"><label>
+              <input type="radio" name="rg_quantity" value="searchduration"/>
+              Between one and two weeks</label></td>
+          </tr>
+          <tr>
+            <td class="rg_text_line_no_lite"><label>
+              <input type="radio" name="rg_quantity" value="searchduration"/>
+              More than two weeks</label></td>
+          </tr> 
+        </table>
+        </td>
+        </tr>    
+</table>
+</div> 
+
+<input name="pl_experience_button" type="submit" class="weiter" value={{bt_label}} />
+</form>
+
+<!-- ################################################################# -->
+{% endblock %}

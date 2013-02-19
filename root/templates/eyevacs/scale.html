@@ -1,66 +1,45 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>DjScale</title>
-{% load i18n %}
-{% load static from staticfiles %}
-<link href="{% static "css/forms.css" %}" rel="stylesheet" type="text/css" />
-<link href="{% static "css/strings.css" %}" rel="stylesheet" type="text/css" />
-<link href="{% static "css/layout.css" %}" rel="stylesheet" type="text/css" />
-
-</head>
-<body id="body_black">
-
-<div id="center_content">
-<div id="target_screen_layout">
+{% extends 'eyevacs/0preview1650.html' %}
+{%block body %}
     <div class="question_title">{{question_title }}</div>
     <br/>
-
-<form action="{{next_page}}" method="post" name="{{scale_name}}" id="{{scale_id}}">
-
+<form action="{{destination}}" method="post" name="{{scale_name}}" id="{{scale_id}}">{% csrf_token %}
 <table width="1400px" border="0" align="center" cellspacing="0">
   <!--HEADER and legend-->
   <tr >
     <td class="sc_table_question_spacer"></td>
     <td class="sc_table_spacer"></td>
-    <td class="cell_white"><p class="sc_table_legend">+3</p></td>
-    <td class="cell_grey"></td>
-    <td class="cell_white"></td>
-    <td class="cell_grey"></td>
-    <td class="cell_white"></td>
-    <td class="cell_grey"></td>
     <td class="cell_white"><p class="sc_table_legend">-3</p></td>
+    <td class="cell_grey"></td>
+    <td class="cell_white"></td>
+    <td class="cell_grey"></td>
+    <td class="cell_white"></td>
+    <td class="cell_grey"></td>
+    <td class="cell_white"><p class="sc_table_legend">+3</p></td>
   </tr>
   <!--QUESTIONIONS-->
   {% for question in questions %}
   <tr>
-    <td class="sc_question">{{question.text}}</td>
+    <td class="sc_question">{{question.text|linebreaksbr}}</td>
     <!--question_spacer--><td class="sc_table_spacer"></td>
     <td class="cell_white">
     <label>
-    <input type="radio" name="{{question.id}}" id="+3" />
+        <input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}-3" />
     </label></td>
     <td class="cell_grey">
-    <label><input type="radio" name="{{question.id}}" id="+2" /></label></td>
+    <label><input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}-2" /></label></td>
     <td class="cell_white">
-    <label><input type="radio" name="{{question.id}}" id="+1" /></label></td>
+    <label><input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}-1" /></label></td>
     <td class="cell_grey">
-    <label><input type="radio" name="{{question.id}}" id="0" /></label></td>
+    <label><input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}0" /></label></td>
     <td class="cell_white">
-    <label><input type="radio" name="{{question.id}}" id="-1" /></label></td>
+    <label><input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}+1" /></label></td>
     <td class="cell_grey">
-    <label><input type="radio" name="{{question.id}}" id="-2" /></label></td>
+    <label><input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}+2" /></label></td>
     <td class="cell_white">
-        <label><input type="radio" name="{{question.id}}" id="-3" /></label></td>           {% endfor %}
+        <label><input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}+3" /></label></td>           {% endfor %}
   </tr>
 </table>
 
 <input name="{{name_scale_continue_button }}" type="submit" class="weiter" id="{{bt_continue_id}}" value="{{lb_button_continue}}" />
-{{request.POST}}
 </form>
-<!--#################################-->
-</div>
-</div>
-</body>
-</html>
+{% endblock %}

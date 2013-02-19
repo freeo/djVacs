@@ -1,13 +1,34 @@
 <!DOCTYPE = HTML>
 {% load i18n %}
 <html>
-  <head>
+    <head>
+       <style>
+            body{
+                font-family:"Droid Sans Mono", Courier, monospace;
+                background:#555;
+                color:#6cf
+            }
+        label {
+            /*color:#fff;*/
+            border-radius:4px;   
+            padding:14px;
+            margin:4px;
+            text-align:center;
+            cursor:pointer;
+            display: block;
+            width:150px;
+        }
+        label:hover {
+            background:#6cf;   
+            color:#555
+        }
+        </style
     
-
-  <title>{% block title %}djVacs Base Template ---{%endblock%}</title>
-  <div style="centered">
+  <title>{% block title %}--- djVacs Base Template ---{%endblock%}</title>
+  <div style="centered"><i>
       DjVacs: Django Vacations<br/>
       Eyetracking Decision Sequences: Vacations<br/>
+      2013 Arthur Jaron<br/></i>
       --------------------------------------------
       <br/><br/>
 </div> 

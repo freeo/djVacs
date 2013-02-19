@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+            #debug{
+                font-family:"Droid Sans Mono", Courier, monospace;
+                font-size:16px;
+                background:#383838;
+                color:#bbf;
+                {# position:static; #}
+                z-index:+10;
+        }
+    </style>
+<title>{{title}}</title>
+{% load i18n %}
+{% load static from staticfiles %}
+<link href="{% static "css/forms.css" %}" rel="stylesheet" type="text/css" />
+<link href="{% static "css/strings.css" %}" rel="stylesheet" type="text/css" />
+<link href="{% static "css/layout.css" %}" rel="stylesheet" type="text/css" />
+
+</head>
+<body id="body_black">
+    <div id="center_content">
+        <div id="debug">
+            DEBUG DATA:<br/>
+            {{ debugdata|linebreaksbr }}
+            </div>
+        <div id="target_screen_layout">
+
+            {# ######################################################################## #}
+            {% block body %}
+            {% endblock %}
+            {{ text }}
+            {# ######################################################################## #}
+
+            </div>
+        </div>
+</body>
+</html>

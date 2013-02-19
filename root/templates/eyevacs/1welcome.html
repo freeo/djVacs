@@ -1,0 +1,29 @@
+{% extends 'eyevacs/0preview1650.html' %}
+{% block body %}
+{% load i18n %}
+<!-- ################################################################# -->
+
+<!-- <div class="spacer" style="height:200px"></div> -->
+<div style="margin:0 auto">
+    <div class="spacer" style="height:200px"></div>
+
+<p class="big_header">Welcome!<br />
+</p>
+<br />
+<br />
+<p class="general_text" style="display:block; width:900px">We are conducting research on marketing communications. All responses are anonymous and we appreciate your time taken to complete this survey.<br />
+<br />
+It takes approximately 30 minutes to complete the survey.
+<br />
+<br />
+Thank you for participating!</p>
+<br />
+<form action={{ destination }} method="post">
+{% csrf_token %}
+<input name="frontpage_weiter" type="submit" class="weiter" value={{bt_label}} />
+</form>
+
+</div>
+
+<!-- ################################################################# -->
+{% endblock %}

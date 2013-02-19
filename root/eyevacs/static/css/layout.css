@@ -7,9 +7,12 @@
 	margin-left: auto;
 	position: absolute;
 }
+body.loading {
+	cursor:wait;
+}
 #body_black {
 	background-color: #000;
-	overflow: hidden;
+	/*overflow: hidden;*/
 }
 #center_content {
 	margin-right: auto;
@@ -28,4 +31,23 @@
 }
 .sc_table_question_spacer {
 	width:700px;
+}
+.weiter {
+	/*float: right; */
+	width: 150px;
+	position: absolute;
+	right: 50px;
+	/* bottom: 50px; */
+    top: 130px;
+}
+.weiter_position {
+	position: relative;
+	width: 100px;
+}
+
+.table_info tr:nth-of-type(odd){
+	background:#eee;	
+}
+.table_info tr:nth-of-type(even){
+	background:#ddd;	
 }

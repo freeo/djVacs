@@ -1,3 +1,81 @@
+from eyevacs.models import Experiment, External_Choice_Task, External_Source_Data, External_Baseline_Choice_Task
+
+exp = Experiment.objects.get(name = 'webstart')
+ctlist2 = External_Choice_Task.objects.filter(amount=2)
+ctlist = External_Choice_Task.objects.filter(amount=3)
+bsllist = exp.external_source_data_set.all() ##filter(filetype = 'bltsk')
+for bsl in bsllist:
+    print bsl.filetype
+ctlist4 = External_Choice_Task.objects.filter(amount=4)
+ctlist5 = External_Choice_Task.objects.filter(amount=5)
+
+bsltasks = External_Baseline_Choice_Task.objects.all()
+bsl_source = bsltasks[0].ext_src_data
+print bsl_source.filetype
+#bsl_source.filetype = 'bltsk'
+# bsl_source.save()
+
+def info(o):
+    print o.id_hard
+    print o.amount
+    print o.raw_src_line
+    print ''
+
+info(ctlist[0])
+info(ctlist[1])
+info(ctlist[2])
+info(ctlist[3])
+info(ctlist[4])
+'''
+import os
+os.chdir('./temp/')
+'''
+
+'''
+attributes = ['catering','customer rating', 'type of building', 'sea view', 'price', 'room category']
+
+#index is used for for its VALUE! Higher values are expected to be beneficial
+levels = {'catering':['breakfast only', 'half board', 'all-inclusive'],'customer rating':['low','medium','high'], 'type of building':['bungalow','rooming house', 'hotel complex'], 'sea view':['no sea view','side sea view','full sea view'], 'price':['499$','399$','299$'], 'room category':['standard','superior','deluxe']}
+
+positions = {'catering':1,'customer rating':2, 'type of building':3, 'sea view':4, 'price':5, 'room category':6}
+
+
+def getPosition(key):
+    return positions[key]
+
+def main(exp):
+    for key in levels.keys():
+        level_list = levels[key]
+        newname = key
+        newposition = getPosition(key)
+        print key
+        for level in level_list:
+            lvlname = level
+            lvlvalue = level_list.index(level)
+            print '  ', level
+    print ' ---------------------------------------------------------------------'
+    print ' --- Static Attributes & Levels are saved to Experiment: ',exp.name, ' ---'
+    print ' ---------------------------------------------------------------------'
+
+main('hallo')
+'''
+'''
+attributes = ['catering','customer rating', 'type of building', 'sea view', 'price', 'room category']
+
+levels = {'catering':['breakfast only', 'half board', 'all-inclusive'],'customer rating':['low','medium','high'], 'type of building':['bungalow','rooming house', 'hotel complex'], 'sea view':['no sea view','side sea view','full sea view'], 'price':['299$','399$','499$'], 'room category':['standard','superior','deluxe']}
+
+def main(exp):
+    for key in levels.keys():
+        level_list = levels[key]
+        print key
+        for level in level_list:
+            print '  ',level_list.index(level), ' ',level
+
+
+main('hallo')
+'''
+
+'''
 scale_name_string = 'rnd_max'
 question_title = 'gnihihihi'
 next_page = './temp/'
@@ -25,7 +103,7 @@ context = {'question_title': question_title,
 'lb_button_continue':lb_button_continue
 }
 print context
-
+'''
 
 '''
 def infoObject(*args):
