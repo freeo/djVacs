@@ -107,3 +107,10 @@
 	width:600px;
 	height: 40px;
 }
+
+.error{
+    font-family:"Droid Sans Mono", Courier, monospace;
+    background:#222;
+	font-size: 12px;
+    color:#0f0;
+}

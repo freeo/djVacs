@@ -1,8 +1,9 @@
 {% extends 'eyevacs/0preview1650.html' %}
+{% load staticfiles %}
 {%block body %}
     <div class="question_title">{{question_title }}</div>
     <br/>
-<form action="{{destination}}" method="post" name="{{scale_name}}" id="{{scale_id}}">{% csrf_token %}
+<form action="" method="post" name="{{scale_name}}" id="{{scale_id}}">{% csrf_token %}
 <table width="1400px" border="0" align="center" cellspacing="0">
   <!--HEADER and legend-->
   <tr >
@@ -17,13 +18,17 @@
     <td class="cell_white"><p class="sc_table_legend">+3</p></td>
   </tr>
   <!--QUESTIONIONS-->
+
+<script>
+    var questions = []
+</script>
+    
   {% for question in questions %}
   <tr>
     <td class="sc_question">{{question.text|linebreaksbr}}</td>
     <!--question_spacer--><td class="sc_table_spacer"></td>
     <td class="cell_white">
-    <label>
-        <input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}-3" />
+    <label><input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}-3" />
     </label></td>
     <td class="cell_grey">
     <label><input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}-2" /></label></td>
@@ -36,10 +41,74 @@
     <td class="cell_grey">
     <label><input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}+2" /></label></td>
     <td class="cell_white">
-        <label><input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}+3" /></label></td>           {% endfor %}
+    <label><input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}+3" /></label></td>
+
+{# <script> #}
+{#     $('form[name="{{scale_name}}"]').submit( function() { #}
+{#         alert('shitstorm!!!'); #}
+{#     }); #}
+{#  #}
+{# </script> #}
+<script>
+    var question = $('input[name={{ scale_name }}Q{{question.id}}]')
+    questions.push(question);
+    {% if DEBUG %}console.log(question); {% endif %}
+</script>
+               {% endfor %}
   </tr>
 </table>
 
-<input name="{{name_scale_continue_button }}" type="submit" class="weiter" id="{{bt_continue_id}}" value="{{lb_button_continue}}" />
+<script>
+    $(this).ready(function(){
+        var scaleform = $('form[name="{{scale_name}}"]');
+        console.log('validation is running...');
+        var validator = scaleform.validate({
+            debug: true,
+            rules: {
+                {# . und () {} sind nicht erlaubt in rules... #}
+                {# $.each(questions, function(index, value ){ #}
+                {#     value: "required", )}#}
+                {% for question in questions %}
+                    {{ scale_name }}Q{{question.id}}: "required",
+                    {% endfor %}
+                },
+            invalidHandler: function({{ scale_name }}, validator) {
+              var errors = validator.numberOfInvalids();
+              if (errors) {
+                var message = errors == 1
+                  {# ? 'You missed 1 field. It has been highlighted' #}
+                  ? 'Missing'
+                  : 'Missed ' + errors + ' fields.';
+                $("div.arr span").html(message);
+                $("div.arr").show();
+              } else {
+                $("div.arr").hide();
+              }
+            }
+        });
+    });
+  </script>
+  
+<script>
+{% if DEBUG %}
+$.each(questions, function( index, value ) {
+    console.log( index,': ', value );
+});
+{% endif %}
+</script>
+
+<div id="divTest1"></div>
+<script >
+console.log({% if DEBUG %} 'debug mode is true' {% else %} 'no, no, debug...' {% endif %});
+</script>
+
+<br />
+<br />
+{% if error %}
+    <p id="error">You have not answered {{ error|length }} questions, yet! Please fill in the remaining fields to continue.</p>
+    {% endif %}
+
+<input type="submit" class="weiter" value="{{lb_button_continue}}" />
+
 </form>
 {% endblock %}

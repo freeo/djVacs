@@ -1,5 +1,9 @@
+{% extends 'base.html' %}
+
 {#i18n tag ist wichtig, da get_language_info_list sonst nicht funktioniert!!!#}
 {% load i18n %}
+{% block body %}
+<b> Language selection for the partcipant </p>
 <form action="/i18n/setlang/" method="post">
 {% csrf_token %}
 <input name="next" type="hidden" value="{{ redirect_to }}" />
@@ -11,3 +15,4 @@
 </select>
 <input type="submit" value="Go" />
 </form>
+{% endblock %}

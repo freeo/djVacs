@@ -120,13 +120,12 @@ def get_scale_context(scale_name_string):
     order_id = scale_order_ids[scale_name_string]
     question_order = map(int, External_Order_Scale.objects.get(pk=order_id).scale_rnd_order_ext.split(','))
     questions = []
+    restoreCheck = [None]*7
     for i in range(0, len(question_order),1):
         qtext = scale_questions.questions[scale_name_string][question_order[i]-1]
         qid = question_order[i]
         q = {'text':qtext,'id':qid}
         questions.append(q)
-    name_scale_continue_button = scale_name_string + '_button'
-    bt_continue_id = ''
     lb_button_continue = 'Continue'
-    context = {'question_title': question_title,'scale_name':scale_name, 'scale_id':scale_id,'questions':questions,'name_scale_continue_button':name_scale_continue_button ,'bt_continue_id':bt_continue_id ,'lb_button_continue':lb_button_continue}
+    context = {'question_title': question_title,'scale_name':scale_name, 'scale_id':scale_id,'questions':questions ,'lb_button_continue':lb_button_continue, 'restoreCheck':restoreCheck}
     return context

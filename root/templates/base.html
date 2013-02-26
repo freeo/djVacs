@@ -21,8 +21,14 @@
         label:hover {
             background:#6cf;   
             color:#555
-        }
-        </style
+            }
+        .admin_error{
+            font-family:"Droid Sans Mono", Courier, monospace;
+            background:#222;
+            font-size: 24px;
+            color:#f00;
+            }
+        </style>
     
   <title>{% block title %}--- djVacs Base Template ---{%endblock%}</title>
   <div style="centered"><i>
@@ -37,5 +43,16 @@
 <body>
   {%block body%}
   {%endblock%}
+
+
+  {% if error%}
+      <div class="admin_error">
+          <p  > Errors in user input fields: {{ error|length }}
+        {% for e in error %}
+            <b><li>'{{ e }}'</b>
+            {% endfor %}
+        </p>
+        </div>
+    {% endif %}
 </body>
 </html>

@@ -18,7 +18,7 @@ It takes approximately 30 minutes to complete the survey.
 <br />
 Thank you for participating!</p>
 <br />
-<form action={{ destination }} method="post">
+<form action="{{ destination }}" method="post">
 {% csrf_token %}
 <input name="frontpage_weiter" type="submit" class="weiter" value={{bt_label}} />
 </form>

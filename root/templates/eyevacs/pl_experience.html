@@ -8,7 +8,7 @@
 <br />
 &nbsp;
 
-<form action={{ destination }} method="post" name="pl_experience">
+<form action="" method="post" name="pl_experience">
 {% csrf_token %}
 <div class="rg">
 <table width="1200px" border="0" align="center" summary="layout table which contains all 4 radio groups including their questions.">
@@ -19,22 +19,22 @@
         <table class="rg_inner_container">
           <tr>
             <td class="rg_text_line_no_lite"><label>
-              <input type="radio" name="rg_recent" value="recent"/>
+              <input type="radio" name="lastavacation" value="<12months"/>
             Within the last 12 months</label></td>
           </tr>
           <tr>
             <td class="rg_text_line_hi_lite"><label>
-              <input type="radio" name="rg_recent" value="recent"/>
+              <input type="radio" name="lastavacation" value="12-36months"/>
               Between the last 12 and 36 months</label></td>
           </tr>
           <tr>
             <td class="rg_text_line_no_lite"><label>
-              <input type="radio" name="rg_recent" value="recent"/>
+              <input type="radio" name="lastavacation" value="36+months"/>
               Longer than 36 months ago</label></td>
           </tr>
           <tr>
             <td class="rg_text_line_hi_lite"><label>
-              <input type="radio" name="rg_recent" value="recent"/>
+              <input type="radio" name="lastvacation" value="never"/>
               I never booked a vacation package before.</label></td>
           </tr>
         </table>
@@ -49,12 +49,12 @@
         <table class="rg_inner_container">
           <tr>
             <td class="rg_text_line_no_lite"><label >
-              <input type="radio" name="rg_bool" value="bool_planning"/>
+              <input type="radio" name="planningvacation" value="yes"/>
             Yes</label></td>
           </tr>
           <tr>
             <td class="rg_text_line_hi_lite"><label>
-              <input type="radio" name="rg_bool" value="bool_planning"/>
+              <input type="radio" name="planningvacation" value="no"/>
               No</label></td>
           </tr>
         </table>
@@ -66,17 +66,17 @@
         <table class="rg_inner_container">
           <tr>
             <td class="rg_text_line_no_lite"><label>
-              <input type="radio" name="rg_quantity" value="searchduration"/>
+              <input type="radio" name="searchduration" value="<1week" />
             Less than one week</label></td>
           </tr>
           <tr>
             <td class="rg_text_line_hi_lite"><label>
-              <input type="radio" name="rg_quantity" value="searchduration"/>
+              <input type="radio" name="searchduration" value="1-2weeks" />
               Between one and two weeks</label></td>
           </tr>
           <tr>
             <td class="rg_text_line_no_lite"><label>
-              <input type="radio" name="rg_quantity" value="searchduration"/>
+              <input type="radio" name="searchduration" value="2+weeks" />
               More than two weeks</label></td>
           </tr> 
         </table>

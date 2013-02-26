@@ -1,4 +1,55 @@
+
+POST2 = {'csrf_keks':'sogiuwt32h3qw29y23tyq30g0y3','ct_size':'hodenkrebs','input_pcptid':'arschkrebs'}
+print str(POST2)
+'''
+def addError(context, errors):
+    output = ''
+    # for arg in args:
+    for i in range(0,len(errors),1):
+        # print errors[i]
+        output += errors[i] + '\n'
+        # print arg
+    context['error'] = errors
+
+def validate(post, validlist):
+    #post: gegebene daten key,value
+    #validlist: needed data key only
+    errors = []
+    for validitem in validlist:
+        if not validitem in post:
+            errors.append(validitem)
+        else:
+            if post[validitem] == '':
+                errors.append(validitem)
+    return errors
+
+anydict = {}
+bla = ['ct', 'ht']
+# bla = []
+# addError(anydict, bla)
+
+
+POST = {'csrf_keks':'sogiuwt32h3qw29y23tyq30g0y3'}
+POST1 = {'csrf_keks':'sogiuwt32h3qw29y23tyq30g0y3','ct_size':'hodenkrebs'}
+POST2 = {'csrf_keks':'sogiuwt32h3qw29y23tyq30g0y3','ct_size':'hodenkrebs','input_pcptid':'arschkrebs'}
+validlist = ['ct_size','input_pcptid']
+validationdata = validate(POST1, validlist)
+errors = validationdata
+if errors:
+    print 'errors contains %s errors' % str(len(errors))
+    print errors
+else:
+    print 'there are no errors!'
+    print errors
+
+addError(anydict, errors)
+print anydict
+'''
+
+'''
 from eyevacs.models import Experiment, External_Choice_Task, External_Source_Data, External_Baseline_Choice_Task
+
+
 
 exp = Experiment.objects.get(name = 'webstart')
 ctlist2 = External_Choice_Task.objects.filter(amount=2)
@@ -26,6 +77,7 @@ info(ctlist[1])
 info(ctlist[2])
 info(ctlist[3])
 info(ctlist[4])
+'''
 '''
 import os
 os.chdir('./temp/')

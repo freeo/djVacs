@@ -57,4 +57,56 @@ Seitenablauf:
 Idee: Jede Seite gibt nach "Weiter" den PAGE_CODE zurück. NextPage(PREVIOUS_PAGE_CODE) verarbeitet den alten page code und gibt den neuen zurück.
 Data Container: DICTIONARY! Name: page_sequence = {'intro':1,'sc_max':2,'sc_regret':3, 'filler1':4,'filler2':5,'filler3':6,'pl_purchase':7,'explanation':8,'ct':9,'hc':10,'sc_searchgoals,'sc_happiness':11,'demographics':12,'tourn_sel':13}
 
+participant verarbeiten
+
+muss getan werden:
+abspeichern aller eingegebenen daten in request.session (cookie)
+pagination der choice task:
+bereitstellen der randomisierten choice tasks (sind bereits in der datenbank)
+zuweisen von freien CT ids an einen pcpt, abhaengig von der gruppe, sonderbehandlung der baseline tasks, also nur 2 faelle
+uebergeben genau dieser informationen an das template
+template schreiben
+eigentliche pagination
+button auf exp seite: go to last active page
+
+21.2.2013 
+Antrag gestellt um probanden zu befragen
+bis zu 200
+im boot: harmen, joel huber, 
+nenkov skala schwer zu publizieren
+chronic trait vs. induced:
+----------------------
+max sat chronic trait
+induziertes maximizen durch en situation
+huber: indiv eigentschaften von personen lassen sich schwerer publizieren da man sie nicht replizieren kann
+man weiss es mit sicherheit, wenn man es induziert hat. 
+induktion ist idR schwaecher
+als mediator angucken, induktion vs. indiv eigenschaften
+
+wichtiger atm:
+andere aufgaben vorschlage:
+(zur validierung von max sat)
+holdout task 2:
+nach sequenz: werbeanzeigen schalten
+aufgabe:"finden sie die guenstigste reise"
+
+produktprofile auf rating skala ausfuellen lassen
+vs. bewertung der cbc conjoint 
+bei maxmimizing hoeher
+=>increasing bei cbc messung
+
+mouse over fuer die werbeanzeigen
+ODER ganz neue seiten fuer die anzeigen um den aufwand fuer die probanden zu erhoehen
+
+sonntag telefonat (joel martin harmen):
+mo di email mit finalem design
+bei task based: 14
+
+--------------------------------------------------
+statusreport 24.2.2013
+
+errors in pages koennen verarbeitet werden
+dazu einfach error an den context weitergeben
+post data kann in der session gespeichert werden. falls die session sich aus irgendeinem grund als unzuverlaessig erweist, so ist die speicherung in einem pcpt id verlinkten dictionary kein problem.
+baseline condition task wird bereits erstellt. es fehlt ein mechanismus zum zusammenstellen der gesamten choice task fuer einen participanten. danach kann ich mich an das template machen.
 

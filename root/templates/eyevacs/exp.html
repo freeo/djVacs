@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% load i18n %}
 {% block body %}
 
@@ -8,17 +9,17 @@
 ----------------------------------------<br/>
 Properties:<br/></b>
 --Total data files: {{exp.external_source_data_set.count }}<br/>
-{% for file in exp.external_source_data_set.all %}
-   -- {{file.filetype}}: header: {{file.header}}<br/>
-{%endfor %}
+{# {% for file in exp.external_source_data_set.all %} #}
+{#    -- {{file.filetype}}: header: {{file.header}}<br/> #}
+{# {%endfor %} #}
 ----------------------------------------<br/>
 -- Comepleted participants: {{exp.participant_set.count}}<br/>
 ----------------------------------------<br/>
 <br/>
 {# <form action="/eye/exp{{ exp_id }}/pcpt{{ pcpt_id }}/" method="post">{% csrf_token %} #}
 {# <form action="/eye/exp{{ exp_id }}/pcptinit/" method="post"> #}
-    <form action="{{destination}}" method="post">
-{% csrf_token %}
+    <form action="" method="post">{% csrf_token %}
+    {# <form action={{destination}} method="post">{% csrf_token %} #}
 <div>
     <b>-- Participant task size:</b>
     (Default value is: )
@@ -29,7 +30,7 @@ Properties:<br/></b>
     {%endfor %}
 <label><input type="radio" name="ct_size" value={{tasksize.0.value}} {{tasksize.0.checked}} /> {{tasksize.0.label}}</label>
 <label><input type="radio" name="ct_size" value={{tasksize.1.value}} {{tasksize.1.checked}}/> {{tasksize.1.label}}</label>
-<label><input type="radio" name="ct_size" value={{tasksize.2.value}} {{tasksize_checked.2}}/> {{tasksize.2.label}}</label>
+<label><input type="radio" name="ct_size" value={{tasksize.2.value}} {{tasksize.2.checked}}/> {{tasksize.2.label}}</label>
 </div>
 <br/>
 <div>
@@ -40,5 +41,15 @@ Enter ID manually for preview: <br/>
 </div>
 <br/>
 <input type="submit" value="New Participant" style="height:40px; width:150px;"/>
+
+{# enable button #}
+<script src="{% static "js/jquery-1.9.1.min.js" %}">
+$(document).ready(function()
+{
+        $("#divTest2").text("Hello, world!");   
+});
+</script>
+
+{# {{ ERROR }} BLOCK #}
 </form>
 {% endblock %}
