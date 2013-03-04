@@ -13,6 +13,8 @@ import pdb
 curr_exp = None
 default_page_order = []
 bt_label = "Continue"
+validation = False
+singlepagedebug = None
 urlsequence = [
     'eyevacs.views.welcome',
     'eyevacs.views.rnd_regret',
@@ -27,7 +29,20 @@ urlsequence = [
     'eyevacs.views.pl_demographics',
     'eyevacs.views.temp']
 
-bla = {'intro':1,'sc_max':2,'sc_regret':3, 'filler1':4,'filler2':5,'filler3':6,'pl_purchase':7,'explanation':8,'ct':9,'hc':10,'sc_searchgoals':11,'sc_happiness':12,'demographics':13,'tourn_sel':14}
+def allUrls():
+    outputlist = []
+    outputlist.append(reverse('eyevacs.views.welcome', args= [str(curr_exp.id)]))
+    outputlist.append(reverse('eyevacs.views.rnd_max', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
+    outputlist.append(reverse('eyevacs.views.rnd_regret', args= [str(curr_exp.id), str(pcpt.pcpt_id)]))
+    outputlist.append(reverse('eyevacs.views.pl_experience', args= [str(curr_exp.id), str(pcpt.pcpt_id)]))
+    outputlist.append(reverse('eyevacs.views.explanation', args= [str(curr_exp.id), str(pcpt.pcpt_id)]))
+    # outputlist.append(reverse('eyevacs.views.initsequence', args= [str(curr_exp.id), str(pcpt.pcpt_id)]))
+    outputlist.append(reverse('eyevacs.views.decisionsequence', args= [str(curr_exp.id), str(pcpt.pcpt_id), 0]))
+    outputlist.append(reverse('eyevacs.views.conjoint', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
+    outputlist.append(reverse('eyevacs.views.transit', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
+    return outputlist
+
+
 
 def index(request):
 #    return render_to_response('index.html')
@@ -56,8 +71,6 @@ def paginator(origin):
             return urlsequence[i+1]
             break
 
-def arginator(Page):
-    nextPageArgs
 #set language and create participant, show experiment info!
 #Idee: /x/lang/ fuer jedes x! redirect_to = x also zurueck /x/
 def set_language(request):
@@ -98,162 +111,186 @@ def eye(request):
     cont = Context({'lang':lang,'exp_list':exp_list})
     return render(request, 'eyevacs/eye.html', cont)
 
+
 def exp(request, exp_id):
-    validlist = ['ct_size','input_pcptid']
-    missingPostData = validate(request.POST, validlist)
-    if len(validlist) == len(missingPostData):
-        newPage = True
-    else:
-        newPage = False
-    if missingPostData:
-        global curr_exp
-        curr_exp = Experiment.objects.get(pk=exp_id)
-        name = curr_exp.name
-        pk = curr_exp.pk
-        # sets default task size by the order!
-        tsize1 = {'label':'7 tasks','checked':'', 'value':7}
-        tsize2 = {'label':'14 tasks','checked':'checked', 'value':14}
-        tsize3 = {'label':'21 tasks','checked':'', 'value':21}
-        tasksize =[tsize1,tsize2,tsize3]
-        #pcpt_id = curr_exp.grouping.counter +1
-        pcpt.initPcpt(exp_id)
-        all_context = Context({'tasksize':tasksize,'exp_id':exp_id,'pcpt_id':pcpt.pcpt_id, 'exp_name':name, 'exp':curr_exp})
-        if not newPage:
-            all_context['error'] = missingPostData
-        return render(request, 'eyevacs/exp.html', all_context)
-    else:
-        request.session.update(request.POST)
-        destination = reverse('eyevacs.views.welcome', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
+    # if request.POST == {}:
+    global curr_exp
+    curr_exp = Experiment.objects.get(pk=exp_id)
+    name = curr_exp.name
+    pk = curr_exp.pk
+    # sets default task size by the order!
+    tasksize =[]
+    tsize1 = {'label':'7 tasks','checked':'checked', 'value':7}
+    tasksize.append(tsize1)
+    tsize2 = {'label':'14 tasks','checked':'', 'value':14}
+    tasksize.append(tsize2)
+    # tsize3 = {'label':'21 tasks','checked':'', 'value':21}
+    # tasksize.append(tsize3)
+    # pcpt.pcpt_id
+    #usual order id:
+    pcpt_id = curr_exp.grouping.counter
+    all_context = Context({'tasksize':tasksize,'exp_id':exp_id,'pcpt_id':pcpt_id, 'exp_name':name, 'exp':curr_exp})
+    destination = reverse('eyevacs.views.preparePcpt', args= [str(curr_exp.id)])
+    all_context['destination'] = destination
+    return render(request, 'eyevacs/exp.html', all_context)
+
+def singlePageDebug(request, exp_id):
+    data = {}
+    data['pages'] = allUrls()
+    context = RequestContext(request, data)
+    return render(request, 'eyevacs/debug.html', context)
+
+
+def getRedirectURL(source):
+    if source == 'preparePcpt':
+        if singlepagedebug:
+            destination = reverse('eyevacs.views.singlePageDebug', args= [str(curr_exp.id)])
+        else:
+            destination = reverse('eyevacs.views.welcome', args= [str(curr_exp.id)])
         return HttpResponseRedirect(destination)
 
-'''
-def returnExp(request, exp_id):
-    request.session['exp'] = request.POST
-    # exp_id = curr_exp.id
-    # destination = '/eye/exp'+str(curr_exp.id) + '/pcpt'+str(pcpt.pcpt_id)+'/welcome/'
-    destination = reverse(welcome, args= [str(curr_exp.id), str(pcpt.pcpt_id)])
-    # simple = reverse(temp)
-    # return HttpResponse('Selected ct_size: %s' % request)
-    return HttpResponseRedirect(destination)
-    #return HttpResponseRedirect(reverse('welcome', kwargs= {'exp_id':str(curr_exp.id), 'pcpt_id':str(pcpt.pcpt_id)}))
-'''
+def preparePcpt(request, exp_id):
+    #expects POST data
+    #gets stored as list! need [0]
+    global validation
+    global singlepagedebug
+    request.session.clear()
+    request.session.update(request.POST)
+    if request.session.get('cbox_validation') != None:
+        #cbox value is redundant!!! May be anything.
+        validation = True
+    if request.session.get('cbox_singlepagedebug') != None:
+        singlepagedebug = True
+    ct_size = request.session['ct_size'][0]
+    valid_input = request.session['input_pcptid'][0]
+    pcpt.initPcpt(exp_id, ct_size, valid_input)
+    return getRedirectURL('preparePcpt')
 
-def welcome(request, exp_id, pcpt_id):
-    #clear the cookie here for contingency and so exp can be revisited back and forth
-    # request.session.clear()
+def welcome(request, exp_id):
     destination = reverse('eyevacs.views.rnd_max', args = [str(curr_exp.id), str(pcpt.pcpt_id)])
     anydict = {'destination':destination,'bt_label':bt_label}
     debugpostdata(anydict, 'POST:', request.POST, 'SESSION:', request.session.items())
     return render_to_response('eyevacs/1welcome.html', RequestContext(request, anydict ))
 
-def restoreExistingData(reqcontext, validlist, missingPostData, cookie):
-    restorable = []
-    for item in validlist:
-        if item not in missingPostData:
-            restorable.append(item)
-    for r in restorable:
-        print cookie[r]
-
 def rnd_max(request, exp_id, pcpt_id):
-    validlist = ['rnd_maxQ1','rnd_maxQ2','rnd_maxQ3','rnd_maxQ4','rnd_maxQ5','rnd_maxQ6']
-    missingPostData = validate(request.POST, validlist)
-    if len(validlist) == len(missingPostData):
-        newPage = True
-    else:
-        newPage = False
-    if missingPostData:
-        reqcontext = pcpt.get_scale_context('rnd_max')
-        # restoreExistingData(reqcontext, validlist, missingPostData, request.session)
-        debugpostdata(reqcontext, 'POST:', request.POST, 'SESSION:', request.session.items())
-        if not newPage:
-            reqcontext['error'] = missingPostData
-        return render(request, 'eyevacs/scale.html', reqcontext)
-    else:
-        request.session.update(request.POST)
-        destination = reverse('eyevacs.views.rnd_regret', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
-        return HttpResponseRedirect(destination)
+    request.session.update(request.POST)
+    reqcontext = pcpt.get_scale_context('rnd_max')
+    destination = reverse('eyevacs.views.rnd_regret', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
+    reqcontext['destination'] = destination
+    reqcontext['validation'] = validation
+    # debugpostdata(reqcontext, 'POST:', request.POST, 'SESSION:', request.session.items())
+    return render(request, 'eyevacs/scale.html', reqcontext)
 
 def rnd_regret(request, exp_id, pcpt_id):
-    validlist = ['rnd_regretQ1','rnd_regretQ2','rnd_regretQ3','rnd_regretQ4','rnd_regretQ5']
-    missingPostData = validate(request.POST, validlist)
-    if len(validlist) == len(missingPostData):
-        newPage = True
-    else:
-        newPage = False
-    if missingPostData:
-        reqcontext = pcpt.get_scale_context('rnd_regret')
-        debugpostdata(reqcontext, 'POST:', request.POST, 'SESSION:', request.session.items())
-        if not newPage:
-            reqcontext['error'] = missingPostData
-        return render(request, 'eyevacs/scale.html', reqcontext)
-    else:
-        request.session.update(request.POST)
-        destination = reverse('eyevacs.views.pl_experience', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
-        return HttpResponseRedirect(destination)
-
+    request.session.update(request.POST)
+    reqcontext = pcpt.get_scale_context('rnd_regret')
+    destination = reverse('eyevacs.views.pl_experience', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
+    reqcontext['destination'] = destination
+    reqcontext['validation'] = validation
+    return render(request, 'eyevacs/scale.html', reqcontext)
 
 def pl_experience(request, exp_id, pcpt_id):
-    validlist = ['rnd_regretQ1','rnd_regretQ2','rnd_regretQ3','rnd_regretQ4','rnd_regretQ5']
-    missingPostData = validate(request.POST, validlist)
-    if len(validlist) == len(missingPostData):
-        newPage = True
-    else:
-        newPage = False
-    if missingPostData:
-        #bt_label = 'Continue' #ugettext('Continue')
-        site_vars = {'bt_label':bt_label}
-        reqcontext = RequestContext(request, site_vars)
-        debugpostdata(reqcontext, 'POST:', request.POST, 'SESSION:', request.session.items())
-        if not newPage:
-            reqcontext['error'] = missingPostData
-        return render (request, 'eyevacs/pl_experience.html', reqcontext)
-    else:
-        request.session.update(request.POST)
-        destination = reverse('eyevacs.views.explanation', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
-        return HttpResponseRedirect(destination)
-
-
+    request.session.update(request.POST)
+    site_vars = {'bt_label':bt_label}
+    reqcontext = RequestContext(request, site_vars)
+    destination = reverse('eyevacs.views.explanation', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
+    reqcontext['destination'] = destination
+    reqcontext['validation'] = validation
+    return render (request, 'eyevacs/pl_experience.html', reqcontext)
 
 def explanation(request, exp_id, pcpt_id):
-    destination = '../'+paginator('explanation/')
-    #bt_label = 'Continue' #ugettext('Continue')
+    request.session.update(request.POST)
+    destination = reverse('eyevacs.views.decisionsequence', args= [str(curr_exp.id), str(pcpt.pcpt_id), 0])
     site_vars = {'destination': destination, 'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
     debugpostdata(reqcontext, request.POST)
     return render (request, 'eyevacs/explanation.html', reqcontext)
 
+# def initsequence(request, exp_id, pcpt_id):
+#     request.session['taskcounter'] = 0
+#     taskcounter = request.session['taskcounter']
+#     destination = reverse('eyevacs.views.decisionsequence', args = [curr_exp.id, pcpt_id, taskcounter])
+#     return HttpResponseRedirect(destination)
+
 def decisionsequence(request, exp_id, pcpt_id, ct_page):
+    request.session.update(request.POST)
     #context['info'] = pcpt object erstellen!!! am besten ein dict...
     data = {}
-    data['text'] = 'temp'
-    context = Context(data)
+    #just a debug variable for special purposes
+    data['text'] = ''
+    data['taskcounter'] = pcpt.taskcounter
+    ctdict = pcpt.getNextTask()
+    data.update(ctdict)
+    rq = RequestContext(request, data)
+    if pcpt.checkNextTask():
+        destination = reverse('eyevacs.views.decisionsequence', args = [curr_exp.id, pcpt_id, pcpt.taskcounter+1])
+    else:
+        destination = reverse('eyevacs.views.conjoint', args = [exp_id, pcpt_id])
+    data['destination'] = destination
+    debugpostdata(data,pcpt.ctlist)
+    return render(request, 'eyevacs/table.html', rq)
 
-    debugpostdata(data,pcpt.ctasklist)
+# def validateTask(request, exp_id, pcpt_id, ct_page):
+#     #post contains hidden:
+#     ct_id = request.POST.get('ct_id')
+#     request.session.update(request.POST)
+#logic: which aX was selected? its ID?
+#dict request.session['choices'].push( id:aX )
+
+def conjoint(request, exp_id, pcpt_id):
+    request.session.update(request.POST)
+    data = {}
+    data['text'] = 'holdout task 1 pages'
+    temp_dest = reverse('eyevacs.views.transit', args = [exp_id, pcpt_id])
+    temp = {'destination': temp_dest}
+    data['temp'] = temp
+    context = Context(data)
+    return render(request, 'eyevacs/0preview1650.html', context)
+
+def transit(request, exp_id, pcpt_id):
+    request.session.update(request.POST)
+    data = {}
+    data['text'] = 'transit choice, holdout task 2!'
+    temp_dest = reverse('eyevacs.views.rnd_searchgoals', args = [exp_id, pcpt_id])
+    temp = {'destination': temp_dest}
+    data['temp'] = temp
+    context = Context(data)
     return render(request, 'eyevacs/0preview1650.html', context)
 
 def rnd_searchgoals(request, exp_id, pcpt_id):
+    request.session.update(request.POST)
     reqcontext = pcpt.get_scale_context('rnd_searchgoals')
-    #stuff = str(pcpt.initPcpt(exp_id))
-    destination = '../'+paginator('rnd_searchgoals/')
-    reqcontext['destination'] =  destination
-    debugpostdata(reqcontext, request.POST)
+    destination = reverse('eyevacs.views.rnd_happiness', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
+    reqcontext['destination'] = destination
+    reqcontext['validation'] = validation
     return render(request, 'eyevacs/scale.html', reqcontext)
 
 def rnd_happiness(request, exp_id, pcpt_id):
+    request.session.update(request.POST)
     reqcontext = pcpt.get_scale_context('rnd_happiness')
-    #stuff = str(pcpt.initPcpt(exp_id))
-    destination = '../'+paginator('rnd_happiness/')
-    reqcontext['destination'] =  destination
-    debugpostdata(reqcontext, request.POST)
+    destination = reverse('eyevacs.views.pl_demographics', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
+    reqcontext['destination'] = destination
+    reqcontext['validation'] = validation
     return render(request, 'eyevacs/scale.html', reqcontext)
 
 def pl_demographics(request, exp_id, pcpt_id):
-    destination = '../'+paginator('pl_demographics/')
-    #bt_label = 'Continue' #ugettext('Continue')
+    request.session.update(request.POST)
+    destination = reverse('eyevacs.views.finalPage', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
     site_vars = {'destination': destination, 'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
-    debugpostdata(reqcontext, request.POST)
+    # debugpostdata(reqcontext, request.POST)
     return render (request, 'eyevacs/pl_demographics.html', reqcontext)
+
+def finalPage(request, exp_id, pcpt_id):
+    request.session.update(request.POST)
+    data = {}
+    data['text'] = 'Thank You for your participation!'
+    # temp_dest = reverse('eyevacs.views.', args = [exp_id, pcpt_id])
+    # temp = {'destination': temp_dest}
+    temp = {'somekey': 'sometext'}
+    data['temp'] = temp
+    context = Context(data)
+    return render(request, 'eyevacs/0preview1650.html', context)
 
 def pcptInfo(request, exp_id, pcpt_id):
     return HttpRespones(Participant.objects.get(pk = pcpt_id))

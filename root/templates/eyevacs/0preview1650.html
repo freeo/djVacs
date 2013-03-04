@@ -14,7 +14,8 @@
     </style>
 {% load staticfiles %}
     <script src="{% static "js/jquery-1.9.1.min.js" %}" > </script>
-    <script type="text/javascript" src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js"></script>
+    <script src="{% static "js/jquery.validate.min.js" %}" > </script>
+    {# <script type="text/javascript" src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js"></script> #}
 
 <title>{{title}}</title>
 {% load i18n %}
@@ -27,8 +28,14 @@
 <body id="body_black">
     <div id="center_content">
         <div id="debug">
-            DEBUG DATA:<br/>
-            {{ debugdata|linebreaksbr }}
+            {# DEBUG DATA:<br/> #}
+            {# {{ debugdata|linebreaksbr }} #}
+            <script>
+                {% if not DEBUG %}
+                    var console = {};
+                    console.log = function(){};
+                {% endif %} 
+            </script>
             </div>
             <div id="target_screen_layout">
 
@@ -41,6 +48,13 @@
             {% block body %}
             {% endblock %}
             {{ text }}
+            {% if temp %}
+                <form action="{{ temp.destination }}" method="post" >
+                {% csrf_token %}    
+                    <input type="submit" value="TEMP CONTINUE" class="weiter" >
+                </form>
+                {% endif %}
+            {# {{ debugdata }} #}
             {# ######################################################################## #}
 
             </div>

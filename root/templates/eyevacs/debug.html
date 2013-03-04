@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{# {% load i18n %} #}
+{% block body %}
+
+<table>
+    <tr>
+<td>
+    <p class="">
+Debug single pages: <br/>
+<br/>
+Jump to page:<br/>
+</p>
+
+<div>
+{% for pg in pages %}
+    <li style="font-size:24px; font-weight:bold; margin:0;"><a href='{{pg}}'>{{pg}}</a> 
+{% endfor %}
+
+</div>
+
+</td>
+</table>
+{% endblock %}

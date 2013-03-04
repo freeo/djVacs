@@ -1,0 +1,135 @@
+{% extends 'eyevacs/0preview1650.html' %}
+{% load staticfiles %}
+{%block body %}
+<div class="question_title">{{question_title }}</div>
+<br/>
+<form action="{{ destination }}" method="post" name="{{ ct_id }}" >
+{% csrf_token %}
+<table wdth="1650px" border="0" align="center" cellspacing="50px">
+  <tr>
+    <td>{{ rc11 }}</td>
+    <td>{{ rc12 }}</td>
+    <td>{{ rc13 }}</td>
+    <td>{{ rc14 }}</td>
+    <td>{{ rc15 }}</td>
+    <td>{{ rc16 }}</td>
+    <td>{{ rc17 }}</td>
+    <td>{{ rc18 }}</td>
+    <td>{{ rc19 }}</td>
+    <td>{{ rc10 }}</td>
+  </tr>
+  <tr>
+    <td>{{ rc21 }}</td>
+    <td>{{ rc22 }}</td>
+    <td>{{ rc23 }}</td>
+    <td>{{ rc24 }}</td>
+    <td>{{ rc25 }}</td>
+    <td>{{ rc26 }}</td>
+    <td>{{ rc27 }}</td>
+    <td>{{ rc28 }}</td>
+    <td>{{ rc29 }}</td>
+    <td>{{ rc20 }}</td>
+  </tr>
+  <tr>
+    <td>{{ rc31 }}</td>
+    <td>{{ rc32 }}</td>
+    <td>{{ rc33 }}</td>
+    <td>{{ rc34 }}</td>
+    <td>{{ rc35 }}</td>
+    <td>{{ rc36 }}</td>
+    <td>{{ rc37 }}</td>
+    <td>{{ rc38 }}</td>
+    <td>{{ rc39 }}</td>
+    <td>{{ rc30 }}</td>
+  </tr>
+  <tr>
+    <td>{{ rc41 }}</td>
+    <td>{{ rc42 }}</td>
+    <td>{{ rc43 }}</td>
+    <td>{{ rc44 }}</td>
+    <td>{{ rc45 }}</td>
+    <td>{{ rc46 }}</td>
+    <td>{{ rc47 }}</td>
+    <td>{{ rc48 }}</td>
+    <td>{{ rc49 }}</td>
+    <td>{{ rc40 }}</td>
+  </tr>
+  <tr>
+    <td>{{ rc51 }}</td>
+    <td>{{ rc52 }}</td>
+    <td>{{ rc53 }}</td>
+    <td>{{ rc54 }}</td>
+    <td>{{ rc55 }}</td>
+    <td>{{ rc56 }}</td>
+    <td>{{ rc57 }}</td>
+    <td>{{ rc58 }}</td>
+    <td>{{ rc59 }}</td>
+    <td>{{ rc50 }}</td>
+  </tr>
+  <tr>
+    <td>{{ rc61 }}</td>
+    <td>{{ rc62 }}</td>
+    <td>{{ rc63 }}</td>
+    <td>{{ rc64 }}</td>
+    <td>{{ rc65 }}</td>
+    <td>{{ rc66 }}</td>
+    <td>{{ rc67 }}</td>
+    <td>{{ rc68 }}</td>
+    <td>{{ rc69 }}</td>
+    <td>{{ rc60 }}</td>
+  </tr>
+  <tr>
+    <td>{{ rc71 }}</td>
+    <td>{{ rc72 }}</td>
+    <td>{{ rc73 }}</td>
+    <td>{{ rc74 }}</td>
+    <td>{{ rc75 }}</td>
+    <td>{{ rc76 }}</td>
+    <td>{{ rc77 }}</td>
+    <td>{{ rc78 }}</td>
+    <td>{{ rc79 }}</td>
+    <td>{{ rc70 }}</td>
+  </tr>
+  <tr>
+    <!-- buy buttons -->
+    <td>{{ rc81 }}</td>
+    {% if rc82 %}
+        <td><input type="submit" class="buy_button" name="{{ rc82 }}" value="Buy!" ></td>
+    {% endif %}
+    {% if rc83 %}
+    <td><input type="submit" class="buy_button" name="{{ rc83 }}" value="Buy!" ></td>
+    {% endif %}
+    {% if rc84 %}
+    <td><input type="submit" class="buy_button" name="{{ rc84 }}" value="Buy!" ></td>
+    {% endif %}
+    {% if rc85 %}
+    <td><input type="submit" class="buy_button" name="{{ rc85 }}" value="Buy!" ></td>
+    {% endif %}
+    {% if rc86 %}
+    <td><input type="submit" class="buy_button" name="{{ rc86 }}" value="Buy!" ></td>
+    {% endif %}
+    {% if rc87 %}
+    <td><input type="submit" class="buy_button" name="{{ rc87 }}" value="Buy!" ></td>
+    {% endif %}
+    {% if rc88 %}
+    <td><input type="submit" class="buy_button" name="{{ rc88 }}" value="Buy!" ></td>
+    {% endif %}
+    {% if rc89 %}
+    <td><input type="submit" class="buy_button" name="{{ rc89 }}" value="Buy!" ></td>
+    {% endif %}
+    {% if rc80 %}
+    <td><input type="submit" class="buy_button" name="{{ rc80 }}" value="Buy!" ></td>
+    {% endif %}
+  </tr>
+  
+</table>
+
+{# 2 optionen zur auswahl eines angebots: #}
+{# 1. 'buchen! button' (meine preference) #}
+{# 2. javascript on click auf jede einzelne zelle... radio button der signalisiert oder gleich die farbe der ganzen row aendern. #}
+{#  #}
+{# kann bei 1. ein 'hover' einbauen, column wechselt farbe #}
+
+</form>
+
+{% endblock %}

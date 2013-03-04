@@ -110,3 +110,35 @@ dazu einfach error an den context weitergeben
 post data kann in der session gespeichert werden. falls die session sich aus irgendeinem grund als unzuverlaessig erweist, so ist die speicherung in einem pcpt id verlinkten dictionary kein problem.
 baseline condition task wird bereits erstellt. es fehlt ein mechanismus zum zusammenstellen der gesamten choice task fuer einen participanten. danach kann ich mich an das template machen.
 
+
+########################################################################
+26.2.2013
+
+django debug toolbar installiert!
+easy_install instructions:
+http://maheshvnit.wordpress.com/2011/08/11/python-django-profiler-debuger-django-debug-toolbar/
+
+javascript form validation entschlackt die views sehr stark! ich sollte dennoch meine eigene loesung nicht komplett verwerfen... in meiner admin seite macht sie sich denke ich sehr gut :) ausgliederung in precious.py des "validlist" schemas!
+
+
+
+########################################################################
+4.3.2013
+
+stehen geblieben bei pruefung auf temp holdout 1,2: view names: conjoint und transit
+hab dec seq zerschossen, dauert paar mins das widerherzustellen...
+wenn das fertig ist:
+uebrige pages modernisieren auf reverse etc
+transit 2 machen
+table.html template machen
+decreasing order einbauen
+alles testen
+neue groupings einfuehren: 1-4
+speicherung von participanten
+
+bug: (welche wahrscheinlich nicht mehr korrigiert werden muessen)
+14 task size gibt falsche reihenfolge aus:
+falsch: 2-8, 2-8
+richtig: 2,2,3,3, ... , 8,8
+liegt daran, dass beim 2. mal FreeCT immer noch dieselben Werte zurueckgibt, da nichts in linked_pcpt ge save() d wird!
+

@@ -3,7 +3,7 @@
 {%block body %}
     <div class="question_title">{{question_title }}</div>
     <br/>
-<form action="" method="post" name="{{scale_name}}" id="{{scale_id}}">{% csrf_token %}
+    <form action="{{ destination }}" method="post" name="{{scale_name}}" id="{{scale_id}}">{% csrf_token %}
 <table width="1400px" border="0" align="center" cellspacing="0">
   <!--HEADER and legend-->
   <tr >
@@ -58,11 +58,23 @@
   </tr>
 </table>
 
+{% if DEBUG %} <div id="allErrors"></div> {% endif %}
+<br/>
+<br/>
+<div style="margin-left:auto; margin-right:auto;width:500px;">
+<div id="errorField" style="display:none" ></div>
+</div>
+<br/>
+<br/>
+{# <div id="errCont">You have missed out at least 1 Question!</div> #}
+{% if validation %}
 <script>
     $(this).ready(function(){
+        console.log("{{validation}}");
         var scaleform = $('form[name="{{scale_name}}"]');
         console.log('validation is running...');
         var validator = scaleform.validate({
+            {# turn off debug to truly submit! #}
             debug: true,
             rules: {
                 {# . und () {} sind nicht erlaubt in rules... #}
@@ -72,23 +84,45 @@
                     {{ scale_name }}Q{{question.id}}: "required",
                     {% endfor %}
                 },
+            {# only executed on form submit!!! hiding of off error #}
+            {# has to be solved with another funtion, eg: errorContainer #}
             invalidHandler: function({{ scale_name }}, validator) {
-              var errors = validator.numberOfInvalids();
-              if (errors) {
-                var message = errors == 1
-                  {# ? 'You missed 1 field. It has been highlighted' #}
+                var errors = validator.numberOfInvalids();
+                console.log('errors:', errors)
+                if (errors) {
+                  var message = errors == 1
                   ? 'Missing'
                   : 'Missed ' + errors + ' fields.';
-                $("div.arr span").html(message);
-                $("div.arr").show();
-              } else {
-                $("div.arr").hide();
-              }
+                $("#errorField").text('You have left ' + errors + ' questions unanswered!');
+                {# $("div.arr span").text(message); #}
+                $("#errorField").show();
+                  } else {
+                $("#errorField").hide();
+                  }
+              },
+            messages: {
+                {% for question in questions %}
+                    {{ scale_name }}Q{{question.id}}: "Question {{ question.id }} is required!",
+                    {% endfor %}
+            },
+                errorClass: "invalid",
+            {# error destination id #}
+            errorLabelContainer: "#allErrors",
+            errorContainer: "#errorField",            
+            {# wraps EVERY error inside wrapper: #}
+            wrapper: "ul", 
+            errorElement: "em",
+            {# debug only #}
+            submitHandler: function() { 
+                {# alert("Submitted!")  #}
+                // do other stuff for a valid form
+                {{ scale_name }}.submit();
             }
         });
     });
   </script>
-  
+  {% endif %}  
+  {# endif validation #}
 <script>
 {% if DEBUG %}
 $.each(questions, function( index, value ) {

@@ -1,6 +1,85 @@
+'''
+import ast
+rawvalues= u"['21', '22', '23', '24', '25', '26', '27']"
+raw = ast.literal_eval(rawvalues)
+raw2 = [int(x) for x in raw]
+print rawvalues
+print raw
+print raw2
+print raw[5]
+print raw2[5]
+# option = [map(int, x) for x in optionSTR]
+# [int(x) for x in optionSTR]
+# print option
+'''
+a1keys = ['rc21', 'rc22', 'rc23', 'rc24', 'rc25', 'rc26', 'rc27' ]
+a2keys = ['rc31', 'rc32', 'rc33', 'rc34', 'rc35', 'rc36', 'rc37' ]
+a3keys = ['rc41', 'rc42', 'rc43', 'rc44', 'rc45', 'rc46', 'rc47' ]
+a4keys = ['rc51', 'rc52', 'rc53', 'rc54', 'rc55', 'rc56', 'rc57' ]
+a5keys = ['rc61', 'rc62', 'rc63', 'rc64', 'rc65', 'rc66', 'rc67' ]
+a6keys = ['rc71', 'rc72', 'rc73', 'rc74', 'rc75', 'rc76', 'rc77' ]
+a7keys = ['rc81', 'rc82', 'rc83', 'rc84', 'rc85', 'rc86', 'rc87' ]
+a8keys = ['rc91', 'rc92', 'rc93', 'rc94', 'rc95', 'rc96', 'rc97' ]
+a0keys = ['rc01', 'rc02', 'rc03', 'rc04', 'rc05', 'rc06', 'rc07' ]
+alts = []
+alts.append((a1keys, a2keys, a3keys, a4keys, a5keys, a6keys, a7keys))
+alts2 = []
 
+alts2.append(a1keys)
+alts2.append(a2keys)
+alts2.append(a3keys)
+alts2.append(a4keys)
+alts2.append(a5keys)
+alts2.append(a6keys)
+alts2.append(a7keys)
+# print alts
+
+# print 'now the other alts2:'
+# print alts2[0]
+# print alts2[6]
+for i in range(0,2,1):
+    check = alts2[i]
+    print check
+
+'''
+from eyevacs.models import External_Source_Data, External_Choice_Task
+
+derpexp = Experiment(pk = 555)
+derpexp.save()
+
+minisource = External_Source_Data()
+minisource.pk = 1337
+minisource.experiment = derpexp
+minisource.save()
+
+a = External_Choice_Task(pk=10)
+a.amount = 4
+a.used = True
+a.ext_src_data = minisource
+
+b = External_Choice_Task(pk=20)
+b.amount = 4
+b.used = False
+b.ext_src_data = minisource
+
+a.save()
+b.save()
+
+# for i in minisource.external_choice_task_set.order_by("-used"):
+for i in minisource.external_choice_task_set.order_by("pk","used"):
+# for i in minisource.external_choice_task_set.order_by("+pk","used"):
+    print i.pk, i.amount, i.used
+
+l = [5,4,7,6,3,2,9,8,1]
+
+for i in sorted(l):
+    print i
+'''
+'''
 POST2 = {'csrf_keks':'sogiuwt32h3qw29y23tyq30g0y3','ct_size':'hodenkrebs','input_pcptid':'arschkrebs'}
 print str(POST2)
+'''
+
 '''
 def addError(context, errors):
     output = ''

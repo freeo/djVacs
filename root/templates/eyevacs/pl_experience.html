@@ -1,4 +1,5 @@
 {% extends 'eyevacs/0preview1650.html' %}
+{% load staticfiles %}
 {% block body %}
 {% load i18n %}    
 <!-- ################################################################# -->
@@ -8,7 +9,7 @@
 <br />
 &nbsp;
 
-<form action="" method="post" name="pl_experience">
+<form action="{{ destination }}" method="post" name="pl_experience">
 {% csrf_token %}
 <div class="rg">
 <table width="1200px" border="0" align="center" summary="layout table which contains all 4 radio groups including their questions.">
@@ -19,22 +20,22 @@
         <table class="rg_inner_container">
           <tr>
             <td class="rg_text_line_no_lite"><label>
-              <input type="radio" name="lastavacation" value="<12months"/>
+              <input type="radio" name="experience_lastvacation" value="<12months"/>
             Within the last 12 months</label></td>
           </tr>
           <tr>
             <td class="rg_text_line_hi_lite"><label>
-              <input type="radio" name="lastavacation" value="12-36months"/>
+              <input type="radio" name="experience_lastvacation" value="12-36months"/>
               Between the last 12 and 36 months</label></td>
           </tr>
           <tr>
             <td class="rg_text_line_no_lite"><label>
-              <input type="radio" name="lastavacation" value="36+months"/>
+              <input type="radio" name="experience_lastvacation" value="36+months"/>
               Longer than 36 months ago</label></td>
           </tr>
           <tr>
             <td class="rg_text_line_hi_lite"><label>
-              <input type="radio" name="lastvacation" value="never"/>
+              <input type="radio" name="experience_lastvacation" value="never"/>
               I never booked a vacation package before.</label></td>
           </tr>
         </table>
@@ -49,12 +50,12 @@
         <table class="rg_inner_container">
           <tr>
             <td class="rg_text_line_no_lite"><label >
-              <input type="radio" name="planningvacation" value="yes"/>
+              <input type="radio" name="experience_planningvacation" value="yes"/>
             Yes</label></td>
           </tr>
           <tr>
             <td class="rg_text_line_hi_lite"><label>
-              <input type="radio" name="planningvacation" value="no"/>
+              <input type="radio" name="experience_planningvacation" value="no"/>
               No</label></td>
           </tr>
         </table>
@@ -66,17 +67,17 @@
         <table class="rg_inner_container">
           <tr>
             <td class="rg_text_line_no_lite"><label>
-              <input type="radio" name="searchduration" value="<1week" />
+              <input type="radio" name="experience_searchduration" value="<1week" />
             Less than one week</label></td>
           </tr>
           <tr>
             <td class="rg_text_line_hi_lite"><label>
-              <input type="radio" name="searchduration" value="1-2weeks" />
+              <input type="radio" name="experience_searchduration" value="1-2weeks" />
               Between one and two weeks</label></td>
           </tr>
           <tr>
             <td class="rg_text_line_no_lite"><label>
-              <input type="radio" name="searchduration" value="2+weeks" />
+              <input type="radio" name="experience_searchduration" value="2+weeks" />
               More than two weeks</label></td>
           </tr> 
         </table>
@@ -88,5 +89,70 @@
 <input name="pl_experience_button" type="submit" class="weiter" value={{bt_label}} />
 </form>
 
+{# ######################################################################## #}
+
+{% if DEBUG %} <div id="allErrors"></div> {% endif %}
+<br/>
+<br/>
+<div style="margin-left:auto; margin-right:auto;width:500px;">
+<div id="errorField" style="display:none" ></div>
+</div>
+<br/>
+<br/>
+{# <div id="errCont">You have missed out at least 1 Question!</div> #}
+{% if validation %}
+<script>
+    $(this).ready(function(){
+        var thisform = $('form[name="pl_experience"]');
+        console.log('validation is running...');
+        var validator = thisform.validate({
+            {# turn off debug to truly submit! #}
+            debug: true,
+            rules: {
+                {# . und () {} sind nicht erlaubt in rules... #}
+                {# $.each(questions, function(index, value ){ #}
+                {#     value: "required", )}#}
+                experience_lastvacation: "required",
+                experience_planningvacation: "required",
+                experience_searchduration: "required",
+                },
+            {# only executed on form submit!!! hiding of off error #}
+            {# has to be solved with another funtion, eg: errorContainer #}
+            invalidHandler: function(pl_experience, validator) {
+                var errors = validator.numberOfInvalids();
+                console.log('errors:', errors)
+                if (errors) {
+                  var message = errors == 1
+                  ? 'Missing'
+                  : 'Missed ' + errors + ' fields.';
+                $("#errorField").text('You have left ' + errors + ' questions unanswered!');
+                {# $("div.arr span").text(message); #}
+                $("#errorField").show();
+                  } else {
+                $("#errorField").hide();
+                  }
+              },
+            messages: {
+                experience_lastvacation: "You did not answer your last vacation!",
+                experience_planningvacation:"You did not answer your planning vacation!",
+                experience_searchduration: "You did not answer your search duration!",
+            },
+                errorClass: "invalid",
+            {# error destination id #}
+            errorLabelContainer: "#allErrors",
+            errorContainer: "#errorField",            
+            {# wraps EVERY error inside wrapper: #}
+            wrapper: "ul", 
+            errorElement: "em",
+            {# debug only #}
+            submitHandler: function() { 
+                {# alert("Submitted!")  #}
+                // do other stuff for a valid form
+                pl_experience.submit();
+            }
+        });
+    });
+  </script>
+  {% endif %}
 <!-- ################################################################# -->
 {% endblock %}

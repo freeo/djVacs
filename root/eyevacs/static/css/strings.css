@@ -108,9 +108,24 @@
 	height: 40px;
 }
 
-.error{
+#errorField{
+    /* crucial for centered bottom abs positioning   */
+    bottom: 100px;
+    width: 500px;
+  	margin-right: auto;
+	margin-left: auto;
+    position:absolute;
+    /* non crucial */
     font-family:"Droid Sans Mono", Courier, monospace;
-    background:#222;
-	font-size: 12px;
-    color:#0f0;
+    background:#eee;
+	text-align: center;
+	font-size: 28px;
+    color:#e22;
+    
+}
+.invalid{
+    font-family:"Droid Sans Mono", Courier, monospace;
+	/* text-align: center; */
+	font-size: 16px;
+    color:#eaa;
 }

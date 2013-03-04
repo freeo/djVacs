@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% load i18n %}
+{# {% load i18n %} #}
 {% block body %}
+
+<table>
+    <tr>
+        <td>
 
     <b> Experiment<br/>
 ----------------------------------------
@@ -16,10 +20,8 @@ Properties:<br/></b>
 -- Comepleted participants: {{exp.participant_set.count}}<br/>
 ----------------------------------------<br/>
 <br/>
-{# <form action="/eye/exp{{ exp_id }}/pcpt{{ pcpt_id }}/" method="post">{% csrf_token %} #}
-{# <form action="/eye/exp{{ exp_id }}/pcptinit/" method="post"> #}
-    <form action="" method="post">{% csrf_token %}
-    {# <form action={{destination}} method="post">{% csrf_token %} #}
+<form action="{{ destination }}"  method="post" name="experience_settings" id="exp_form_id" >
+{% csrf_token %}
 <div>
     <b>-- Participant task size:</b>
     (Default value is: )
@@ -28,28 +30,94 @@ Properties:<br/></b>
             {{size.label}}
         {%endif%}
     {%endfor %}
-<label><input type="radio" name="ct_size" value={{tasksize.0.value}} {{tasksize.0.checked}} /> {{tasksize.0.label}}</label>
-<label><input type="radio" name="ct_size" value={{tasksize.1.value}} {{tasksize.1.checked}}/> {{tasksize.1.label}}</label>
-<label><input type="radio" name="ct_size" value={{tasksize.2.value}} {{tasksize.2.checked}}/> {{tasksize.2.label}}</label>
+    {% for t in tasksize %}
+        <label class="lbadmin" ><input type="radio" name="ct_size" value={{t.value}} {{t.checked}} /> {{t.label}}</label>
+        {% endfor %}
 </div>
 <br/>
 <div>
     <b>Next participant ID: {{pcpt_id}}</b><br/>
     <br/>
 Enter ID manually for preview: <br/>
-<input type="text" value="Enter desired ID" name="input_pcptid" /> (leave blank for proper ID = <b>{{pcpt_id}}</b> )
+<input type="text" value="{{ pcpt_id }}" name="input_pcptid" /> (dont change for next default ID = <b>{{pcpt_id}}</b> )
 </div>
 <br/>
+<br/>
+
 <input type="submit" value="New Participant" style="height:40px; width:150px;"/>
 
-{# enable button #}
-<script src="{% static "js/jquery-1.9.1.min.js" %}">
-$(document).ready(function()
-{
-        $("#divTest2").text("Hello, world!");   
-});
-</script>
+{# Form validation #}
 
-{# {{ ERROR }} BLOCK #}
+{# {% if DEBUG %} <div id="allErrors"></div> {% endif %} #}
+<div id="allErrors"></div>
+<br/>
+<div style="margin-left:auto; margin-right:auto;width:500px;">
+<div id="errorField" style="display:none" ></div>
+<br/>
+</div>
+
+
+<script>
+    $(document).ready(function(){
+        var maxID = 899;
+        var thisform = $('form[name="experience_settings"]');
+        var validator = thisform.validate({
+        {# var validator = thisform.validate({ #}
+            {# turn off debug to truly submit! #}
+            debug: true,
+            rules: {
+                ct_size:{
+                    required: true
+                    } ,
+                input_pcptid: {
+                    required: true,
+                    max: (maxID)
+                    }
+                },
+            {# only executed on form submit!!! hiding of off error #}
+            {# has to be solved with another funtion, eg: errorContainer #}
+            invalidHandler: function(thisform, validator) {
+                var errors = validator.numberOfInvalids();
+                if (errors) {
+                $("#errorField").text('There is ' + errors + ' error in this form!');
+                $("#errorField").show();
+                  } else {
+                $("#errorField").hide();
+                  }
+              },
+            messages: {
+                ct_size: "You did not select the choice task size!",
+                input_pcptid: "Enter a valid ID for a participant (maximum: "+ (maxID)+" )"
+            },
+                errorClass: "admin_error",
+{# invalid #}
+            {# error destination id #}
+            errorLabelContainer: "#allErrors",
+            errorContainer: "#errorField",            
+            {# wraps EVERY error inside wrapper: #}
+            wrapper: "ul", 
+            success: "valid",
+            errorElement: "err_elem",
+            {# debug only #}
+            submitHandler: function() { 
+                experience_settings.submit();
+            }
+        });
+    });
+  </script>
+
+</td>
+
+{# 2nd column, RIGHT #}
+{# ######################################################################## #}
+
+<td>
+<p>Enable form validation? (For testing purposes ONLY!)</p>
+<label class="lbadmin"><input type="checkbox" name="cbox_validation" checked >Validate user input?</label>
+<p>Debug single pages:</p>
+<label class="lbadmin"><input type="checkbox" name="cbox_singlepagedebug" >Debug Page</label>
+<br/>
 </form>
+</td>
+</table>
 {% endblock %}

@@ -1,5 +1,5 @@
 <!DOCTYPE = HTML>
-{% load i18n %}
+{# {% load i18n %} #}
 <html>
     <head>
        <style>
@@ -17,19 +17,54 @@
             cursor:pointer;
             display: block;
             width:150px;
+            color:#6cf;
+            font-weight:bold;
         }
         label:hover {
             background:#6cf;   
             color:#555
             }
+        .lbadmin {
+            /*color:#fff;*/
+            border-radius:4px;   
+            padding:14px;
+            margin:4px;
+            text-align:center;
+            cursor:pointer;
+            display: block;
+            width:150px;
+            color:#6cf;
+            font-weight:bold;
+        }
+        .lbadmin:hover {
+            background:#6cf;   
+            color:#555
+        }
         .admin_error{
+            font-family:"Droid Sans Mono", Courier, monospace;
+            background:#444;
+            /* font-size: 24px; */
+            color:#f00;
+        }
+        #err_elem{
             font-family:"Droid Sans Mono", Courier, monospace;
             background:#222;
             font-size: 24px;
-            color:#f00;
-            }
+            color:#0f0;
+        }
+        .valid{
+            color:#090;
+            font-weight:bold;
+        }
         </style>
-    
+  {% load staticfiles %}
+  <script src="{% static "js/jquery-1.9.1.min.js" %}" > </script>
+  <script src="{% static "js/jquery.validate.min.js" %}" > </script>
+
+  <link href="{% static "css/forms.css" %}" rel="stylesheet" type="text/css" />
+<link href="{% static "css/strings.css" %}" rel="stylesheet" type="text/css" />
+<link href="{% static "css/layout.css" %}" rel="stylesheet" type="text/css" />
+  
   <title>{% block title %}--- djVacs Base Template ---{%endblock%}</title>
   <div style="centered"><i>
       DjVacs: Django Vacations<br/>
