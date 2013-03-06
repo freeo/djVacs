@@ -14,7 +14,7 @@ curr_exp = None
 default_page_order = []
 bt_label = "Continue"
 validation = False
-singlepagedebug = None
+singlepagedebug = False
 urlsequence = [
     'eyevacs.views.welcome',
     'eyevacs.views.rnd_regret',
@@ -37,12 +37,15 @@ def allUrls():
     outputlist.append(reverse('eyevacs.views.pl_experience', args= [str(curr_exp.id), str(pcpt.pcpt_id)]))
     outputlist.append(reverse('eyevacs.views.explanation', args= [str(curr_exp.id), str(pcpt.pcpt_id)]))
     # outputlist.append(reverse('eyevacs.views.initsequence', args= [str(curr_exp.id), str(pcpt.pcpt_id)]))
-    outputlist.append(reverse('eyevacs.views.decisionsequence', args= [str(curr_exp.id), str(pcpt.pcpt_id), 0]))
+    for i in range(0,len(pcpt.ctlist),1):
+        outputlist.append(reverse('eyevacs.views.decisionsequence', args= [curr_exp.id, pcpt.pcpt_id, i]))
     outputlist.append(reverse('eyevacs.views.conjoint', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
     outputlist.append(reverse('eyevacs.views.transit', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
+    outputlist.append(reverse('eyevacs.views.rnd_searchgoals', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
+    outputlist.append(reverse('eyevacs.views.rnd_happiness', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
+    outputlist.append(reverse('eyevacs.views.pl_demographics', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
+    outputlist.append(reverse('eyevacs.views.finalPage', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
     return outputlist
-
-
 
 def index(request):
 #    return render_to_response('index.html')
@@ -165,6 +168,13 @@ def preparePcpt(request, exp_id):
     valid_input = request.session['input_pcptid'][0]
     pcpt.initPcpt(exp_id, ct_size, valid_input)
     return getRedirectURL('preparePcpt')
+    data = {}
+    data['text'] = str(request.session.items())
+    # temp_dest = reverse('eyevacs.views.transit', args = [exp_id, pcpt_id])
+    # temp = {'destination': temp_dest}
+    # data['temp'] = temp
+    context = Context(data)
+    # return render(request, 'eyevacs/0preview1650.html', context)
 
 def welcome(request, exp_id):
     destination = reverse('eyevacs.views.rnd_max', args = [str(curr_exp.id), str(pcpt.pcpt_id)])
@@ -219,11 +229,12 @@ def decisionsequence(request, exp_id, pcpt_id, ct_page):
     #just a debug variable for special purposes
     data['text'] = ''
     data['taskcounter'] = pcpt.taskcounter
-    ctdict = pcpt.getNextTask()
+    ctdict = pcpt.getTask(int(ct_page))
     data.update(ctdict)
     rq = RequestContext(request, data)
-    if pcpt.checkNextTask():
-        destination = reverse('eyevacs.views.decisionsequence', args = [curr_exp.id, pcpt_id, pcpt.taskcounter+1])
+    if pcpt.checkNextTask(int(ct_page)):
+        next_page = int(ct_page) + 1
+        destination = reverse('eyevacs.views.decisionsequence', args = [curr_exp.id, pcpt_id, next_page])
     else:
         destination = reverse('eyevacs.views.conjoint', args = [exp_id, pcpt_id])
     data['destination'] = destination
@@ -250,12 +261,12 @@ def conjoint(request, exp_id, pcpt_id):
 def transit(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     data = {}
-    data['text'] = 'transit choice, holdout task 2!'
+    # data['text'] = 'transit choice, holdout task 2!'
     temp_dest = reverse('eyevacs.views.rnd_searchgoals', args = [exp_id, pcpt_id])
     temp = {'destination': temp_dest}
     data['temp'] = temp
     context = Context(data)
-    return render(request, 'eyevacs/0preview1650.html', context)
+    return render(request, 'eyevacs/transitOverview.html', context)
 
 def rnd_searchgoals(request, exp_id, pcpt_id):
     request.session.update(request.POST)

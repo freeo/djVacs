@@ -1,3 +1,9 @@
+def fun(x, y):
+    res = 10*x + 8*y
+    print res
+
+fun(115, 50)
+fun(50, 50)
 '''
 import ast
 rawvalues= u"['21', '22', '23', '24', '25', '26', '27']"
@@ -11,6 +17,7 @@ print raw2[5]
 # option = [map(int, x) for x in optionSTR]
 # [int(x) for x in optionSTR]
 # print option
+'''
 '''
 a1keys = ['rc21', 'rc22', 'rc23', 'rc24', 'rc25', 'rc26', 'rc27' ]
 a2keys = ['rc31', 'rc32', 'rc33', 'rc34', 'rc35', 'rc36', 'rc37' ]
@@ -41,6 +48,7 @@ for i in range(0,2,1):
     check = alts2[i]
     print check
 
+'''
 '''
 from eyevacs.models import External_Source_Data, External_Choice_Task
 

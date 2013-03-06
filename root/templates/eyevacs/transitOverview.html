@@ -1,0 +1,32 @@
+{% extends 'eyevacs/transit_base.html' %}
+{% load staticfiles %}
+{% block body %}
+<p class="question_title" >
+Now imagine that a relative is coming to Melbourne for a weekend. He/she likes to find a hotel which is both, nearest to the airport and also the cheapest. <br/>
+<br/>
+Below you see six different offers from hotels in and around Melbourne. By clicking on those offers you can get more information about them. Please click on the hotel you would recommend to your friend.</p>
+ <table width="1400" height="600" border="0" style="margin-left: auto;margin-right: auto;" >
+  <tr>
+    <td style="text-align:center" ><img src="{% static "img/1.jpg" %}" class="tableimg" ><p class="general_text">The Langham</p></td>
+    <td style="text-align:center" ><img src="{% static "img/2.jpg" %}" class="tableimg" ><p class="general_text">Grand Mercure</p></td>
+    <td style="text-align:center" ><img src="{% static "img/3.jpg" %}" class="tableimg" ><p class="general_text">Quay West Suites</p></td>
+  </tr>
+<tr height="50px">
+  </tr>
+  <tr>
+      <td style="text-align:center" >
+          <img src="{% static "img/4.jpg" %}" class="tableimg" >
+          <p class="general_text">Art Series - The Olsen</p>
+          </td>
+          <td style="text-align:center" >
+              <img src="{% static "img/5.jpg" %}" class="tableimg" >
+              <p class="general_text">Grand Hyatt</p>
+            </td>
+        <td style="text-align:center" >
+            <img src="{% static "img/6.jpg" %}" class="tableimg" >
+                <p class="general_text">Park Hyatt</p>
+        </td>
+  </tr>
+</table>
+
+{% endblock %}

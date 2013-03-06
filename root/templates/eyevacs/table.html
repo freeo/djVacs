@@ -1,124 +1,142 @@
-{% extends 'eyevacs/0preview1650.html' %}
+{% extends 'eyevacs/table_base.html' %}
 {% load staticfiles %}
+{% block style %}
+
+{% endblock %}
 {%block body %}
-<div class="question_title">{{question_title }}</div>
-<br/>
-<form action="{{ destination }}" method="post" name="{{ ct_id }}" >
+    <div class="question_title">If you were in the market to buy a vacation package today and these were your only options, which would you choose?</div>
+<form action="{{ destination }}" method="post" >
 {% csrf_token %}
-<table wdth="1650px" border="0" align="center" cellspacing="50px">
-  <tr>
-    <td>{{ rc11 }}</td>
-    <td>{{ rc12 }}</td>
-    <td>{{ rc13 }}</td>
-    <td>{{ rc14 }}</td>
-    <td>{{ rc15 }}</td>
-    <td>{{ rc16 }}</td>
-    <td>{{ rc17 }}</td>
-    <td>{{ rc18 }}</td>
-    <td>{{ rc19 }}</td>
-    <td>{{ rc10 }}</td>
+<table  >
+  <tr class="tr_spacer">
   </tr>
   <tr>
-    <td>{{ rc21 }}</td>
-    <td>{{ rc22 }}</td>
-    <td>{{ rc23 }}</td>
-    <td>{{ rc24 }}</td>
-    <td>{{ rc25 }}</td>
-    <td>{{ rc26 }}</td>
-    <td>{{ rc27 }}</td>
-    <td>{{ rc28 }}</td>
-    <td>{{ rc29 }}</td>
-    <td>{{ rc20 }}</td>
+    <td {# class="dctd attr" #}>{{ rc11 }}</td><td class="spacer"></td>
+    <td class="dctd option">{{ rc12 }}</td><td class="spacer"></td>
+    <td class="dctd option">{{ rc13 }}</td><td class="spacer"></td>
+    <td class="dctd option">{{ rc14 }}</td><td class="spacer"></td>
+    <td class="dctd option">{{ rc15 }}</td><td class="spacer"></td>
+    <td class="dctd option">{{ rc16 }}</td><td class="spacer"></td>
+    <td class="dctd option">{{ rc17 }}</td><td class="spacer"></td>
+    <td class="dctd option">{{ rc18 }}</td><td class="spacer"></td>
+    <td class="dctd option">{{ rc19 }}</td><td class="spacer"></td>
+    <td class="dctd option">{{ rc10 }}</td><td class="spacer"></td>
+  </tr>
+  <tr class="tr_spacer">
   </tr>
   <tr>
-    <td>{{ rc31 }}</td>
-    <td>{{ rc32 }}</td>
-    <td>{{ rc33 }}</td>
-    <td>{{ rc34 }}</td>
-    <td>{{ rc35 }}</td>
-    <td>{{ rc36 }}</td>
-    <td>{{ rc37 }}</td>
-    <td>{{ rc38 }}</td>
-    <td>{{ rc39 }}</td>
-    <td>{{ rc30 }}</td>
+    <td class="dctd attr">{{ rc21 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc22 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc23 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc24 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc25 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc26 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc27 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc28 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc29 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc20 }}</td><td class="spacer"></td>
+  </tr>
+  <tr class="tr_spacer">
   </tr>
   <tr>
-    <td>{{ rc41 }}</td>
-    <td>{{ rc42 }}</td>
-    <td>{{ rc43 }}</td>
-    <td>{{ rc44 }}</td>
-    <td>{{ rc45 }}</td>
-    <td>{{ rc46 }}</td>
-    <td>{{ rc47 }}</td>
-    <td>{{ rc48 }}</td>
-    <td>{{ rc49 }}</td>
-    <td>{{ rc40 }}</td>
+    <td class="dctd attr">{{ rc31 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc32 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc33 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc34 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc35 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc36 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc37 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc38 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc39 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc30 }}</td><td class="spacer"></td>
+  </tr>
+  <tr class="tr_spacer">
   </tr>
   <tr>
-    <td>{{ rc51 }}</td>
-    <td>{{ rc52 }}</td>
-    <td>{{ rc53 }}</td>
-    <td>{{ rc54 }}</td>
-    <td>{{ rc55 }}</td>
-    <td>{{ rc56 }}</td>
-    <td>{{ rc57 }}</td>
-    <td>{{ rc58 }}</td>
-    <td>{{ rc59 }}</td>
-    <td>{{ rc50 }}</td>
+    <td class="dctd attr">{{ rc41 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc42 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc43 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc44 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc45 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc46 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc47 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc48 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc49 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc40 }}</td><td class="spacer"></td>
+  </tr>
+  <tr class="tr_spacer">
   </tr>
   <tr>
-    <td>{{ rc61 }}</td>
-    <td>{{ rc62 }}</td>
-    <td>{{ rc63 }}</td>
-    <td>{{ rc64 }}</td>
-    <td>{{ rc65 }}</td>
-    <td>{{ rc66 }}</td>
-    <td>{{ rc67 }}</td>
-    <td>{{ rc68 }}</td>
-    <td>{{ rc69 }}</td>
-    <td>{{ rc60 }}</td>
+    <td class="dctd attr">{{ rc51 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc52 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc53 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc54 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc55 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc56 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc57 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc58 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc59 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc50 }}</td><td class="spacer"></td>
+  </tr>
+  <tr class="tr_spacer">
   </tr>
   <tr>
-    <td>{{ rc71 }}</td>
-    <td>{{ rc72 }}</td>
-    <td>{{ rc73 }}</td>
-    <td>{{ rc74 }}</td>
-    <td>{{ rc75 }}</td>
-    <td>{{ rc76 }}</td>
-    <td>{{ rc77 }}</td>
-    <td>{{ rc78 }}</td>
-    <td>{{ rc79 }}</td>
-    <td>{{ rc70 }}</td>
+    <td class="dctd attr">{{ rc61 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc62 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc63 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc64 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc65 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc66 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc67 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc68 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc69 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc60 }}</td><td class="spacer"></td>
+  </tr>
+  <tr class="tr_spacer">
+  </tr>
+  <tr>
+    <td class="dctd attr">{{ rc71 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc72 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc73 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc74 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc75 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc76 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc77 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc78 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc79 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc70 }}</td><td class="spacer"></td>
+  </tr>
+  <tr class="tr_spacer">
   </tr>
   <tr>
     <!-- buy buttons -->
-    <td>{{ rc81 }}</td>
+    <td style="width:115px;" >{{ rc81 }}</td><td class="spacer"></td>
     {% if rc82 %}
-        <td><input type="submit" class="buy_button" name="{{ rc82 }}" value="Buy!" ></td>
+        <td><input type="submit" class="buy_button" name="{{ rc82 }}" value="Buy!" ></td><td class="spacer"></td>
     {% endif %}
     {% if rc83 %}
-    <td><input type="submit" class="buy_button" name="{{ rc83 }}" value="Buy!" ></td>
+    <td><input type="submit" class="buy_button" name="{{ rc83 }}" value="Buy!" ></td><td class="spacer"></td>
     {% endif %}
     {% if rc84 %}
-    <td><input type="submit" class="buy_button" name="{{ rc84 }}" value="Buy!" ></td>
+    <td><input type="submit" class="buy_button" name="{{ rc84 }}" value="Buy!" ></td><td class="spacer"></td>
     {% endif %}
     {% if rc85 %}
-    <td><input type="submit" class="buy_button" name="{{ rc85 }}" value="Buy!" ></td>
+    <td><input type="submit" class="buy_button" name="{{ rc85 }}" value="Buy!" ></td><td class="spacer"></td>
     {% endif %}
     {% if rc86 %}
-    <td><input type="submit" class="buy_button" name="{{ rc86 }}" value="Buy!" ></td>
+    <td><input type="submit" class="buy_button" name="{{ rc86 }}" value="Buy!" ></td><td class="spacer"></td>
     {% endif %}
     {% if rc87 %}
-    <td><input type="submit" class="buy_button" name="{{ rc87 }}" value="Buy!" ></td>
+    <td><input type="submit" class="buy_button" name="{{ rc87 }}" value="Buy!" ></td><td class="spacer"></td>
     {% endif %}
     {% if rc88 %}
-    <td><input type="submit" class="buy_button" name="{{ rc88 }}" value="Buy!" ></td>
+    <td><input type="submit" class="buy_button" name="{{ rc88 }}" value="Buy!" ></td><td class="spacer"></td>
     {% endif %}
     {% if rc89 %}
-    <td><input type="submit" class="buy_button" name="{{ rc89 }}" value="Buy!" ></td>
+    <td><input type="submit" class="buy_button" name="{{ rc89 }}" value="Buy!" ></td><td class="spacer"></td>
     {% endif %}
     {% if rc80 %}
-    <td><input type="submit" class="buy_button" name="{{ rc80 }}" value="Buy!" ></td>
+    <td><input type="submit" class="buy_button" name="{{ rc80 }}" value="Buy!" ></td><td class="spacer"></td>
     {% endif %}
   </tr>
   

@@ -130,15 +130,20 @@ hab dec seq zerschossen, dauert paar mins das widerherzustellen...
 wenn das fertig ist:
 uebrige pages modernisieren auf reverse etc
 transit 2 machen
+0-choice option
 table.html template machen
 decreasing order einbauen
 alles testen
 neue groupings einfuehren: 1-4
 speicherung von participanten
 
+Muss gemacht werden fuer den Pretest, da 7 nur eine vermutung ist und ein keine bestaetigte Tatsache
 bug: (welche wahrscheinlich nicht mehr korrigiert werden muessen)
 14 task size gibt falsche reihenfolge aus:
 falsch: 2-8, 2-8
 richtig: 2,2,3,3, ... , 8,8
 liegt daran, dass beim 2. mal FreeCT immer noch dieselben Werte zurueckgibt, da nichts in linked_pcpt ge save() d wird!
+
+Neuerung:
+HTML5 Boilerplate eingefuehrt!
 

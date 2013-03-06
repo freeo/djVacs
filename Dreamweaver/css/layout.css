@@ -12,7 +12,7 @@ body.loading {
 }
 #body_black {
 	background-color: #000;
-	overflow: hidden;
+	/*overflow: hidden;*/
 }
 #center_content {
 	margin-right: auto;
@@ -37,7 +37,8 @@ body.loading {
 	width: 150px;
 	position: absolute;
 	right: 50px;
-	bottom: 50px;
+	/* bottom: 50px; */
+    top: 130px;
 }
 .weiter_position {
 	position: relative;

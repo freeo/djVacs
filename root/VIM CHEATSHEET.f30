@@ -42,4 +42,37 @@ locals(): This isn't a debugger function, but it is really handy for seeing what
 ----------------------------------------------------------------------------
 ----------------------------------------------------------------------------
 
+Window commands
+position:
+:winpos 960 0
+SPLIT:
+{vertical}
+<C-w>=  Equal size
+:30winc <  decrease size 30 columns
+:30winc >  increase size 30 columns
+or:
+30<C-w> <,> 
+{horizontal}
+:10winc -  decrease size 30 columns
+:10winc +  increase size 30 columns
+or:
+10<C-w> -,+ 
 
+switch from {vertically} split to {horizonally} split
+    (Ctrl-W t) Ctrl-W K
+{horizonally} to {vertically} 
+    (Ctrl-W t) Ctrl-W H
+Explanations:
+    Ctrl-W t     makes the first (topleft) window current
+    Ctrl-W K     moves the current window to full-width at the very top
+    Ctrl-W H     moves the current window to full-height at far lea
+
+########################################################################
+########################################################################
+REGULAR Expressions in vim:
+%s/<td>{.*}<\/td>/<td class="dctd">&<\/td><td class="spacer"><\/td>/gc
+
+basic differences: 
+use {} instead if []
+\ escapes /
+& substitution string (matches %s % python behaviour)

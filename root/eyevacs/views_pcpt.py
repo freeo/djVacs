@@ -168,18 +168,18 @@ def getAttributeLabelDict():
         temp[attribute_keys[i]] = attribute_values[i]
     return temp
 
-def checkNextTask():
-    if taskcounter < len(ctlist):
+def checkNextTask(curr_page):
+    if curr_page+1 < len(ctlist):
         return True
     else:
         return False
 
-def getNextTask():
+def getTask(task_nr):
     #maps a choice task to template: table.html
     #cells of attributes: can wait...
-    attr = []
+    attr = ctlist
     templ = {}
-    task = ctlist[taskcounter]
+    task = ctlist[task_nr]
     a1keys = ['rc12', 'rc22', 'rc32', 'rc42', 'rc52', 'rc62', 'rc72' ]
     a2keys = ['rc13', 'rc23', 'rc33', 'rc43', 'rc53', 'rc63', 'rc73' ]
     a3keys = ['rc14', 'rc24', 'rc34', 'rc44', 'rc54', 'rc64', 'rc74' ]
@@ -202,10 +202,10 @@ def getNextTask():
     altModel = [task.a1, task.a2, task.a3, task.a3, task.a4, task.a5, task.a6,task.a7, task.a8]
     for i in range(0, task.amount, 1):
         templ.update(mapCT(alts[i], altModel[i], i))
-        templ[buybuttons[i]] = str(task.amount) + '_' + str(i+1) + '_' + str(task.pk)
+        #taskbysequenceviewn_amountofalternatives_choosenalternative_taskuniquepk
+        templ[buybuttons[i]] = str(task_nr) + '_' + str(task.amount) + '_' + str(i+1) + '_' + str(task.pk)
     templ.update(getAttributeLabelDict())
     #finalize:
-    incrementTaskCounter()
     return templ
 
 def mapCT(dictKeys, rawvalues, nameindex):

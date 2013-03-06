@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Transit Choice</title>
+<link href="../css/forms.css" rel="stylesheet" type="text/css" />
+<link href="../css/strings.css" rel="stylesheet" type="text/css" />
+<link href="../css/layout.css" rel="stylesheet" type="text/css" />
+<link href="../css/main.css" rel="stylesheet" type="text/css" />
+<link href="../css/normalize.css" rel="stylesheet" type="text/css" />
+
+{% load staticfiles %}
+<link href="{% static "css/forms.css" %}" rel="stylesheet" type="text/css" />
+<link href="{% static "css/strings.css" %}" rel="stylesheet" type="text/css" />
+<link href="{% static "css/layout.css" %}" rel="stylesheet" type="text/css" />
+<link href="{% static "css/main.css" %}" rel="stylesheet" type="text/css" />
+<link href="{% static "css/normalize.css" %}" rel="stylesheet" type="text/css" />
+
+<style>
+#debug {
+	font-family: "Droid Sans Mono", Courier, monospace;
+	font-size: 16px;
+	background: #383838;
+	color: #bbf;
+}
+</style>
+<script src="{% static "js/jquery-1.9.1.min.js" %}" > </script>
+<script src="{% static "js/jquery.validate.min.js" %}" > </script>
+<script src="{% static "js/modernizr-2.6.2.min.js" %}" > </script>
+<title>{{title}}</title>
+{% load i18n %}
+
+<!-- HTML5 Boilerplate stuff, see up, other meta-->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width">
+</head>
+
+<body id="body_black">
+<div id="center_content">
+  <div id="debug">
+    <script>
+                {% if not DEBUG %}
+                    var console = {};
+                    console.log = function(){};
+                {% endif %} 
+            </script> 
+  </div>
+  <div id="target_screen_layout"> 
+    
+    <!--{# ######################################################################## #}--> 
+{# <script> #}
+            {% block body %}
+            {% endblock %}
+            {{ text }}
+            {% if temp %}
+                <form action="{{ temp.destination }}" method="post" >
+                {% csrf_token %}    
+                    <input type="submit" value="TEMP CONTINUE" class="weiter" >
+                </form>
+                {% endif %}
+            {# {{ debugdata }} #}			
+{# </script> #}
+    
+    <!--{# ######################################################################## #}--> 
+    
+  </div>
+</div>
+</body>
+</html>

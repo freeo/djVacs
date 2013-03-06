@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic.base import TemplateView, RedirectView
 ##from djVacs.views import index
 
 # Uncomment the next two lines to enable the admin:
@@ -22,6 +23,7 @@ urlpatterns = patterns('',
 urlpatterns += patterns('',
     url(r'^$', 'djVacs.views.index'),
     (r'^i18n/', include('django.conf.urls.i18n')),
+    url(r'^favicon\.ico$', RedirectView.as_view(url='/static/favicon.ico')),
 )
 
 '''
