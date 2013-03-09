@@ -99,8 +99,9 @@ Enter ID manually for preview: <br/>
             success: "valid",
             errorElement: "err_elem",
             {# debug only #}
-            submitHandler: function() { 
-                experience_settings.submit();
+            submitHandler: function(thisform) { 
+                {# experience_settings.submit(); #}
+                thisform.submit();
             }
         });
     });

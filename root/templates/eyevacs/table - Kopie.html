@@ -1,0 +1,153 @@
+{% extends 'eyevacs/table_base.html' %}
+{% load staticfiles %}
+{% block style %}
+
+{% endblock %}
+{%block body %}
+    <div class="question_title">If you were in the market to buy a vacation package today and these were your only options, which would you choose?</div>
+<form action="{{ destination }}" method="post" >
+{% csrf_token %}
+<table  >
+  <tr class="tr_spacer">
+  </tr>
+  <tr>
+    <td {# class="dctd attr" #}>{{ rc11 }}</td><td class="spacer"></td>
+    <td class="dctd option">{{ rc12 }}</td><td class="spacer"></td>
+    <td class="dctd option">{{ rc13 }}</td><td class="spacer"></td>
+    <td class="dctd option">{{ rc14 }}</td><td class="spacer"></td>
+    <td class="dctd option">{{ rc15 }}</td><td class="spacer"></td>
+    <td class="dctd option">{{ rc16 }}</td><td class="spacer"></td>
+    <td class="dctd option">{{ rc17 }}</td><td class="spacer"></td>
+    <td class="dctd option">{{ rc18 }}</td><td class="spacer"></td>
+    <td class="dctd option">{{ rc19 }}</td><td class="spacer"></td>
+    <td class="dctd option">{{ rc10 }}</td><td class="spacer"></td>
+  </tr>
+  <tr class="tr_spacer">
+  </tr>
+  <tr>
+    <td class="dctd attr">{{ rc21 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc22 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc23 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc24 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc25 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc26 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc27 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc28 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc29 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc20 }}</td><td class="spacer"></td>
+  </tr>
+  <tr class="tr_spacer">
+  </tr>
+  <tr>
+    <td class="dctd attr">{{ rc31 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc32 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc33 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc34 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc35 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc36 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc37 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc38 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc39 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc30 }}</td><td class="spacer"></td>
+  </tr>
+  <tr class="tr_spacer">
+  </tr>
+  <tr>
+    <td class="dctd attr">{{ rc41 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc42 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc43 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc44 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc45 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc46 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc47 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc48 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc49 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc40 }}</td><td class="spacer"></td>
+  </tr>
+  <tr class="tr_spacer">
+  </tr>
+  <tr>
+    <td class="dctd attr">{{ rc51 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc52 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc53 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc54 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc55 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc56 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc57 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc58 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc59 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc50 }}</td><td class="spacer"></td>
+  </tr>
+  <tr class="tr_spacer">
+  </tr>
+  <tr>
+    <td class="dctd attr">{{ rc61 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc62 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc63 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc64 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc65 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc66 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc67 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc68 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc69 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc60 }}</td><td class="spacer"></td>
+  </tr>
+  <tr class="tr_spacer">
+  </tr>
+  <tr>
+    <td class="dctd attr">{{ rc71 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc72 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc73 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc74 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc75 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc76 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc77 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc78 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc79 }}</td><td class="spacer"></td>
+    <td class="dctd">{{ rc70 }}</td><td class="spacer"></td>
+  </tr>
+  <tr class="tr_spacer">
+  </tr>
+  <tr>
+    <!-- buy buttons -->
+    <td style="width:115px;" >{{ rc81 }}</td><td class="spacer"></td>
+    {% if rc82 %}
+        <td><input type="submit" class="buy_button" name="{{ rc82 }}" value="Buy!" ></td><td class="spacer"></td>
+    {% endif %}
+    {% if rc83 %}
+    <td><input type="submit" class="buy_button" name="{{ rc83 }}" value="Buy!" ></td><td class="spacer"></td>
+    {% endif %}
+    {% if rc84 %}
+    <td><input type="submit" class="buy_button" name="{{ rc84 }}" value="Buy!" ></td><td class="spacer"></td>
+    {% endif %}
+    {% if rc85 %}
+    <td><input type="submit" class="buy_button" name="{{ rc85 }}" value="Buy!" ></td><td class="spacer"></td>
+    {% endif %}
+    {% if rc86 %}
+    <td><input type="submit" class="buy_button" name="{{ rc86 }}" value="Buy!" ></td><td class="spacer"></td>
+    {% endif %}
+    {% if rc87 %}
+    <td><input type="submit" class="buy_button" name="{{ rc87 }}" value="Buy!" ></td><td class="spacer"></td>
+    {% endif %}
+    {% if rc88 %}
+    <td><input type="submit" class="buy_button" name="{{ rc88 }}" value="Buy!" ></td><td class="spacer"></td>
+    {% endif %}
+    {% if rc89 %}
+    <td><input type="submit" class="buy_button" name="{{ rc89 }}" value="Buy!" ></td><td class="spacer"></td>
+    {% endif %}
+    {% if rc80 %}
+    <td><input type="submit" class="buy_button" name="{{ rc80 }}" value="Buy!" ></td><td class="spacer"></td>
+    {% endif %}
+  </tr>
+  
+</table>
+
+{# 2 optionen zur auswahl eines angebots: #}
+{# 1. 'buchen! button' (meine preference) #}
+{# 2. javascript on click auf jede einzelne zelle... radio button der signalisiert oder gleich die farbe der ganzen row aendern. #}
+{#  #}
+{# kann bei 1. ein 'hover' einbauen, column wechselt farbe #}
+
+</form>
+
+{% endblock %}

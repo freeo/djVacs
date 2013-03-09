@@ -3,6 +3,7 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+{# <html> #}
 {# <html xmlns="http://www.w3.org/1999/xhtml"> #}
 <head>
     {# <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> #}
@@ -40,12 +41,14 @@
 <body id="body_black">
     <div id="center_content">
         <div id="debug">
-            {# DEBUG DATA:<br/> #}
-            {# {{ debugdata|linebreaksbr }} #}
-            <script>
+        {# DEBUG DATA:<br/> #}
+        {# {{ debugdata|linebreaksbr }} #}
+        <script>
+            window.log=function(){log.history=log.history||[];log.history.push(arguments);if(this.console){console.log(Array.prototype.slice.call(arguments))}};
                 {% if not DEBUG %}
-                    var console = {};
-                    console.log = function(){};
+                    {# for production to empty all console calls! #}
+                    {# var console = {}; #}
+                    {# console.log = function(){}; #}
                 {% endif %} 
             </script>
             </div>
@@ -56,7 +59,7 @@
 {# $("#divTest1").text("Hello, world!"); #}
 {# </script> #}
 
-            {# ######################################################################## #}
+        {# ######################################################################## #}
             {% block body %}
             {% endblock %}
             {{ text }}

@@ -1,0 +1,53 @@
+@charset "utf-8";
+#target_screen_layout {
+	height: 1080px;
+	width: 1650px;
+	background-color: #FFF;
+	margin-right: auto;
+	margin-left: auto;
+	position: absolute;
+}
+body.loading {
+	cursor:wait;
+}
+#body_black {
+	background-color: #000;
+	/*overflow: hidden;*/
+}
+#center_content {
+	margin-right: auto;
+	margin-left: auto;
+	width: 1650px;
+}
+.cell_white {
+	text-align:center;
+}
+.cell_grey {
+	background-color:#ddd;
+	text-align:center;
+}
+.sc_table_spacer {
+	width:100px;
+}
+.sc_table_question_spacer {
+	width:700px;
+}
+.weiter {
+	/*float: right; */
+	width: 150px;
+	position: absolute;
+	right: 50px;
+	/* bottom: 50px; */
+    top: 130px;
+}
+.weiter_position {
+	position: relative;
+	width: 100px;
+}
+
+.table_info tr:nth-of-type(odd){
+	background:#eee;	
+}
+.table_info tr:nth-of-type(even){
+	background:#ddd;	
+}

@@ -5,90 +5,112 @@
 <!-- ################################################################# -->
 
 </br>
-<p class="question_title">Let’s come to a different topic now:</p>
-<br />
-&nbsp;
+<p class="question_title">Let’s come to vacation packages now:</p>
 
 <form action="{{ destination }}" method="post" name="pl_experience">
 {% csrf_token %}
 <div class="rg">
 <table width="1200px" border="0" align="center" summary="layout table which contains all 4 radio groups including their questions.">
-  <tr>
-    <td valign="top">
-    	<p class="rg_question_text" >When was the last time you booked a vacation package?</p>
-   
-        <table class="rg_inner_container">
-          <tr>
-            <td class="rg_text_line_no_lite"><label>
-              <input type="radio" name="experience_lastvacation" value="<12months"/>
-            Within the last 12 months</label></td>
-          </tr>
-          <tr>
-            <td class="rg_text_line_hi_lite"><label>
-              <input type="radio" name="experience_lastvacation" value="12-36months"/>
-              Between the last 12 and 36 months</label></td>
-          </tr>
-          <tr>
-            <td class="rg_text_line_no_lite"><label>
-              <input type="radio" name="experience_lastvacation" value="36+months"/>
-              Longer than 36 months ago</label></td>
-          </tr>
-          <tr>
-            <td class="rg_text_line_hi_lite"><label>
-              <input type="radio" name="experience_lastvacation" value="never"/>
-              I never booked a vacation package before.</label></td>
-          </tr>
-        </table>
-      
-    </td>
-    </td>
-  </tr>
+<tr>
+<td valign="top">
+    <p class="rg_question_text" >When was the last time you booked a vacation package?</p>
 
-  <tr>
-    <td valign="top">
-    <p class="rg_question_text">Are you planning to book a vacation package within the next 12 months?</p>
-        <table class="rg_inner_container">
-          <tr>
-            <td class="rg_text_line_no_lite"><label >
-              <input type="radio" name="experience_planningvacation" value="yes"/>
-            Yes</label></td>
-          </tr>
-          <tr>
-            <td class="rg_text_line_hi_lite"><label>
-              <input type="radio" name="experience_planningvacation" value="no"/>
-              No</label></td>
-          </tr>
-        </table>
-    </td>
+    <table class="rg_inner_container">
+      <tr>
+        <td class="rg_text_line_no_lite"><label for="lastvacation1" >
+          <input type="radio" name="experience_lastvacation" id="lastvacation1" value="<12months"/>
+        Within the last 12 months</label></td>
+      </tr>
+      <tr>
+        <td class="rg_text_line_hi_lite"><label for="lastvacation2" >
+          <input type="radio" name="experience_lastvacation" id="lastvacation2" value="12-36months"/>
+          Between the last 12 and 36 months</label></td>
+      </tr>
+      <tr>
+        <td class="rg_text_line_no_lite"><label for="lastvacation3" >
+          <input type="radio" name="experience_lastvacation" id="lastvacation3" value="36+months"/>
+          Longer than 36 months ago</label></td>
+      </tr>
+      <tr>
+        <td class="rg_text_line_hi_lite"><label for="lastvacation4" >
+          <input type="radio" name="experience_lastvacation" id="lastvacation4" value="never"/>
+          I never booked a vacation package before.</label></td>
+      </tr>
+    </table>
+  
+</td>
+</td>
 </tr>
 
-    <td valign="top">
-    <p class="rg_question_text">When it comes to booking a vacation package, what would you say: How long do you search for information before you decide which vacation package to book?</p>
-        <table class="rg_inner_container">
-          <tr>
-            <td class="rg_text_line_no_lite"><label>
-              <input type="radio" name="experience_searchduration" value="<1week" />
-            Less than one week</label></td>
-          </tr>
-          <tr>
-            <td class="rg_text_line_hi_lite"><label>
-              <input type="radio" name="experience_searchduration" value="1-2weeks" />
-              Between one and two weeks</label></td>
-          </tr>
-          <tr>
-            <td class="rg_text_line_no_lite"><label>
-              <input type="radio" name="experience_searchduration" value="2+weeks" />
-              More than two weeks</label></td>
-          </tr> 
-        </table>
-        </td>
-        </tr>    
+<tr>
+<td valign="top">
+<p class="rg_question_text">Are you planning to book a vacation package within the next 12 months?</p>
+    <table class="rg_inner_container">
+      <tr>
+        <td class="rg_text_line_no_lite"><label for="planning1" >
+          <input type="radio" name="experience_planningvacation" id="planning1" value="yes"/>
+        Yes</label></td>
+      </tr>
+      <tr>
+        <td class="rg_text_line_hi_lite"><label for="planning2" >
+          <input type="radio" name="experience_planningvacation" id="planning2" value="no"/>
+          No</label></td>
+      </tr>
+    </table>
+</td>
+</tr>
+
+<td valign="top">
+<p class="rg_question_text">When it comes to booking a vacation package, what would you say: How long do you search for information before you decide which vacation package to book?</p>
+    <table class="rg_inner_container">
+      <tr>
+        <td class="rg_text_line_no_lite"><label for="searchduration1" >
+          <input type="radio" name="experience_searchduration" id="searchduration1" value="<1week" />
+        Less than one week</label></td>
+      </tr>
+      <tr>
+        <td class="rg_text_line_hi_lite"><label for="searchduration2" >
+          <input type="radio" name="experience_searchduration" id="searchduration2" value="1-2weeks" />
+          Between one and two weeks</label></td>
+      </tr>
+      <tr>
+        <td class="rg_text_line_no_lite"><label for="searchduration3" >
+          <input type="radio" name="experience_searchduration" id="searchduration3" value="2+weeks" />
+          More than two weeks</label></td>
+      </tr> 
+    </table>
+    </td>
+    </tr>    
 </table>
 </div> 
 
 <input name="pl_experience_button" type="submit" class="weiter" value={{bt_label}} />
 </form>
+{# ######################################################################## #}
+<div class="debugtext"></div>
 
+<script>
+    $(this).ready(function(){
+        {# both working #}
+        $("input").change(function(){
+        {# $("form").click(function(){ #}
+            {# Highlight selected item #}
+            var checkedRadio = $("input:checked");
+            checkedRadio.each(function(i){
+                window.log('click!');
+                itemID = $(this).attr("id");
+                {# $(".debugtext").html(itemID); #}
+                $("label[for="+itemID+"]").addClass("highlight");
+                });
+            {# revert others to default color  #}
+            var unCheckedRadio = $("input:not(:checked)");
+            unCheckedRadio.each(function(i){
+                itemID = $(this).attr("id");
+                $("label[for="+itemID+"]").removeClass("highlight");
+                });
+            });
+        });
+</script>
 {# ######################################################################## #}
 
 {% if DEBUG %} <div id="allErrors"></div> {% endif %}
@@ -104,7 +126,7 @@
 <script>
     $(this).ready(function(){
         var thisform = $('form[name="pl_experience"]');
-        console.log('validation is running...');
+        window.log('validation is running...');
         var validator = thisform.validate({
             {# turn off debug to truly submit! #}
             debug: true,
@@ -120,7 +142,7 @@
             {# has to be solved with another funtion, eg: errorContainer #}
             invalidHandler: function(pl_experience, validator) {
                 var errors = validator.numberOfInvalids();
-                console.log('errors:', errors)
+                window.log('errors:', errors)
                 if (errors) {
                   var message = errors == 1
                   ? 'Missing'
@@ -145,10 +167,10 @@
             wrapper: "ul", 
             errorElement: "em",
             {# debug only #}
-            submitHandler: function() { 
+            submitHandler: function(thisform) { 
                 {# alert("Submitted!")  #}
                 // do other stuff for a valid form
-                pl_experience.submit();
+                thisform.submit();
             }
         });
     });

@@ -1,8 +1,8 @@
 def fun(x, y):
-    res = 10*x + 8*y
+    res = 9*x + 7*y
     print res
 
-fun(115, 50)
+fun(133, 50)
 fun(50, 50)
 '''
 import ast

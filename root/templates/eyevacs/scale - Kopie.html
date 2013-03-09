@@ -1,0 +1,148 @@
+{% extends 'eyevacs/dw_transitMain.html' %}
+{# 0preview1650 #}
+{% load staticfiles %}
+{%block body %}
+    <div class="question_title">{{question_title }}</div>
+    <form action="{{ destination }}" method="post" name="{{scale_name}}" id="{{scale_id}}">{% csrf_token %}
+<table width="1400px" border="0" align="center" cellspacing="0">
+  <!--HEADER and legend-->
+  <tr >
+    <td class="sc_table_question_spacer"></td>
+    <td class="sc_table_spacer"></td>
+    <td class="cell_white"><p class="sc_table_legend">-3</p></td>
+    <td class="cell_grey"></td>
+    <td class="cell_white"></td>
+    <td class="cell_grey"></td>
+    <td class="cell_white"></td>
+    <td class="cell_grey"></td>
+    <td class="cell_white"><p class="sc_table_legend">+3</p></td>
+  </tr>
+  <!--QUESTIONIONS-->
+
+<script>
+    var questions = []
+</script>
+    
+  {% for question in questions %}
+  <tr>
+    <td class="sc_question">{{question.text|linebreaksbr}}</td>
+    <!--question_spacer--><td class="sc_table_spacer"></td>
+    <td class="cell_white">
+    <label><input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}-3" />
+    </label></td>
+    <td class="cell_grey">
+    <label><input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}-2" /></label></td>
+    <td class="cell_white">
+    <label><input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}-1" /></label></td>
+    <td class="cell_grey">
+    <label><input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}0" /></label></td>
+    <td class="cell_white">
+    <label><input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}+1" /></label></td>
+    <td class="cell_grey">
+    <label><input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}+2" /></label></td>
+    <td class="cell_white">
+    <label><input type="radio" name="{{ scale_name }}Q{{question.id}}" value="{{ scale_name }}+3" /></label></td>
+
+{# <script> #}
+{#     $('form[name="{{scale_name}}"]').submit( function() { #}
+{#         alert('shitstorm!!!'); #}
+{#     }); #}
+{#  #}
+{# </script> #}
+<script>
+    var question = $('input[name={{ scale_name }}Q{{question.id}}]')
+    questions.push(question);
+    {% if DEBUG %}console.log(question); {% endif %}
+</script>
+               {% endfor %}
+  </tr>
+</table>
+
+{% if DEBUG %} <div id="allErrors"></div> {% endif %}
+<br/>
+<br/>
+<div style="margin-left:auto; margin-right:auto;width:500px;">
+<div id="errorField" style="display:none" ></div>
+</div>
+<br/>
+<br/>
+{# <div id="errCont">You have missed out at least 1 Question!</div> #}
+{% if validation %}
+<script>
+    $(this).ready(function(){
+        console.log("{{validation}}");
+        var scaleform = $('form[name="{{scale_name}}"]');
+        console.log('validation is running...');
+        var validator = scaleform.validate({
+            {# turn off debug to truly submit! #}
+            debug: true,
+            rules: {
+                {# . und () {} sind nicht erlaubt in rules... #}
+                {# $.each(questions, function(index, value ){ #}
+                {#     value: "required", )}#}
+                {% for question in questions %}
+                    {{ scale_name }}Q{{question.id}}: "required",
+                    {% endfor %}
+                },
+            {# only executed on form submit!!! hiding of off error #}
+            {# has to be solved with another funtion, eg: errorContainer #}
+            invalidHandler: function({{ scale_name }}, validator) {
+                var errors = validator.numberOfInvalids();
+                console.log('errors:', errors)
+                if (errors) {
+                  var message = errors == 1
+                  ? 'Missing'
+                  : 'Missed ' + errors + ' fields.';
+                $("#errorField").text('You have left ' + errors + ' questions unanswered!');
+                {# $("div.arr span").text(message); #}
+                $("#errorField").show();
+                  } else {
+                $("#errorField").hide();
+                  }
+              },
+            messages: {
+                {% for question in questions %}
+                    {{ scale_name }}Q{{question.id}}: "Question {{ question.id }} is required!",
+                    {% endfor %}
+            },
+                errorClass: "invalid",
+            {# error destination id #}
+            errorLabelContainer: "#allErrors",
+            errorContainer: "#errorField",            
+            {# wraps EVERY error inside wrapper: #}
+            wrapper: "ul", 
+            errorElement: "em",
+            {# debug only #}
+            submitHandler: function() { 
+                {# alert("Submitted!")  #}
+                // do other stuff for a valid form
+                {{ scale_name }}.submit();
+            }
+        });
+    });
+  </script>
+  {% endif %}  
+  {# endif validation #}
+<script>
+{% if DEBUG %}
+$.each(questions, function( index, value ) {
+    console.log( index,': ', value );
+});
+{% endif %}
+</script>
+
+<div id="divTest1"></div>
+<script >
+console.log({% if DEBUG %} 'debug mode is true' {% else %} 'no, no, debug...' {% endif %});
+</script>
+
+<br />
+<br />
+{% if error %}
+    <p id="error">You have not answered {{ error|length }} questions, yet! Please fill in the remaining fields to continue.</p>
+    {% endif %}
+
+<input type="submit" class="weiter" value="{{lb_button_continue}}" />
+
+</form>
+{% endblock %}

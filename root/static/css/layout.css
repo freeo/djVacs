@@ -51,3 +51,33 @@ body.loading {
 .table_info tr:nth-of-type(even){
 	background:#ddd;	
 }
+.dark1 {
+	background:#ccc;	
+}
+.dark2 {
+	background:#ddd;	
+}
+.table_attribute {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 22px;
+	font-weight: bold;	
+	vertical-align:middle;
+	text-align: center;
+	/* width:250px; */
+	height: 40px;
+}
+.table_level {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	vertical-align:middle;
+	/* padding-left:20px; */
+	text-align: center;
+	width:200px;
+	height: 40px;
+}
+.level_dark1 {
+    background:#c8c8c8;
+}
+.level_dark2 {
+    background:#d80;
+}

@@ -76,3 +76,18 @@ basic differences:
 use {} instead if []
 \ escapes /
 & substitution string (matches %s % python behaviour)
+
+Neuer versuch:
+%s/{{\s\(\w\+\)\s}}/{% if \1 %}  {% endif %}/gc
+{} nur fuer quantifizierung
+[] fuer gruppen: [vV] kleines oder grosses v [a-Z] findet 1 char von a bis Z, keine mengenangabe!
+\(XXX\) rueckgriff, backreference: bei subst cmds kann ich auf XXX zugreifen mit \1
+
+########################################################################
+########################################################################
+########################################################################
+Nifty
+command history:
+nur anschauen: hist
+editieren (dient dem rauskopieren von cmds): q:
+

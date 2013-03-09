@@ -21,8 +21,21 @@ validatedCTs = {}
 groupName = {'1':'increasing','2':'decreasing','3':'baselinehigh','4':'baselinelow'}
 scale_order_ids = {}
 scale_names = ['rnd_max', 'rnd_regret', 'rnd_involvement', 'rnd_searchgoals', 'rnd_happiness']
-session = {}
+# session = {}
+namelist = ['A','B','C','D','E','F','G','H']
 max_task_size = 21
+conjoint1={'food':'one star','service':'high','building':'hotel complex','seaview':'no sea view','price':'$299','room':'standard'}
+conjoint2={'food':'one star','service':'high','building':'bungalow','seaview':'full sea view','price':'$299','room':'deluxe'}
+conjoint3={'food':'three stars','service':'high','building':'hotel complex','seaview':'no sea vie','price':'$499','room':'deluxe'}
+conjoint4={'food':'one star','service':'low ','building':'hotel complex','seaview':'full sea view','price':'$499','room':'deluxe'}
+conjoint5={'food':'three stars','service':'low ','building':'hotel complex','seaview':'full sea view','price':'$299','room':'standard'}
+conjoint6={'food':'three stars','service':'high','building':'bungalow','seaview':'full sea view','price':'$499','room':'standard'}
+conjoint7={'food':'one star','service':'low ','building':'bungalow','seaview':'no sea view','price':'$499','room':'standard'}
+conjoint8={'food':'three stars','service':'low ','building':'bungalow','seaview':'no sea view','price':'$299','room':'deluxe'}
+conjoint = [conjoint1,conjoint2,conjoint3,conjoint4,conjoint5,conjoint6,conjoint7,conjoint8]
+
+def getConjoint(index):
+    return conjoint[index]
 
 def infoObject(*args):
     output = ''
@@ -174,6 +187,12 @@ def checkNextTask(curr_page):
     else:
         return False
 
+def checkNextConjoint(curr_conjoint):
+    if curr_conjoint+1 < len(conjoint):
+        return True
+    else:
+        return False
+
 def getTask(task_nr):
     #maps a choice task to template: table.html
     #cells of attributes: can wait...
@@ -213,11 +232,15 @@ def mapCT(dictKeys, rawvalues, nameindex):
     optionSTR = ast.literal_eval(rawvalues)
     option = [int(x) for x in optionSTR]
     temp = {}
-    temp[dictKeys[0]] = nameindex+1
+    #Option Header in table
+    temp[dictKeys[0]] = 'Option '+ mapNameindex(nameindex)
     #uses +1 offset for header of alternative: 'a1'
     for j in range(1, len(option) +1, 1):
         temp[dictKeys[j]] = mapAttrLevel(option[j-1]-1, j)
     return temp
+
+def mapNameindex(nameindex):
+    return namelist[nameindex]
 
 def mapAttrLevel(lvlvalue, attrposition):
     a = attributes.get(position = attrposition)
@@ -272,9 +295,10 @@ def get_scale_context(scale_name_string):
     restoreCheck = [None]*7
     for i in range(0, len(question_order),1):
         qtext = scale_questions.questions[scale_name_string][question_order[i]-1]
+        qcaption= scale_questions.question_captions[scale_name_string][question_order[i]-1]
         qid = question_order[i]
-        q = {'text':qtext,'id':qid}
+        q = {'text':qtext,'id':qid, 'caption':qcaption}
         questions.append(q)
-    lb_button_continue = 'Continue'
-    context = {'question_title': question_title,'scale_name':scale_name, 'scale_id':scale_id,'questions':questions ,'lb_button_continue':lb_button_continue, 'restoreCheck':restoreCheck}
+    # lb_button_continue = 'Continue'
+    context = {'question_title': question_title,'scale_name':scale_name, 'scale_id':scale_id,'questions':questions , 'restoreCheck':restoreCheck}
     return context
