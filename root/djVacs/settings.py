@@ -12,7 +12,9 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'E:/djVacs/database/VacsSQLite.db',                      # Or path to database file if using sqlite3.
+
+        'NAME': '/home/beefeyetracker/djVacs/database/VacsSQLite.db',                      # Or path to database file if using sqlite3.
+        # 'NAME': 'E:/djVacs/database/VacsSQLite.db',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -86,7 +88,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = root() + '\\static\\'
+STATIC_ROOT = root() + '/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -129,25 +131,25 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-DEBUG_TOOLBAR_PANELS = (
-    'debug_toolbar.panels.version.VersionDebugPanel',
-    'debug_toolbar.panels.timer.TimerDebugPanel',
-    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
-    'debug_toolbar.panels.headers.HeaderDebugPanel',
-    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
-    'debug_toolbar.panels.template.TemplateDebugPanel',
-    'debug_toolbar.panels.sql.SQLDebugPanel',
-    'debug_toolbar.panels.signals.SignalDebugPanel',
-    'debug_toolbar.panels.logger.LoggingPanel',
-)
+# DEBUG_TOOLBAR_PANELS = (
+#     'debug_toolbar.panels.version.VersionDebugPanel',
+#     'debug_toolbar.panels.timer.TimerDebugPanel',
+#     'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
+#     'debug_toolbar.panels.headers.HeaderDebugPanel',
+#     'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
+#     'debug_toolbar.panels.template.TemplateDebugPanel',
+#     'debug_toolbar.panels.sql.SQLDebugPanel',
+#     'debug_toolbar.panels.signals.SignalDebugPanel',
+#     'debug_toolbar.panels.logger.LoggingPanel',
+# )
 
-DEBUG_TOOLBAR_CONFIG = {
-    'INTERCEPT_REDIRECTS': False
-    # 'SHOW_TOOLBAR_CALLBACK': custom_show_toolbar,
-    # 'EXTRA_SIGNALS': ['myproject.signals.MySignal'],
-    # 'HIDE_DJANGO_SQL': False,
-    # 'TAG': 'div',
-}
+# DEBUG_TOOLBAR_CONFIG = {
+#     'INTERCEPT_REDIRECTS': False
+#     # 'SHOW_TOOLBAR_CALLBACK': custom_show_toolbar,
+#     # 'EXTRA_SIGNALS': ['myproject.signals.MySignal'],
+#     # 'HIDE_DJANGO_SQL': False,
+#     # 'TAG': 'div',
+# }
 
 ROOT_URLCONF = 'djVacs.urls'
 
@@ -167,18 +169,18 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
     'eyevacs.context_processors.debug',
     )
 
-INTERNAL_IPS = ('127.0.0.1',)
+# INTERNAL_IPS = ('127.0.0.1',)
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     #"E:/djVacs/templates",
-    root() + '\\templates',
+    root() + '/templates',
 )
 
 LOCALE_PATHS = (
-    root() + '\\locale',
+    root() + '/locale',
 )
 
 

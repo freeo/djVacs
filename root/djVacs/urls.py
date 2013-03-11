@@ -26,6 +26,9 @@ urlpatterns += patterns('',
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/favicon.ico')),
 )
 
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+urlpatterns += staticfiles_urlpatterns()
+
 '''
 #same as:
 urlpatterns += patterns('djVacs.views',
