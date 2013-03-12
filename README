@@ -1,0 +1,16 @@
+djVacs
+Eyetracking Vacations
+EyeVacs powered by Django
+-------------------------
+
+2 branches: 
+1. development
+2. http://beefeyetracker.pythonanywhere.com
+
+
+
+Note: all script files have to be executed from within this parent folder! This is due to the corresponding "shell", which is invoked by:
+
+python manage.py shell
+
+This is needed for the relative adressing to work properly from within the "scripts" folder.
