@@ -349,15 +349,27 @@ label:active {
     color:#000;
     /*color:#e22;*/
 }
+.mainError{
+    /* crucial for centered bottom abs positioning   */
+    bottom: 85px;
+    width: 700px;
+  	margin-right: auto;
+	margin-left: auto;
+    position:absolute;
+    /* non crucial */
+    font-family:"Droid Sans Mono", Courier, monospace;
+    background:#eee;
+	text-align: center;
+	font-size: 28px;
+    font-weight: bold;
+    color:#000;
+    /*color:#e22;*/
+}
 .invalid{
     font-family:"Droid Sans Mono", Courier, monospace;
 	/* text-align: center; */
 	font-size: 16px;
-    /* ACHTUNG XXX ERROR BUG*/
-    /* ACHTUNG XXX ERROR BUG*/
-    /* ACHTUNG XXX ERROR BUG*/
-    /* PFUSCH mit dem color!!!*/
-    color:#fff;
+    /* color:#e44; */
 }
 .transit_header {
     background:#444;

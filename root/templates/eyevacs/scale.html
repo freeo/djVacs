@@ -154,6 +154,8 @@
                     {{ scale_name }}Q{{question.id}}: "required",
                     {% endfor %}
                 },
+            {# empty function places the usually obligatory error messages into nowhere #}
+            errorPlacement: function(error, element) {},
             {# only executed on form submit!!! hiding of off error #}
             {# has to be solved with another funtion, eg: errorContainer #}
             invalidHandler: function({{ scale_name }}, validator) {
@@ -177,11 +179,11 @@
             },
                 errorClass: "invalid",
             {# error destination id #}
-            errorLabelContainer: "#allErrors",
-            errorContainer: "#errorField",            
+            {# errorLabelContainer: "#allErrors", #}
+            {# errorContainer: "#errorField",             #}
             {# wraps EVERY error inside wrapper: #}
-            wrapper: "ul", 
-            errorElement: "em",
+            {# wrapper: "ul",  #}
+            {# errorElement: "em", #}
             {# debug only #}
             submitHandler: function(scaleform) { 
                 {# alert("Submitted!")  #}

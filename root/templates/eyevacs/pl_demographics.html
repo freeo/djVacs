@@ -96,7 +96,79 @@
 </div>
 
 <input name="pl_demographics_continue" type="submit" class="weiter" value={{bt_label}} />
+
 </form>
+{# ######################################################################## #}
+<div class="debugtext"></div>
+
+<script>
+    $(this).ready(function(){
+        window.log('clicker ready');
+        {# both working #}
+        $("input").change(function(){
+            {# Highlight selected item #}
+            var checkedRadio = $("input:checked");
+            checkedRadio.each(function(i){
+                window.log('click!');
+                itemID = $(this).attr("id");
+                {# $(".debugtext").html(itemID); #}
+                $("label[for="+itemID+"]").addClass("highlight");
+                });
+            {# revert others to default color  #}
+            var unCheckedRadio = $("input:not(:checked)");
+            unCheckedRadio.each(function(i){
+                itemID = $(this).attr("id");
+                $("label[for="+itemID+"]").removeClass("highlight");
+                });
+            });
+        });
+</script>
+
+{# ######################################################################## #}
+ 
+<div style="margin-left:auto; margin-right:auto;width:700px;">
+<div id="fatError" style="" </div>
+</div>
+
+{# ######################################################################## #}
+
+{% if validation %}
+<script>
+    $(this).ready(function(){
+        var thisform = $('form');
+        window.log('validation is running...');
+        var validator = thisform.validate({
+            {# turn off debug to truly submit! #}
+            debug: true,
+            rules: {
+                {# . und () {} sind nicht erlaubt in rules... #}
+                gender: "required",
+                age: "required",
+                },
+            {# empty function places the usually obligatory error messages into nowhere #}
+            errorPlacement: function(error, element) {},
+            messages: {
+                {# gender: "some error msg", #}
+                {# age: "some error msg", #}
+            },
+            showErrors: function(errorMap, errorList) {
+                $("#fatError").addClass("mainError");
+                $("#fatError").text("You have left "
+                                               + this.numberOfInvalids() 
+                                               + " questions unanswered!");
+                this.defaultShowErrors();
+              },
+            errorClass: "invalid",
+            {# debug only #}
+            submitHandler: function(thisform) { 
+                // do other stuff for a valid form
+                thisform.submit();
+            }
+        });
+    });
+  </script>
+  {% endif %}
+<!-- #### END VALIDATION ############################################# -->
 
 <!-- ################################################################# -->
 {% endblock %}

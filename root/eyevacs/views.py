@@ -15,19 +15,6 @@ default_page_order = []
 bt_label = "Continue"
 validation = False
 singlepagedebug = False
-urlsequence = [
-    'eyevacs.views.welcome',
-    'eyevacs.views.rnd_regret',
-    'eyevacs.views.rnd_regret',
-    #'filler/',
-    'eyevacs.views.pl_experience',
-    'eyevacs.views.explanation',
-    #ct system, not yet designed
-    'eyevacs.views.ct0',
-    'eyevacs.views.rnd_searchgoals',
-    'eyevacs.views.rnd_happiness',
-    'eyevacs.views.pl_demographics',
-    'eyevacs.views.temp']
 
 def allUrls():
     outputlist = []
@@ -44,7 +31,7 @@ def allUrls():
     outputlist.append(reverse('eyevacs.views.transit', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
     outputlist.append(reverse('eyevacs.views.transit_select', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
     outputlist.append(reverse('eyevacs.views.rnd_searchgoals', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
-    outputlist.append(reverse('eyevacs.views.rnd_happiness', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
+    # outputlist.append(reverse('eyevacs.views.rnd_happiness', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
     outputlist.append(reverse('eyevacs.views.pl_demographics', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
     outputlist.append(reverse('eyevacs.views.finalPage', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
     return outputlist
@@ -64,17 +51,6 @@ def temp(request):
     context = Context(data)
     debugpostdata(data, request.POST)
     return render(request, 'eyevacs/0preview1650.html', context)
-
-# def errorTemp(request):
-
-def paginator(origin):
-    #analyze the request
-    #where did i come from, where do i go?
-    global urlsequence
-    for i in range(0, len(urlsequence),1):
-        if urlsequence[i] == origin:
-            return urlsequence[i+1]
-            break
 
 #set language and create participant, show experiment info!
 #Idee: /x/lang/ fuer jedes x! redirect_to = x also zurueck /x/
@@ -335,7 +311,7 @@ def transit_select(request, exp_id, pcpt_id):
 def rnd_searchgoals(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     reqcontext = pcpt.get_scale_context('rnd_searchgoals')
-    destination = reverse('eyevacs.views.rnd_happiness', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
+    destination = reverse('eyevacs.views.pl_demographics', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
     reqcontext['bt_label'] = bt_label
     extracaption = {'left':'I do not agree at all', 'right':'I agree very much'}
     reqcontext['extracaption'] = extracaption
@@ -344,19 +320,22 @@ def rnd_searchgoals(request, exp_id, pcpt_id):
     return render(request, 'eyevacs/scale.html', reqcontext)
 
 def rnd_happiness(request, exp_id, pcpt_id):
-    request.session.update(request.POST)
-    reqcontext = pcpt.get_scale_context('rnd_happiness')
-    destination = reverse('eyevacs.views.pl_demographics', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
-    reqcontext['bt_label'] = bt_label
-    reqcontext['destination'] = destination
-    reqcontext['validation'] = validation
-    return render(request, 'eyevacs/scale.html', reqcontext)
+    pass
+    # sorry happiness scale... you're out.
+    # request.session.update(request.POST)
+    # reqcontext = pcpt.get_scale_context('rnd_happiness')
+    # destination = reverse('eyevacs.views.pl_demographics', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
+    # reqcontext['bt_label'] = bt_label
+    # reqcontext['destination'] = destination
+    # reqcontext['validation'] = validation
+    # return render(request, 'eyevacs/scale.html', reqcontext)
 
 def pl_demographics(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     destination = reverse('eyevacs.views.finalPage', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
     site_vars = {'destination': destination, 'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
+    reqcontext['validation'] = validation
     # debugpostdata(reqcontext, request.POST)
     return render (request, 'eyevacs/pl_demographics.html', reqcontext)
 

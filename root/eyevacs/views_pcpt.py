@@ -218,7 +218,7 @@ def getTask(task_nr):
     alts.append(a6keys)
     alts.append(a7keys)
     alts.append(a8keys)
-    altModel = [task.a1, task.a2, task.a3, task.a3, task.a4, task.a5, task.a6,task.a7, task.a8]
+    altModel = [task.a1, task.a2, task.a3, task.a4, task.a5, task.a6,task.a7, task.a8]
     for i in range(0, task.amount, 1):
         templ.update(mapCT(alts[i], altModel[i], i))
         #taskbysequenceviewn_amountofalternatives_choosenalternative_taskuniquepk
