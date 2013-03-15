@@ -1,0 +1,110 @@
+{% extends 'eyevacs/0preview1650.html' %}
+{% block body %}
+{% load i18n %}    
+{% load staticfiles %}
+<!-- ################################################################# -->
+
+{# <p class="question_title"></p> #}
+<form action={{destination}} method="post" name="explanation" >
+{% csrf_token %}
+{# <p class="full_page_text"> #}
+<br/>
+<br/>
+<br/>
+<br/>
+<p class="explanation_title">Sea view</p>
+<p class="full_page_text">
+The rooms in your hotel also vary in terms of whether they have a sea view. Some hotels offer you a room with a full sea view, while others offer a side sea view or no sea view at all. <br/>
+</p>
+<br/>
+<div style="margin-left:200px;">
+<img src="{% static "img/no_view.jpg" %}" style="height:150px" >
+<img src="{% static "img/side_view.jpg" %}" style="height:150px" >
+<img src="{% static "img/full_view.jpg" %}" style="height:150px" >
+</div><br/>
+<p class="full_page_text">
+The last time you were in a hotel next to the sea, in terms of the sea view which kind of room did you choose?<br/>
+</p>
+<div class="rg" style="margin-left:200px;">
+<table style="width:600px;">
+<tr><td class="rg_text_line_no_lite"><label for="exp_view_full" ><input id="exp_view_full" type="radio" name="explanation_view" value="" ></input>
+No sea view</label></tr></td>
+<tr><td class="rg_text_line_hi_lite"><label for="exp_view_side" ><input id="exp_view_side" type="radio" name="explanation_view" value="" ></input>
+Side sea view</label></tr></td>
+<tr><td class="rg_text_line_no_lite"><label for="exp_view_no" ><input id="exp_view_no" type="radio" name="explanation_view" value="" ></input>
+Full sea view</label></tr></td>
+</table>
+</div>
+
+<input name="begin_radio_weiter" type="submit" class="weiter" value={{bt_label}} />
+</form>
+
+{# ######################################################################## #}
+{# HIGHLIGHTING ALL ACTIVE LABELS #}
+<div class="debugtext"></div>
+<script>
+    $(this).ready(function(){
+        window.log('clicker ready');
+        $("input").change(function(){
+            {# Highlight selected item #}
+            var checkedRadio = $("input:checked");
+            checkedRadio.each(function(i){
+                window.log('click!');
+                itemID = $(this).attr("id");
+                {# $(".debugtext").html(itemID); #}
+                $("label[for="+itemID+"]").addClass("highlight");
+                });
+            {# revert others to default color  #}
+            var unCheckedRadio = $("input:not(:checked)");
+            unCheckedRadio.each(function(i){
+                itemID = $(this).attr("id");
+                $("label[for="+itemID+"]").removeClass("highlight");
+                });
+            });
+        });
+</script>
+{# END # HIGHLIGHTING ALL ACTIVE LABELS ################################### #}
+
+{# ######################################################################## #}
+{# VALIDATE ALL REQUIRED INPUTS  #}
+<div style="margin-left:auto; margin-right:auto;width:700px;">
+<div id="fatError" style=""></div>
+
+{% if validation %}
+<script>
+    $(this).ready(function(){
+        var thisform = $('form');
+        window.log('validation is running...');
+        var validator = thisform.validate({
+            {# turn off debug to truly submit! #}
+            debug: true,
+            rules: {
+                explanation_view: "required",
+                },
+            {# empty function places the usually obligatory error messages into nowhere #}
+            errorPlacement: function(error, element) {},
+            showErrors: function(errorMap, errorList) {
+                $("#fatError").addClass("mainError");
+                $("#fatError").text("You have left "
+                                               + this.numberOfInvalids() 
+                                               + " questions unanswered!");
+                var errors = validator.numberOfInvalids();
+                if (!errors) {
+                    window.log('hiding   ..  ');
+                    $("#fatError").hide();
+                };
+            },
+            errorClass: "invalid",
+            {# debug only #}
+            submitHandler: function(thisform) { 
+                // do other stuff for a valid form
+                thisform.submit();
+            }
+        });
+    });
+  </script>
+{% endif %}
+{# END # VALIDATE ALL REQUIRED INPUTS ##################################### #}
+
+<!-- ################################################################# -->
+{% endblock %}

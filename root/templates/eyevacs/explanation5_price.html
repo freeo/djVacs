@@ -1,0 +1,107 @@
+{% extends 'eyevacs/0preview1650.html' %}
+{% block body %}
+{% load i18n %}    
+{% load staticfiles %}
+<!-- ################################################################# -->
+
+{# <p class="question_title"></p> #}
+<form action={{destination}} method="post" name="explanation" >
+{% csrf_token %}
+{# <p class="full_page_text"> #}
+<br/>
+<div style="margin-left:120px;">
+<img src="{% static "img/money.jpg" %}"><br/>
+</div>
+<p class="explanation_title">Price</p>
+<p class="full_page_text">
+Hotels also differ with respect to prices. All hotels offer special rates for a weekend stay (two nights) which already include catering. Special rates range from $699 to $899 per person for a one week stay.<br/>
+<br/>
+In our example your rich relative has given you $2000 to go on vacation for you and a friend. However, paying the stay out of your own pocket, what would be the maximum you would be willing to spend for a one week stay? <br/>
+<br/>
+</p>
+<div style="margin-left:200px;" >
+<select name="explanation_price" style="width:600px;height:35px;font-size:20px;font-weight:normal;">
+<option value=""> --select-- </option>
+<option value="300">$300</option>
+<option value="400">$400</option>
+<option value="500">$500</option>
+<option value="600">$600</option>
+<option value="700">$700</option>
+<option value="800">$800</option>
+<option value="900">$900</option>
+<option value="1000">$1000</option>
+</select> 
+</div>
+
+<input name="begin_radio_weiter" type="submit" class="weiter" value={{bt_label}} />
+</form>
+
+{# ######################################################################## #}
+{# HIGHLIGHTING ALL ACTIVE LABELS #}
+<div class="debugtext"></div>
+<script>
+    $(this).ready(function(){
+        window.log('clicker ready');
+        $("input").change(function(){
+            {# Highlight selected item #}
+            var checkedRadio = $("input:checked");
+            checkedRadio.each(function(i){
+                window.log('click!');
+                itemID = $(this).attr("id");
+                {# $(".debugtext").html(itemID); #}
+                $("label[for="+itemID+"]").addClass("highlight");
+                });
+            {# revert others to default color  #}
+            var unCheckedRadio = $("input:not(:checked)");
+            unCheckedRadio.each(function(i){
+                itemID = $(this).attr("id");
+                $("label[for="+itemID+"]").removeClass("highlight");
+                });
+            });
+        });
+</script>
+{# END # HIGHLIGHTING ALL ACTIVE LABELS ################################### #}
+
+{# ######################################################################## #}
+{# VALIDATE ALL REQUIRED INPUTS  #}
+<div style="margin-left:auto; margin-right:auto;width:700px;">
+<div id="fatError" style=""></div>
+
+{% if validation %}
+<script>
+    $(this).ready(function(){
+        var thisform = $('form');
+        window.log('validation is running...');
+        var validator = thisform.validate({
+            {# turn off debug to truly submit! #}
+            debug: true,
+            rules: {
+                explanation_price: "required",
+                },
+            {# empty function places the usually obligatory error messages into nowhere #}
+            errorPlacement: function(error, element) {},
+            showErrors: function(errorMap, errorList) {
+                $("#fatError").addClass("mainError");
+                $("#fatError").text("You have left "
+                                               + this.numberOfInvalids() 
+                                               + " questions unanswered!");
+                var errors = validator.numberOfInvalids();
+                if (!errors) {
+                    window.log('hiding   ..  ');
+                    $("#fatError").hide();
+                };
+            },
+            errorClass: "invalid",
+            {# debug only #}
+            submitHandler: function(thisform) { 
+                // do other stuff for a valid form
+                thisform.submit();
+            }
+        });
+    });
+  </script>
+{% endif %}
+{# END # VALIDATE ALL REQUIRED INPUTS ##################################### #}
+
+<!-- ################################################################# -->
+{% endblock %}

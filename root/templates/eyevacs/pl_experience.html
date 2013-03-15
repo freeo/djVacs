@@ -5,8 +5,9 @@
 <!-- ################################################################# -->
 
 </br>
-<p class="question_title">Let’s come to vacation packages now:</p>
-
+<p class="question_title">Now let’s come to the main topic of this survey which is vacation packages. In the following a vacation package describes a hotel you choose for a summer holiday which already includes catering.
+</p>
+{# Let’s come to vacation packages now: #}
 <form action="{{ destination }}" method="post" name="pl_experience">
 {% csrf_token %}
 <div class="rg">
@@ -97,7 +98,6 @@
             {# Highlight selected item #}
             var checkedRadio = $("input:checked");
             checkedRadio.each(function(i){
-                window.log('click!');
                 itemID = $(this).attr("id");
                 {# $(".debugtext").html(itemID); #}
                 $("label[for="+itemID+"]").addClass("highlight");
@@ -112,63 +112,40 @@
         });
 </script>
 {# ######################################################################## #}
-
-{% if DEBUG %} <div id="allErrors"></div> {% endif %}
-<br/>
-<br/>
-<div style="margin-left:auto; margin-right:auto;width:500px;">
-<div id="errorField" style="display:none" ></div>
+ 
+<div style="margin-left:auto; margin-right:auto;width:700px;">
+<div id="fatError" style="" </div>
 </div>
-<br/>
-<br/>
-{# <div id="errCont">You have missed out at least 1 Question!</div> #}
+
 {% if validation %}
 <script>
     $(this).ready(function(){
-        var thisform = $('form[name="pl_experience"]');
+        var thisform = $('form');
         window.log('validation is running...');
         var validator = thisform.validate({
             {# turn off debug to truly submit! #}
             debug: true,
             rules: {
-                {# . und () {} sind nicht erlaubt in rules... #}
-                {# $.each(questions, function(index, value ){ #}
-                {#     value: "required", )}#}
                 experience_lastvacation: "required",
                 experience_planningvacation: "required",
                 experience_searchduration: "required",
                 },
-            {# only executed on form submit!!! hiding of off error #}
-            {# has to be solved with another funtion, eg: errorContainer #}
-            invalidHandler: function(pl_experience, validator) {
+            {# empty function places the usually obligatory error messages into nowhere #}
+            errorPlacement: function(error, element) {},
+            showErrors: function(errorMap, errorList) {
+                $("#fatError").addClass("mainError");
+                $("#fatError").text("You have left "
+                                               + this.numberOfInvalids() 
+                                               + " questions unanswered!");
                 var errors = validator.numberOfInvalids();
-                window.log('errors:', errors)
-                if (errors) {
-                  var message = errors == 1
-                  ? 'Missing'
-                  : 'Missed ' + errors + ' fields.';
-                $("#errorField").text('You have left ' + errors + ' questions unanswered!');
-                {# $("div.arr span").text(message); #}
-                $("#errorField").show();
-                  } else {
-                $("#errorField").hide();
-                  }
-              },
-            messages: {
-                experience_lastvacation: "You did not answer your last vacation!",
-                experience_planningvacation:"You did not answer your planning vacation!",
-                experience_searchduration: "You did not answer your search duration!",
+                if (!errors) {
+                    window.log('hiding   ..  ');
+                    $("#fatError").hide();
+                };
             },
-                errorClass: "invalid",
-            {# error destination id #}
-            errorLabelContainer: "#allErrors",
-            errorContainer: "#errorField",            
-            {# wraps EVERY error inside wrapper: #}
-            wrapper: "ul", 
-            errorElement: "em",
+            errorClass: "invalid",
             {# debug only #}
             submitHandler: function(thisform) { 
-                {# alert("Submitted!")  #}
                 // do other stuff for a valid form
                 thisform.submit();
             }
@@ -176,5 +153,7 @@
     });
   </script>
   {% endif %}
+<!-- #### END VALIDATION ############################################# -->
+
 <!-- ################################################################# -->
 {% endblock %}

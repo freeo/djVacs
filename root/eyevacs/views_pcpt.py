@@ -24,14 +24,14 @@ scale_names = ['rnd_max', 'rnd_regret', 'rnd_involvement', 'rnd_searchgoals', 'r
 # session = {}
 namelist = ['A','B','C','D','E','F','G','H']
 max_task_size = 21
-conjoint1={'food':'one star','service':'high','building':'hotel complex','seaview':'no sea view','price':'$299','room':'standard'}
-conjoint2={'food':'one star','service':'high','building':'bungalow','seaview':'full sea view','price':'$299','room':'deluxe'}
-conjoint3={'food':'three stars','service':'high','building':'hotel complex','seaview':'no sea vie','price':'$499','room':'deluxe'}
-conjoint4={'food':'one star','service':'low ','building':'hotel complex','seaview':'full sea view','price':'$499','room':'deluxe'}
-conjoint5={'food':'three stars','service':'low ','building':'hotel complex','seaview':'full sea view','price':'$299','room':'standard'}
-conjoint6={'food':'three stars','service':'high','building':'bungalow','seaview':'full sea view','price':'$499','room':'standard'}
-conjoint7={'food':'one star','service':'low ','building':'bungalow','seaview':'no sea view','price':'$499','room':'standard'}
-conjoint8={'food':'three stars','service':'low ','building':'bungalow','seaview':'no sea view','price':'$299','room':'deluxe'}
+conjoint1={'id':'1','food':'good','recommending':'90%','distance':'1 km','view':'no sea view','price':'$699','room':'standard'}
+conjoint2={'id':'2','food':'good','recommending':'90%','distance':'3 km','view':'full sea view','price':'$699','room':'deluxe'}
+conjoint3={'id':'3','food':'excellent','recommending':'90%','distance':'1 km','view':'no sea vie','price':'$899','room':'deluxe'}
+conjoint4={'id':'4','food':'good','recommending':'50%','distance':'1 km','view':'full sea view','price':'$899','room':'deluxe'}
+conjoint5={'id':'5','food':'excellent','recommending':'50%','distance':'1 km','view':'full sea view','price':'$699','room':'standard'}
+conjoint6={'id':'6','food':'excellent','recommending':'90%','distance':'3 km','view':'full sea view','price':'$899','room':'standard'}
+conjoint7={'id':'7','food':'good','recommending':'50%','distance':'3 km','view':'no sea view','price':'$899','room':'standard'}
+conjoint8={'id':'8','food':'excellent','recommending':'50%','distance':'3 km','view':'no sea view','price':'$699','room':'deluxe'}
 conjoint = [conjoint1,conjoint2,conjoint3,conjoint4,conjoint5,conjoint6,conjoint7,conjoint8]
 
 def getConjoint(index):
@@ -207,8 +207,7 @@ def getTask(task_nr):
     a6keys = ['rc17', 'rc27', 'rc37', 'rc47', 'rc57', 'rc67', 'rc77' ]
     a7keys = ['rc18', 'rc28', 'rc38', 'rc48', 'rc58', 'rc68', 'rc78' ]
     a8keys = ['rc19', 'rc29', 'rc39', 'rc49', 'rc59', 'rc69', 'rc79' ]
-    a0keys = ['rc10', 'rc20', 'rc30', 'rc40', 'rc50', 'rc60', 'rc70' ]
-    buybuttons = ['rc82', 'rc83', 'rc84', 'rc85', 'rc86', 'rc87', 'rc88', 'rc89', 'rc80']
+    buybuttons = ['rc82', 'rc83', 'rc84', 'rc85', 'rc86', 'rc87', 'rc88', 'rc89']
     alts = []
     alts.append(a1keys)
     alts.append(a2keys)
@@ -218,7 +217,7 @@ def getTask(task_nr):
     alts.append(a6keys)
     alts.append(a7keys)
     alts.append(a8keys)
-    altModel = [task.a1, task.a2, task.a3, task.a3, task.a4, task.a5, task.a6,task.a7, task.a8]
+    altModel = [task.a1, task.a2, task.a3, task.a4, task.a5, task.a6,task.a7, task.a8]
     for i in range(0, task.amount, 1):
         templ.update(mapCT(alts[i], altModel[i], i))
         #taskbysequenceviewn_amountofalternatives_choosenalternative_taskuniquepk

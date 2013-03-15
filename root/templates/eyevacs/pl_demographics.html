@@ -5,7 +5,7 @@
 
 <form action={{destination}} method="post" name="pl_demographics" >
 {% csrf_token %}    
-<div class="rg">
+<div class="rg" style="margin-top:100px;">
 <table width="1200px" border="0" align="center" summary="layout table which contains all 4 radio groups including their questions.">
 <!--  <caption>
     begin_radio_table
@@ -96,7 +96,76 @@
 </div>
 
 <input name="pl_demographics_continue" type="submit" class="weiter" value={{bt_label}} />
+
 </form>
+
+{# ######################################################################## #}
+{# HIGHLIGHTING ALL ACTIVE LABELS #}
+<div class="debugtext"></div>
+<script>
+    $(this).ready(function(){
+        window.log('clicker ready');
+        $("input").change(function(){
+            {# Highlight selected item #}
+            var checkedRadio = $("input:checked");
+            checkedRadio.each(function(i){
+                window.log('click!');
+                itemID = $(this).attr("id");
+                {# $(".debugtext").html(itemID); #}
+                $("label[for="+itemID+"]").addClass("highlight");
+                });
+            {# revert others to default color  #}
+            var unCheckedRadio = $("input:not(:checked)");
+            unCheckedRadio.each(function(i){
+                itemID = $(this).attr("id");
+                $("label[for="+itemID+"]").removeClass("highlight");
+                });
+            });
+        });
+</script>
+{# END # HIGHLIGHTING ALL ACTIVE LABELS ################################### #}
+
+{# ######################################################################## #}
+{# VALIDATE ALL REQUIRED INPUTS  #}
+<div style="margin-left:auto; margin-right:auto;width:700px;">
+<div id="fatError" style=""></div>
+
+{% if validation %}
+<script>
+    $(this).ready(function(){
+        var thisform = $('form');
+        window.log('validation is running...');
+        var validator = thisform.validate({
+            {# turn off debug to truly submit! #}
+            debug: true,
+            rules: {
+                gender: "required",
+                age: "required",
+                },
+            {# empty function places the usually obligatory error messages into nowhere #}
+            errorPlacement: function(error, element) {},
+            showErrors: function(errorMap, errorList) {
+                $("#fatError").addClass("mainError");
+                $("#fatError").text("You have left "
+                                               + this.numberOfInvalids() 
+                                               + " questions unanswered!");
+                var errors = validator.numberOfInvalids();
+                if (!errors) {
+                    window.log('hiding   ..  ');
+                    $("#fatError").hide();
+                };
+            },
+            errorClass: "invalid",
+            {# debug only #}
+            submitHandler: function(thisform) { 
+                // do other stuff for a valid form
+                thisform.submit();
+            }
+        });
+    });
+  </script>
+{% endif %}
+{# END # VALIDATE ALL REQUIRED INPUTS ##################################### #}
 
 <!-- ################################################################# -->
 {% endblock %}
