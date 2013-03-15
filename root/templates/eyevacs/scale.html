@@ -3,7 +3,7 @@
 {# 0preview1650 #}
 {% load staticfiles %}
 {%block body %}
-    <div class="question_title">{{question_title }}</div>
+    <div class="question_title">{{question_title|linebreaks }}</div>
     <form action="{{ destination }}" method="post" name="{{scale_name}}" id="{{scale_id}}">{% csrf_token %}
 <div style="height:10px" > </div>
 {# <table width="1400px" border="0" align="center" cellspacing="0"> #}
@@ -44,7 +44,12 @@
 </script>
     
   {% for question in questions %}
-   <tr class="captionrow" >
+
+    {% if not extracaption %}
+       <tr class="captionrow addcaption" >
+    {% else %}
+       <tr class="captionrow" >
+    {% endif %}
         <td class=""></td>
         <td class=""></td>
         <td class=""></td>
@@ -58,6 +63,8 @@
         <td class="caption_cell_white left">
         <p class="caption">{{ question.caption.right }}</p></td>
     </tr> 
+    
+
     <tr class="questionrow" >
         <td class=""></td>
         <td class="sc_question">{{question.text|linebreaksbr}}</td>
@@ -127,75 +134,52 @@
             });
         });
 </script>
+
 {# ######################################################################## #}
-{% if DEBUG %} <div id="allErrors"></div> {% endif %}
-<br/>
-<br/>
-<div style="margin-left:auto; margin-right:auto;width:500px;">
-<div id="errorField" style="display:none" ></div>
+ 
+<div style="margin-left:auto; margin-right:auto;width:700px;">
+<div id="fatError" style="" </div>
 </div>
-<br/>
-<br/>
-{# <div id="errCont">You have missed out at least 1 Question!</div> #}
+
 {% if validation %}
 <script>
     $(this).ready(function(){
-        window.log("{{validation}}");
-        var scaleform = $('form[name="{{scale_name}}"]');
+        var thisform = $('form');
         window.log('validation is running...');
-        var validator = scaleform.validate({
+        var validator = thisform.validate({
             {# turn off debug to truly submit! #}
             debug: true,
             rules: {
-                {# . und () {} sind nicht erlaubt in rules... #}
-                {# $.each(questions, function(index, value ){ #}
-                {#     value: "required", )}#}
                 {% for question in questions %}
-                    {{ scale_name }}Q{{question.id}}: "required",
-                    {% endfor %}
+                {{ scale_name }}Q{{question.id}}: "required",
+                {% endfor %}
                 },
             {# empty function places the usually obligatory error messages into nowhere #}
             errorPlacement: function(error, element) {},
-            {# only executed on form submit!!! hiding of off error #}
-            {# has to be solved with another funtion, eg: errorContainer #}
-            invalidHandler: function({{ scale_name }}, validator) {
+            showErrors: function(errorMap, errorList) {
+                $("#fatError").addClass("mainError");
+                $("#fatError").text("You have left "
+                                               + this.numberOfInvalids() 
+                                               + " questions unanswered!");
                 var errors = validator.numberOfInvalids();
-                window.log('errors:', errors)
-                if (errors) {
-                  var message = errors == 1
-                  ? 'Missing'
-                  : 'Missed ' + errors + ' fields.';
-                $("#errorField").text('You have left ' + errors + ' questions unanswered!');
-                {# $("div.arr span").text(message); #}
-                $("#errorField").show();
-                  } else {
-                $("#errorField").hide();
-                  }
-              },
-            messages: {
-                {% for question in questions %}
-                    {{ scale_name }}Q{{question.id}}: "Question {{ question.id }} is required!",
-                    {% endfor %}
+                if (!errors) {
+                    window.log('hiding   ..  ');
+                    $("#fatError").hide();
+                };
             },
-                errorClass: "invalid",
-            {# error destination id #}
-            {# errorLabelContainer: "#allErrors", #}
-            {# errorContainer: "#errorField",             #}
-            {# wraps EVERY error inside wrapper: #}
-            {# wrapper: "ul",  #}
-            {# errorElement: "em", #}
+            errorClass: "invalid",
             {# debug only #}
-            submitHandler: function(scaleform) { 
-                {# alert("Submitted!")  #}
+            submitHandler: function(thisform) { 
                 // do other stuff for a valid form
-                scaleform.submit();
-                {# {{ scale_name }}.submit(); #}
+                thisform.submit();
             }
         });
     });
   </script>
-  {% endif %}  
-  {# endif validation #}
+  {% endif %}
+<!-- #### END VALIDATION ############################################# -->
+
+
 <script>
 {% if DEBUG %}
     $(this).ready(function(){
@@ -206,6 +190,8 @@
 {% endif %}
 </script>
 
+{# ######################################################################## #}
+ 
 <div id="divTest1"></div>
 <script >
     $(this).ready(function(){
@@ -213,11 +199,7 @@
     });
 </script>
 
-<br />
-<br />
-{% if error %}
-    <p id="error">You have not answered {{ error|length }} questions, yet! Please fill in the remaining fields to continue.</p>
-    {% endif %}
+{# ######################################################################## #}
 
 <input type="submit" class="weiter" value="{{bt_label}}" />
 

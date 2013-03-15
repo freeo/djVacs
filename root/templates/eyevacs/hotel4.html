@@ -3,6 +3,9 @@
 {% load i18n %}  
 {% load staticfiles %}
 <div class="transit_header"> 
+<p>
+Please find a hotel which is <span class="underlined"> both, nearest to the airport and also the cheapest!</span>
+</p>
 <div style="text-align:center; padding-top:50px" ><img src="{% static "img/4.jpg" %}" class="transitimg" >
 <p>
 Art Series – The Olsen
@@ -19,6 +22,7 @@ The Olsen Hotel in Melbourne is complete with first class facilities and a range
 Book today for only 359$ a weekend!
 
 </p>
-
-<a href="../" class="transit_link" > >> Back to the overview</a>
+<div class="transit_link">
+<a href="../" class="transit_link"> >> Back to the overview</a>
+</div>
 {% endblock %}
