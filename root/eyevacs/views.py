@@ -15,6 +15,7 @@ default_page_order = []
 bt_label = "Continue"
 validation = False
 singlepagedebug = False
+selectwelcome = ""
 
 def allUrls():
     outputlist = []
@@ -23,11 +24,16 @@ def allUrls():
     outputlist.append(reverse('eyevacs.views.rnd_regret', args= [str(curr_exp.id), str(pcpt.pcpt_id)]))
     outputlist.append(reverse('eyevacs.views.pl_experience', args= [str(curr_exp.id), str(pcpt.pcpt_id)]))
     outputlist.append(reverse('eyevacs.views.rnd_involvement', args= [curr_exp.id, pcpt.pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.explanation', args= [str(curr_exp.id), str(pcpt.pcpt_id)]))
+    outputlist.append(reverse('eyevacs.views.explanation_overview', args= [curr_exp.id, pcpt.pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.explanation_food', args= [curr_exp.id, pcpt.pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.explanation_recommend', args= [curr_exp.id, pcpt.pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.explanation_distance', args= [curr_exp.id, pcpt.pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.explanation_price', args= [curr_exp.id, pcpt.pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.explanation_room', args= [curr_exp.id, pcpt.pcpt_id]))
     for i in range(0,len(pcpt.ctlist),1):
         outputlist.append(reverse('eyevacs.views.decisionsequence', args= [curr_exp.id, pcpt.pcpt_id, i]))
-    for j in range(0,len(pcpt.conjoint),1):
-        outputlist.append(reverse('eyevacs.views.conjoint', args = [curr_exp.id, pcpt.pcpt_id, j]))
+    outputlist.append(reverse('eyevacs.views.conjoint', args = [curr_exp.id, pcpt.pcpt_id, 0]))
+    outputlist.append(reverse('eyevacs.views.conjoint', args = [curr_exp.id, pcpt.pcpt_id, 1]))
     outputlist.append(reverse('eyevacs.views.transit', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
     outputlist.append(reverse('eyevacs.views.transit_select', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
     outputlist.append(reverse('eyevacs.views.rnd_searchgoals', args = [str(curr_exp.id), str(pcpt.pcpt_id)]))
@@ -135,6 +141,7 @@ def preparePcpt(request, exp_id):
     #gets stored as list! need [0]
     global validation
     global singlepagedebug
+    global selectwelcome
     request.session.clear()
     request.session.update(request.POST)
     if request.session.get('cbox_validation') != None:
@@ -146,11 +153,14 @@ def preparePcpt(request, exp_id):
         singlepagedebug = True
     else:
         singlepagedebug = False
+    if request.session.get('selectwelcome') != None:
+        selectwelcome = request.session.get('selectwelcome')[0]
     ct_size = request.session['ct_size'][0]
     valid_input = request.session['input_pcptid'][0]
     pcpt.initPcpt(exp_id, ct_size, valid_input)
     return getRedirectURL('preparePcpt')
     data = {}
+    # data['selectwelcome'] = selectwelcome
     data['text'] = str(request.session.items())
     # temp_dest = reverse('eyevacs.views.transit', args = [exp_id, pcpt_id])
     # temp = {'destination': temp_dest}
@@ -159,10 +169,19 @@ def preparePcpt(request, exp_id):
     # return render(request, 'eyevacs/0preview1650.html', context)
 
 def welcome(request, exp_id):
-    destination = reverse('eyevacs.views.rnd_max', args = [str(curr_exp.id), str(pcpt.pcpt_id)])
-    anydict = {'destination':destination,'bt_label':bt_label}
-    debugpostdata(anydict, 'POST:', request.POST, 'SESSION:', request.session.items())
-    return render_to_response('eyevacs/1welcome.html', RequestContext(request, anydict ))
+    if selectwelcome == "welcome_scrollable":
+        destination = reverse('eyevacs.views.rnd_max', args = [str(curr_exp.id), str(pcpt.pcpt_id)])
+        anydict = {'destination':destination,'bt_label':bt_label}
+        # debugpostdata(anydict, 'POST:', request.POST, 'SESSION:', request.session.items())
+        return render_to_response('eyevacs/1welcome_scrollable.html', RequestContext(request, anydict ))
+    if selectwelcome == "welcome_paginated":
+        destination = reverse('eyevacs.views.welcome_paginated', args = [curr_exp.id, 0])
+        return HttpResponseRedirect(destination)
+
+def welcome_paginated(request, exp_id, wel_page):
+    pass
+
+
 
 def rnd_max(request, exp_id, pcpt_id):
     request.session.update(request.POST)
@@ -200,25 +219,78 @@ def pl_experience(request, exp_id, pcpt_id):
 def rnd_involvement(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     reqcontext = pcpt.get_scale_context('rnd_involvement')
-    destination = reverse('eyevacs.views.explanation', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
+    destination = reverse('eyevacs.views.explanation_overview', args= [curr_exp.id, pcpt.pcpt_id])
     reqcontext['bt_label'] = bt_label
     reqcontext['destination'] = destination
     reqcontext['validation'] = validation
     return render(request, 'eyevacs/scale.html', reqcontext)
 
-def explanation(request, exp_id, pcpt_id):
+def explanation_overview(request, exp_id, pcpt_id):
+    request.session.update(request.POST)
+    destination = reverse('eyevacs.views.explanation_food', args= [curr_exp.id, pcpt.pcpt_id])
+    site_vars = {'destination': destination, 'bt_label':bt_label}
+    reqcontext = RequestContext(request, site_vars)
+    return render (request, 'eyevacs/explanation0_overview.html', reqcontext)
+
+def explanation_food(request, exp_id, pcpt_id):
+    request.session.update(request.POST)
+    destination = reverse('eyevacs.views.explanation_recommend', args= [curr_exp.id, pcpt.pcpt_id])
+    site_vars = {'destination': destination, 'bt_label':bt_label}
+    reqcontext = RequestContext(request, site_vars)
+    reqcontext['validation'] = validation
+    return render (request, 'eyevacs/explanation1_food.html', reqcontext)
+
+def explanation_recommend(request, exp_id, pcpt_id):
+    request.session.update(request.POST)
+    destination = reverse('eyevacs.views.explanation_distance', args= [curr_exp.id, pcpt.pcpt_id])
+    site_vars = {'destination': destination, 'bt_label':bt_label}
+    reqcontext = RequestContext(request, site_vars)
+    reqcontext['validation'] = validation
+    return render (request, 'eyevacs/explanation2_recommend.html', reqcontext)
+
+def explanation_distance(request, exp_id, pcpt_id):
+    request.session.update(request.POST)
+    destination = reverse('eyevacs.views.explanation_seaview', args= [curr_exp.id, pcpt.pcpt_id])
+    site_vars = {'destination': destination, 'bt_label':bt_label}
+    reqcontext = RequestContext(request, site_vars)
+    reqcontext['validation'] = validation
+    return render (request, 'eyevacs/explanation3_distance.html', reqcontext)
+
+def explanation_seaview(request, exp_id, pcpt_id):
+    request.session.update(request.POST)
+    destination = reverse('eyevacs.views.explanation_price', args= [curr_exp.id, pcpt.pcpt_id])
+    site_vars = {'destination': destination, 'bt_label':bt_label}
+    reqcontext = RequestContext(request, site_vars)
+    reqcontext['validation'] = validation
+    return render (request, 'eyevacs/explanation4_seaview.html', reqcontext)
+
+def explanation_price(request, exp_id, pcpt_id):
+    request.session.update(request.POST)
+    destination = reverse('eyevacs.views.explanation_room', args= [curr_exp.id, pcpt.pcpt_id])
+    site_vars = {'destination': destination, 'bt_label':bt_label}
+    reqcontext = RequestContext(request, site_vars)
+    reqcontext['validation'] = validation
+    return render (request, 'eyevacs/explanation5_price.html', reqcontext)
+
+def explanation_room(request, exp_id, pcpt_id):
+    request.session.update(request.POST)
+    destination = reverse('eyevacs.views.explanation_choicetasks', args= [curr_exp.id, pcpt.pcpt_id])
+    site_vars = {'destination': destination, 'bt_label':bt_label}
+    reqcontext = RequestContext(request, site_vars)
+    reqcontext['validation'] = validation
+    reqcontext['scrollable'] = True
+    return render (request, 'eyevacs/explanation6_room.html', reqcontext)
+
+def explanation_choicetasks(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     destination = reverse('eyevacs.views.decisionsequence', args= [str(curr_exp.id), str(pcpt.pcpt_id), 0])
     site_vars = {'destination': destination, 'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
-    debugpostdata(reqcontext, request.POST)
-    return render (request, 'eyevacs/explanation.html', reqcontext)
+    return render (request, 'eyevacs/explanation7_choicetasks.html', reqcontext)
 
-# def initsequence(request, exp_id, pcpt_id):
-#     request.session['taskcounter'] = 0
-#     taskcounter = request.session['taskcounter']
-#     destination = reverse('eyevacs.views.decisionsequence', args = [curr_exp.id, pcpt_id, taskcounter])
-#     return HttpResponseRedirect(destination)
+########################################################################
+########################################################################
+########################################################################
 
 def decisionsequence(request, exp_id, pcpt_id, ct_page):
     request.session.update(request.POST)
@@ -239,39 +311,26 @@ def decisionsequence(request, exp_id, pcpt_id, ct_page):
     debugpostdata(data,pcpt.ctlist)
     return render(request, 'eyevacs/table.html', rq)
 
-# def validateTask(request, exp_id, pcpt_id, ct_page):
-#     #post contains hidden:
-#     ct_id = request.POST.get('ct_id')
-#     request.session.update(request.POST)
-#logic: which aX was selected? its ID?
-#dict request.session['choices'].push( id:aX )
-
 def conjoint(request, exp_id, pcpt_id, conjoint_id):
     request.session.update(request.POST)
+    conjoint = {}
     context = {}
-    context['conjoint'] = pcpt.getConjoint(int(conjoint_id))
-    context['conjoint']['id'] = conjoint_id
-    if pcpt.checkNextConjoint(int(conjoint_id)):
-        next_conjoint = int(conjoint_id) + 1
-        destination = reverse('eyevacs.views.conjoint', args = [curr_exp.id, pcpt_id, next_conjoint])
-    else:
-        destination = reverse('eyevacs.views.transit', args = [exp_id, pcpt_id])
     if int(conjoint_id) == 0:
-        context['starter'] = True
+        for i in range(0,4,1):
+            conjoint[i] = pcpt.getConjoint(i)
+            destination = reverse('eyevacs.views.conjoint', args = [curr_exp.id, pcpt_id, 1])
+            context['starter'] = True
+    if int(conjoint_id) == 1:
+        for i in range(4,8,1):
+            conjoint[i-4] = pcpt.getConjoint(i)
+            destination = reverse('eyevacs.views.transit', args = [exp_id, pcpt_id])
+            context['starter'] = False
     context['destination'] = destination
     context['bt_label'] = bt_label
-    context['extracaption'] = {'left':'0: definitely reject','right':'10: definitely accept'}
+    context['conjointtasks'] = conjoint
     context['validation'] = validation
     reqcontext = RequestContext(request, context)
     return render(request, 'eyevacs/conjoint.html', reqcontext)
-
-    data = {}
-    data['text'] = 'holdout task 1 pages'
-    temp_dest = reverse('eyevacs.views.transit', args = [exp_id, pcpt_id])
-    temp = {'destination': temp_dest}
-    data['temp'] = temp
-    context = Context(data)
-    return render(request, 'eyevacs/0preview1650.html', context)
 
 def transit(request, exp_id, pcpt_id):
     request.session.update(request.POST)
@@ -305,6 +364,7 @@ def transit_select(request, exp_id, pcpt_id):
     destination = reverse('eyevacs.views.rnd_searchgoals', args = [exp_id, pcpt_id])
     dynamic['destination'] = destination
     dynamic['bt_label'] = bt_label
+    dynamic['validation'] = validation
     reqcontext = RequestContext(request, dynamic)
     return render(request , 'eyevacs/transit_select.html', reqcontext)
 

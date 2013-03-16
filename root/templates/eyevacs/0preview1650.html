@@ -52,8 +52,11 @@
                 {% endif %} 
             </script>
             </div>
-            <div id="target_screen_layout">
-
+            {% if not scrollable %}
+                <div id="target_screen_layout">
+            {% else %}
+                <div id="target_screen_layout_scrollable">
+            {% endif %}
 {# <div id="divTest1"></div> #}
 {# <script type="text/javascript"> #}
 {# $("#divTest1").text("Hello, world!"); #}

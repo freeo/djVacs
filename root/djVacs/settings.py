@@ -86,7 +86,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = root() + '\\static\\'
+STATIC_ROOT = root() + '/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -124,7 +124,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -167,18 +167,18 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
     'eyevacs.context_processors.debug',
     )
 
-INTERNAL_IPS = ('127.0.0.1',)
+# INTERNAL_IPS = ('127.0.0.1',)
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     #"E:/djVacs/templates",
-    root() + '\\templates',
+    root() + '/templates',
 )
 
 LOCALE_PATHS = (
-    root() + '\\locale',
+    root() + '/locale',
 )
 
 
@@ -195,7 +195,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     "south",
     "eyevacs",
-    'debug_toolbar',
+    # 'debug_toolbar',
 )
 
 # A sample logging configuration. The only tangible logging
