@@ -4,6 +4,7 @@ import json
 import re
 import ast
 import pdb
+import operator
 
 ctsetsize = 7
 
@@ -102,9 +103,6 @@ def createBaselineTasklist():
         ct_bsl_list[ctlist_index] = bsl_tasks[i]
     return ct_bsl_list
 
-# def createTasklist():
-#     ctasksources = exp.external_source_data_set.filter(filetype = 'ctask')
-    #for source in sources:
 
 def getFreeCT(amount):
     # ctasksources = exp.external_source_data_set.filter(filetype = 'ctask')
@@ -149,10 +147,17 @@ def orderTasklist(rule):
          #        for a in amount_list:
          #            ctlist
          # for ct in ctlist:
-         print 'b'
+         law_order_temp = sorted(ctlist, key=operator.attrgetter('amount'))
+         law_order = sorted(law_order_temp, key=operator.attrgetter('pk'))
+         ctlist = law_order
+         # pdb.set_trace()
+
 
     if rule == 'decreasing':
-         print 'b'
+         law_order_temp = sorted(ctlist, key=operator.attrgetter('pk'))
+         law_order = sorted(law_order_temp, key=operator.attrgetter('amount'), reverse=True)
+         ctlist = law_order
+         # pdb.set_trace()
 
 def setChoiceTasks():
     global ct_bsl_list
@@ -251,7 +256,7 @@ def mapAttrLevel(lvlvalue, attrposition):
     #     labels[a.name] = a.level_set.all()
 
 
-def initPcpt(exp_id, ext_ct_size, ext_pcpt_id = None):
+def initPcpt(exp_id, ext_ct_size, ext_pcpt_id, condition):
     global exp
     global scales
     global scale_order_ids
@@ -277,7 +282,12 @@ def initPcpt(exp_id, ext_ct_size, ext_pcpt_id = None):
             pcpt_id = valid_id
         except:
             raise Exception('The entered ID '+ str(ext_pcpt_id)+ ' is invalid!')
-    group = 1 #group_all[pcpt_id]
+    #not yet implemented grouping:
+    #group_all[pcpt_id]
+    if condition == 'increasing':
+        group = 1
+    if condition == 'decreasing':
+        group = 2
     for scale in scale_names:
         scale_order_ids[scale] = assignScaleOrder(scale)
     # return infoObject(exp.grouping.counter, group, scale_order_ids)

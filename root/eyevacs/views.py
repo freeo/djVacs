@@ -30,6 +30,7 @@ def allUrls():
     outputlist.append(reverse('eyevacs.views.explanation_distance', args= [curr_exp.id, pcpt.pcpt_id]))
     outputlist.append(reverse('eyevacs.views.explanation_price', args= [curr_exp.id, pcpt.pcpt_id]))
     outputlist.append(reverse('eyevacs.views.explanation_room', args= [curr_exp.id, pcpt.pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.explanation_choicetasks', args= [curr_exp.id, pcpt.pcpt_id]))
     for i in range(0,len(pcpt.ctlist),1):
         outputlist.append(reverse('eyevacs.views.decisionsequence', args= [curr_exp.id, pcpt.pcpt_id, i]))
     outputlist.append(reverse('eyevacs.views.conjoint', args = [curr_exp.id, pcpt.pcpt_id, 0]))
@@ -142,6 +143,7 @@ def preparePcpt(request, exp_id):
     global validation
     global singlepagedebug
     global selectwelcome
+    global selectcondition
     request.session.clear()
     request.session.update(request.POST)
     if request.session.get('cbox_validation') != None:
@@ -155,9 +157,11 @@ def preparePcpt(request, exp_id):
         singlepagedebug = False
     if request.session.get('selectwelcome') != None:
         selectwelcome = request.session.get('selectwelcome')[0]
+    if request.session.get('selectcondition') != None:
+        selectcondition = request.session.get('selectcondition')[0]
     ct_size = request.session['ct_size'][0]
     valid_input = request.session['input_pcptid'][0]
-    pcpt.initPcpt(exp_id, ct_size, valid_input)
+    pcpt.initPcpt(exp_id, ct_size, valid_input, selectcondition)
     return getRedirectURL('preparePcpt')
     data = {}
     # data['selectwelcome'] = selectwelcome
