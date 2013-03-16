@@ -1,0 +1,82 @@
+# This file contains the WSGI configuration required to serve up your
+# web application at http://beefeyetracker.pythonanywhere.com/
+# It works by setting the variable 'application' to a WSGI handler of some
+# description.
+#
+# Below are templates for Django and web.py.  You should update the file
+# appropriately for the web framework you're using, and then
+# click the 'Reload web app' button on the 'Web' tab to make your site
+# live.
+
+
+# +++++++++++ CUSTOM WSGI +++++++++++
+# If you have a WSGI file that you want to serve using PythonAnywhere, perhaps
+# in your home directory under version control, then use something like this:
+#
+#import os
+#import sys
+#
+#path = '/home/beefeyetracker/path/to/my/app
+#if path not in sys.path:
+#    sys.path.append(path)
+#
+#from my_wsgi_file import application
+
+
+# +++++++++++ DJANGO +++++++++++
+# To use your own django app use code like this:
+#import os
+#import sys
+#
+## assuming your django settings file is at '/home/beefeyetracker/mysite/settings.py'
+#path = '/home/beefeyetracker'
+#if path not in sys.path:
+#    sys.path.append(path)
+#
+#os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings'
+#
+#import django.core.handlers.wsgi
+#application = django.core.handlers.wsgi.WSGIHandler()
+
+
+# +++++++++++ WEB.PY +++++++++++
+# Here is a simple web.py app. It is currently serving the default welcome
+# page.  You can adapt this if you want
+# If you're using a different web framework, you'll need to comment all this
+# out
+# +++++++++++ DJANGO FROM OFFICIAL TUTORIAL +++++++++++
+# import os
+# import sys
+
+## assuming your Django settings file is at '/home/my_username/projects/my_project/settings.py'
+# path = '/home/beefeyetracker/djVacs/root/'
+# if path not in sys.path:
+#     sys.path.append(path)
+# 
+# os.environ['DJANGO_SETTINGS_MODULE'] = 'djVacs.settings'
+# 
+# import django.core.handlers.wsgi
+# application = django.core.handlers.wsgi.WSGIHandler()
+
+# comment out these two lines if you want to use another framework
+#app = web.application(urls, globals())
+#application = app.wsgifunc()
+#
+# This activates the virtualenv for this script
+activate_this = '/home/beefeyetracker/Envs/django/bin/activate_this.py'
+execfile(activate_this, dict(__file__=activate_this))
+
+import os
+import sys
+
+# if '/home/sampatel/newdjango' not in sys.path:
+    # sys.path.insert(0, '/home/sampatel/newdjango')
+path = '/home/beefeyetracker/djVacs/root/'
+if path not in sys.path:
+    sys.path.insert(0, path)
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djVacs.settings")
+
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
+
