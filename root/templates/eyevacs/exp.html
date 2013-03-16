@@ -2,23 +2,23 @@
 {% load staticfiles %}
 {# {% load i18n %} #}
 {% block body %}
-{# ######################################################################## #}
-{# ######################################################################## #}
-<b> Experiment<br/>
----------------------------------------------------------------------------
-<p style="font-size:24px; font-weight:bold; margin:0;">{{exp.name }}</p>
----------------------------------------------------------------------------<br/>
+
 <table>
     <tr>
         <td>
+
+    <b> Experiment<br/>
+----------------------------------------
+<p style="font-size:24px; font-weight:bold; margin:0;">{{exp.name }}</p>
+----------------------------------------<br/>
 Properties:<br/></b>
 --Total data files: {{exp.external_source_data_set.count }}<br/>
 {# {% for file in exp.external_source_data_set.all %} #}
 {#    -- {{file.filetype}}: header: {{file.header}}<br/> #}
 {# {%endfor %} #}
-----------------------------------<br/>
+----------------------------------------<br/>
 -- Comepleted participants: {{exp.participant_set.count}}<br/>
-----------------------------------<br/>
+----------------------------------------<br/>
 <br/>
 <form action="{{ destination }}"  method="post" name="experience_settings" id="exp_form_id" >
 {% csrf_token %}
@@ -43,38 +43,8 @@ Enter ID manually for preview: <br/>
 </div>
 <br/>
 <br/>
-</td>
-
-{# 2nd column, RIGHT #}
-{# ######################################################################## #}
-<td style="width:100px;">
-{# spacer #}
-</td>
-{# ######################################################################## #}
-
-<td>
-<p><b>Options:</b></p>
-<p>Enable form validation? (For testing purposes ONLY!)</p>
-<label class="lbadmin"><input type="checkbox" name="cbox_validation" checked >Validate user input?</label>
-<p>Debug single pages:</p>
-<label class="lbadmin"><input type="checkbox" name="cbox_singlepagedebug" >Debug Page</label>
-<br/>
-<p>Select the "Welcome Page"</p>
-<div style="text-indent:35px;">
-<select name="selectwelcome" >
-    <option value="welcome_scrollable">All in one page (scrollable)</option>
-    <option value="welcome_paginated">Seperate pages</option>
-</select>
-</div>
-<br/>
-</td>
-</tr>
-</table>
-{# ######################################################################## #}
-{# ######################################################################## #}
 
 <input type="submit" value="New Participant" style="height:40px; width:150px;"/>
-</form>
 
 {# Form validation #}
 
@@ -90,7 +60,7 @@ Enter ID manually for preview: <br/>
 <script>
     $(document).ready(function(){
         var maxID = 899;
-        var thisform = $('form');
+        var thisform = $('form[name="experience_settings"]');
         var validator = thisform.validate({
         {# var validator = thisform.validate({ #}
             {# turn off debug to truly submit! #}
@@ -137,5 +107,18 @@ Enter ID manually for preview: <br/>
     });
   </script>
 
+</td>
 
+{# 2nd column, RIGHT #}
+{# ######################################################################## #}
+
+<td>
+<p>Enable form validation? (For testing purposes ONLY!)</p>
+<label class="lbadmin"><input type="checkbox" name="cbox_validation" checked >Validate user input?</label>
+<p>Debug single pages:</p>
+<label class="lbadmin"><input type="checkbox" name="cbox_singlepagedebug" >Debug Page</label>
+<br/>
+</form>
+</td>
+</table>
 {% endblock %}

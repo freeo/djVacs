@@ -41,70 +41,83 @@
 </form>
 
 {# ######################################################################## #}
-{# HIGHLIGHTING ALL ACTIVE LABELS #}
 <div class="debugtext"></div>
+
 <script>
     $(this).ready(function(){
-        window.log('clicker ready');
-        $("input").change(function(){
+        {# both working #}
+        {# $("input").change(function(){ #}
+        $("form").click(function(){
             {# Highlight selected item #}
-            var checkedRadio = $("input:checked");
-            checkedRadio.each(function(i){
-                window.log('click!');
-                itemID = $(this).attr("id");
-                {# $(".debugtext").html(itemID); #}
-                $("label[for="+itemID+"]").addClass("highlight");
-                });
+            var checkedRadio = $("input:checked").attr("id");
+            {# $(".debugtext").html(checkedRadio); #}
+            $("label[for="+checkedRadio+"]").addClass("highlight");
+            {# $("label[for="+checkedRadio+"]").css("background","#ff0"); #}
             {# revert others to default color  #}
+            {# $(".debugtext").html('nuttin going on'); #}
             var unCheckedRadio = $("input:not(:checked)");
             unCheckedRadio.each(function(i){
                 itemID = $(this).attr("id");
                 $("label[for="+itemID+"]").removeClass("highlight");
+                {# $("label[for="+itemID+"]").css("background","#888"); #}
                 });
             });
         });
 </script>
-{# END # HIGHLIGHTING ALL ACTIVE LABELS ################################### #}
-
 {# ######################################################################## #}
-{# VALIDATE ALL REQUIRED INPUTS  #}
-<div style="margin-left:auto; margin-right:auto;width:700px;">
-<div id="fatError" style=""></div>
-
+{% if DEBUG %} <div id="allErrors"></div> {% endif %}
+<br/>
+<br/>
+<div style="margin-left:auto; margin-right:auto;width:500px;">
+<div id="errorField" style="display:none" ></div>
+</div>
+<br/>
+<br/>
+{# <div id="errCont">You have missed out at least 1 Question!</div> #}
 {% if validation %}
 <script>
     $(this).ready(function(){
-        var thisform = $('form');
-        window.log('validation is running...');
+        var thisform = $('form[name="pl_experience"]');
+        console.log('validation is running...');
         var validator = thisform.validate({
             {# turn off debug to truly submit! #}
             debug: true,
             rules: {
                 transit: "required",
                 },
-            {# empty function places the usually obligatory error messages into nowhere #}
-            errorPlacement: function(error, element) {},
-            showErrors: function(errorMap, errorList) {
-                $("#fatError").addClass("mainError");
-                $("#fatError").text("You have left "
-                                               + this.numberOfInvalids() 
-                                               + " questions unanswered!");
+            invalidHandler: function(pl_experience, validator) {
                 var errors = validator.numberOfInvalids();
-                if (!errors) {
-                    window.log('hiding   ..  ');
-                    $("#fatError").hide();
-                };
+                console.log('errors:', errors)
+                if (errors) {
+                  var message = errors == 1
+                  ? 'Missing'
+                  : 'Missed ' + errors + ' fields.';
+                $("#errorField").text('You have left ' + errors + ' questions unanswered!');
+                {# $("div.arr span").text(message); #}
+                $("#errorField").show();
+                  } else {
+                $("#errorField").hide();
+                  }
+              },
+            messages: {
+                transit: "You did not select a hotel, yet!",
             },
-            errorClass: "invalid",
+                errorClass: "invalid",
+            {# error destination id #}
+            errorLabelContainer: "#allErrors",
+            errorContainer: "#errorField",            
+            {# wraps EVERY error inside wrapper: #}
+            wrapper: "ul", 
+            errorElement: "em",
             {# debug only #}
-            submitHandler: function(thisform) { 
+            submitHandler: function() { 
+                {# alert("Submitted!")  #}
                 // do other stuff for a valid form
-                thisform.submit();
+                pl_experience.submit();
             }
         });
     });
   </script>
-{% endif %}
-{# END # VALIDATE ALL REQUIRED INPUTS ##################################### #}
-
+  {% endif %}
+<!-- ################################################################# -->
 {% endblock %}

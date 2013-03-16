@@ -3,15 +3,22 @@
 {# {% load i18n %} #}
 {% block body %}
 
-<p class="">
+<table>
+    <tr>
+<td>
+    <p class="">
+Debug single pages: <br/>
+<br/>
 Jump to page:<br/>
 </p>
 
-<div style="margin-left:50px;">
-<ol>
+<div>
 {% for pg in pages %}
-    <li style="font-size:20px; font-weight:bold;"><a href='{{pg}}'>{{pg}}</a> 
+    <li style="font-size:24px; font-weight:bold; margin:0;"><a href='{{pg}}'>{{pg}}</a> 
 {% endfor %}
-</ol>
+
 </div>
+
+</td>
+</table>
 {% endblock %}

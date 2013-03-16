@@ -98,6 +98,7 @@
             {# Highlight selected item #}
             var checkedRadio = $("input:checked");
             checkedRadio.each(function(i){
+                window.log('click!');
                 itemID = $(this).attr("id");
                 {# $(".debugtext").html(itemID); #}
                 $("label[for="+itemID+"]").addClass("highlight");
@@ -112,40 +113,63 @@
         });
 </script>
 {# ######################################################################## #}
- 
-<div style="margin-left:auto; margin-right:auto;width:700px;">
-<div id="fatError" style="" </div>
-</div>
 
+{% if DEBUG %} <div id="allErrors"></div> {% endif %}
+<br/>
+<br/>
+<div style="margin-left:auto; margin-right:auto;width:500px;">
+<div id="errorField" style="display:none" ></div>
+</div>
+<br/>
+<br/>
+{# <div id="errCont">You have missed out at least 1 Question!</div> #}
 {% if validation %}
 <script>
     $(this).ready(function(){
-        var thisform = $('form');
+        var thisform = $('form[name="pl_experience"]');
         window.log('validation is running...');
         var validator = thisform.validate({
             {# turn off debug to truly submit! #}
             debug: true,
             rules: {
+                {# . und () {} sind nicht erlaubt in rules... #}
+                {# $.each(questions, function(index, value ){ #}
+                {#     value: "required", )}#}
                 experience_lastvacation: "required",
                 experience_planningvacation: "required",
                 experience_searchduration: "required",
                 },
-            {# empty function places the usually obligatory error messages into nowhere #}
-            errorPlacement: function(error, element) {},
-            showErrors: function(errorMap, errorList) {
-                $("#fatError").addClass("mainError");
-                $("#fatError").text("You have left "
-                                               + this.numberOfInvalids() 
-                                               + " questions unanswered!");
+            {# only executed on form submit!!! hiding of off error #}
+            {# has to be solved with another funtion, eg: errorContainer #}
+            invalidHandler: function(pl_experience, validator) {
                 var errors = validator.numberOfInvalids();
-                if (!errors) {
-                    window.log('hiding   ..  ');
-                    $("#fatError").hide();
-                };
+                window.log('errors:', errors)
+                if (errors) {
+                  var message = errors == 1
+                  ? 'Missing'
+                  : 'Missed ' + errors + ' fields.';
+                $("#errorField").text('You have left ' + errors + ' questions unanswered!');
+                {# $("div.arr span").text(message); #}
+                $("#errorField").show();
+                  } else {
+                $("#errorField").hide();
+                  }
+              },
+            messages: {
+                experience_lastvacation: "You did not answer your last vacation!",
+                experience_planningvacation:"You did not answer your planning vacation!",
+                experience_searchduration: "You did not answer your search duration!",
             },
-            errorClass: "invalid",
+                errorClass: "invalid",
+            {# error destination id #}
+            errorLabelContainer: "#allErrors",
+            errorContainer: "#errorField",            
+            {# wraps EVERY error inside wrapper: #}
+            wrapper: "ul", 
+            errorElement: "em",
             {# debug only #}
             submitHandler: function(thisform) { 
+                {# alert("Submitted!")  #}
                 // do other stuff for a valid form
                 thisform.submit();
             }
@@ -153,7 +177,5 @@
     });
   </script>
   {% endif %}
-<!-- #### END VALIDATION ############################################# -->
-
 <!-- ################################################################# -->
 {% endblock %}
