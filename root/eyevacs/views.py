@@ -30,6 +30,7 @@ def allUrls():
     outputlist.append(reverse('eyevacs.views.explanation_distance', args= [curr_exp.id, pcpt.pcpt_id]))
     outputlist.append(reverse('eyevacs.views.explanation_price', args= [curr_exp.id, pcpt.pcpt_id]))
     outputlist.append(reverse('eyevacs.views.explanation_room', args= [curr_exp.id, pcpt.pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.explanation_favattributes', args= [curr_exp.id, pcpt.pcpt_id]))
     outputlist.append(reverse('eyevacs.views.explanation_choicetasks', args= [curr_exp.id, pcpt.pcpt_id]))
     for i in range(0,len(pcpt.ctlist),1):
         outputlist.append(reverse('eyevacs.views.decisionsequence', args= [curr_exp.id, pcpt.pcpt_id, i]))
@@ -273,19 +274,26 @@ def explanation_price(request, exp_id, pcpt_id):
 
 def explanation_room(request, exp_id, pcpt_id):
     request.session.update(request.POST)
-    destination = reverse('eyevacs.views.explanation_choicetasks', args= [curr_exp.id, pcpt.pcpt_id])
+    destination = reverse('eyevacs.views.explanation_favattributes', args= [curr_exp.id, pcpt.pcpt_id])
     site_vars = {'destination': destination, 'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
     reqcontext['validation'] = validation
     reqcontext['scrollable'] = True
     return render (request, 'eyevacs/explanation6_room.html', reqcontext)
 
+def explanation_favattributes(request, exp_id, pcpt_id):
+    request.session.update(request.POST)
+    destination = reverse('eyevacs.views.explanation_choicetasks', args= [curr_exp.id, pcpt.pcpt_id])
+    site_vars = {'destination': destination, 'bt_label':bt_label}
+    reqcontext = RequestContext(request, site_vars)
+    return render (request, 'eyevacs/explanation7_favattributes.html', reqcontext)
+
 def explanation_choicetasks(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     destination = reverse('eyevacs.views.decisionsequence', args= [str(curr_exp.id), str(pcpt.pcpt_id), 0])
     site_vars = {'destination': destination, 'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
-    return render (request, 'eyevacs/explanation7_choicetasks.html', reqcontext)
+    return render (request, 'eyevacs/explanation8_choicetasks.html', reqcontext)
 
 ########################################################################
 ########################################################################
@@ -308,8 +316,8 @@ def decisionsequence(request, exp_id, pcpt_id, ct_page):
         destination = reverse('eyevacs.views.conjoint', args = [exp_id, pcpt_id, 0])
     data['destination'] = destination
     ########################################################################
-    lang = request.session['django_language']
-    data['language'] = 'language: '+ lang +'\n-------------\n'
+    # lang = request.session['django_language']
+    # data['language'] = 'language: '+ lang +'\n-------------\n'
     ########################################################################
     # debugpostdata(data,pcpt.ctlist)
     return render(request, 'eyevacs/table.html', rq)

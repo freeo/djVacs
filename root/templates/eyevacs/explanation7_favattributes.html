@@ -1,0 +1,118 @@
+{% extends 'eyevacs/0preview1650.html' %}
+{% block body %}
+{% load i18n %}    
+{% load staticfiles %}
+<!-- ################################################################# -->
+
+{# <p class="question_title"></p> #}
+<form action={{destination}} method="post" name="explanation" >
+{% csrf_token %}
+{# <p class="full_page_text"> #}
+<br/>
+<br/>
+<p class="full_page_text">
+Now that you have seen all characteristics, please indicate how your ideal vacation package would look like by clicking on the respective levels you like best.
+</p>
+
+{# <p class="full_page_text"><i>Summary of all attributes</i></p> #}
+<br/>
+<br/>
+<div style="width:1000px;margin-right: auto;margin-left: auto;" class="table_info">
+<table  style="width:1000px;" >
+<tr id="food" > 
+<td class="table_attribute dark2">food quality</td>
+    <td id="food_0" name="food" class="table_level">good</td>
+    <td id="food_1" name="food" class="table_level level_dark2">very good</td>
+    <td id="food_2" name="food" class="table_level">excellent</td>
+</tr>
+<tr id="recommending">
+<td class="table_attribute dark1">customers recommending</td> 
+    <td id="recommending_0" name="recommending" class="table_level">50%</td>
+    <td id="recommending_1" name="recommending" class="table_level level_dark1">70%</td>
+    <td id="recommending_2" name="recommending" class="table_level">90%</td>
+</tr>
+<tr id="distance" >
+<td class="table_attribute dark2">distance to CBD</td> 
+    <td id="distance_0" name="distance" class="table_level">3 km</td>
+    <td id="distance_1" name="distance" class="table_level level_dark2">2 km</td>
+    <td id="distance_2" name="distance" class="table_level">1 km</td>
+</tr>
+<tr id="seaview" >
+<td class="table_attribute dark1">sea view</td>
+    <td id="seaview_0" name="seaview" class="table_level">no sea view</td>
+    <td id="seaview_1" name="seaview" class="table_level level_dark1">side sea view</td>
+    <td id="seaview_2" name="seaview" class="table_level">full sea view</td>
+</tr>
+<tr id="price" >
+<td class="table_attribute dark2">price per person</td>
+    <td id="price_0" name="price" class="table_level">$899</td>
+    <td id="price_1" name="price" class="table_level level_dark2">$799</td>
+    <td id="price_2" name="price" class="table_level">$699</td>
+</tr>
+<tr id="room" >
+<td class="table_attribute dark1">room category</td>
+    <td id="room_0" name="room" class="table_level">standard</td>
+    <td id="room_1" name="room" class="table_level level_dark1">superior</td>
+    <td id="room_2" name="room" class="table_level">deluxe</td>
+</tr>
+
+</table>
+</div>
+
+<input name="begin_radio_weiter" type="submit" class="weiter" value={{bt_label}} />
+</form>
+
+{# ######################################################################## #}
+{# HIGHLIGHTING ALL ACTIVE LABELS #}
+<div class="debugtext"></div>
+<script>
+    $(this).ready(function(){
+        $("td").click(function() {
+                {# $(this).closest("tr").siblings().removeClass("higlight"); #}
+                window.log('click!');
+                $(this).closest("tr").siblings().removeClass("higlight");
+                {# $(this).parents("tr").removeClass("highlight", this.clicked); #}
+                $(this).toggleClass("highlight", this.clicked);
+            });
+
+        window.log('table clicker ready');
+        {# var selected = new Array() #}
+        var marked = {}
+        var rows = []
+        $("#food_0").click(function(){
+            {# Highlight selected item #}
+            {# window.log($(this).closest('tr')); #}
+            var cell = this.id;
+            var row = $(this).closest('tr').attr('id');
+            marked[row] = cell;
+            rows.push(row);
+            window.log(marked);
+            window.log(rows);
+            {# window.log($(this).closest('tr').attr('id')); #}
+            {# window.log(this.id); #}
+            var checkedTD = $("input:checked");
+            {# $(marked).each(function(i){ #}
+            $(rows).each(function(i){
+                window.log(i);
+                current = marked[i];
+                window.log('rows:');
+                window.log(current);
+                {# window.log('click!'); #}
+                {# itemID = $(this).attr("id"); #}
+                {# $(".debugtext").html(itemID); #}
+                $("#"+current).addClass("highlight");
+                {# $("label[for="+itemID+"]").addClass("highlight"); #}
+                });
+            {# revert others to default color  #}
+            var unCheckedTD = $("input:not(:checked)");
+            unCheckedTD.each(function(i){
+                itemID = $(this).attr("id");
+                $("label[for="+itemID+"]").removeClass("highlight");
+                });
+             }); 
+        });
+</script>
+{# END # HIGHLIGHTING ALL ACTIVE LABELS ################################### #}
+
+<!-- ################################################################# -->
+{% endblock %}
