@@ -4,26 +4,25 @@
 {% block body %}
 {# ######################################################################## #}
 {# ######################################################################## #}
-<b> Experiment<br/>
----------------------------------------------------------------------------
-<p style="font-size:24px; font-weight:bold; margin:0;">{{exp.name }}</p>
----------------------------------------------------------------------------<br/>
+<b> Experiment</b><br/>
+----------------------------------------------------------------------------------------------------
+<p style="background:#6cf; color:#555; line-height:150%;vertical-align:middle; font-size:24px; width:1000px; font-weight:bold; margin:0;">&nbsp;{{exp.name }}&nbsp;</p>
+----------------------------------------------------------------------------------------------------<br/>
 <table>
     <tr>
-        <td>
-Properties:<br/></b>
---Total data files: {{exp.external_source_data_set.count }}<br/>
+        <td style="vertical-align:top;">
+# Comepleted participants: {{exp.participant_set.count}}<br/>
+----------------------------------<br/>
+# Total data files: {{exp.external_source_data_set.count }}<br/>
 {# {% for file in exp.external_source_data_set.all %} #}
 {#    -- {{file.filetype}}: header: {{file.header}}<br/> #}
 {# {%endfor %} #}
-----------------------------------<br/>
--- Comepleted participants: {{exp.participant_set.count}}<br/>
 ----------------------------------<br/>
 <br/>
 <form action="{{ destination }}"  method="post" name="experience_settings" id="exp_form_id" >
 {% csrf_token %}
 <div>
-    <b>-- Participant task size:</b>
+    <b>Participant task size:</b>
     (Default value is: )
     {%for size in tasksize %}
         {%if size.checked == "checked" %}
@@ -36,9 +35,10 @@ Properties:<br/></b>
 </div>
 <br/>
 <div>
-    <b>Next participant ID: {{pcpt_id}}</b><br/>
+    <b>Default next participant ID: {{pcpt_id}}</b><br/>
+    <b>Default next condition: {{ next_condition }}</b><br/>
     <br/>
-Enter ID manually for preview: <br/>
+Enter ID manually: <br/>
 <input type="text" value="{{ pcpt_id }}" name="input_pcptid" /> (dont change for next default ID = <b>{{pcpt_id}}</b> )
 </div>
 <br/>
@@ -52,38 +52,70 @@ Enter ID manually for preview: <br/>
 </td>
 {# ######################################################################## #}
 
-<td>
-<p><b>Options:</b></p>
-<p>Enable form validation? (For testing purposes ONLY!)</p>
-<label class="lbadmin"><input type="checkbox" name="cbox_validation" checked >Validate user input?</label>
-<p>Debug single pages:</p>
-<label class="lbadmin"><input type="checkbox" name="cbox_singlepagedebug" >Debug Page</label>
+<td style="border:1px solid #6cf; padding:25px; padding-top:5px; padding-bottom:25px;">
 <br/>
+<p style="background:#6cf; color:#555;"><b>Options override:</b></p>
+<p>Enable form validation?</p>
+<label class="lbadmin" style="width:250px;text-align:left;"><input type="checkbox" name="cbox_validation" checked >Validate user input?</label>
+<p>Jump to Page:</p>
+<label class="lbadmin" style="width:250px;text-align:left;"><input type="checkbox" name="cbox_singlepagedebug" >
+Show page list</label>
 <p>Select the "Welcome Page"</p>
 <div style="text-indent:35px;">
-<select name="selectwelcome" >
+<select name="selectwelcome" style="width:200px;">
     <option value="welcome_scrollable">All in one page (scrollable)</option>
     {# <option value="welcome_paginated">Seperate pages</option> #}
 </select>
 </div>
-<br/>
 <p>Select Condition</p>
 <div style="text-indent:35px;">
-<select name="selectcondition" >
+<select name="selectcondition" style="width:200px;">
     <option value="increasing">Increasing</option>
     <option value="decreasing">Decreasing</option>
     {# <option value="basetwo">Baseline 2 Tasks</option> #}
     {# <option value="baseeight">Baseline 8 Tasks</option> #}
 </select>
 </div>
-<br/>
+<p>Select Language</p>
+<div style="text-indent:35px;">
+<select id="lang" name="selectlanguage" style="width:200px;">
+    <option value="en">English</option>
+    <option value="de">Deutsch</option>
+</select>
+<div id="lang_picture" style="height:50px;margin-top:20px;"></div>
+</div>
 </td>
 </tr>
 </table>
 {# ######################################################################## #}
 {# ######################################################################## #}
 
-<input type="submit" value="New Participant" style="height:40px; width:150px;"/>
+<script>
+    $(document).ready(function(){
+        var current_language = $("#lang").val();
+        var de_flag = '<img src="{% static "img/de.jpg" %}" style="height:50px;" >';
+        var en_flag = '<img src="{% static "img/en.jpg" %}" style="height:50px;" >';
+        function showflag(language){
+            if (language == 'en') {
+                $("#lang_picture img").remove();
+                $("#lang_picture").append(en_flag);
+                }
+            else if (language == 'de') {
+                $("#lang_picture img").remove();
+                $("#lang_picture").append(de_flag);
+                };
+        };
+        showflag(current_language);
+        $("#lang").change(function(){
+            var current_language = $("#lang").val();
+            showflag(current_language);
+            });
+        });
+</script>
+
+<br/>
+<br/>
+<input type="submit" value="New Participant" class="bt_new_pcpt" />
 </form>
 
 {# Form validation #}
@@ -95,7 +127,6 @@ Enter ID manually for preview: <br/>
 <div id="errorField" style="display:none" ></div>
 <br/>
 </div>
-
 
 <script>
     $(document).ready(function(){

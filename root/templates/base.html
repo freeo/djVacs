@@ -75,6 +75,19 @@
         }
         a:hover {background-color:#fff;}
         a:active {background-color:#FFdd00;}
+        .bt_new_pcpt {
+            height:80px;
+            width:1000px;
+            font-weight:normal;
+            font-size:28px;
+            color:#6cf;
+            background:#444;
+            border:0px;
+        }
+        .bt_new_pcpt:hover {
+            color:#444;
+            background:#6cf;
+        }
         </style>
     {% load staticfiles %}
     <script src="{% static "js/jquery-1.9.1.min.js" %}" > </script>
@@ -94,16 +107,21 @@
 
     <title>{% block title %}--- djVacs Base Template ---{%endblock%}</title>
 
-      <div style="centered"><i>
+      <div style="centered;font-size:14px;line-height:150%;"><i>
       DjVacs: Django Vacations<br/>
       Eyetracking Decision Sequences: Vacations<br/>
       2013 Arthur Jaron<br/></i>
-      ------------------------------------------------------------------------
+      ----------------------------------------------------------------------------------------------------
       <br/><br/>
 </div> 
 </head>
 
 <body>
+
+<script>
+            window.log=function(){log.history=log.history||[];log.history.push(arguments);if(this.console){console.log(Array.prototype.slice.call(arguments))}};
+            </script>
+
   {%block body%}
   {%endblock%}
 

@@ -12,7 +12,7 @@ import pdb
 
 curr_exp = None
 default_page_order = []
-bt_label = "Continue"
+bt_label = ugettext("Continue")
 validation = False
 singlepagedebug = False
 selectwelcome = ""
@@ -99,9 +99,7 @@ def eye(request):
     cont = Context({'lang':lang,'exp_list':exp_list})
     return render(request, 'eyevacs/eye.html', cont)
 
-
 def exp(request, exp_id):
-    # if request.POST == {}:
     global curr_exp
     curr_exp = Experiment.objects.get(pk=exp_id)
     name = curr_exp.name
@@ -117,14 +115,18 @@ def exp(request, exp_id):
     # pcpt.pcpt_id
     #usual order id:
     pcpt_id = curr_exp.grouping.counter
+    pcpt.initExp(exp_id)
+    next_condition = pcpt.getGroup(pcpt_id)
     all_context = Context({'tasksize':tasksize,'exp_id':exp_id,'pcpt_id':pcpt_id, 'exp_name':name, 'exp':curr_exp})
     destination = reverse('eyevacs.views.preparePcpt', args= [str(curr_exp.id)])
     all_context['destination'] = destination
+    all_context['next_condition'] = next_condition
     return render(request, 'eyevacs/exp.html', all_context)
 
 def singlePageDebug(request, exp_id):
     data = {}
     data['pages'] = allUrls()
+    data['lang'] = request.session['django_language']
     context = RequestContext(request, data)
     return render(request, 'eyevacs/debug.html', context)
 
@@ -159,18 +161,12 @@ def preparePcpt(request, exp_id):
         selectwelcome = request.session.get('selectwelcome')[0]
     if request.session.get('selectcondition') != None:
         selectcondition = request.session.get('selectcondition')[0]
+    selectlanguage = request.session.get('selectlanguage')[0]
+    request.session['django_language'] = selectlanguage
     ct_size = request.session['ct_size'][0]
     valid_input = request.session['input_pcptid'][0]
-    pcpt.initPcpt(exp_id, ct_size, valid_input, selectcondition)
+    pcpt.initPcpt(ct_size, valid_input, selectcondition)
     return getRedirectURL('preparePcpt')
-    data = {}
-    # data['selectwelcome'] = selectwelcome
-    data['text'] = str(request.session.items())
-    # temp_dest = reverse('eyevacs.views.transit', args = [exp_id, pcpt_id])
-    # temp = {'destination': temp_dest}
-    # data['temp'] = temp
-    context = Context(data)
-    # return render(request, 'eyevacs/0preview1650.html', context)
 
 def welcome(request, exp_id):
     if selectwelcome == "welcome_scrollable":
@@ -193,9 +189,8 @@ def rnd_max(request, exp_id, pcpt_id):
     destination = reverse('eyevacs.views.rnd_regret', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
     reqcontext['destination'] = destination
     reqcontext['bt_label'] = bt_label
-    extracaption = {'left':'I do not agree at all', 'right':'I agree very much'}
+    extracaption = {'left':ugettext('I do not agree at all'), 'right':ugettext('I agree very much')}
     reqcontext['extracaption'] = extracaption
-    # reqcontext['caption1_right'] = 'I agree very much'
     reqcontext['validation'] = validation
     # debugpostdata(reqcontext, 'POST:', request.POST, 'SESSION:', request.session.items())
     return render(request, 'eyevacs/scale.html', reqcontext)
@@ -205,7 +200,7 @@ def rnd_regret(request, exp_id, pcpt_id):
     reqcontext = pcpt.get_scale_context('rnd_regret')
     destination = reverse('eyevacs.views.pl_experience', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
     reqcontext['bt_label'] = bt_label
-    extracaption = {'left':'I do not agree at all', 'right':'I agree very much'}
+    extracaption = {'left':ugettext('I do not agree at all'), 'right':ugettext('I agree very much')}
     reqcontext['extracaption'] = extracaption
     reqcontext['destination'] = destination
     reqcontext['validation'] = validation
@@ -312,7 +307,11 @@ def decisionsequence(request, exp_id, pcpt_id, ct_page):
     else:
         destination = reverse('eyevacs.views.conjoint', args = [exp_id, pcpt_id, 0])
     data['destination'] = destination
-    debugpostdata(data,pcpt.ctlist)
+    ########################################################################
+    lang = request.session['django_language']
+    data['language'] = 'language: '+ lang +'\n-------------\n'
+    ########################################################################
+    # debugpostdata(data,pcpt.ctlist)
     return render(request, 'eyevacs/table.html', rq)
 
 def conjoint(request, exp_id, pcpt_id, conjoint_id):
@@ -377,7 +376,7 @@ def rnd_searchgoals(request, exp_id, pcpt_id):
     reqcontext = pcpt.get_scale_context('rnd_searchgoals')
     destination = reverse('eyevacs.views.pl_demographics', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
     reqcontext['bt_label'] = bt_label
-    extracaption = {'left':'I do not agree at all', 'right':'I agree very much'}
+    extracaption = {'left':ugettext('I do not agree at all'), 'right':ugettext('I agree very much')}
     reqcontext['extracaption'] = extracaption
     reqcontext['destination'] = destination
     reqcontext['validation'] = validation

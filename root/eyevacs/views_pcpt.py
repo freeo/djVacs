@@ -5,6 +5,7 @@ import re
 import ast
 import pdb
 import operator
+from django.utils.translation import ugettext
 
 ctsetsize = 7
 
@@ -25,18 +26,24 @@ scale_names = ['rnd_max', 'rnd_regret', 'rnd_involvement', 'rnd_searchgoals', 'r
 # session = {}
 namelist = ['A','B','C','D','E','F','G','H']
 max_task_size = 21
-conjoint1={'id':'1','food':'good','recommending':'90%','distance':'1 km','view':'no sea view','price':'$699','room':'standard'}
-conjoint2={'id':'2','food':'good','recommending':'90%','distance':'3 km','view':'full sea view','price':'$699','room':'deluxe'}
-conjoint3={'id':'3','food':'excellent','recommending':'90%','distance':'1 km','view':'no sea vie','price':'$899','room':'deluxe'}
-conjoint4={'id':'4','food':'good','recommending':'50%','distance':'1 km','view':'full sea view','price':'$899','room':'deluxe'}
-conjoint5={'id':'5','food':'excellent','recommending':'50%','distance':'1 km','view':'full sea view','price':'$699','room':'standard'}
-conjoint6={'id':'6','food':'excellent','recommending':'90%','distance':'3 km','view':'full sea view','price':'$899','room':'standard'}
-conjoint7={'id':'7','food':'good','recommending':'50%','distance':'3 km','view':'no sea view','price':'$899','room':'standard'}
-conjoint8={'id':'8','food':'excellent','recommending':'50%','distance':'3 km','view':'no sea view','price':'$699','room':'deluxe'}
+conjoint1={'id':'1','food':ugettext('good'),'recommending':'90%','distance':'1 km','view':ugettext('no sea view'),'price':ugettext('$699'),'room':ugettext('standard')}
+conjoint2={'id':'2','food':ugettext('good'),'recommending':'90%','distance':'3 km','view':ugettext('full sea view'),'price':ugettext('$699'),'room':ugettext('deluxe')}
+conjoint3={'id':'3','food':ugettext('excellent'),'recommending':'90%','distance':'1 km','view':ugettext('no sea view'),'price':ugettext('$899'),'room':ugettext('deluxe')}
+conjoint4={'id':'4','food':ugettext('good'),'recommending':'50%','distance':'1 km','view':ugettext('full sea view'),'price':ugettext('$899'),'room':ugettext('deluxe')}
+conjoint5={'id':'5','food':ugettext('excellent'),'recommending':'50%','distance':'1 km','view':ugettext('full sea view'),'price':ugettext('$699'),'room':ugettext('standard')}
+conjoint6={'id':'6','food':ugettext('excellent'),'recommending':'90%','distance':'3 km','view':ugettext('full sea view'),'price':ugettext('$899'),'room':ugettext('standard')}
+conjoint7={'id':'7','food':ugettext('good'),'recommending':'50%','distance':'3 km','view':ugettext('no sea view'),'price':ugettext('$899'),'room':ugettext('standard')}
+conjoint8={'id':'8','food':ugettext('excellent'),'recommending':'50%','distance':'3 km','view':ugettext('no sea view'),'price':ugettext('$699'),'room':ugettext('deluxe')}
 conjoint = [conjoint1,conjoint2,conjoint3,conjoint4,conjoint5,conjoint6,conjoint7,conjoint8]
 
 def getConjoint(index):
     return conjoint[index]
+
+def getGroup(this_id):
+    jsonDec = json.decoder.JSONDecoder()
+    group_all = jsonDec.decode(exp.grouping.group_nr)
+    groupAllocator = group_all[this_id]
+    return groupName[str(groupAllocator)]
 
 def infoObject(*args):
     output = ''
@@ -255,16 +262,17 @@ def mapAttrLevel(lvlvalue, attrposition):
     # for a in attributes:
     #     labels[a.name] = a.level_set.all()
 
-
-def initPcpt(exp_id, ext_ct_size, ext_pcpt_id, condition):
+def initExp(exp_id):
     global exp
+    exp = Experiment.objects.get(pk = exp_id)
+
+def initPcpt(ext_ct_size, ext_pcpt_id, condition):
     global scales
     global scale_order_ids
     global pcpt_id
     global group
     global ct_size
     global ctasksources
-    exp = Experiment.objects.get(pk = exp_id)
     ctasksources = exp.external_source_data_set.filter(filetype = 'ctask')
     scales = exp.external_source_data_set.filter(filetype = 'scale')
     try:

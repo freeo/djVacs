@@ -126,6 +126,12 @@
             {# {{ debugdata }} #}
             {# ######################################################################## #}
 
+            {% if language %}
+            <p style="font-size:24px;color:#5d8;font-weight:bold">
+            {{ language|linebreaks }}
+            </p>
+            {% endif %}
+
             </div>
         </div>
 </body>

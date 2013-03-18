@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-07 23:35+0100\n"
+"POT-Creation-Date: 2013-03-17 21:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,17 +18,283 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: .\djVacs\settings.py:32
+#: .\djVacs\settings linux legacy.py:46 win legacy.py:44 lin.py:51
+#: .\djVacs\settings.py:52
 msgid "German"
 msgstr "Deutsch"
 
-#: .\djVacs\settings.py:33
+#: .\djVacs\settings linux legacy.py:47 win legacy.py:45 lin.py:52
+#: .\djVacs\settings.py:51
 msgid "English"
 msgstr "Englisch"
 
-#: .\eyevacs\views.py:34
+#: .\eyevacs\views.py:15
+msgid "Continue"
+msgstr ""
+
+#: .\eyevacs\views.py:67
 msgid "This string has to be translated. It was marked with ugettext()."
 msgstr "Dieser String muss übersetzt werden. Er wurde mit ugettext() markiert."
+
+#: .\eyevacs\views.py:196 .\eyevacs\views.py:207 .\eyevacs\views.py:379
+msgid "I do not agree at all"
+msgstr ""
+
+#: .\eyevacs\views.py:196 .\eyevacs\views.py:207 .\eyevacs\views.py:379
+msgid "I agree very much"
+msgstr ""
+
+#: .\eyevacs\views_pcpt.py:28 .\eyevacs\views_pcpt.py:29
+#: .\eyevacs\views_pcpt.py:31 .\eyevacs\views_pcpt.py:34
+msgid "good"
+msgstr ""
+
+#: .\eyevacs\views_pcpt.py:28 .\eyevacs\views_pcpt.py:30
+#: .\eyevacs\views_pcpt.py:34 .\eyevacs\views_pcpt.py:35
+msgid "no sea view"
+msgstr ""
+
+#: .\eyevacs\views_pcpt.py:28 .\eyevacs\views_pcpt.py:29
+#: .\eyevacs\views_pcpt.py:32 .\eyevacs\views_pcpt.py:35
+msgid "$699"
+msgstr ""
+
+#: .\eyevacs\views_pcpt.py:28 .\eyevacs\views_pcpt.py:32
+#: .\eyevacs\views_pcpt.py:33 .\eyevacs\views_pcpt.py:34
+msgid "standard"
+msgstr ""
+
+#: .\eyevacs\views_pcpt.py:29 .\eyevacs\views_pcpt.py:31
+#: .\eyevacs\views_pcpt.py:32 .\eyevacs\views_pcpt.py:33
+msgid "full sea view"
+msgstr ""
+
+#: .\eyevacs\views_pcpt.py:29 .\eyevacs\views_pcpt.py:30
+#: .\eyevacs\views_pcpt.py:31 .\eyevacs\views_pcpt.py:35
+msgid "deluxe"
+msgstr ""
+
+#: .\eyevacs\views_pcpt.py:30 .\eyevacs\views_pcpt.py:32
+#: .\eyevacs\views_pcpt.py:33 .\eyevacs\views_pcpt.py:35
+msgid "excellent"
+msgstr ""
+
+#: .\eyevacs\views_pcpt.py:30 .\eyevacs\views_pcpt.py:31
+#: .\eyevacs\views_pcpt.py:33 .\eyevacs\views_pcpt.py:34
+msgid "$899"
+msgstr ""
+
+#: .\scripts\scale_questions.py:9
+msgid ""
+"When I am in the car listening to the radio, I often check other stations to "
+"see if something better is playing, even if I am relatively satisfied with "
+"what I’m listening to."
+msgstr ""
+
+#: .\scripts\scale_questions.py:9
+msgid ""
+"No matter how satisfied I am with my job, it’s only right for me to be on "
+"the lookout for better opportunities."
+msgstr ""
+
+#: .\scripts\scale_questions.py:9
+msgid "I often find it difficult to shop for a gift for a friend."
+msgstr ""
+
+#: .\scripts\scale_questions.py:9
+msgid ""
+"Renting videos is really difficult. I’m always struggling to pick the best "
+"one."
+msgstr ""
+
+#: .\scripts\scale_questions.py:9
+msgid "No matter what I do, I have the highest standards for myself."
+msgstr ""
+
+#: .\scripts\scale_questions.py:9
+msgid "I never settle for second best."
+msgstr ""
+
+#: .\scripts\scale_questions.py:10
+msgid ""
+"Whenever I make a choice, I’m curious about what would have happened if I "
+"had chosen differently."
+msgstr ""
+
+#: .\scripts\scale_questions.py:10
+msgid ""
+"Whenever I make a choice, I try to get information about how the other "
+"alternatives turned out."
+msgstr ""
+
+#: .\scripts\scale_questions.py:10
+msgid ""
+"If I make a choice and it turns out well, I still feel like something of a "
+"failure if I find out that another choice would have turned out better."
+msgstr ""
+
+#: .\scripts\scale_questions.py:10
+msgid ""
+"When I think about how I’m doing in life, I often assess opportunities I "
+"have passed up."
+msgstr ""
+
+#: .\scripts\scale_questions.py:10
+msgid "Once I make a decision, I don’t look back."
+msgstr ""
+
+#: .\scripts\scale_questions.py:11
+msgid "Overall, how familiar are you with booking vacation packages?"
+msgstr ""
+
+#: .\scripts\scale_questions.py:11
+msgid "The decision which vacation package to buy is a"
+msgstr ""
+
+#: .\scripts\scale_questions.py:11
+msgid "The decision which vacation package to buy"
+msgstr ""
+
+#: .\scripts\scale_questions.py:11
+msgid "When booking a vacation package there is"
+msgstr ""
+
+#: .\scripts\scale_questions.py:12
+msgid ""
+"Even if I found a vacation package that I was relatively satisfied with, I "
+"still looked to the other available vacation packages before deciding."
+msgstr ""
+
+#: .\scripts\scale_questions.py:12
+msgid ""
+"I tried to find the best vacation package in each of the previous choice "
+"tasks."
+msgstr ""
+
+#: .\scripts\scale_questions.py:12
+msgid ""
+"I had in mind some ideal vacation package(s), and I tried to look for "
+"vacation packages similar to my ideal package(s)."
+msgstr ""
+
+#: .\scripts\scale_questions.py:12
+msgid ""
+"I made my decision in each choice task as soon as I found a vacation package "
+"that was good enough. "
+msgstr ""
+
+#: .\scripts\scale_questions.py:13
+msgid "In general, I consider myself:"
+msgstr ""
+
+#: .\scripts\scale_questions.py:13
+msgid "Compared to most of my peers, I consider myself:"
+msgstr ""
+
+#: .\scripts\scale_questions.py:13
+msgid ""
+"Some people are generally very happy. They enjoy life regardless of what is "
+"going on, getting the most out of everything. To what extent does this "
+"characterization describe you?"
+msgstr ""
+
+#: .\scripts\scale_questions.py:17
+msgid ""
+"We’d like to start with some general statements about how you behave in "
+"daily situations. \n"
+"Please indicate your degree of agreement with the following statements (-3 = "
+"I do not agree with the statement at all, +3 = I agree with the statement "
+"very much)"
+msgstr ""
+
+#: .\scripts\scale_questions.py:19
+msgid ""
+"The following statements are related to choices in daily situations. \n"
+"Please indicate your degree of agreement with the following statements (-3 = "
+"I do not agree with the statement at all, +3 = I agree with the statement "
+"very much)"
+msgstr ""
+
+#: .\scripts\scale_questions.py:21
+msgid "What would you say:"
+msgstr ""
+
+#: .\scripts\scale_questions.py:23
+msgid ""
+"Now let’s come back to the hotel choices you made for you and your friend "
+"with the money you got from your rich relative (the $2000). We’d like to "
+"learn how you proceeded when making these choices:\n"
+"\n"
+"Please indicate your degree of agreement with the following statements (-3 = "
+"I do not agree with the statement at all, +3 = I agree with the statement "
+"very much)"
+msgstr ""
+
+#: .\scripts\scale_questions.py:25
+msgid ""
+"For each of the following statements and/or questions, please mark the point "
+"on the scale that you feel is most appropriate in describing you."
+msgstr ""
+
+#: .\scripts\scale_questions.py:34
+msgid "very unfamiliar"
+msgstr ""
+
+#: .\scripts\scale_questions.py:34
+msgid "very familiar"
+msgstr ""
+
+#: .\scripts\scale_questions.py:34
+msgid "very unimportant decision"
+msgstr ""
+
+#: .\scripts\scale_questions.py:34
+msgid "very important decision"
+msgstr ""
+
+#: .\scripts\scale_questions.py:34
+msgid "requires little thought"
+msgstr ""
+
+#: .\scripts\scale_questions.py:34
+msgid "requires a lot of thought"
+msgstr ""
+
+#: .\scripts\scale_questions.py:34
+msgid "little to lose if you choose the wrong package"
+msgstr ""
+
+#: .\scripts\scale_questions.py:34
+msgid "a lot to lose if you choose the wrong package"
+msgstr ""
+
+#: .\scripts\scale_questions.py:36
+msgid "not a very happy person"
+msgstr ""
+
+#: .\scripts\scale_questions.py:36
+msgid "a very happy person"
+msgstr ""
+
+#: .\scripts\scale_questions.py:36
+msgid "less happy"
+msgstr ""
+
+#: .\scripts\scale_questions.py:36
+msgid "more happy"
+msgstr ""
+
+#: .\scripts\scale_questions.py:36
+msgid "not at all"
+msgstr ""
+
+#: .\scripts\scale_questions.py:36
+msgid "great deal"
+msgstr ""
+
+#: .\scripts\scale_questions.py:36
+msgid "a great deal"
+msgstr ""
 
 #: .\templates\admin\base_site.html.py:4
 msgid "Django site admin"
@@ -38,28 +304,23 @@ msgstr "Django Admin Seite"
 msgid "Eyetracking Vacation Experiment MA Jaron"
 msgstr "Eyetracking Vacation Experiment MA Jaron"
 
-#: .\templates\eyevacs\initpcpt.html.py:7
-msgid "This is a language test... The currently selected language is:"
-msgstr "Dies ist ein Sprachen Test... Die aktuell ausgesuchte Sprache ist:"
+#~ msgid "This is a language test... The currently selected language is:"
+#~ msgstr "Dies ist ein Sprachen Test... Die aktuell ausgesuchte Sprache ist:"
 
-#: .\templates\eyevacs\initpcpt.html.py:9
-msgid "not Indian gibberish!"
-msgstr "kein indisches gelaber!"
+#~ msgid "not Indian gibberish!"
+#~ msgstr "kein indisches gelaber!"
 
-#: .\templates\eyevacs\initpcpt.html.py:10
-#, python-format
-msgid ""
-" English was selected! The LANGUAGE CODE is %(some_language)s ! <br/><br/>"
-msgstr ""
-"English wurde ausgesucht! Der LANGUAGE CODE ist %(some_language)s ! <br/><br/"
-"> "
+#~ msgid ""
+#~ " English was selected! The LANGUAGE CODE is %(some_language)s ! <br/><br/>"
+#~ msgstr ""
+#~ "English wurde ausgesucht! Der LANGUAGE CODE ist %(some_language)s ! <br/"
+#~ "><br/> "
 
-#: .\templates\eyevacs\initpcpt.html.py:18
-msgid ""
-" Assuming, that English is the default language, I will have to translate "
-"this (originally English) paragraph to German. I hope it works as described "
-"in the documentation... <br/>\n"
-msgstr ""
-"Angenommen, dass English die Standard Sprache ist, dann muss ich diesen "
-"(ursprünglich Englischen) Paragraph in Deutsche übersetzen. I hoffe es "
-"funktioniert, wie in der Dokumentation beschrieben... <br/>\n"
+#~ msgid ""
+#~ " Assuming, that English is the default language, I will have to translate "
+#~ "this (originally English) paragraph to German. I hope it works as "
+#~ "described in the documentation... <br/>\n"
+#~ msgstr ""
+#~ "Angenommen, dass English die Standard Sprache ist, dann muss ich diesen "
+#~ "(ursprünglich Englischen) Paragraph in Deutsche übersetzen. I hoffe es "
+#~ "funktioniert, wie in der Dokumentation beschrieben... <br/>\n"

@@ -48,18 +48,14 @@ TIME_ZONE = 'Europe/Berlin'
 ugettext = lambda s: s
 
 LANGUAGES = (
-    ('de', ugettext('German')),
     ('en', ugettext('English')),
+    ('de', ugettext('German')),
 )
-'''
-LANGUAGES = (
-  ('de', 'German'),
-  ('en', 'English'),
-  #('de', _('German')),
-  #('en', _('English')),
-)
-'''
 
+
+MODELTRANSLATION_TRANSLATION_FILES = (
+    'eyevacs.translation',
+)
 
 
 # Language code for this installation. All choices can be found here:
@@ -203,6 +199,7 @@ INSTALLED_APPS = (
     "south",
     "eyevacs",
     # 'debug_toolbar',
+    'modeltranslation',
 )
 
 # A sample logging configuration. The only tangible logging

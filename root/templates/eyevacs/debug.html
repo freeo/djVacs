@@ -3,6 +3,13 @@
 {# {% load i18n %} #}
 {% block body %}
 
+
+{% if lang == "en" %}
+    <img src="{% static "img/en.jpg" %}" style="height:100px;" >
+{% elif lang == "de" %}
+    <img src="{% static "img/de.jpg" %}" style="height:100px;" >
+{% endif %}
+
 <p class="">
 Jump to page:<br/>
 </p>
