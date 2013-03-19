@@ -21,98 +21,130 @@ Now that you have seen all characteristics, please indicate how your ideal vacat
 <table  style="width:1000px;" >
 <tr id="food" > 
 <td class="table_attribute dark2">food quality</td>
-    <td id="food_0" name="food" class="table_level">good</td>
-    <td id="food_1" name="food" class="table_level level_dark2">very good</td>
-    <td id="food_2" name="food" class="table_level">excellent</td>
+    <td id="food_2" class="food table_level">excellent</td>
+    <td id="food_1" class="food table_level level_dark2">very good</td>
+    <td id="food_0" class="food table_level">good</td>
 </tr>
 <tr id="recommending">
 <td class="table_attribute dark1">customers recommending</td> 
-    <td id="recommending_0" name="recommending" class="table_level">50%</td>
-    <td id="recommending_1" name="recommending" class="table_level level_dark1">70%</td>
-    <td id="recommending_2" name="recommending" class="table_level">90%</td>
+    <td id="recommending_0" class="recommending table_level">50%</td>
+    <td id="recommending_2" class="recommending table_level level_dark1">90%</td>
+    <td id="recommending_1" class="recommending table_level">70%</td>
 </tr>
 <tr id="distance" >
 <td class="table_attribute dark2">distance to CBD</td> 
-    <td id="distance_0" name="distance" class="table_level">3 km</td>
-    <td id="distance_1" name="distance" class="table_level level_dark2">2 km</td>
-    <td id="distance_2" name="distance" class="table_level">1 km</td>
+    <td id="distance_2" class="distance table_level">1 km</td>
+    <td id="distance_0" class="distance table_level level_dark2">3 km</td>
+    <td id="distance_1" class="distance table_level">2 km</td>
 </tr>
 <tr id="seaview" >
 <td class="table_attribute dark1">sea view</td>
-    <td id="seaview_0" name="seaview" class="table_level">no sea view</td>
-    <td id="seaview_1" name="seaview" class="table_level level_dark1">side sea view</td>
-    <td id="seaview_2" name="seaview" class="table_level">full sea view</td>
+    <td id="seaview_1" class="seaview table_level">side sea view</td>
+    <td id="seaview_0" class="seaview table_level level_dark1">no sea view</td>
+    <td id="seaview_2" class="seaview table_level">full sea view</td>
 </tr>
 <tr id="price" >
 <td class="table_attribute dark2">price per person</td>
-    <td id="price_0" name="price" class="table_level">$899</td>
-    <td id="price_1" name="price" class="table_level level_dark2">$799</td>
-    <td id="price_2" name="price" class="table_level">$699</td>
+    <td id="price_0" class="price table_level">$899</td>
+    <td id="price_2" class="price table_level level_dark2">$699</td>
+    <td id="price_1" class="price table_level">$799</td>
 </tr>
 <tr id="room" >
 <td class="table_attribute dark1">room category</td>
-    <td id="room_0" name="room" class="table_level">standard</td>
-    <td id="room_1" name="room" class="table_level level_dark1">superior</td>
-    <td id="room_2" name="room" class="table_level">deluxe</td>
+    <td id="room_0" class="room table_level">standard</td>
+    <td id="room_1" class="room table_level level_dark1">superior</td>
+    <td id="room_2" class="room table_level">deluxe</td>
 </tr>
 
 </table>
+</div>
+
+<div id="hidden_marked_levels" >
+<input class="food" name="fav_food" type="hidden"  />
+<input class="recommending" name="fav_recommending" type="hidden" />
+<input class="distance" name="fav_distance" type="hidden" />
+<input class="seaview" name="fav_seaview" type="hidden" />
+<input class="price" name="fav_price" type="hidden" />
+<input class="room" name="fav_room" type="hidden"  />
 </div>
 
 <input name="begin_radio_weiter" type="submit" class="weiter" value={{bt_label}} />
 </form>
 
 {# ######################################################################## #}
-{# HIGHLIGHTING ALL ACTIVE LABELS #}
-<div class="debugtext"></div>
+{# VALIDATE ALL REQUIRED INPUTS  #}
+<div style="margin-left:auto; margin-right:auto;width:700px;">
+<div id="fatError" style=""></div>
+
+{% if validation %}
 <script>
     $(this).ready(function(){
-        $("td").click(function() {
-                {# $(this).closest("tr").siblings().removeClass("higlight"); #}
-                window.log('click!');
-                $(this).closest("tr").siblings().removeClass("higlight");
-                {# $(this).parents("tr").removeClass("highlight", this.clicked); #}
-                $(this).toggleClass("highlight", this.clicked);
-            });
-
-        window.log('table clicker ready');
-        {# var selected = new Array() #}
-        var marked = {}
-        var rows = []
-        $("#food_0").click(function(){
-            {# Highlight selected item #}
-            {# window.log($(this).closest('tr')); #}
-            var cell = this.id;
-            var row = $(this).closest('tr').attr('id');
-            marked[row] = cell;
-            rows.push(row);
-            window.log(marked);
-            window.log(rows);
-            {# window.log($(this).closest('tr').attr('id')); #}
-            {# window.log(this.id); #}
-            var checkedTD = $("input:checked");
-            {# $(marked).each(function(i){ #}
-            $(rows).each(function(i){
-                window.log(i);
-                current = marked[i];
-                window.log('rows:');
-                window.log(current);
-                {# window.log('click!'); #}
-                {# itemID = $(this).attr("id"); #}
-                {# $(".debugtext").html(itemID); #}
-                $("#"+current).addClass("highlight");
-                {# $("label[for="+itemID+"]").addClass("highlight"); #}
-                });
-            {# revert others to default color  #}
-            var unCheckedTD = $("input:not(:checked)");
-            unCheckedTD.each(function(i){
-                itemID = $(this).attr("id");
-                $("label[for="+itemID+"]").removeClass("highlight");
-                });
-             }); 
+        var thisform = $('form');
+        window.log('validation is running...');
+        var validator = thisform.validate({
+            {# hidden, invisible inputs are ignored by default...  #}
+            {# revert this behaviour with: #}
+            ignore: '',
+            debug: true,
+            rules: {
+                fav_food: "required",
+                fav_recommending: "required",
+                fav_distance: "required",
+                fav_seaview: "required",
+                fav_price: "required",
+                fav_room: "required",
+                },
+            errorPlacement: function(error, element) {},
+            showErrors: function(errorMap, errorList) {
+                $("#fatError").addClass("mainError");
+                $("#fatError").text("You have left "
+                                               + this.numberOfInvalids() 
+                                               + " questions unanswered!");
+                var errors = validator.numberOfInvalids();
+                if (!errors) {
+                    window.log('hiding   ..  ');
+                    $("#fatError").hide();
+                };
+                this.defaultShowErrors();
+                {# kleines 'true' #}
+                {# durch window. wird eine globale Variable gesetzt #}
+                window.errorActive = true;
+            },
+            errorClass: "invalid",
+            submitHandler: function(thisform) { 
+                thisform.submit();
+            }
         });
-</script>
-{# END # HIGHLIGHTING ALL ACTIVE LABELS ################################### #}
+        window.log('table clicker ready');
+        var marked = {}
+        $(".table_level").click(function() {
+        {# $(this).closest("tr").siblings().removeClass("higlight"); #}
+                validator;
+                parent = $(this).parent('tr').attr('id');
+                marked[parent] = this.id;
+                {# window.log(marked); #}
+                $.each( marked, function(row, cell){
+                    {# window.log(row, cell); #}
+                    {# $("input ." + row).value = cell; #}
+                    $("input:hidden."+row+" ").val(cell);
+                    window.log($("input:hidden."+row).val());
+                });
+        {# $(this).closest("tr").siblings().removeClass("higlight"); #}
+        {# $(this).parent("tr").addClass("highlight", this.clicked); #}
+                {# $(this).toggleClass("highlight", this.clicked); #}
+                $(this).addClass("highlight", this.clicked);
+                $(this).siblings("td").removeClass("highlight");
+                {# force validation, because the plugin doesnt auto-update #}
+                {# on hidden, invisible input fields! but only force it, when #}
+                {# the error message has been displayed initially by trying to submit #}
+                if (window.errorActive){
+                    thisform.valid()
+                    };
+             }); 
+    });
+  </script>
+{% endif %}
+{# END # VALIDATE ALL REQUIRED INPUTS ##################################### #}
 
-<!-- ################################################################# -->
+
 {% endblock %}

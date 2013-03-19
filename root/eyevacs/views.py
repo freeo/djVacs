@@ -286,6 +286,7 @@ def explanation_favattributes(request, exp_id, pcpt_id):
     destination = reverse('eyevacs.views.explanation_choicetasks', args= [curr_exp.id, pcpt.pcpt_id])
     site_vars = {'destination': destination, 'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
+    reqcontext['validation'] = validation
     return render (request, 'eyevacs/explanation7_favattributes.html', reqcontext)
 
 def explanation_choicetasks(request, exp_id, pcpt_id):
