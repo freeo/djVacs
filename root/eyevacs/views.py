@@ -69,7 +69,7 @@ def set_language(request):
     postnext = {'next':'www.google.de'}
     mycopy = request.POST.copy()
     mycopy.update(postnext)
-    return render(request, 'eyevacs/i18n_choose_lan.html', {'redirect_to':'/eye/'})
+    return render(request, 'eyevacs/i18n_choose_lan.html', {'redirect_to':'./'})
 
 def debugpostdata(context, *args):
     debug_string = ''
@@ -182,17 +182,21 @@ def welcome(request, exp_id):
 def welcome_paginated(request, exp_id, wel_page):
     pass
 
-
-
 def rnd_max(request, exp_id, pcpt_id):
     request.session.update(request.POST)
-    reqcontext = pcpt.get_scale_context('rnd_max')
+    reqcontext = {}
+    ########################################################################
+    # lang = request.session['django_language']
+    # reqcontext['language'] = 'language: '+ lang +'\n-------------\n'
+    ########################################################################
+    # reqcontext = pcpt.get_scale_context('rnd_max')
     destination = reverse('eyevacs.views.rnd_regret', args= [str(curr_exp.id), str(pcpt.pcpt_id)])
     reqcontext['destination'] = destination
     reqcontext['bt_label'] = bt_label
     extracaption = {'left':ugettext('I do not agree at all'), 'right':ugettext('I agree very much')}
     reqcontext['extracaption'] = extracaption
     reqcontext['validation'] = validation
+    reqcontext.update(pcpt.get_scale_context('rnd_max'))
     # debugpostdata(reqcontext, 'POST:', request.POST, 'SESSION:', request.session.items())
     return render(request, 'eyevacs/scale.html', reqcontext)
 
@@ -352,7 +356,7 @@ def transit(request, exp_id, pcpt_id):
     # destination = reverse('eyevacs.views.rnd_searchgoals', args = [exp_id, pcpt_id])
     # temp = {'destination': temp_dest}
     # data['temp'] = temp
-    data['lb_button_continue'] = 'Proceed to selection'
+    data['lb_button_continue'] = ugettext('Proceed to selection')
     data['destination'] = destination
     context = Context(data)
     return render(request, 'eyevacs/transitOverview.html', context)

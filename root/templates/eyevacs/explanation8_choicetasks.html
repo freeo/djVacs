@@ -6,10 +6,8 @@
 
 <form action={{destination}} method="post" name="explanation8_choicetasks" >
 {% csrf_token %}
-<p class="exp_big_text">
-In this section, you will choose from a number of different hotels that differ in all of the characteristics discussed above. Again, please imagine that a relative has just given you $2000 to go on vacation for you and a friend. Imagine that the hotels shown on the screen are the only options available, and the hotels are the same except for the differences shown in the questions.<br/>
-<br/>
-Please click on the hotel you like best on every screen. You will be shown 8 different groups of hotels.<br/>
+<p class="exp_big_text">{% trans "In this section, you will choose from a number of different hotels that differ in all of the characteristics discussed above. Again, please imagine that a relative has just given you $2000 to go on vacation for you and a friend. Imagine that the hotels shown on the screen are the only options available, and the hotels are the same except for the differences shown in the questions." %}<br/>
+<br/>{% trans "Please click on the hotel you like best on every screen. You will be shown 8 different groups of hotels." %}<br/>
 </p>
 
 <input name="begin_radio_weiter" type="submit" class="weiter" value={{bt_label}} />

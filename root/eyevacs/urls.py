@@ -46,5 +46,3 @@ urlpatterns = patterns('eyevacs.views',
     #url(r'^exp(?P<exp_name>[a-z]{1,10})/$','experiment_name'),
     #url(r'^exp-(?P<exp_id>\d+)/$','experiment_id'),
 )
-
-

@@ -2,9 +2,10 @@
 {% load staticfiles %}
 {% block body %}
 {% load i18n %}    
+{% get_current_language as LANG %}
 <!-- ################################################################# -->
 
-<p class="question_title">Please click on the hotel you would recommend to your friend.</p>
+<p class="question_title">{% trans "Please click on the hotel you would recommend to your friend." %}</p>
 <br/>
 
 <form action="{{ destination }}" method="post" name="transit_select" >
@@ -14,25 +15,19 @@
         <table class="transittable"  >
           <tr>
             <td class="transitselect" ><label for="hotel1" ><img src="{% static "img/1.jpg" %}"  ><br/>
-              <input type="radio" name="transit" id="hotel1" value="h1"/>
-            The Langham</label></td>
+              <input type="radio" name="transit" id="hotel1" value="h1"/>{% trans "The Langham" %}</label></td>
             <td class="transitselect"><label for="hotel2" ><img src="{% static "img/2.jpg" %}"  ><br/>
-              <input type="radio" name="transit" id="hotel2" value="h2"/>
-              Grand Mercure</label></td>
+              <input type="radio" name="transit" id="hotel2" value="h2"/>{% trans "Grand Mercure" %}</label></td>
             <td class="transitselect"><label for="hotel3" ><img src="{% static "img/3.jpg" %}"  ><br/>
-              <input type="radio" name="transit" id="hotel3" value="h3"/>
-              Quay West Suites</label></td>
+              <input type="radio" name="transit" id="hotel3" value="h3"/>{% trans "Quay West Suites" %}</label></td>
           </tr>
           <tr>
             <td class="transitselect"><label for="hotel4" ><img src="{% static "img/4.jpg" %}"  ><br/>
-              <input type="radio" name="transit" id="hotel4" value="h4"/>
-            Art Series - The Olson</label></td>
+              <input type="radio" name="transit" id="hotel4" value="h4"/>{% trans "Art Series - The Olson" %}</label></td>
             <td class="transitselect"><label for="hotel5" ><img src="{% static "img/5.jpg" %}"  ><br/>
-              <input type="radio" name="transit" id="hotel5" value="h5"/>
-              Grand Hyatt</label></td>
+              <input type="radio" name="transit" id="hotel5" value="h5"/>{% trans "Grand Hyatt" %}</label></td>
             <td class="transitselect"><label for="hotel6" ><img src="{% static "img/6.jpg" %}"  ><br/>
-              <input type="radio" name="transit" id="hotel6" value="h6"/>
-              Park Hyatt</label></td>
+              <input type="radio" name="transit" id="hotel6" value="h6"/>{% trans "Park Hyatt" %}</label></td>
           </tr>
         </table>
 </div> 
@@ -85,11 +80,14 @@
             {# empty function places the usually obligatory error messages into nowhere #}
             errorPlacement: function(error, element) {},
             showErrors: function(errorMap, errorList) {
-                $("#fatError").addClass("mainError");
-                $("#fatError").text("You have left "
-                                               + this.numberOfInvalids() 
-                                               + " questions unanswered!");
                 var errors = validator.numberOfInvalids();
+                $("#fatError").addClass("mainError");
+                {% if LANG == "en" %}
+                var errorText = "You have left "+errors+" questions unanswered!";
+                {% elif LANG == "de" %}
+                var errorText = "Du hast "+errors+" Fragen noch nicht beantwortet!";
+                {% endif %}
+                $("#fatError").text(errorText);
                 if (!errors) {
                     window.log('hiding   ..  ');
                     $("#fatError").hide();

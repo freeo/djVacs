@@ -2,17 +2,54 @@
 
 {#i18n tag ist wichtig, da get_language_info_list sonst nicht funktioniert!!!#}
 {% load i18n %}
+{% load staticfiles %}
 {% block body %}
+
+<p> Current Language: </p>
+{% get_current_language as LANG %}
+{% if LANG == "en" %}
+    <img src="{% static "img/en.jpg" %}" style="height:150px;" >
+{% elif LANG == "de" %}
+    <img src="{% static "img/de.jpg" %}" style="height:150px;" >
+{% endif %}
+
+<br/>
+<br/>
 <b> Language selection for the partcipant </p>
-<form action="/i18n/setlang/" method="post">
+<form action="/i18n/setlang/" method="post" >
 {% csrf_token %}
+
 <input name="next" type="hidden" value="{{ redirect_to }}" />
-<select name="language">
+
+<div>
+<select name="language" id="lang" style="height:70px;width:250px; font-size:28px; font-weight:bold; align:center; color:#666;">
+<option value="">-switch to-</option>
 {% get_language_info_list for LANGUAGES as languages %}
 {% for language in languages %}
 <option value="{{ language.code }}">{{ language.name_local }} ({{ language.code }})</option>
 {% endfor %}
 </select>
-<input type="submit" value="Go" />
+</div>
+
+<input type="submit" value="Go" hidden />
 </form>
+
+
+<br/>
+<p>
+<a href="../exp1/debug/">
+exp1 page list
+</a>
+</p>
+
+{# ######################################################################## #}
+ 
+<script>
+    $(document).ready(function(){
+        $("#lang").change(function(){
+            $('form').submit();
+            });
+        });
+</script>
+
 {% endblock %}

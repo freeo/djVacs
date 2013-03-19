@@ -1,6 +1,7 @@
 {% extends 'eyevacs/0preview1650.html' %}
 {% block body %}
 {% load i18n %}
+{% get_current_language as LANG %}
 <!-- ################################################################# -->
 
 <form action={{destination}} method="post" name="pl_demographics" >
@@ -12,18 +13,16 @@
   </caption>-->
   <tr>
     <td valign="top">
-    	<p class="rg_question_text" >You are...</p>
+    	<p class="rg_question_text" >{% trans "You are..." %}</p>
    
         <table class="rg_inner_container">
           <tr>
             <td class="rg_text_line_no_lite"><label>
-              <input type="radio" name="gender" value="female" />
-            Female</label></td>
+              <input type="radio" name="gender" value="female" />{% trans "Female" %}</label></td>
           </tr>
           <tr>
             <td class="rg_text_line_hi_lite"><label>
-              <input type="radio" name="gender" value="male" />
-              Male</label></td>
+              <input type="radio" name="gender" value="male" />{% trans "Male" %}</label></td>
           </tr>
         </table>
       
@@ -31,15 +30,15 @@
   </tr>
   <tr>
     <td valign="top">
-        <p class="rg_question_text" >How old are you?</p>
+        <p class="rg_question_text" >{% trans "How old are you?" %}</p>
         <select name="age" class="rg_inner_container" style="height:35px;font-size:20px;font-weight:normal;font-family:Arial, Helvetica, sans-serif;"> 
             {# padding-top:10px; #}
-        <option value="">--select--</option>
-        <option value="<30">under 30</option>
-        <option value="30-39">30 to 39</option>
-        <option value="40-49">40 to 49</option>
-        <option value="50-59">50 to 59</option>
-        <option value=">60">over 60</option>
+        <option value="">{% trans "--select--" %}</option>
+        <option value="<30">{% trans "under 30" %}</option>
+        <option value="30-39">{% trans "30 to 39" %}</option>
+        <option value="40-49">{% trans "40 to 49" %}</option>
+        <option value="50-59">{% trans "50 to 59" %}</option>
+        <option value=">60">{% trans "over 60" %}</option>
         </select>
 		{# <input type="text" value="" name="input_age" class="rg_inner_container" style="height:35px;font-size:20px;font-weight:bold;font-family:Arial, Helvetica, sans-serif;padding-top:10px;"/> #}
 
@@ -100,11 +99,14 @@
             {# empty function places the usually obligatory error messages into nowhere #}
             errorPlacement: function(error, element) {},
             showErrors: function(errorMap, errorList) {
-                $("#fatError").addClass("mainError");
-                $("#fatError").text("You have left "
-                                               + this.numberOfInvalids() 
-                                               + " questions unanswered!");
                 var errors = validator.numberOfInvalids();
+                $("#fatError").addClass("mainError");
+                {% if LANG == "en" %}
+                var errorText = "You have left "+errors+" questions unanswered!";
+                {% elif LANG == "de" %}
+                var errorText = "Du hast "+errors+" Fragen noch nicht beantwortet!";
+                {% endif %}
+                $("#fatError").text(errorText);
                 if (!errors) {
                     window.log('hiding   ..  ');
                     $("#fatError").hide();

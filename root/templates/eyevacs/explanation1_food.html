@@ -1,6 +1,7 @@
 {% extends 'eyevacs/0preview1650.html' %}
 {% block body %}
 {% load i18n %}    
+{% get_current_language as LANG %}
 {% load staticfiles %}
 <!-- ################################################################# -->
 
@@ -12,30 +13,20 @@
 <div style="margin-left:120px;">
 <img src="{% static "img/food.jpg" %}"><br/>
 </div>
-<p class="explanation_title"> Food quality</p>
-<p class="full_page_text">
-One way that the vacation packages will differ is how good the quality of the food is in the hotel’s restaurants. All hotels offer breakfast, lunch and dinner, but the quality of the food ranges from good to excellent. <br/>
-<br/>
-The last time you were in a hotel, how good was the quality of the food?<br/>
+<p class="explanation_title">{% trans "Food quality" %}</p>
+<p class="full_page_text">{% trans "One way that the vacation packages will differ is how good the quality of the food is in the hotel’s restaurants. All hotels offer breakfast, lunch and dinner, but the quality of the food ranges from good to excellent." %}<br/>
+<br/>{% trans "The last time you were in a hotel, how good was the quality of the food?" %}<br/>
 </p>
 <div class="rg" style="margin-left:200px;">
 <table style="width:600px;">
-<tr><td class="rg_text_line_no_lite"><label for="exp_food_miserable" ><input id="exp_food_miserable" type="radio" name="explanation_food" value="" ></input>
-Miserable</label></tr></td>
-<tr><td class="rg_text_line_hi_lite"><label for="exp_food_very_poor" ><input id="exp_food_very_poor" type="radio" name="explanation_food" value="" ></input>
-Very poor</label></tr></td>
-<tr><td class="rg_text_line_no_lite"><label for="exp_food_poor" ><input id="exp_food_poor" type="radio" name="explanation_food" value="" ></input>
-Poor</label></tr></td>
-<tr><td class="rg_text_line_hi_lite"><label for="exp_food_soso" ><input id="exp_food_soso" type="radio" name="explanation_food" value="" ></input>
-So-so</label></tr></td>
-<tr><td class="rg_text_line_no_lite"><label for="exp_food_good" ><input id="exp_food_good" type="radio" name="explanation_food" value="" ></input>
-Good</label></tr></td>
-<tr><td class="rg_text_line_hi_lite"><label for="exp_food_very_good" ><input id="exp_food_very_good" type="radio" name="explanation_food" value="" ></input>
-Very good</label></tr></td>
-<tr><td class="rg_text_line_no_lite"><label for="exp_food_excellent" ><input id="exp_food_excellent" type="radio" name="explanation_food" value="" ></input>
-Excellent</label></tr></td>
-<tr><td class="rg_text_line_hi_lite"><label for="exp_food_dunno" ><input id="exp_food_dunno" type="radio" name="explanation_food" value="" ></input>
-I don't know.</label></tr></td>
+<tr><td class="rg_text_line_no_lite"><label for="exp_food_miserable" ><input id="exp_food_miserable" type="radio" name="explanation_food" value="" ></input>{% trans "Miserable" %}</label></tr></td>
+<tr><td class="rg_text_line_hi_lite"><label for="exp_food_very_poor" ><input id="exp_food_very_poor" type="radio" name="explanation_food" value="" ></input>{% trans "Very poor" %}</label></tr></td>
+<tr><td class="rg_text_line_no_lite"><label for="exp_food_poor" ><input id="exp_food_poor" type="radio" name="explanation_food" value="" ></input>{% trans "Poor" %}</label></tr></td>
+<tr><td class="rg_text_line_hi_lite"><label for="exp_food_soso" ><input id="exp_food_soso" type="radio" name="explanation_food" value="" ></input>{% trans "So-so" %}</label></tr></td>
+<tr><td class="rg_text_line_no_lite"><label for="exp_food_good" ><input id="exp_food_good" type="radio" name="explanation_food" value="" ></input>{% trans "Good" %}</label></tr></td>
+<tr><td class="rg_text_line_hi_lite"><label for="exp_food_very_good" ><input id="exp_food_very_good" type="radio" name="explanation_food" value="" ></input>{% trans "Very good" %}</label></tr></td>
+<tr><td class="rg_text_line_no_lite"><label for="exp_food_excellent" ><input id="exp_food_excellent" type="radio" name="explanation_food" value="" ></input>{% trans "Excellent" %}</label></tr></td>
+<tr><td class="rg_text_line_hi_lite"><label for="exp_food_dunno" ><input id="exp_food_dunno" type="radio" name="explanation_food" value="" ></input>{% trans "I don't know." %}</label></tr></td>
 </table>
 </div>
 
@@ -87,13 +78,16 @@ I don't know.</label></tr></td>
             {# empty function places the usually obligatory error messages into nowhere #}
             errorPlacement: function(error, element) {},
             showErrors: function(errorMap, errorList) {
-                $("#fatError").addClass("mainError");
-                $("#fatError").text("You have left "
-                                               + this.numberOfInvalids() 
-                                               + " questions unanswered!");
                 var errors = validator.numberOfInvalids();
+                $("#fatError").addClass("mainError");
+                {% if LANG == "en" %}
+                var errorText = "You have left "+errors+" questions unanswered!";
+                {% elif LANG == "de" %}
+                var errorText = "Du hast "+errors+" Fragen noch nicht beantwortet!";
+                {% endif %}
+                $("#fatError").text(errorText);
                 if (!errors) {
-                    window.log('hiding   (..)   ');
+                    window.log('hiding   ..  ');
                     $("#fatError").hide();
                 };
             },

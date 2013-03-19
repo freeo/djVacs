@@ -1,6 +1,7 @@
 {% extends 'eyevacs/0preview1650.html' %}
 {% block body %}
 {% load i18n %}    
+{% get_current_language as LANG %}
 {% load staticfiles %}
 <!-- ################################################################# -->
 
@@ -12,17 +13,15 @@
 <div style="margin-left:120px;">
 <img src="{% static "img/mall.jpg" %}"><br/>
 </div>
-<p class="explanation_title"> Distance to CBD</p>
-<p class="full_page_text">
-The hotels of the vacation packages also differ in locations. All hotels are located near the coast, but the distance to the CBD ranges from 1km to 3km, so that you may have to take a bus to go to the city center.<br/>
-<br/>
-The last time you were in a hotel near the sea, in terms of the distance to the CBD how far away was your hotel from the city center? <br/>
+<p class="explanation_title">{% trans "Distance to CBD" %}</p>
+<p class="full_page_text">{% trans "The hotels of the vacation packages also differ in locations. All hotels are located near the coast, but the distance to the CBD ranges from 1km to 3km, so that you may have to take a bus to go to the city center." %}<br/>
+<br/>{% trans "The last time you were in a hotel near the sea, in terms of the distance to the CBD how far away was your hotel from the city center?" %}<br/>
 <br/>
 </p>
 
 <div style="margin-left:200px;">
 <select name="explanation_distance" style="width:600px;height:35px;font-size:20px;font-weight:normal;">
-<option value=""> --select-- </option>
+<option value="">{% trans "--select--" %}</option>
 <option value="0">0 km</option>
 <option value="1">1 km</option>
 <option value="2">2 km</option>
@@ -34,8 +33,8 @@ The last time you were in a hotel near the sea, in terms of the distance to the 
 <option value="8">8 km</option>
 <option value="9">9 km</option>
 <option value="10">10 km</option>
-<option value="10+">more than 10 km</option>
-<option value="dunno">I don't know.</option>
+<option value="10+">{% trans "more than 10 km" %}</option>
+<option value="dunno">{% trans "I don't know." %}</option>
 </select>
 </div>
 
@@ -61,11 +60,14 @@ The last time you were in a hotel near the sea, in terms of the distance to the 
             {# empty function places the usually obligatory error messages into nowhere #}
             errorPlacement: function(error, element) {},
             showErrors: function(errorMap, errorList) {
-                $("#fatError").addClass("mainError");
-                $("#fatError").text("You have left "
-                                               + this.numberOfInvalids() 
-                                               + " questions unanswered!");
                 var errors = validator.numberOfInvalids();
+                $("#fatError").addClass("mainError");
+                {% if LANG == "en" %}
+                var errorText = "You have left "+errors+" questions unanswered!";
+                {% elif LANG == "de" %}
+                var errorText = "Du hast "+errors+" Fragen noch nicht beantwortet!";
+                {% endif %}
+                $("#fatError").text(errorText);
                 if (!errors) {
                     window.log('hiding   ..  ');
                     $("#fatError").hide();

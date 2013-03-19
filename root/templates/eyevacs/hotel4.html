@@ -3,26 +3,19 @@
 {% load i18n %}  
 {% load staticfiles %}
 <div class="transit_header"> 
-<p>
-Please find a hotel which is <span class="underlined"> both, nearest to the airport and also the cheapest!</span>
+<p>{% trans "Please find a hotel which is " %}<span class="underlined">{% trans "both, nearest to the airport and also the cheapest!" %}</span>
 </p>
 <div style="text-align:center; padding-top:50px" ><img src="{% static "img/4.jpg" %}" class="transitimg" >
-<p>
-Art Series – The Olsen
-</p></div>
+<p>{% trans "Art Series – The Olsen" %}</p></div>
 <br/>
 </div>
-<p class="transit_body" >
-At The Olsen Hotel, one can sleep soundly on Art Series Signature bedding, plunge into the spectacular glass bottom pool with Chapel Street shoppers below, work out in our state-of-the-art gymnasium or step out for some retail therapy. These South Yarra accommodations offer plentiful natural light and are thoughtfully appointed with 42” flatscreen televisions, wireless internet access and complete kitchenettes. <br/>
-<br/>
-Set on Melbourne’s prestigious Chapel Street (31 km to the airport), The Olsen Hotel offers travelers premier South Yarra accommodation with 229 elegant five-star suites that are infused with the lyrical works of revered Australian Landscape artist Dr John Olsen. Breathtaking mural and sculpture greet you on arrival and large prints adorn all hallways and suites. This boutique Melbourne hotel is complimented by a day spa and two delicious restaurants; you will be reveling in the Art of [Creature Comforts]. <br/>
-<br/>
-The Olsen Hotel in Melbourne is complete with first class facilities and a range of services to ensure every aspect of your stay is taken care of. Enjoy five star service and the facilities in and around the hotel, including 24 hour reception, concierge and room service, secure luggage storage area, conference and event facilities, Day Spa, Hair Salon and iPod rental with extensive play lists.<br/>
-<br/>
-Book today for only 359$ a weekend!
+<p class="transit_body" >{% trans "At The Olsen Hotel, one can sleep soundly on Art Series Signature bedding, plunge into the spectacular glass bottom pool with Chapel Street shoppers below, work out in our state-of-the-art gymnasium or step out for some retail therapy. These South Yarra accommodations offer plentiful natural light and are thoughtfully appointed with 42” flatscreen televisions, wireless internet access and complete kitchenettes." %}<br/>
+<br/>{% trans "Set on Melbourne’s prestigious Chapel Street (31 km to the airport), The Olsen Hotel offers travelers premier South Yarra accommodation with 229 elegant five-star suites that are infused with the lyrical works of revered Australian Landscape artist Dr John Olsen. Breathtaking mural and sculpture greet you on arrival and large prints adorn all hallways and suites. This boutique Melbourne hotel is complimented by a day spa and two delicious restaurants; you will be reveling in the Art of [Creature Comforts]." %}<br/>
+<br/>{% trans "The Olsen Hotel in Melbourne is complete with first class facilities and a range of services to ensure every aspect of your stay is taken care of. Enjoy five star service and the facilities in and around the hotel, including 24 hour reception, concierge and room service, secure luggage storage area, conference and event facilities, Day Spa, Hair Salon and iPod rental with extensive play lists." %}<br/>
 
-</p>
+<br/>{% trans "Book today for only 359$ a weekend!" %}</p>
+
 <div class="transit_link">
-<a href="../" class="transit_link"> >> Back to the overview</a>
+<a href="../" class="transit_link">{% trans " >> Back to the overview" %}</a>
 </div>
 {% endblock %}

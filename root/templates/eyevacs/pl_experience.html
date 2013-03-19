@@ -2,11 +2,11 @@
 {% load staticfiles %}
 {% block body %}
 {% load i18n %}    
+{% get_current_language as LANG %}
 <!-- ################################################################# -->
 
 </br>
-<p class="question_title">Now let’s come to the main topic of this survey which is vacation packages. In the following a vacation package describes a hotel you choose for a summer holiday which already includes catering.
-</p>
+<p class="question_title">{% trans "Now let’s come to the main topic of this survey which is vacation packages. In the following a vacation package describes a hotel you choose for a summer holiday which already includes catering." %}</p>
 {# Let’s come to vacation packages now: #}
 <form action="{{ destination }}" method="post" name="pl_experience">
 {% csrf_token %}
@@ -14,28 +14,24 @@
 <table width="1200px" border="0" align="center" summary="layout table which contains all 4 radio groups including their questions.">
 <tr>
 <td valign="top">
-    <p class="rg_question_text" >When was the last time you booked a vacation package including a seaside hotel?</p>
+    <p class="rg_question_text" >{% trans "When was the last time you booked a vacation package including a seaside hotel?" %}</p>
 
     <table class="rg_inner_container">
       <tr>
         <td class="rg_text_line_no_lite"><label for="lastvacation1" >
-          <input type="radio" name="experience_lastvacation" id="lastvacation1" value="<12months"/>
-        Within the last 12 months</label></td>
+          <input type="radio" name="experience_lastvacation" id="lastvacation1" value="<12months"/>{% trans " Within the last 12 months" %}</label></td>
       </tr>
       <tr>
         <td class="rg_text_line_hi_lite"><label for="lastvacation2" >
-          <input type="radio" name="experience_lastvacation" id="lastvacation2" value="12-36months"/>
-          Between the last 12 and 36 months</label></td>
+          <input type="radio" name="experience_lastvacation" id="lastvacation2" value="12-36months"/>{% trans " Between the last 12 and 36 months" %}</label></td>
       </tr>
       <tr>
         <td class="rg_text_line_no_lite"><label for="lastvacation3" >
-          <input type="radio" name="experience_lastvacation" id="lastvacation3" value="36+months"/>
-          Longer than 36 months ago</label></td>
+          <input type="radio" name="experience_lastvacation" id="lastvacation3" value="36+months"/>{% trans " Longer than 36 months ago" %}</label></td>
       </tr>
       <tr>
         <td class="rg_text_line_hi_lite"><label for="lastvacation4" >
-          <input type="radio" name="experience_lastvacation" id="lastvacation4" value="never"/>
-          I never booked a vacation package before.</label></td>
+          <input type="radio" name="experience_lastvacation" id="lastvacation4" value="never"/>{% trans " I never booked a vacation package before." %}</label></td>
       </tr>
     </table>
   
@@ -45,39 +41,34 @@
 
 <tr>
 <td valign="top">
-<p class="rg_question_text">Are you planning to book a vacation package within the next 12 months?</p>
+<p class="rg_question_text">{% trans "Are you planning to book a vacation package within the next 12 months?" %}</p>
     <table class="rg_inner_container">
       <tr>
         <td class="rg_text_line_no_lite"><label for="planning1" >
-          <input type="radio" name="experience_planningvacation" id="planning1" value="yes"/>
-        Yes</label></td>
+          <input type="radio" name="experience_planningvacation" id="planning1" value="yes"/>{% trans " Yes" %}</label></td>
       </tr>
       <tr>
         <td class="rg_text_line_hi_lite"><label for="planning2" >
-          <input type="radio" name="experience_planningvacation" id="planning2" value="no"/>
-          No</label></td>
+          <input type="radio" name="experience_planningvacation" id="planning2" value="no"/>{% trans " No" %}</label></td>
       </tr>
     </table>
 </td>
 </tr>
 
 <td valign="top">
-<p class="rg_question_text">When it comes to booking a vacation package, what would you say: How long do you search for information before you decide which vacation package to book?</p>
+<p class="rg_question_text">{% trans "When it comes to booking a vacation package, what would you say: How long do you search for information before you decide which vacation package to book?" %}</p>
     <table class="rg_inner_container">
       <tr>
         <td class="rg_text_line_no_lite"><label for="searchduration1" >
-          <input type="radio" name="experience_searchduration" id="searchduration1" value="<1week" />
-        Less than one week</label></td>
+          <input type="radio" name="experience_searchduration" id="searchduration1" value="<1week" />{% trans " Less than one week" %}</label></td>
       </tr>
       <tr>
         <td class="rg_text_line_hi_lite"><label for="searchduration2" >
-          <input type="radio" name="experience_searchduration" id="searchduration2" value="1-2weeks" />
-          Between one and two weeks</label></td>
+          <input type="radio" name="experience_searchduration" id="searchduration2" value="1-2weeks" />{% trans " Between one and two weeks" %}</label></td>
       </tr>
       <tr>
         <td class="rg_text_line_no_lite"><label for="searchduration3" >
-          <input type="radio" name="experience_searchduration" id="searchduration3" value="2+weeks" />
-          More than two weeks</label></td>
+          <input type="radio" name="experience_searchduration" id="searchduration3" value="2+weeks" />{% trans " More than two weeks" %}</label></td>
       </tr> 
     </table>
     </td>
@@ -133,11 +124,14 @@
             {# empty function places the usually obligatory error messages into nowhere #}
             errorPlacement: function(error, element) {},
             showErrors: function(errorMap, errorList) {
-                $("#fatError").addClass("mainError");
-                $("#fatError").text("You have left "
-                                               + this.numberOfInvalids() 
-                                               + " questions unanswered!");
                 var errors = validator.numberOfInvalids();
+                $("#fatError").addClass("mainError");
+                {% if LANG == "en" %}
+                var errorText = "You have left "+errors+" questions unanswered!";
+                {% elif LANG == "de" %}
+                var errorText = "Du hast "+errors+" Fragen noch nicht beantwortet!";
+                {% endif %}
+                $("#fatError").text(errorText);
                 if (!errors) {
                     window.log('hiding   ..  ');
                     $("#fatError").hide();

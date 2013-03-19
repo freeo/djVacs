@@ -1,6 +1,7 @@
 {% extends 'eyevacs/0preview1650.html' %}
 {% block body %}
 {% load i18n %}    
+{% get_current_language as LANG %}
 {% load staticfiles %}
 <!-- ################################################################# -->
 
@@ -10,28 +11,30 @@
 {# <p class="full_page_text"> #}
 <br/>
 <div style="margin-left:120px;">
-<img src="{% static "img/money.jpg" %}"><br/>
+{% if LANG == "en" %}
+    <img src="{% static "img/money_en.jpg" %}">
+{% elif LANG == "de" %}
+    <img src="{% static "img/money_de.jpg" %}">
+{% endif %}
 </div>
-<p class="explanation_title">Price</p>
-<p class="full_page_text">
-Hotels also differ with respect to prices. All hotels offer special rates for a weekend stay (two nights) which already include catering. Special rates range from $699 to $899 per person for a one week stay.<br/>
-<br/>
-In our example your rich relative has given you money to go on vacation for you and a friend.  Savings from the trip, however, can be used for other things. Paying the stay out of your own pocket, what would be the maximum you would be willing to spend per person for a one week stay?<br/>
+<p class="explanation_title">{% trans "Price" %}</p>
+<p class="full_page_text">{% trans " Hotels also differ with respect to prices. All hotels offer special rates for a weekend stay (two nights) which already include catering. Special rates range from $699 to $899 per person for a one week stay." %}<br/>
+<br/>{% trans " In our example your rich relative has given you money to go on vacation for you and a friend.  Savings from the trip, however, can be used for other things. Paying the stay out of your own pocket, what would be the maximum you would be willing to spend per person for a one week stay?" %}<br/>
 <br/>
 </p>
 <div style="margin-left:200px;" >
 <select name="explanation_price" style="width:600px;height:35px;font-size:20px;font-weight:normal;">
-<option value=""> --select-- </option>
-<option value="<300">under $300</option>
-<option value="300">$300</option>
-<option value="400">$400</option>
-<option value="500">$500</option>
-<option value="600">$600</option>
-<option value="700">$700</option>
-<option value="800">$800</option>
-<option value="900">$900</option>
-<option value="1000">$1000</option>
-<option value="dunno">I don't know.</option>
+<option value="">{% trans " --select-- " %}</option>
+<option value="<300">{% trans "under $300" %}</option>
+<option value="300">{% trans "$300" %}</option>
+<option value="400">{% trans "$400" %}</option>
+<option value="500">{% trans "$500" %}</option>
+<option value="600">{% trans "$600" %}</option>
+<option value="700">{% trans "$700" %}</option>
+<option value="800">{% trans "$800" %}</option>
+<option value="900">{% trans "$900" %}</option>
+<option value="1000">{% trans "$1000" %}</option>
+<option value="dunno">{% trans "I don't know." %}</option>
 </select> 
 </div>
 
@@ -83,11 +86,14 @@ In our example your rich relative has given you money to go on vacation for you 
             {# empty function places the usually obligatory error messages into nowhere #}
             errorPlacement: function(error, element) {},
             showErrors: function(errorMap, errorList) {
-                $("#fatError").addClass("mainError");
-                $("#fatError").text("You have left "
-                                               + this.numberOfInvalids() 
-                                               + " questions unanswered!");
                 var errors = validator.numberOfInvalids();
+                $("#fatError").addClass("mainError");
+                {% if LANG == "en" %}
+                var errorText = "You have left "+errors+" questions unanswered!";
+                {% elif LANG == "de" %}
+                var errorText = "Du hast "+errors+" Fragen noch nicht beantwortet!";
+                {% endif %}
+                $("#fatError").text(errorText);
                 if (!errors) {
                     window.log('hiding   ..  ');
                     $("#fatError").hide();

@@ -1,8 +1,8 @@
 {% extends 'eyevacs/0preview1650.html' %}
-{# {% extends 'eyevacs/dw_transitMain.html' %} #}
-{# 0preview1650 #}
+{% load i18n %}
 {% load staticfiles %}
-{%block body %}
+{% block body %}
+{% get_current_language as LANG %}
     <div class="question_title">{{question_title|linebreaks }}</div>
     <form action="{{ destination }}" method="post" name="{{scale_name}}" id="{{scale_id}}">{% csrf_token %}
 <div style="height:10px" > </div>
@@ -157,11 +157,14 @@
             {# empty function places the usually obligatory error messages into nowhere #}
             errorPlacement: function(error, element) {},
             showErrors: function(errorMap, errorList) {
-                $("#fatError").addClass("mainError");
-                $("#fatError").text("You have left "
-                                               + this.numberOfInvalids() 
-                                               + " questions unanswered!");
                 var errors = validator.numberOfInvalids();
+                $("#fatError").addClass("mainError");
+                {% if LANG == "en" %}
+                var errorText = "You have left "+errors+" questions unanswered!";
+                {% elif LANG == "de" %}
+                var errorText = "Du hast "+errors+" Fragen noch nicht beantwortet!";
+                {% endif %}
+                $("#fatError").text(errorText);
                 if (!errors) {
                     window.log('hiding   ..  ');
                     $("#fatError").hide();

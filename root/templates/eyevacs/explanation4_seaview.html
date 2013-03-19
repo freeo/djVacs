@@ -1,6 +1,7 @@
 {% extends 'eyevacs/0preview1650.html' %}
 {% block body %}
 {% load i18n %}    
+{% get_current_language as LANG %}
 {% load staticfiles %}
 <!-- ################################################################# -->
 
@@ -12,9 +13,8 @@
 <br/>
 <br/>
 <br/>
-<p class="explanation_title">Sea view</p>
-<p class="full_page_text">
-The rooms in your hotel also vary in terms of whether they have a sea view. Some hotels offer you a room with a full sea view, while others offer a side sea view or no sea view at all. <br/>
+<p class="explanation_title">{% trans "Sea view" %}</p>
+<p class="full_page_text">{% trans "The rooms in your hotel also vary in terms of whether they have a sea view. Some hotels offer you a room with a full sea view, while others offer a side sea view or no sea view at all." %}<br/>
 </p>
 <br/>
 <div style="margin-left:200px;">
@@ -22,19 +22,14 @@ The rooms in your hotel also vary in terms of whether they have a sea view. Some
 <img src="{% static "img/side_view.jpg" %}" style="height:150px" >
 <img src="{% static "img/full_view.jpg" %}" style="height:150px" >
 </div><br/>
-<p class="full_page_text">
-The last time you were in a hotel next to the sea, in terms of the sea view which kind of room did you choose?<br/>
+<p class="full_page_text">{% trans "The last time you were in a hotel next to the sea, in terms of the sea view which kind of room did you choose?" %}<br/>
 </p>
 <div class="rg" style="margin-left:200px;">
 <table style="width:600px;">
-<tr><td class="rg_text_line_no_lite"><label for="exp_view_full" ><input id="exp_view_full" type="radio" name="explanation_view" value="" ></input>
-No sea view</label></tr></td>
-<tr><td class="rg_text_line_hi_lite"><label for="exp_view_side" ><input id="exp_view_side" type="radio" name="explanation_view" value="" ></input>
-Side sea view</label></tr></td>
-<tr><td class="rg_text_line_no_lite"><label for="exp_view_no" ><input id="exp_view_no" type="radio" name="explanation_view" value="" ></input>
-Full sea view</label></tr></td>
-<tr><td class="rg_text_line_hi_lite"><label for="exp_view_dunno" ><input id="exp_view_dunno" type="radio" name="explanation_view" value="" ></input>
-I don't know.</label></tr></td>
+<tr><td class="rg_text_line_no_lite"><label for="exp_view_full" ><input id="exp_view_full" type="radio" name="explanation_view" value="" ></input>{% trans "No sea view" %}</label></tr></td>
+<tr><td class="rg_text_line_hi_lite"><label for="exp_view_side" ><input id="exp_view_side" type="radio" name="explanation_view" value="" ></input>{% trans "Side sea view" %}</label></tr></td>
+<tr><td class="rg_text_line_no_lite"><label for="exp_view_no" ><input id="exp_view_no" type="radio" name="explanation_view" value="" ></input>{% trans "Full sea view" %}</label></tr></td>
+<tr><td class="rg_text_line_hi_lite"><label for="exp_view_dunno" ><input id="exp_view_dunno" type="radio" name="explanation_view" value="" ></input>{% trans "I don't know." %}</label></tr></td>
 </table>
 </div>
 
@@ -86,11 +81,14 @@ I don't know.</label></tr></td>
             {# empty function places the usually obligatory error messages into nowhere #}
             errorPlacement: function(error, element) {},
             showErrors: function(errorMap, errorList) {
-                $("#fatError").addClass("mainError");
-                $("#fatError").text("You have left "
-                                               + this.numberOfInvalids() 
-                                               + " questions unanswered!");
                 var errors = validator.numberOfInvalids();
+                $("#fatError").addClass("mainError");
+                {% if LANG == "en" %}
+                var errorText = "You have left "+errors+" questions unanswered!";
+                {% elif LANG == "de" %}
+                var errorText = "Du hast "+errors+" Fragen noch nicht beantwortet!";
+                {% endif %}
+                $("#fatError").text(errorText);
                 if (!errors) {
                     window.log('hiding   ..  ');
                     $("#fatError").hide();

@@ -2,12 +2,13 @@
 {% load staticfiles %}
 {% block body %}
 {% load i18n %}    
+{% get_current_language as LANG %}
 <!-- ################################################################# -->
 
     {% if starter %}
-    <div class="question_title" style="padding-top:15px;">Thank you for your choices, now indicate how likely it would be that you would choose the following alternatives from 0 (definitely reject) to 10 (definitely accept)?</div>
+    <div class="question_title" style="padding-top:15px;">{% trans "Thank you for your choices, now indicate how likely it would be that you would choose the following alternatives from 0 (definitely reject) to 10 (definitely accept)?" %}</div>
     {% else %}
-    <div class="question_title" style="padding-top:15px;">Indicate how likely it would be that you would choose the following alternative from 0 (definitely reject) to 10 (definitely accept)?</div>
+    <div class="question_title" style="padding-top:15px;">{% trans "Indicate how likely it would be that you would choose the following alternative from 0 (definitely reject) to 10 (definitely accept)?" %}</div>
     {% endif %}
 
 <form action="{{ destination }}" method="post" >
@@ -22,18 +23,14 @@
     {# spacer  #}
     </td> 
     <td class="spacercon"></td>
-    <td class="dctdcon attrcon">
-    Option A
-    </td> <td class="spacercon"></td>
-    <td class="dctdcon attrcon"> 
-    Option B
-    </td> <td class="spacercon"></td>
-    <td class="dctdcon attrcon"> 
-    Option C
-    </td> <td class="spacercon"></td>
-    <td class="dctdcon attrcon"> 
-    Option D
-    </td> <td class="spacercon"></td>
+    <td class="dctdcon attrcon">{% trans "Option A" %}</td>
+    <td class="spacercon"></td>
+    <td class="dctdcon attrcon">{% trans "Option B" %}</td>
+    <td class="spacercon"></td>
+    <td class="dctdcon attrcon">{% trans "Option C" %}</td>
+    <td class="spacercon"></td>
+    <td class="dctdcon attrcon">{% trans "Option D" %}</td>
+    <td class="spacercon"></td>
 
     </tr>
     {# END # CAPTIONS ######################################################## #}
@@ -41,7 +38,7 @@
     <tr class="tr_spacer_con">
         </tr>
     <tr>
-        <td class="dctdcon attrcon">food quality</td><td class="spacercon"></td> 
+        <td class="dctdcon attrcon">{% trans "food quality" %}</td><td class="spacercon"></td> 
         {% for key, conjoint in conjointtasks.items %}
         <td class="dctdcon optioncon">{{ conjoint.food }}</td><td class="spacercon"></td>           
         {% endfor %} 
@@ -49,7 +46,7 @@
     <tr class="tr_spacer_con">
         </tr>
     <tr>
-        <td class="dctdcon attrcon">customers recommending</td><td class="spacercon"></td> 
+        <td class="dctdcon attrcon">{% trans "customers recommending" %}</td><td class="spacercon"></td> 
         {% for key, conjoint in conjointtasks.items %}
         <td class="dctdcon optioncon">{{ conjoint.recommending}}</td><td class="spacercon"></td>           
         {% endfor %} 
@@ -57,7 +54,7 @@
     <tr class="tr_spacer_con">
         </tr>
     <tr>
-        <td class="dctdcon attrcon">distance to CBD</td><td class="spacercon"></td> 
+        <td class="dctdcon attrcon">{% trans "distance to CBD" %}</td><td class="spacercon"></td> 
         {% for key, conjoint in conjointtasks.items %}
         <td class="dctdcon optioncon">{{ conjoint.distance}}</td><td class="spacercon"></td>           
         {% endfor %} 
@@ -65,7 +62,7 @@
     <tr class="tr_spacer_con">
         </tr>
     <tr>
-        <td class="dctdcon attrcon">sea view</td><td class="spacercon"></td> 
+        <td class="dctdcon attrcon">{% trans "sea view" %}</td><td class="spacercon"></td> 
         {% for key, conjoint in conjointtasks.items %}
         <td class="dctdcon optioncon">{{ conjoint.view}}</td><td class="spacercon"></td>           
         {% endfor %} 
@@ -73,7 +70,7 @@
     <tr class="tr_spacer_con">
         </tr>
     <tr>
-        <td class="dctdcon attrcon">price per person</td><td class="spacercon"></td> 
+        <td class="dctdcon attrcon">{% trans "price per person" %}</td><td class="spacercon"></td> 
         {% for key, conjoint in conjointtasks.items %}
         <td class="dctdcon optioncon">{{ conjoint.price}}</td><td class="spacercon"></td>           
         {% endfor %} 
@@ -81,13 +78,13 @@
     <tr class="tr_spacer_con">
         </tr>
     <tr>
-        <td class="dctdcon attrcon">room category</td><td class="spacercon"></td> 
+        <td class="dctdcon attrcon">{% trans "room category" %}</td><td class="spacercon"></td> 
         {% for key, conjoint in conjointtasks.items %}
         <td class="dctdcon optioncon">{{ conjoint.room }}</td><td class="spacercon"></td>           
         {% endfor %} 
     </tr>   
 
-    <tr style="height:80px;"> </tr>
+    <tr style="height:80px;"></tr>
 {# ######################################################################## #}
     <tr>
     <td class="dctdcon attrcon" style="background:#fff;">
@@ -97,8 +94,8 @@
     {% for key, conjoint in conjointtasks.items %}
     <td class="dctdcon" style="font-size:16px;background:#fff;"> 
     <select name="select_con{{ conjoint.id }}" >
-    <option value="">--select--</option>
-    <option value="0">0 (definately reject)</option>
+    <option value="">{% trans "--select--" %}</option>
+    <option value="0">{% trans "0 (definately reject)" %}</option>
     <option value="1">1</option>
     <option value="2">2</option>
     <option value="3">3</option>
@@ -108,7 +105,7 @@
     <option value="7">7</option>
     <option value="8">8</option>
     <option value="9">9</option>
-    <option value="1">10 (definately accept)</option>
+    <option value="1">{% trans "10 (definately accept)" %}</option>
     </select>
     </td> 
     <td class="spacercon"></td>
@@ -119,14 +116,7 @@
 </div>
 {# ######################################################################## #}
 
-{# <div style="height:150px"> </div> #}
-
    <input type="submit" class="weiter" name="{{ conjoint.id }}" value="{{ bt_label }}" >
-{# 2 optionen zur auswahl eines angebots: #}
-{# 1. 'buchen! button' (meine preference) #}
-{# 2. javascript on click auf jede einzelne zelle... radio button der signalisiert oder gleich die farbe der ganzen row aendern. #}
-{#  #}
-{# kann bei 1. ein 'hover' einbauen, column wechselt farbe #}
 
 </form>
 
@@ -151,11 +141,14 @@
             {# empty function places the usually obligatory error messages into nowhere #}
             errorPlacement: function(error, element) {},
             showErrors: function(errorMap, errorList) {
-                $("#fatError").addClass("mainError");
-                $("#fatError").text("You have left "
-                                               + this.numberOfInvalids() 
-                                               + " questions unanswered!");
                 var errors = validator.numberOfInvalids();
+                $("#fatError").addClass("mainError");
+                {% if LANG == "en" %}
+                var errorText = "You have left "+errors+" questions unanswered!";
+                {% elif LANG == "de" %}
+                var errorText = "Du hast "+errors+" Fragen noch nicht beantwortet!";
+                {% endif %}
+                $("#fatError").text(errorText);
                 if (!errors) {
                     window.log('hiding   ..  ');
                     $("#fatError").hide();

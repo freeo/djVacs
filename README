@@ -3,11 +3,7 @@ Eyetracking Vacations
 EyeVacs powered by Django
 -------------------------
 
-2 branches: 
-1. development
-2. http://beefeyetracker.pythonanywhere.com
-
-
+http://beefeyetracker.pythonanywhere.com/eye/
 
 Note: all script files have to be executed from within this parent folder! This is due to the corresponding "shell", which is invoked by:
 

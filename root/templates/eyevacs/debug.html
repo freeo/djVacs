@@ -2,13 +2,15 @@
 {% load staticfiles %}
 {# {% load i18n %} #}
 {% block body %}
-
-
+<div>
+<a href="../../lang/" >
 {% if lang == "en" %}
-    <img src="{% static "img/en.jpg" %}" style="height:100px;" >
+    <img src="{% static "img/en.jpg" %}" style="height:80px;" >
 {% elif lang == "de" %}
-    <img src="{% static "img/de.jpg" %}" style="height:100px;" >
+    <img src="{% static "img/de.jpg" %}" style="height:80px;" >
 {% endif %}
+</a>
+</div>
 
 <p class="">
 Jump to page:<br/>

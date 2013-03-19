@@ -1,5 +1,4 @@
 from eyevacs.models import Scale, Scale_Question, Experiment, Participant, External_Order_Scale, Attribute, Level
-from scripts import scale_questions
 import json
 import re
 import ast
@@ -302,6 +301,7 @@ def initPcpt(ext_ct_size, ext_pcpt_id, condition):
     setChoiceTasks()
 
 def get_scale_context(scale_name_string):
+    from scripts import scale_questions
     question_title = scale_questions.question_titles[scale_name_string]
     scale_name = scale_name_string
     scale_id = '' #css id design for the form! will STAY EMPTY!!!

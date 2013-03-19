@@ -1,0 +1,1067 @@
+# EyeVacs Translation PO File: Deutschhhh
+# Copyright (C) 2013
+# This file is distributed under the same license as the eyevacs package.
+# Arthur Jaron <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-19 23:14+0100\n"
+"PO-Revision-Date: 2013-03-19 15:52+0100\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: German \n"
+"Language: Deutsch\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"huehuehueProject-Id-Version: Eyevacs Beta\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: .\djVacs\settings linux legacy.py:46 win legacy.py:44 lin.py:51
+#: .\djVacs\settings.py:52
+msgid "German"
+msgstr "huehuehue"
+
+#: .\djVacs\settings linux legacy.py:47 win legacy.py:45 lin.py:52
+#: .\djVacs\settings.py:51
+msgid "English"
+msgstr "huehuehue"
+
+#: .\eyevacs\views.py:15
+msgid "Continue"
+msgstr "huehuehue"
+
+#: .\eyevacs\views.py:68
+msgid "This string has to be translated. It was marked with ugettext()."
+msgstr "huehuehue"
+
+#: .\eyevacs\views.py:196 .\eyevacs\views.py:208 .\eyevacs\views.py:392
+msgid "I do not agree at all"
+msgstr "huehuehue"
+
+#: .\eyevacs\views.py:196 .\eyevacs\views.py:208 .\eyevacs\views.py:392
+msgid "I agree very much"
+msgstr "huehuehue"
+
+#: .\eyevacs\views.py:359
+msgid "Proceed to selection"
+msgstr "huehuehue"
+
+#: .\eyevacs\views_pcpt.py:28 .\eyevacs\views_pcpt.py:29
+#: .\eyevacs\views_pcpt.py:31 .\eyevacs\views_pcpt.py:34
+#: .\templates\eyevacs\explanation7_favattributes.html.py:25
+msgid "good"
+msgstr "huehuehue"
+
+#: .\eyevacs\views_pcpt.py:28 .\eyevacs\views_pcpt.py:30
+#: .\eyevacs\views_pcpt.py:34 .\eyevacs\views_pcpt.py:35
+#: .\templates\eyevacs\explanation7_favattributes.html.py:42
+msgid "no sea view"
+msgstr "huehuehue"
+
+#: .\eyevacs\views_pcpt.py:28 .\eyevacs\views_pcpt.py:29
+#: .\eyevacs\views_pcpt.py:32 .\eyevacs\views_pcpt.py:35
+#: .\templates\eyevacs\explanation7_favattributes.html.py:48
+msgid "$699"
+msgstr "huehuehue"
+
+#: .\eyevacs\views_pcpt.py:28 .\eyevacs\views_pcpt.py:32
+#: .\eyevacs\views_pcpt.py:33 .\eyevacs\views_pcpt.py:34
+#: .\templates\eyevacs\explanation7_favattributes.html.py:53
+msgid "standard"
+msgstr "huehuehue"
+
+#: .\eyevacs\views_pcpt.py:29 .\eyevacs\views_pcpt.py:31
+#: .\eyevacs\views_pcpt.py:32 .\eyevacs\views_pcpt.py:33
+#: .\templates\eyevacs\explanation7_favattributes.html.py:43
+msgid "full sea view"
+msgstr "huehuehue"
+
+#: .\eyevacs\views_pcpt.py:29 .\eyevacs\views_pcpt.py:30
+#: .\eyevacs\views_pcpt.py:31 .\eyevacs\views_pcpt.py:35
+#: .\templates\eyevacs\explanation7_favattributes.html.py:55
+msgid "deluxe"
+msgstr "huehuehue"
+
+#: .\eyevacs\views_pcpt.py:30 .\eyevacs\views_pcpt.py:32
+#: .\eyevacs\views_pcpt.py:33 .\eyevacs\views_pcpt.py:35
+#: .\templates\eyevacs\explanation7_favattributes.html.py:23
+msgid "excellent"
+msgstr "huehuehue"
+
+#: .\eyevacs\views_pcpt.py:30 .\eyevacs\views_pcpt.py:31
+#: .\eyevacs\views_pcpt.py:33 .\eyevacs\views_pcpt.py:34
+#: .\templates\eyevacs\explanation7_favattributes.html.py:47
+msgid "$899"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:9
+msgid ""
+"When I am in the car listening to the radio, I often check other stations to "
+"see if something better is playing, even if I am relatively satisfied with "
+"what I’m listening to."
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:9
+msgid ""
+"No matter how satisfied I am with my job, it’s only right for me to be on "
+"the lookout for better opportunities."
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:9
+msgid "I often find it difficult to shop for a gift for a friend."
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:9
+msgid ""
+"Renting videos is really difficult. I’m always struggling to pick the best "
+"one."
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:9
+msgid "No matter what I do, I have the highest standards for myself."
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:9
+msgid "I never settle for second best."
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:10
+msgid ""
+"Whenever I make a choice, I’m curious about what would have happened if I "
+"had chosen differently."
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:10
+msgid ""
+"Whenever I make a choice, I try to get information about how the other "
+"alternatives turned out."
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:10
+msgid ""
+"If I make a choice and it turns out well, I still feel like something of a "
+"failure if I find out that another choice would have turned out better."
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:10
+msgid ""
+"When I think about how I’m doing in life, I often assess opportunities I "
+"have passed up."
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:10
+msgid "Once I make a decision, I don’t look back."
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:11
+msgid "Overall, how familiar are you with booking vacation packages?"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:11
+msgid "The decision which vacation package to buy is a"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:11
+msgid "The decision which vacation package to buy"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:11
+msgid "When booking a vacation package there is"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:12
+msgid ""
+"Even if I found a vacation package that I was relatively satisfied with, I "
+"still looked to the other available vacation packages before deciding."
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:12
+msgid ""
+"I tried to find the best vacation package in each of the previous choice "
+"tasks."
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:12
+msgid ""
+"I had in mind some ideal vacation package(s), and I tried to look for "
+"vacation packages similar to my ideal package(s)."
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:12
+msgid ""
+"I made my decision in each choice task as soon as I found a vacation package "
+"that was good enough. "
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:13
+msgid "In general, I consider myself:"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:13
+msgid "Compared to most of my peers, I consider myself:"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:13
+msgid ""
+"Some people are generally very happy. They enjoy life regardless of what is "
+"going on, getting the most out of everything. To what extent does this "
+"characterization describe you?"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:17
+msgid ""
+"We’d like to start with some general statements about how you behave in "
+"daily situations. \n"
+"Please indicate your degree of agreement with the following statements (-3 = "
+"I do not agree with the statement at all, +3 = I agree with the statement "
+"very much)"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:19
+msgid ""
+"The following statements are related to choices in daily situations. \n"
+"Please indicate your degree of agreement with the following statements (-3 = "
+"I do not agree with the statement at all, +3 = I agree with the statement "
+"very much)"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:21
+msgid "What would you say:"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:23
+msgid ""
+"Now let’s come back to the hotel choices you made for you and your friend "
+"with the money you got from your rich relative (the $2000). We’d like to "
+"learn how you proceeded when making these choices:\n"
+"\n"
+"Please indicate your degree of agreement with the following statements (-3 = "
+"I do not agree with the statement at all, +3 = I agree with the statement "
+"very much)"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:25
+msgid ""
+"For each of the following statements and/or questions, please mark the point "
+"on the scale that you feel is most appropriate in describing you."
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:34
+msgid "very unfamiliar"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:34
+msgid "very familiar"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:34
+msgid "very unimportant decision"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:34
+msgid "very important decision"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:34
+msgid "requires little thought"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:34
+msgid "requires a lot of thought"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:34
+msgid "little to lose if you choose the wrong package"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:34
+msgid "a lot to lose if you choose the wrong package"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:36
+msgid "not a very happy person"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:36
+msgid "a very happy person"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:36
+msgid "less happy"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:36
+msgid "more happy"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:36
+msgid "not at all"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:36
+msgid "great deal"
+msgstr "huehuehue"
+
+#: .\scripts\scale_questions.py:36
+msgid "a great deal"
+msgstr "huehuehue"
+
+#: .\templates\admin\base_site.html.py:4
+msgid "Django site admin"
+msgstr "huehuehue"
+
+#: .\templates\admin\base_site.html.py:7
+msgid "Eyetracking Vacation Experiment MA Jaron"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\conjoint.html.py:9
+msgid ""
+"Thank you for your choices, now indicate how likely it would be that you "
+"would choose the following alternatives from 0 (definitely reject) to 10 "
+"(definitely accept)?"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\conjoint.html.py:11
+msgid ""
+"Indicate how likely it would be that you would choose the following "
+"alternative from 0 (definitely reject) to 10 (definitely accept)?"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\conjoint.html.py:26
+msgid "Option A"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\conjoint.html.py:28
+msgid "Option B"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\conjoint.html.py:30
+msgid "Option C"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\conjoint.html.py:32
+msgid "Option D"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\conjoint.html.py:41
+#: .\templates\eyevacs\explanation7_favattributes.html.py:22
+msgid "food quality"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\conjoint.html.py:49
+#: .\templates\eyevacs\explanation7_favattributes.html.py:28
+msgid "customers recommending"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\conjoint.html.py:57
+#: .\templates\eyevacs\explanation7_favattributes.html.py:34
+msgid "distance to CBD"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\conjoint.html.py:65
+#: .\templates\eyevacs\explanation7_favattributes.html.py:40
+msgid "sea view"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\conjoint.html.py:73
+#: .\templates\eyevacs\explanation7_favattributes.html.py:46
+msgid "price per person"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\conjoint.html.py:81
+#: .\templates\eyevacs\explanation7_favattributes.html.py:52
+msgid "room category"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\conjoint.html.py:97
+#: .\templates\eyevacs\explanation3_distance.html.py:24
+#: .\templates\eyevacs\pl_demographics.html.py:36
+msgid "--select--"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\conjoint.html.py:98
+msgid "0 (definately reject)"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\conjoint.html.py:108
+msgid "10 (definately accept)"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation0_overview.html.py:10
+msgid ""
+"Assume a rich relative has just given you $2000 to go on vacation for you "
+"and a friend. The place you have chosen has many exciting things for you to "
+"do and see. You can go to the beach as well as go to a large city which is "
+"nearby. You now need to consider the vacation package (hotel and catering) "
+"to buy. Later on in the survey, we will ask you to choose the vacation "
+"pacakge you like best based on the attributes you see on the following pages."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation1_food.html.py:16
+msgid "Food quality"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation1_food.html.py:17
+msgid ""
+"One way that the vacation packages will differ is how good the quality of "
+"the food is in the hotel’s restaurants. All hotels offer breakfast, lunch "
+"and dinner, but the quality of the food ranges from good to excellent."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation1_food.html.py:18
+msgid ""
+"The last time you were in a hotel, how good was the quality of the food?"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation1_food.html.py:22
+msgid "Miserable"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation1_food.html.py:23
+msgid "Very poor"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation1_food.html.py:24
+msgid "Poor"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation1_food.html.py:25
+msgid "So-so"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation1_food.html.py:26
+msgid "Good"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation1_food.html.py:27
+msgid "Very good"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation1_food.html.py:28
+msgid "Excellent"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation1_food.html.py:29
+#: .\templates\eyevacs\explanation2_recommend.html.py:66
+#: .\templates\eyevacs\explanation3_distance.html.py:37
+#: .\templates\eyevacs\explanation4_seaview.html.py:32
+#: .\templates\eyevacs\explanation5_price.html.py:37
+#: .\templates\eyevacs\explanation6_room.html.py:42
+msgid "I don't know."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation2_recommend.html.py:16
+msgid "Customers recommending"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation2_recommend.html.py:17
+#, python-format
+msgid ""
+"The vacation packages you can choose from also differ in terms of the "
+"percent of customers who previously visited the hotel and recommended it. "
+"The percent of customers who recommend a good hotel is different and could "
+"range from 50%% to 90%% (50 to 90 out of every 100 customers)."
+msgstr "huehuehue 50%% to 90%%"
+
+#: .\templates\eyevacs\explanation2_recommend.html.py:18
+msgid ""
+"Of the hotels you visited in the last two years, what percentage of hotels "
+"would you recommend to other customers?"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation2_recommend.html.py:23
+#: .\templates\eyevacs\explanation5_price.html.py:27
+msgid " --select-- "
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation3_distance.html.py:16
+msgid "Distance to CBD"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation3_distance.html.py:17
+msgid ""
+"The hotels of the vacation packages also differ in locations. All hotels are "
+"located near the coast, but the distance to the CBD ranges from 1km to 3km, "
+"so that you may have to take a bus to go to the city center."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation3_distance.html.py:18
+msgid ""
+"The last time you were in a hotel near the sea, in terms of the distance to "
+"the CBD how far away was your hotel from the city center?"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation3_distance.html.py:36
+msgid "more than 10 km"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation4_seaview.html.py:16
+msgid "Sea view"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation4_seaview.html.py:17
+msgid ""
+"The rooms in your hotel also vary in terms of whether they have a sea view. "
+"Some hotels offer you a room with a full sea view, while others offer a side "
+"sea view or no sea view at all."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation4_seaview.html.py:25
+msgid ""
+"The last time you were in a hotel next to the sea, in terms of the sea view "
+"which kind of room did you choose?"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation4_seaview.html.py:29
+msgid "No sea view"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation4_seaview.html.py:30
+msgid "Side sea view"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation4_seaview.html.py:31
+msgid "Full sea view"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation5_price.html.py:20
+msgid "Price"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation5_price.html.py:21
+msgid ""
+" Hotels also differ with respect to prices. All hotels offer special rates "
+"for a weekend stay (two nights) which already include catering. Special "
+"rates range from $699 to $899 per person for a one week stay."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation5_price.html.py:22
+msgid ""
+" In our example your rich relative has given you money to go on vacation for "
+"you and a friend.  Savings from the trip, however, can be used for other "
+"things. Paying the stay out of your own pocket, what would be the maximum "
+"you would be willing to spend per person for a one week stay?"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation5_price.html.py:28
+msgid "under $300"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation5_price.html.py:29
+msgid "$300"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation5_price.html.py:30
+msgid "$400"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation5_price.html.py:31
+msgid "$500"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation5_price.html.py:32
+msgid "$600"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation5_price.html.py:33
+msgid "$700"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation5_price.html.py:34
+msgid "$800"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation5_price.html.py:35
+msgid "$900"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation5_price.html.py:36
+msgid "$1000"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation6_room.html.py:12
+msgid "Room category"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation6_room.html.py:13
+msgid ""
+"Hotel rooms also vary with respect to the size of the room as well as the "
+"amenities and the facilities offered. Three different room categories are "
+"available:"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation6_room.html.py:18
+msgid "Standard rooms:"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation6_room.html.py:18
+msgid ""
+"The standard rooms are well appointed and perfectly suited for all your "
+"needs. Amenities and facilities include a queen bed or twin beds, en-suite "
+"bathroom, high-speed internet access and flat screen television. The average "
+"size is 25 square meters (269 square feet)."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation6_room.html.py:24
+msgid "Superior rooms:"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation6_room.html.py:24
+msgid ""
+"The Superior rooms are larger than the standard rooms, with an average size "
+"of 30 square meters (322 square feet). Amenities and facilities include a "
+"King bed or twin beds, seating area for two, en-suite bathroom, high-speed "
+"internet access, flat-screen television, two line telephone and an "
+"electronic safe."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation6_room.html.py:30
+msgid "Deluxe rooms:"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation6_room.html.py:30
+msgid ""
+"The Deluxe rooms are luxurious and spacious with an average size of 45 "
+"square metres (484 square feet) including a seating area with chairs or "
+"sofa. Amenities and facilities include a King bed or twin beds, en-suite "
+"bathroom, high-speed internet access, flat-screen television, two line "
+"telephone and an electronic safe. These rooms come with a host of extra "
+"services including private check-in, a state-of-the-art entertainment system "
+"and 24-hour butler service to make your stay seamlessly comfortable."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation6_room.html.py:34
+msgid ""
+"The last time you were in a hotel next to the sea, which kind of room did "
+"you choose?"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation6_room.html.py:39
+msgid "Standard"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation6_room.html.py:40
+msgid "Superior"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation6_room.html.py:41
+msgid "Deluxe"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation7_favattributes.html.py:14
+msgid ""
+" Now that you have seen all characteristics, please indicate how your ideal "
+"vacation package would look like by clicking on the respective levels you "
+"like best."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation7_favattributes.html.py:24
+msgid "very good"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation7_favattributes.html.py:41
+msgid "side sea view"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation7_favattributes.html.py:49
+msgid "$799"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation7_favattributes.html.py:54
+msgid "superior"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation8_choicetasks.html.py:9
+msgid ""
+"In this section, you will choose from a number of different hotels that "
+"differ in all of the characteristics discussed above. Again, please imagine "
+"that a relative has just given you $2000 to go on vacation for you and a "
+"friend. Imagine that the hotels shown on the screen are the only options "
+"available, and the hotels are the same except for the differences shown in "
+"the questions."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\explanation8_choicetasks.html.py:10
+msgid ""
+"Please click on the hotel you like best on every screen. You will be shown 8 "
+"different groups of hotels."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel1.html.py:6 .\templates\eyevacs\hotel2.html.py:7
+#: .\templates\eyevacs\hotel3.html.py:6 .\templates\eyevacs\hotel4.html.py:6
+#: .\templates\eyevacs\hotel5.html.py:6 .\templates\eyevacs\hotel6.html.py:6
+msgid "Please find a hotel which is "
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel1.html.py:6 .\templates\eyevacs\hotel2.html.py:7
+#: .\templates\eyevacs\hotel3.html.py:6 .\templates\eyevacs\hotel4.html.py:6
+#: .\templates\eyevacs\hotel5.html.py:6 .\templates\eyevacs\hotel6.html.py:6
+msgid "both, nearest to the airport and also the cheapest!"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel1.html.py:8
+msgid "Langham Hotel Melbourne extends a most enchanting invitation"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel1.html.py:10
+msgid ""
+"Experience the incomparable hospitality of the original Langham grand hotel, "
+"now reinterpreted in Melbourne as The Langham Melbourne hotel. Voted for the "
+"fourth consecutive year, winner of the Travel + Leisure Magazine USA "
+"'World's Best Awards Readers' Survey' as the top city hotel in Australia, "
+"New Zealand and the South Pacific."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel1.html.py:10
+msgid ""
+"The legendary service of The Langham, Hotel Melbourne positions it as a "
+"jewel among Melbourne Accommodation. Its enviable riverside location further "
+"enhances the allure of this exceptional Melbourne conference and meeting "
+"venue and is only 27 kilometers away from the airport."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel1.html.py:10
+msgid ""
+"Allow us to introduce you to the many wonders of The Langham Melbourne hotel "
+"with our Melbourne accommodation packages. Indeed, our remarkable features "
+"and facilities - many of them unique to us - are what make this a most "
+"extraordinary Melbourne hotel. The price for a  weekend stay is only 389$."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel1.html.py:10
+msgid ""
+"We greatly anticipate the pleasure of your company at The Langham Melbourne "
+"hotel."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel1.html.py:12 .\templates\eyevacs\hotel2.html.py:17
+#: .\templates\eyevacs\hotel3.html.py:16 .\templates\eyevacs\hotel4.html.py:19
+#: .\templates\eyevacs\hotel5.html.py:15 .\templates\eyevacs\hotel6.html.py:17
+msgid " >> Back to the overview"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel2.html.py:10
+#: .\templates\eyevacs\transitOverview.html.py:10
+#: .\templates\eyevacs\transit_select.html.py:20
+msgid "Grand Mercure"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel2.html.py:12
+msgid ""
+"Mercure Welcome Melbourne hotel offers you affordable budget accommodation "
+"and a base from which to explore all the attractions and events in Melbourne "
+"city and the CBD (24 kilometers from the airport)."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel2.html.py:13
+msgid ""
+" Melbourne is undoubtedly Australia’s best destination for shopping, dining, "
+"drinking, entertainment and sport – so your hardest decision on holiday will "
+"be…\"what shall I do today?\" Fortunately, staying in the hotel you'll be "
+"right in the heart of all this and more - you'll have direct access to all "
+"the best things to do in Melbourne city!\""
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel2.html.py:14
+msgid ""
+"You'll love our modern 3.5 star hotel accommodation, providing you with "
+"comfort, convenience, and great-value, budget rates  (415$ per weekend) that "
+"leave you more to spend on Melbourne city's many attractions!"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel3.html.py:9
+#: .\templates\eyevacs\transitOverview.html.py:11
+#: .\templates\eyevacs\transit_select.html.py:22
+msgid "Quay West Suites"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel3.html.py:11
+msgid ""
+"Located on cosmopolitan Southgate  (28 km from the airport) the property is "
+"ideally located adjacent to some of Melbournes ideal shopping restaurants "
+"and Arts Precinct. Combining both the luxury of 5 star hotel services and "
+"facilities with a fully self contained suite Quay West isperfect for that "
+"overnight stay or for that longer period. Enjoy the ambience of Jarrah "
+"Restaurant and Bar or luxuriate in our indoor 15 metre pool spa sauna and "
+"gym."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel3.html.py:12
+msgid ""
+"The hotel is a stylish Southbank hotel set amongst the picturesque Southbank "
+"promenade, overlooking the Yarra River. A leisurely stroll from Melbourne's "
+"CBD & within walking distance to the major Melbourne attractions."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel3.html.py:13
+msgid ""
+"Quay West Suites Melbourne features 100 one, two or three bedroom Melbourne "
+"serviced apartment suites ideally positioned in Southbank promenade.  If you "
+"book today, you do not pay more than 349$ for a one weekend stay. Facilities "
+"include: Valet grocery service, 24-hour reception, in-suite dining and "
+"concierge. A stunning heated indoor swimming pool, spa, sauna, fully "
+"equipped gymnasium, valet parking and the dining delights of Jarrah "
+"Restaurant & Bar."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel4.html.py:9
+msgid "Art Series – The Olsen"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel4.html.py:12
+msgid ""
+"At The Olsen Hotel, one can sleep soundly on Art Series Signature bedding, "
+"plunge into the spectacular glass bottom pool with Chapel Street shoppers "
+"below, work out in our state-of-the-art gymnasium or step out for some "
+"retail therapy. These South Yarra accommodations offer plentiful natural "
+"light and are thoughtfully appointed with 42” flatscreen televisions, "
+"wireless internet access and complete kitchenettes."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel4.html.py:13
+msgid ""
+"Set on Melbourne’s prestigious Chapel Street (31 km to the airport), The "
+"Olsen Hotel offers travelers premier South Yarra accommodation with 229 "
+"elegant five-star suites that are infused with the lyrical works of revered "
+"Australian Landscape artist Dr John Olsen. Breathtaking mural and sculpture "
+"greet you on arrival and large prints adorn all hallways and suites. This "
+"boutique Melbourne hotel is complimented by a day spa and two delicious "
+"restaurants; you will be reveling in the Art of [Creature Comforts]."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel4.html.py:14
+msgid ""
+"The Olsen Hotel in Melbourne is complete with first class facilities and a "
+"range of services to ensure every aspect of your stay is taken care of. "
+"Enjoy five star service and the facilities in and around the hotel, "
+"including 24 hour reception, concierge and room service, secure luggage "
+"storage area, conference and event facilities, Day Spa, Hair Salon and iPod "
+"rental with extensive play lists."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel4.html.py:16
+msgid "Book today for only 359$ a weekend!"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel5.html.py:9
+msgid "Grant Hyatt"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel5.html.py:12
+msgid ""
+"Grand Hyatt Melbourne hotel is a 5-star hotel on Collins Street in the "
+"centre of CBD, business, luxury shopping, theatre and restaurant district. "
+"The hotel is located within walking distance of Princess Theatre, Federation "
+"Square and Southgate, 25 kilometres from the airport."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel5.html.py:12
+msgid ""
+"The hotel provides 544 rooms and suites with extensive meeting rooms and "
+"event facilities, spectacular upper and lower lobbies, the restaurant, "
+"Collins Kitchen, the bar, RU-CO, as well as an exclusive retail environment "
+"and innovative events venue, the residence."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel5.html.py:12
+msgid ""
+"Guests booking into Club accommodation (399$/weekend) will enjoy all the "
+"benefits of the Grand Club lounge including personalised express check in "
+"and check-out, deluxe continental breakfast, all day refreshments, evening "
+"drinks with canapés and private meeting areas. For meetings and events, "
+"Grand Hyatt Melbourne offers the perfect combination of first-class function "
+"rooms, outstanding services and a range of flexible packages. For weddings "
+"our Melbourne hotel offers a range of romantic rooms for your special day. "
+"Grand Hyatt Melbourne also offers all guests’ access to City Club Health & "
+"Fitness and exclusive spa treatments and massages at our Sanctuary Day Spa."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel6.html.py:8
+#: .\templates\eyevacs\transitOverview.html.py:26
+#: .\templates\eyevacs\transit_select.html.py:30
+msgid "Park Hyatt"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel6.html.py:10
+msgid ""
+"Overlooking St. Patrick’s Cathedral, Fitzroy Gardens and the cosmopolitan "
+"mix of Victorian and modern architecture of the central business district, "
+"Park Hyatt Melbourne offers an exclusive sanctuary in the heart of the city. "
+"Our 5-star luxury hotel in Melbourne CBD provides a warm ambience and "
+"exceptional levels of personalised service and luxury amenities. We offer a "
+"weekend stay for 329$."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel6.html.py:11
+msgid ""
+"Renowned for having the largest 240 luxury rooms & suites in Melbourne with "
+"walk in robes, Italian marble ensuites and open windows, our luxury hotel in "
+"Melbourne provides an unparalleled experience of elegant, contemporary "
+"luxury. Guests are invited to enjoy the award-winning ‘radii’ restaurant & "
+"bar, a decadent Tea Lounge and our local-favourite day spa featuring an "
+"indoor aquamarine pool, spa, sauna, gym and private sun deck."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel6.html.py:12
+msgid ""
+"The hotel also offers a beautiful range of event spaces of varying size and "
+"design and caters for anything from intimate and private gatherings to "
+"corporate events for up to 450 people. The hotel also specialises in "
+"weddings offering a wedding planner, wedding packages, personalised menus "
+"and a range romantic rooms and suites."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\hotel6.html.py:13
+msgid ""
+"Our luxury Melbourne hotel is near the Melbourne Cricket Ground (MCG), home "
+"of the Australian Football League (AFL) and test cricket. It is also within "
+"walking distance to the Melbourne Museum, featuring the stunning exhibition "
+"The Wonders of Ancient Mesopotamia, and the best boutique shopping, cafes, "
+"restaurants and theatre districts in CBD. Melbourne Airport is conveniently "
+"located only 23km away."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_demographics.html.py:16
+msgid "You are..."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_demographics.html.py:21
+msgid "Female"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_demographics.html.py:25
+msgid "Male"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_demographics.html.py:33
+msgid "How old are you?"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_demographics.html.py:37
+msgid "under 30"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_demographics.html.py:38
+msgid "30 to 39"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_demographics.html.py:39
+msgid "40 to 49"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_demographics.html.py:40
+msgid "50 to 59"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_demographics.html.py:41
+msgid "over 60"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_experience.html.py:9
+msgid ""
+"Now let’s come to the main topic of this survey which is vacation packages. "
+"In the following a vacation package describes a hotel you choose for a "
+"summer holiday which already includes catering."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_experience.html.py:17
+msgid ""
+"When was the last time you booked a vacation package including a seaside "
+"hotel?"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_experience.html.py:22
+msgid " Within the last 12 months"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_experience.html.py:26
+msgid " Between the last 12 and 36 months"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_experience.html.py:30
+msgid " Longer than 36 months ago"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_experience.html.py:34
+msgid " I never booked a vacation package before."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_experience.html.py:44
+msgid "Are you planning to book a vacation package within the next 12 months?"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_experience.html.py:48
+msgid " Yes"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_experience.html.py:52
+msgid " No"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_experience.html.py:59
+msgid ""
+"When it comes to booking a vacation package, what would you say: How long do "
+"you search for information before you decide which vacation package to book?"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_experience.html.py:63
+msgid " Less than one week"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_experience.html.py:67
+msgid " Between one and two weeks"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\pl_experience.html.py:71
+msgid " More than two weeks"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\table.html.py:9
+msgid ""
+"If these hotels were your only options, which hotel would you buy for you "
+"and your friend with the money you got from your relative?"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\thankyou.html.py:8
+msgid "Thank you very much for participating in this study! "
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\transitOverview.html.py:5
+msgid ""
+" Now imagine that a relative is coming to Melbourne for a weekend. He/she "
+"likes to find a hotel which is "
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\transitOverview.html.py:5
+msgid " both, nearest to the airport and also the cheapest."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\transitOverview.html.py:6
+msgid ""
+" Below you see six different offers from hotels in and around Melbourne. By "
+"clicking on those offers you can get more information about them. Please do "
+"NOT use paper and pencil in this task."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\transitOverview.html.py:9
+#: .\templates\eyevacs\transit_select.html.py:18
+msgid "The Langham"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\transitOverview.html.py:18
+msgid "Art Series - The Olsen"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\transitOverview.html.py:22
+#: .\templates\eyevacs\transit_select.html.py:28
+msgid "Grand Hyatt"
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\transit_select.html.py:8
+msgid "Please click on the hotel you would recommend to your friend."
+msgstr "huehuehue"
+
+#: .\templates\eyevacs\transit_select.html.py:26
+msgid "Art Series - The Olson"
+msgstr "huehuehue"

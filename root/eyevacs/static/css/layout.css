@@ -397,13 +397,13 @@ label:active {
 .mainError{
     /* crucial for centered bottom abs positioning   */
     bottom: 85px;
-    width: 700px;
+    width: 750px;
   	margin-right: auto;
 	margin-left: auto;
     position:absolute;
     /* non crucial */
     font-family:"Droid Sans Mono", Courier, monospace;
-    background:#eee;
+    /* background:#fefefe; */
 	text-align: center;
 	font-size: 28px;
     font-weight: bold;

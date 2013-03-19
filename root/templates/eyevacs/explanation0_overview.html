@@ -1,14 +1,15 @@
 {% extends 'eyevacs/0preview1650.html' %}
 {% block body %}
 {% load i18n %}    
+{% get_current_language as LANG %}
 <!-- ################################################################# -->
 
 {# <p class="question_title"></p> #}
 <form action={{destination}} method="post" name="explanation" >
 {% csrf_token %}
-<p class="exp_big_text" >Assume a rich relative has just given you $2000 to go on vacation for you and a friend. The place you have chosen has many exciting things for you to do and see. You can go to the beach as well as go to a large city which is nearby. You now need to consider the vacation package (hotel and catering) to buy. Later on in the survey, we will ask you to choose the vacation pacakge you like best based on the attributes you see on the following pages.
+<p class="exp_big_text" >{% trans "Assume a rich relative has just given you $2000 to go on vacation for you and a friend. The place you have chosen has many exciting things for you to do and see. You can go to the beach as well as go to a large city which is nearby. You now need to consider the vacation package (hotel and catering) to buy. Later on in the survey, we will ask you to choose the vacation pacakge you like best based on the attributes you see on the following pages." %}</p>
 {# Assume a rich relative has just given you $2000 to go on vacation for you and a friend. The place you have chosen has many exciting things for you to do and see. You can go to the beach as well as go to a large city which is nearby. You now need to consider the place at which you will stay. Later on in the survey, we will ask you to choose the accommodation you like best based on the hotel attributes you see on the following pages. #}
-</p>
+{# </p> #}
 
 <input name="begin_radio_weiter" type="submit" class="weiter" value={{bt_label}} />
 </form>

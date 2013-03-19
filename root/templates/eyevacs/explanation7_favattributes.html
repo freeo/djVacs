@@ -1,6 +1,7 @@
 {% extends 'eyevacs/0preview1650.html' %}
 {% block body %}
 {% load i18n %}    
+{% get_current_language as LANG %}
 {% load staticfiles %}
 <!-- ################################################################# -->
 
@@ -10,9 +11,7 @@
 {# <p class="full_page_text"> #}
 <br/>
 <br/>
-<p class="full_page_text">
-Now that you have seen all characteristics, please indicate how your ideal vacation package would look like by clicking on the respective levels you like best.
-</p>
+<p class="full_page_text">{% trans " Now that you have seen all characteristics, please indicate how your ideal vacation package would look like by clicking on the respective levels you like best." %}</p>
 
 {# <p class="full_page_text"><i>Summary of all attributes</i></p> #}
 <br/>
@@ -20,40 +19,40 @@ Now that you have seen all characteristics, please indicate how your ideal vacat
 <div style="width:1000px;margin-right: auto;margin-left: auto;" class="table_info">
 <table  style="width:1000px;" >
 <tr id="food" > 
-<td class="table_attribute dark2">food quality</td>
-    <td id="food_2" class="food table_level">excellent</td>
-    <td id="food_1" class="food table_level level_dark2">very good</td>
-    <td id="food_0" class="food table_level">good</td>
+<td class="table_attribute dark2">{% trans "food quality" %}</td>
+    <td id="food_2" class="food table_level">{% trans "excellent" %}</td>
+    <td id="food_1" class="food table_level level_dark2">{% trans "very good" %}</td>
+    <td id="food_0" class="food table_level">{% trans "good" %}</td>
 </tr>
 <tr id="recommending">
-<td class="table_attribute dark1">customers recommending</td> 
+<td class="table_attribute dark1">{% trans "customers recommending" %}</td> 
     <td id="recommending_0" class="recommending table_level">50%</td>
     <td id="recommending_2" class="recommending table_level level_dark1">90%</td>
     <td id="recommending_1" class="recommending table_level">70%</td>
 </tr>
 <tr id="distance" >
-<td class="table_attribute dark2">distance to CBD</td> 
+<td class="table_attribute dark2">{% trans "distance to CBD" %}</td> 
     <td id="distance_2" class="distance table_level">1 km</td>
     <td id="distance_0" class="distance table_level level_dark2">3 km</td>
     <td id="distance_1" class="distance table_level">2 km</td>
 </tr>
 <tr id="seaview" >
-<td class="table_attribute dark1">sea view</td>
-    <td id="seaview_1" class="seaview table_level">side sea view</td>
-    <td id="seaview_0" class="seaview table_level level_dark1">no sea view</td>
-    <td id="seaview_2" class="seaview table_level">full sea view</td>
+<td class="table_attribute dark1">{% trans "sea view" %}</td>
+    <td id="seaview_1" class="seaview table_level">{% trans "side sea view" %}</td>
+    <td id="seaview_0" class="seaview table_level level_dark1">{% trans "no sea view" %}</td>
+    <td id="seaview_2" class="seaview table_level">{% trans "full sea view" %}</td>
 </tr>
 <tr id="price" >
-<td class="table_attribute dark2">price per person</td>
-    <td id="price_0" class="price table_level">$899</td>
-    <td id="price_2" class="price table_level level_dark2">$699</td>
-    <td id="price_1" class="price table_level">$799</td>
+<td class="table_attribute dark2">{% trans "price per person" %}</td>
+    <td id="price_0" class="price table_level">{% trans "$899" %}</td>
+    <td id="price_2" class="price table_level level_dark2">{% trans "$699" %}</td>
+    <td id="price_1" class="price table_level">{% trans "$799" %}</td>
 </tr>
 <tr id="room" >
-<td class="table_attribute dark1">room category</td>
-    <td id="room_0" class="room table_level">standard</td>
-    <td id="room_1" class="room table_level level_dark1">superior</td>
-    <td id="room_2" class="room table_level">deluxe</td>
+<td class="table_attribute dark1">{% trans "room category" %}</td>
+    <td id="room_0" class="room table_level">{% trans "standard" %}</td>
+    <td id="room_1" class="room table_level level_dark1">{% trans "superior" %}</td>
+    <td id="room_2" class="room table_level">{% trans "deluxe" %}</td>
 </tr>
 
 </table>
@@ -96,15 +95,19 @@ Now that you have seen all characteristics, please indicate how your ideal vacat
                 },
             errorPlacement: function(error, element) {},
             showErrors: function(errorMap, errorList) {
-                $("#fatError").addClass("mainError");
-                $("#fatError").text("You have left "
-                                               + this.numberOfInvalids() 
-                                               + " questions unanswered!");
                 var errors = validator.numberOfInvalids();
+                $("#fatError").addClass("mainError");
+                {% if LANG == "en" %}
+                var errorText = "You have left "+errors+" questions unanswered!";
+                {% elif LANG == "de" %}
+                var errorText = "Du hast "+errors+" Fragen noch nicht beantwortet!";
+                {% endif %}
+                $("#fatError").text(errorText);
                 if (!errors) {
                     window.log('hiding   ..  ');
                     $("#fatError").hide();
                 };
+                {# ###################################################### #}
                 this.defaultShowErrors();
                 {# kleines 'true' #}
                 {# durch window. wird eine globale Variable gesetzt #}
