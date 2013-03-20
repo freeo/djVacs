@@ -25,6 +25,7 @@ class Experiment(models.Model):
     # displayed_survey_values: are linked through foreign key in external data class
     name = models.CharField(max_length=100)
     language = models.CharField(max_length=2, choices= LANGUAGE_CHOICES)
+    info = models.TextField( blank = True)
     #participants:wird als foreign key bei den participants geloest
 
 class Participant(models.Model):
@@ -98,6 +99,8 @@ class External_Source_Data(models.Model):
     header = models.CharField(max_length = 100)
     exp_name = models.CharField(max_length = 100)
     experiment = models.ForeignKey(Experiment)
+    info = models.TextField( blank = True)
+    sharingpoint = models.IntegerField(default=0)
 
 #class External_Data_Column(models.Model):
 #    name = models.CharField(max_length = 100)
@@ -128,6 +131,8 @@ class External_Baseline_Choice_Task(models.Model):
     ext_src_data = models.ForeignKey(External_Source_Data)
     ext_src_data_name = models.CharField(max_length = 100)
     #amount is not needed, 5 Alternatives is hardcoded.
+    #amount is needed now. 2 bsl groups make it necessary
+    amount = models.IntegerField()
     a1 = models.CharField(max_length = 15, default = "empty")
     a2 = models.CharField(max_length = 15, default = "empty")
     a3 = models.CharField(max_length = 15, default = "empty")
@@ -160,3 +165,4 @@ class Grouping(models.Model):
     counter = models.IntegerField()
     #JSON-serialized (text) version of group numberlist
     group_nr = models.TextField(null=True)
+    sharingpoint = models.IntegerField(default=0)

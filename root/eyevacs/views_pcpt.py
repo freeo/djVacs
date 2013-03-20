@@ -19,6 +19,10 @@ attributes = None
 taskcounter = None
 ct_bsl_list = []
 validatedCTs = {}
+increasingsequence = [2,2,3,3,4,4,5,5]
+decreasingsequence = [5,5,4,4,3,3,2,2]
+baseline2sequence = [2,2,2,2,2,2,2,2]
+baseline5sequence = [5,5,5,5,5,5,5,5]
 groupName = {'1':'increasing','2':'decreasing','3':'baselinehigh','4':'baselinelow'}
 scale_order_ids = {}
 scale_names = ['rnd_max', 'rnd_regret', 'rnd_involvement', 'rnd_searchgoals', 'rnd_happiness']
@@ -130,14 +134,19 @@ def getFreeCT(amount):
         raise Exception('- NO FREE CHOICE TASK, AMOUNT='+str(amount) +' ! -')
         return 0
 
-def createTasklist():
+def createTasklist(condition):
     global ctlist
     cts = []
     #a set consists of 7(ctsetsize) tasks
     ctset = (ct_size / ctsetsize)
-    amount_list = range(2,9,1)
+    if condition == 'increasing':
+        sequence = increasingsequence
+    elif condition == 'decreasing':
+        sequence = decreasingsequence
+    # amount_list = range(2,9,1)
     for s in range(0,ctset,1):
-        for a in amount_list:
+        # for a in amount_list:
+        for a in sequence:
             cts.append(getFreeCT(a))
     ctlist = cts
 
@@ -175,10 +184,10 @@ def setChoiceTasks():
         ct_bsl_list = createBaselineTasklist()
     #increasing and decreasing
     if groupName[str(group)] == 'increasing':
-        createTasklist()
+        createTasklist('increasing')
         orderTasklist('increasing')
     if groupName[str(group)] == 'decreasing':
-        createTasklist()
+        createTasklist('decreasing')
         orderTasklist('decreasing')
 
 def getAttributeLabelDict():

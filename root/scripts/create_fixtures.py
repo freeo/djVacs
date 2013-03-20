@@ -7,6 +7,7 @@ Decsription: Loads initial external data files, creates JSON fixtures of them. C
 
 import sys
 import os
+import pdb
 from eyevacs.models import Experiment, External_Source_Data, External_Choice_Task, External_Order_Scale, External_Baseline_Choice_Task
 
 '''
@@ -42,14 +43,26 @@ def ConvStringlist(thestring):
 
 def Analyze_List(current):
     total_tasks = ConvStringlist(current[len(current)-1])[0]
-#    print 'total tasks: '+ total_tasks
+    #is actually a sources amount of alternatives
     counter = 1
+    #range: max amount of choice tasks
     for i in range(2,9,1):
         if ConvStringlist(current[i])[0] == ConvStringlist(current[i-1])[0]:
             counter += 1
         else:
             break
-#    print 'counter: '+str(counter)
+    return (counter, total_tasks)
+
+def Analyze_List_Baseline(current):
+    total_tasks = ConvStringlist(current[len(current)-1])[0]
+    #is actually a sources amount of alternatives
+    counter = 1
+    #range: max amount of choice tasks
+    for i in range(2,9,1):
+        if ConvStringlist(current[i])[1] == ConvStringlist(current[i-1])[1]:
+            counter += 1
+        else:
+            break
     return (counter, total_tasks)
 
 def GetExperimentDjangoPK():
@@ -156,11 +169,10 @@ x external_choice_task fixtures (x = total_tasks divided by amount).'''
     print 'model length', len(model)
     print ''
 
-def MakeBaselineFixture(model):
+def MakeBaselineFixture(model, amount, total_tasks):
     '''Similar to MakeFixture, but for baseline choice task files.'''
 
-    #Return maximum of current task. Ordering of the file helps minimizing iteration.
-    total_tasks = ConvStringlist(model[len(model)-1])[0]
+    #Search max TASKs of the file. Is baseline specific
     bsl_max_cts = 0
     for j in range(1,len(model),1):
         current = ConvStringlist(model[j])
@@ -184,20 +196,34 @@ def MakeBaselineFixture(model):
     #EXTERNAL_BASELINE_CHOICE_TASK fixtures
     #template strings
     ext_ct_model = r'{"model":"eyevacs.External_Baseline_Choice_Task","pk":%s,"fields":{%s}}'
-    ext_ct_fields = r'"id_hard":"%s","task":%s,"ext_src_data":"%s","ext_src_data_name":"%s","used":false,"linked_pcpt":%s'
+    ext_ct_fields = r'"id_hard":"%s","task":%s,"ext_src_data":"%s","ext_src_data_name":"%s","amount":%s,"used":false,"linked_pcpt":%s'
     ext_ct_ax = r',"raw_src_line":"%s","a1":"%s","a2":"%s","a3":"%s","a4":"%s","a5":"%s"'
 
     ctask_list = []
-    ext_src_data_name = "CT_BSL_" + str(bsl_max_cts) + "_" + total_tasks +"_"+experiment_name
+    ext_src_data_name = "CT_BSL_" + str(amount) + "_" + str(bsl_max_cts) + "_" + total_tasks +"_"+experiment_name
     print '-- Baseline length:', len(model) , ' --'
+    maxmaxmax = ((int(total_tasks)-1) * bsl_max_cts * amount) + ((bsl_max_cts-1) *amount+amount+1)
+    log = open('log.txt', 'a')
+    log.write('maxmaxmax totaltasks bslmaxcts amount\n'+ str(maxmaxmax)+'\n')
+    log.write(total_tasks+'\n')
+    log.write(str(bsl_max_cts)+'\n')
+    log.write(str(amount)+'\n')
+    log.close()
     for i in range(0, int(total_tasks),1): #participant: ID_HARD
-        for j in range (0,int(bsl_max_cts),1): #pcpt.task
+        for j in range (0,bsl_max_cts,1): #pcpt.task
             BSL_DjangoPK = GetExtBSLDjangoPK()
             a0 =  " | "
-            concept_list = ["-"]*5
-            for k in range(0,5,1): #pcpt.task.concept
-                index = i*int(bsl_max_cts)*5+j*5+k+1 #skipping header
-                currentLine = ConvStringlist(model[index]) #is a list
+            concept_list = ["-"]*5 #hardcoded max amount for bsl ext data
+            for k in range(0,amount,1): #pcpt.task.concept
+                index = i*bsl_max_cts*amount+j*amount+k+1 #skipping header
+                log = open('log.txt', 'a')
+                log.write(str(index)+'\n')
+                log.close()
+                # pdb.settrace()
+                try:
+                    currentLine = ConvStringlist(model[index]) #is a list
+                except:
+                    raise Exception(str(index)+ ' is the problem...')
                 a0 += model[index].rstrip('\n') +  " | "
                 concept_list[int(currentLine[2])-1] = currentLine[3:9]
             a1 = concept_list[0]
@@ -207,14 +233,14 @@ def MakeBaselineFixture(model):
             a5 = concept_list[4]
             #if i < 150:
             #    print i, index, BSL_DjangoPK
-            ext_ct_fields_data = (str(i+1), j+1 ,ext_data_pk, ext_src_data_name, "null")
+            ext_ct_fields_data = (str(i+1), j+1 ,ext_data_pk, ext_src_data_name, amount, "null")
             ext_ct_ax_data = (a0,a1,a2,a3,a4,a5)
 
             ct_output = ext_ct_model % (BSL_DjangoPK, (ext_ct_fields % ext_ct_fields_data) + (ext_ct_ax % ext_ct_ax_data))
             ctask_list.append(ct_output)
 
     #OUTPUT TO EXTERNAL FILE
-    fixturename = experiment_name + '_CT_BSL' +str(bsl_max_cts)+'_ID'+str(ext_data_pk)+'.json'
+    fixturename = experiment_name + '_CT_BSL' +str(amount)+'_'+str(bsl_max_cts)+'_ID'+str(ext_data_pk)+'.json'
     #print fixturename
     tempfile = open (output_path + fixturename, 'w')
     #Parent Object
@@ -240,9 +266,6 @@ def main(exp_id, ext_data_path, fixture_path):
     print '\n***********************\n'
     print '    Creating Fixtures'
     print '\n***********************\n'
-
-    #Baseline CT Group: Amount of alternatives
-    bsl_amount = 5
 
     global experiment_name
     global current_exp_id
@@ -274,14 +297,13 @@ def main(exp_id, ext_data_path, fixture_path):
     #Parse files to fixtures
     #A fixture object contains:
     #the header object of Ext Source DATA and all appendant Ext Source Choice Tasks
-    data_properties = []
     fixtures_list = []
     for i in range(0,len(csv_lists),1):
         if not 'baseline' in csv_filenames[i].lower():
-            data_properties.append(Analyze_List(csv_lists[i]))
-            fixture = MakeFixture(csv_lists[i], data_properties[i][0],data_properties[i][1])
+            properties = (Analyze_List(csv_lists[i]))
+            fixture = MakeFixture(csv_lists[i], properties[0], properties[1])
             fixtures_list.append(fixture)
         else:
-            data_properties.append(Analyze_List(csv_lists[i]))
-            MakeBaselineFixture(csv_lists[i])
+            properties = (Analyze_List_Baseline(csv_lists[i]))
+            MakeBaselineFixture(csv_lists[i], properties[0], properties[1] )
 

@@ -13,6 +13,18 @@ class ChoiceTaskAdmin(admin.ModelAdmin):
 class AttributeInline(TranslationTabularInline):
     model = Level
 
+class ExtDataAdmin(admin.ModelAdmin):
+    fields = ['filetype','header','exp_name']
+    list_display = ('id','filetype')
+
+class ExtDataInline(admin.TabularInline):
+    model = External_Source_Data
+
+class ExperimentAdmin(admin.ModelAdmin):
+    fields = ['name','language']
+    list_display = ('id','name')
+    inlines = [ExtDataInline,]
+
 class LevelAdmin(admin.ModelAdmin):
     fields = ['link_attribute','name','value']
     list_display = ('id','name','value')
@@ -22,9 +34,9 @@ class AttributeTranslationAdmin(TranslationAdmin):
     list_display = ('id','name','position')
     inlines = [AttributeInline,]
 
-admin.site.register(Experiment)
+admin.site.register(Experiment, ExperimentAdmin)
 admin.site.register(Grouping)
-admin.site.register(External_Source_Data)
+admin.site.register(External_Source_Data, ExtDataAdmin)
 admin.site.register(External_Choice_Task, ChoiceTaskAdmin)
 admin.site.register(External_Baseline_Choice_Task)
 # admin.site.unregister(Attribute)

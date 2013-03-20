@@ -132,13 +132,30 @@ def singlePageDebug(request, exp_id):
     return render(request, 'eyevacs/debug.html', context)
 
 
-def getRedirectURL(source):
+def getRedirectURL(request, source):
+    '''
+    Set benchmarkSQL for extra page before welcome, to enter debug toolbar for
+    SQL performance.
+    '''
+    benchmarkSQL = 0
     if source == 'preparePcpt':
         if singlepagedebug:
             destination = reverse('eyevacs.views.singlePageDebug', args= [str(curr_exp.id)])
         else:
             destination = reverse('eyevacs.views.welcome', args= [str(curr_exp.id)])
-        return HttpResponseRedirect(destination)
+        #SQL Benchmarking:
+        if benchmarkSQL:
+            data = {}
+            data['text'] = 'Participant created. Go to next page:'
+            temp = {'destination': destination}
+            data['temp'] = temp
+            reqcontext = RequestContext(request,data)
+            return render(request, 'eyevacs/0preview1650.html', reqcontext)
+            # text = '<a href="'+destination+'">Continue</a>'
+            # return HttpResponse(text)
+        # Normally:
+        else:
+            return HttpResponseRedirect(destination)
 
 def preparePcpt(request, exp_id):
     #expects POST data
@@ -167,7 +184,7 @@ def preparePcpt(request, exp_id):
     ct_size = request.session['ct_size'][0]
     valid_input = request.session['input_pcptid'][0]
     pcpt.initPcpt(ct_size, valid_input, selectcondition)
-    return getRedirectURL('preparePcpt')
+    return getRedirectURL(request, 'preparePcpt')
 
 def welcome(request, exp_id):
     if selectwelcome == "welcome_scrollable":

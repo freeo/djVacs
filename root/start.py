@@ -181,12 +181,10 @@ def main():
     switch_ct =                     0
     switch_default_rnd =            0
     switch_rnd = 0 #overridden by default rnd
-    switch_load_fixtures =          0
-    switch_load_scale_questions =   0
-    switch_load_experimentsetup =   1
-
+    switch_load_fixtures =          1
+    switch_load_scale_questions = 0#seems obsolete now
+    switch_load_experimentsetup =   0
     Echo()
-
     if switch_new_exp:
         #NEW EXPERIMENT
         exps = Experiment.objects.all()
@@ -217,14 +215,19 @@ def main():
         CreateDefaultRndScales()
     if switch_load_fixtures:
         print root
-        load_fixtures.Run('.'+root, fixture_output[1:], output_data_path[1:])
+        load_fixtures.Run(root, fixture_output[1:], output_data_path[1:])
     if switch_load_scale_questions:
         curr_exp = Experiment.objects.get(pk = current_exp_id )
         scale_questions.load_scale_questions(curr_exp)
     if switch_load_experimentsetup:
-        Attribute.objects.all().delete()
-        Level.objects.all().delete()
-        print ' --- flushed old Attributes & Levels ---'
+        try:
+            curr_exp.attribute_set.delete()
+            curr_exp.level_set.delete()
+            print ' --- flushed old Attributes & Levels ---'
+        except:
+            print ' --- "'+curr_exp.name+'" must be new, installing current Attributes & Levels... ---'
+        # Attribute.objects.all().delete()
+        # Level.objects.all().delete()
         load_setup.main(curr_exp)
     Echo()
 

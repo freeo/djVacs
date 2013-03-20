@@ -1,11 +1,11 @@
 from eyevacs.models import Experiment, Attribute, Level
 
-attributes = ['catering','customer rating', 'type of building', 'sea view', 'price', 'room category']
+attributes = ['food quality','customers recommending', 'distance to CBD', 'sea view', 'price per person', 'room category']
 
 #index is used for for its VALUE! Higher values are expected to be beneficial
-levels = {'catering':['breakfast only', 'half board', 'all-inclusive'],'customer rating':['low','medium','high'], 'type of building':['bungalow','rooming house', 'hotel complex'], 'sea view':['no sea view','side sea view','full sea view'], 'price':['499$','399$','299$'], 'room category':['standard','superior','deluxe']}
+levels = {'food quality':['good', 'very good', 'excellent'],'customers recommending':['50%','70%','90%'], 'distance to CBD':['3 km','2 km', '1 km'], 'sea view':['no sea view','side sea view','full sea view'], 'price per person':['$899','$799','$699'], 'room category':['standard','superior','deluxe']}
 
-positions = {'catering':1,'customer rating':2, 'type of building':3, 'sea view':4, 'price':5, 'room category':6}
+positions = {'food quality':1,'customers recommending':2, 'distance to CBD':3, 'sea view':4, 'price per person':5, 'room category':6}
 
 
 def getPosition(key):
