@@ -1,4 +1,5 @@
 from eyevacs.models import Scale, Scale_Question, Experiment, Participant, External_Order_Scale, Attribute, Level
+from scripts import scale_questions
 import json
 import re
 import ast
@@ -80,6 +81,7 @@ def assignScaleOrder(scale_name_string):
         if current_orderings[i].linked_pcpt == None:
             return current_orderings[i].pk
             break
+    # pdb.set_trace()
 
 def incrementTaskCounter():
     global taskcounter
@@ -310,12 +312,13 @@ def initPcpt(ext_ct_size, ext_pcpt_id, condition):
     setChoiceTasks()
 
 def get_scale_context(scale_name_string):
-    from scripts import scale_questions
     question_title = scale_questions.question_titles[scale_name_string]
     scale_name = scale_name_string
     scale_id = '' #css id design for the form! will STAY EMPTY!!!
     print scale_order_ids
+    more_scale_order_ids = scale_order_ids
     order_id = scale_order_ids[scale_name_string]
+    # pdb.set_trace()
     question_order = map(int, External_Order_Scale.objects.get(pk=order_id).scale_rnd_order_ext.split(','))
     questions = []
     restoreCheck = [None]*7

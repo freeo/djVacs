@@ -18,9 +18,13 @@
 {#    -- {{file.filetype}}: header: {{file.header}}<br/> #}
 {# {%endfor %} #}
 ----------------------------------<br/>
+seed: {{ exp.grouping.seed }} <br/>
+<br/>
+info: {{ exp.info }} <br/>
 <br/>
 <form action="{{ destination }}"  method="post" name="experience_settings" id="exp_form_id" >
 {% csrf_token %}
+----------------------------------<br/>
 <div>
     <b>Participant task size:</b>
     (Default value is: )
@@ -58,7 +62,7 @@ Enter ID manually: <br/>
 <p>Enable form validation?</p>
 <label class="lbadmin" style="width:250px;text-align:left;"><input type="checkbox" name="cbox_validation" checked >Validate user input?</label>
 <p>Jump to Page:</p>
-<label class="lbadmin" style="width:250px;text-align:left;"><input type="checkbox" name="cbox_singlepagedebug" >
+<label class="lbadmin" style="width:250px;text-align:left;"><input type="checkbox" name="cbox_singlepagedebug" checked >
 Show page list</label>
 <p>Select the "Welcome Page"</p>
 <div style="text-indent:35px;">
@@ -79,8 +83,13 @@ Show page list</label>
 <p>Select Language</p>
 <div style="text-indent:35px;">
 <select id="lang" name="selectlanguage" style="width:200px;">
-    <option value="en">English</option>
-    <option value="de">Deutsch</option>
+    {% if project_language == "de" %}
+        <option value="de">Deutsch</option>
+        <option value="en">English</option>
+    {% else %}
+        <option value="en">English</option>
+        <option value="de">Deutsch</option>
+    {% endif %}
 </select>
 <div id="lang_picture" style="height:50px;margin-top:20px;"></div>
 </div>

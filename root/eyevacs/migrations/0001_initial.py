@@ -13,6 +13,7 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('language', self.gf('django.db.models.fields.CharField')(max_length=2)),
+            ('info', self.gf('django.db.models.fields.TextField')(blank=True)),
         ))
         db.send_create_signal('eyevacs', ['Experiment'])
 
@@ -55,6 +56,8 @@ class Migration(SchemaMigration):
         db.create_table('eyevacs_attribute', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('name_en', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
+            ('name_de', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
             ('exp_setup', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['eyevacs.Experiment'])),
             ('position', self.gf('django.db.models.fields.SmallIntegerField')()),
         ))
@@ -65,6 +68,8 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('link_attribute', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['eyevacs.Attribute'])),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('name_en', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
+            ('name_de', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
             ('value', self.gf('django.db.models.fields.IntegerField')()),
         ))
         db.send_create_signal('eyevacs', ['Level'])
@@ -76,6 +81,8 @@ class Migration(SchemaMigration):
             ('header', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('exp_name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('experiment', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['eyevacs.Experiment'])),
+            ('info', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('sharingpoint', self.gf('django.db.models.fields.IntegerField')(default=0)),
         ))
         db.send_create_signal('eyevacs', ['External_Source_Data'])
 
@@ -107,6 +114,7 @@ class Migration(SchemaMigration):
             ('task', self.gf('django.db.models.fields.IntegerField')()),
             ('ext_src_data', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['eyevacs.External_Source_Data'])),
             ('ext_src_data_name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('amount', self.gf('django.db.models.fields.IntegerField')()),
             ('a1', self.gf('django.db.models.fields.CharField')(default='empty', max_length=15)),
             ('a2', self.gf('django.db.models.fields.CharField')(default='empty', max_length=15)),
             ('a3', self.gf('django.db.models.fields.CharField')(default='empty', max_length=15)),
@@ -123,9 +131,38 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('id_hard', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('scale_rnd_order_ext', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('source_file', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['eyevacs.External_Source_Data'], null=True, blank=True)),
             ('linked_pcpt', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['eyevacs.Participant'], null=True, blank=True)),
         ))
         db.send_create_signal('eyevacs', ['External_Order_Scale'])
+
+        # Adding model 'Scale'
+        db.create_table('eyevacs_scale', (
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('experiment', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['eyevacs.Experiment'])),
+            ('rnd_file', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['eyevacs.External_Source_Data'], unique=True, primary_key=True)),
+        ))
+        db.send_create_signal('eyevacs', ['Scale'])
+
+        # Adding model 'Scale_Question'
+        db.create_table('eyevacs_scale_question', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('linked_scale', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['eyevacs.Scale'])),
+            ('text', self.gf('django.db.models.fields.TextField')()),
+            ('id_order', self.gf('django.db.models.fields.IntegerField')()),
+        ))
+        db.send_create_signal('eyevacs', ['Scale_Question'])
+
+        # Adding model 'Grouping'
+        db.create_table('eyevacs_grouping', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('experiment', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['eyevacs.Experiment'], unique=True)),
+            ('seed', self.gf('django.db.models.fields.IntegerField')()),
+            ('counter', self.gf('django.db.models.fields.IntegerField')()),
+            ('group_nr', self.gf('django.db.models.fields.TextField')(null=True)),
+            ('sharingpoint', self.gf('django.db.models.fields.IntegerField')(default=0)),
+        ))
+        db.send_create_signal('eyevacs', ['Grouping'])
 
 
     def backwards(self, orm):
@@ -153,6 +190,15 @@ class Migration(SchemaMigration):
         # Deleting model 'External_Order_Scale'
         db.delete_table('eyevacs_external_order_scale')
 
+        # Deleting model 'Scale'
+        db.delete_table('eyevacs_scale')
+
+        # Deleting model 'Scale_Question'
+        db.delete_table('eyevacs_scale_question')
+
+        # Deleting model 'Grouping'
+        db.delete_table('eyevacs_grouping')
+
 
     models = {
         'eyevacs.attribute': {
@@ -160,11 +206,14 @@ class Migration(SchemaMigration):
             'exp_setup': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['eyevacs.Experiment']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'name_de': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'name_en': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'position': ('django.db.models.fields.SmallIntegerField', [], {})
         },
         'eyevacs.experiment': {
             'Meta': {'object_name': 'Experiment'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'info': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'language': ('django.db.models.fields.CharField', [], {'max_length': '2'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
@@ -175,6 +224,7 @@ class Migration(SchemaMigration):
             'a3': ('django.db.models.fields.CharField', [], {'default': "'empty'", 'max_length': '15'}),
             'a4': ('django.db.models.fields.CharField', [], {'default': "'empty'", 'max_length': '15'}),
             'a5': ('django.db.models.fields.CharField', [], {'default': "'empty'", 'max_length': '15'}),
+            'amount': ('django.db.models.fields.IntegerField', [], {}),
             'ext_src_data': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['eyevacs.External_Source_Data']"}),
             'ext_src_data_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -208,7 +258,8 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'id_hard': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'linked_pcpt': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['eyevacs.Participant']", 'null': 'True', 'blank': 'True'}),
-            'scale_rnd_order_ext': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+            'scale_rnd_order_ext': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'source_file': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['eyevacs.External_Source_Data']", 'null': 'True', 'blank': 'True'})
         },
         'eyevacs.external_source_data': {
             'Meta': {'object_name': 'External_Source_Data'},
@@ -216,13 +267,26 @@ class Migration(SchemaMigration):
             'experiment': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['eyevacs.Experiment']"}),
             'filetype': ('django.db.models.fields.CharField', [], {'max_length': '5'}),
             'header': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'info': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'sharingpoint': ('django.db.models.fields.IntegerField', [], {'default': '0'})
+        },
+        'eyevacs.grouping': {
+            'Meta': {'object_name': 'Grouping'},
+            'counter': ('django.db.models.fields.IntegerField', [], {}),
+            'experiment': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['eyevacs.Experiment']", 'unique': 'True'}),
+            'group_nr': ('django.db.models.fields.TextField', [], {'null': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'seed': ('django.db.models.fields.IntegerField', [], {}),
+            'sharingpoint': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'eyevacs.level': {
             'Meta': {'object_name': 'Level'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'link_attribute': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['eyevacs.Attribute']"}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'name_de': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'name_en': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'value': ('django.db.models.fields.IntegerField', [], {})
         },
         'eyevacs.participant': {
@@ -257,6 +321,19 @@ class Migration(SchemaMigration):
             'ts_choice': ('django.db.models.fields.IntegerField', [], {}),
             'ts_list': ('django.db.models.fields.CharField', [], {'max_length': '111'}),
             'ts_order': ('django.db.models.fields.CharField', [], {'max_length': '13'})
+        },
+        'eyevacs.scale': {
+            'Meta': {'object_name': 'Scale'},
+            'experiment': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['eyevacs.Experiment']"}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'rnd_file': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['eyevacs.External_Source_Data']", 'unique': 'True', 'primary_key': 'True'})
+        },
+        'eyevacs.scale_question': {
+            'Meta': {'object_name': 'Scale_Question'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'id_order': ('django.db.models.fields.IntegerField', [], {}),
+            'linked_scale': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['eyevacs.Scale']"}),
+            'text': ('django.db.models.fields.TextField', [], {})
         }
     }
 

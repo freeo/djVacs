@@ -36,7 +36,9 @@ def MakeExperiment(name, language):
     global current_exp_id
     if len(existing_experiments) > 0:
         for current_exp in existing_experiments:
-            ascii_name = re.sub("[u']","",current_exp.name) #regular expression!
+            # ascii_name = re.sub("[u']","",current_exp.name) #legacy regular expression!
+            #Crazy Bug, 'u' was substituted. Dont see any need for reg subst anymore
+            ascii_name = current_exp.name
             if ascii_name == name:
                 print name , ' already exists!'
                 print 'ID and Fixture will override an existing Experiment! (No changes to database.)'
@@ -44,9 +46,11 @@ def MakeExperiment(name, language):
                 current_exp_id = current_exp.pk
                 break
             else:
-                #print '### NO NAME MATCH ###'
+                # print ascii_name, name
+                # print '### NO NAME MATCH ###'
                 current_exp_id = SetExperimentDjangoPK() #django get unused experiment ID, counts existing exeriments + 1
     else:
+        print '# Completely new database... initiating first project. #'
         current_exp_id = 1
     #djangoLANGUAGE = 'de' #has to be dynamic, will be gotten by admin form or by manual overwrite in the internal django admin app
     experiment_fields = r'"name":"%s","language":"%s"'
@@ -107,12 +111,12 @@ def CheckLang():
         else:
             return choice
 
-def CreateGrouping(exp):
+def CreateGrouping(exp, seed):
     try:
         exp.grouping.delete()
     except:
         print 'The experiment wasnt assigned a grouping yet.'
-    grouping.main(exp)
+    grouping.main(exp, seed)
 
 
 def Echo():
@@ -176,56 +180,85 @@ def main():
     #Create Fixture, input: name and language
     global experiment_name
     global fixture_output
-    #DEBUG switches, do the work in CHUNCKS: dont load at first! (last switch)
+    #DEBUG switches, do the work in CHUNCKS:
+    #tested combinations:
+    #1. chunk: <new_exp>, <ct>, <load_fixtures>
+    #2. chunk: <default_rnd>, <load_fixtures>, <load_experimentsetup>
     switch_new_exp=                 0
-    switch_ct =                     0
-    switch_default_rnd =            0
-    switch_rnd = 0 #overridden by default rnd
+    switch_ct =                     0 # use together with switch_load_fixtures
+    #DONT USE _ct and default_rnd TOGETHER !!! ID PROBLEM
+    switch_default_rnd =            1 # use together with switch_load_fixtures
+    # switch_rnd = 0 #overridden by default rnd
     switch_load_fixtures =          1
-    switch_load_scale_questions = 0#seems obsolete now
-    switch_load_experimentsetup =   0
+    switch_load_experimentsetup =   1
     Echo()
+
+    exps = Experiment.objects.all()
+    print 'EXISTING EXPERIMENTS:'
+    print '---------------------'
+    for i,e in enumerate(exps):
+        print str(i)+ '. '+ e.name
     if switch_new_exp:
         #NEW EXPERIMENT
-        exps = Experiment.objects.all()
-        print 'EXISTING EXPERIMENTS:'
-        print '---------------------'
-        for e in exps:
-            print e.name
+
         experiment_name = raw_input('\nEnter Name of EXPERIMENT: \n #####:')
         experiment_language = CheckLang()
+        ext_seed =raw_input('\nEnter a SEED, <OR> leave blank : \n #####:')
     else:
-        #LAST IMPORTED EXPERIMENT
-        exp_count = Experiment.objects.count()
-        curr_exp = Experiment.objects.get(pk=exp_count)
-        #experiment_name = 'OXIQUATL'
+        exps = Experiment.objects.all()
+        last_exp = Experiment.objects.get(pk=len(exps))
+        switch_to = raw_input('\nEnter the # of EXPERIMENT to work on, <OR> leave blank, to use <'+last_exp.name +'> : \n #####:')
+        if not switch_to == "":
+            #select experiement
+            # try:
+            if int(switch_to) < len(exps):
+                selected_pk = int(switch_to)+1
+                curr_exp = Experiment.objects.get(pk=selected_pk)
+            else:
+                raise Exception('Invalid Project')
+            # except:
+                # print 'except'
+                # raise Exception('Invalid Project')
+        else:
+            #LAST IMPORTED EXPERIMENT
+            curr_exp = Experiment.objects.get(pk=len(exps))
         experiment_name = curr_exp.name
         experiment_language = curr_exp.language
 
     InitPaths()
     MakeExperiment(experiment_name, experiment_language)
     LoadExpFixture(fixture_output+ exp_filename)
-    CreateGrouping(Experiment.objects.get(pk=current_exp_id))
+    if switch_new_exp:
+        #includes a default seed
+        if not ext_seed == '':
+            try:
+                seed = int(ext_seed)
+                CreateGrouping(Experiment.objects.get(pk=current_exp_id), seed)
+            except:
+                raise Exception('Couldn\'t typecast the seed to int.')
+        else:
+            CreateGrouping(Experiment.objects.get(pk=current_exp_id), None)
     print ' ### CURRENT EXP ID:', current_exp_id
     if switch_ct:
         create_fixtures.main(current_exp_id, external_data_path, fixture_output)
-    if switch_rnd:
-        create_rnd_scale.main(current_exp_id)
+    #kind of obsolete
+    # if switch_rnd:
+        # create_rnd_scale.main(current_exp_id)
     if switch_default_rnd:
         CreateDefaultRndScales()
     if switch_load_fixtures:
         print root
         load_fixtures.Run(root, fixture_output[1:], output_data_path[1:])
-    if switch_load_scale_questions:
-        curr_exp = Experiment.objects.get(pk = current_exp_id )
-        scale_questions.load_scale_questions(curr_exp)
+    # if switch_load_scale_questions:
+    #     curr_exp = Experiment.objects.get(pk = current_exp_id )
+    #     scale_questions.load_scale_questions(curr_exp)
     if switch_load_experimentsetup:
-        try:
-            curr_exp.attribute_set.delete()
-            curr_exp.level_set.delete()
-            print ' --- flushed old Attributes & Levels ---'
-        except:
-            print ' --- "'+curr_exp.name+'" must be new, installing current Attributes & Levels... ---'
+        # try:
+        curr_exp.attribute_set.all().delete()
+        # curr_exp.level_set.all().delete()
+        print ' --- flushed old Attributes & Levels ---'
+        # except:
+            # print ' --- "'+curr_exp.name+'" must be new, installing current Attributes & Levels... ---'
         # Attribute.objects.all().delete()
         # Level.objects.all().delete()
         load_setup.main(curr_exp)

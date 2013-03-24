@@ -122,6 +122,8 @@ def exp(request, exp_id):
     destination = reverse('eyevacs.views.preparePcpt', args= [str(curr_exp.id)])
     all_context['destination'] = destination
     all_context['next_condition'] = next_condition
+    all_context['project_language'] = curr_exp.language
+    all_context['exp'] = curr_exp
     return render(request, 'eyevacs/exp.html', all_context)
 
 def singlePageDebug(request, exp_id):

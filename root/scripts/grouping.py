@@ -4,8 +4,11 @@ import json
 
 exp = None
 #mersenne twister
-hard_seed = 3935842
+#was only valid for 3 group setup!
+# default_seed = 3935842
 
+default_seed = 3565370 #tested for bielefeld
+monash_seed = 5194735 #up to 300 participants watched at!
 #1. increasing 2. decreasing 3. baseline
 
 def createGrouping(seed):
@@ -13,7 +16,7 @@ def createGrouping(seed):
     rnd.seed(seed)
     grouping = [0]*900
     for i in range(0,900,1):
-        grouping[i] = rnd.randint(1,3)
+        grouping[i] = rnd.randint(1,4)
     return grouping
     # proc_grouping = re.sub(',','\n',str(grouping))[1:-1]
 
@@ -24,15 +27,19 @@ def createGrouping(seed):
     # f.close()
     # print grouping
 
-def main(curr_exp):
+def main(curr_exp, ext_seed):
     global exp
     exp = curr_exp
-    grouping = createGrouping(hard_seed)
+    if ext_seed == None:
+        use_seed = default_seed
+    else:
+        use_seed = ext_seed
+    grouping = createGrouping(use_seed)
     print grouping[0:25]
     grouping_json = json.dumps(grouping)
-    hard_grouping = Grouping(experiment = exp, seed = hard_seed, counter = 0, group_nr = grouping_json)
+    hard_grouping = Grouping(experiment = exp, seed = use_seed, counter = 0, group_nr = grouping_json)
     hard_grouping.save()
-    print ' --- Grouping seed %s saved to experiment %s ---' % (str(hard_seed) , exp.name)
+    print ' --- Grouping seed %s saved to experiment %s ---' % (str(use_seed) , exp.name)
 
 
 # myModel = MyModel()
