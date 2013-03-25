@@ -7,7 +7,7 @@ import pdb
 import operator
 from django.utils.translation import ugettext
 
-ctsetsize = 7
+ctsetsize = 8
 
 exp = None
 scales = None
@@ -16,6 +16,7 @@ group = None
 ct_size = None #choice task size for this.pcpt.id, can vary within experiment
 ctasksources = None
 ctlist = []
+ctlistIDs = []
 attributes = None
 taskcounter = None
 ct_bsl_list = []
@@ -75,17 +76,29 @@ def getScale(scale_name_string):
 
 def assignScaleOrder(scale_name_string):
     current_scale = getScale(scale_name_string)
-    current_orderings = current_scale.external_order_scale_set.all()
-    upper_range = len(current_orderings)
-    for i in range(0,upper_range,1):
-        if current_orderings[i].linked_pcpt == None:
-            return current_orderings[i].pk
-            break
+    try:
+        assign_this_scale = current_scale.external_order_scale_set.order_by("pk","linked_pcpt")[0]
+        # ordered = current_scale.external_order_scale_set.order_by("pk")
+        # assign_this_scale = ordered.filter(linked_pcpt=None)[0]
+    except:
+        raise Exception('We ran out of '+scale_name_string+' orderings! Quick! We need more!')
+    return assign_this_scale.pk
+
+#legacy
+# def assignScaleOrder(scale_name_string):
+#     current_scale = getScale(scale_name_string)
+#     current_orderings = current_scale.external_order_scale_set.all()
+#     upper_range = len(current_orderings)
+#     for i in range(0,upper_range,1):
+#         if current_orderings[i].linked_pcpt == None:
+#             return current_orderings[i].pk
+#             break
     # pdb.set_trace()
 
 def incrementTaskCounter():
     global taskcounter
     taskcounter += 1
+
 
 def createBaselineTasklist():
     #get bsl by hard id, set linked pcpt of id x after save()
@@ -115,31 +128,57 @@ def createBaselineTasklist():
         ct_bsl_list[ctlist_index] = bsl_tasks[i]
     return ct_bsl_list
 
-
-def getFreeCT(amount):
-    # ctasksources = exp.external_source_data_set.filter(filetype = 'ctask')
-    all_sources = ctasksources
-    cts_amount_source = None
+def setCTaskSources():
+    ''' Makes a list of CTask source files with index = amount.'''
+    global ctasksources
+    all_sources = exp.external_source_data_set.filter(filetype = 'ctask')
+    length = len(all_sources)
+    ctasksources = [None]*len(all_sources)
     for i in all_sources:
-        if i.external_choice_task_set.all()[0].amount == amount:
-            cts_amount_source = i
-    #the opposite of "used" is "-used" ! "+used" is invalid in bools.
-    cts_amount = cts_amount_source.external_choice_task_set.order_by("pk","used")[:2]
-    freeCT = None
-    for ct in cts_amount:
-        if ct.linked_pcpt == None:
-            freeCT = ct
-            break
-    if freeCT != None:
-        return freeCT
-    else:
-        raise Exception('- NO FREE CHOICE TASK, AMOUNT='+str(amount) +' ! -')
-        return 0
+        #amount begins with 2!!!
+        index = i.external_choice_task_set.all()[0].amount -2
+        ctasksources[index] = i
+
+def getCTaskSource(get_amount):
+    return ctasksources[get_amount -2]
+
+def getFreeCT(get_amount):
+    amount_source = getCTaskSource(get_amount)
+    try:
+        assign_this_ct = amount_source.external_choice_task_set.order_by("pk","used")[0]
+        # ordered = current_scale.external_order_scale_set.order_by("pk")
+        # assign_this_scale = ordered.filter(linked_pcpt=None)[0]
+    except:
+        raise Exception('We ran out of '+amount+' choice tasks! Quick! We need more!')
+    #write USED before return
+    return assign_this_ct
+
+# def getFreeCT(amount):
+#     # ctasksources = exp.external_source_data_set.filter(filetype = 'ctask')
+#     all_sources = ctasksources
+#     cts_amount_source = None
+#     for i in all_sources:
+#         if i.external_choice_task_set.all()[0].amount == amount:
+#             cts_amount_source = i
+#     #the opposite of "used" is "-used" ! "+used" is invalid in bools.
+#     cts_amount = cts_amount_source.external_choice_task_set.order_by("pk","used")[:2]
+#     freeCT = None
+#     for ct in cts_amount:
+#         if ct.linked_pcpt == None:
+#             freeCT = ct
+#             break
+#     if freeCT != None:
+#         return freeCT
+#     else:
+#         raise Exception('- NO FREE CHOICE TASK, AMOUNT='+str(amount) +' ! -')
+#         return 0
+#
 
 def createTasklist(condition):
     global ctlist
+    global ctlistIDs
     cts = []
-    #a set consists of 7(ctsetsize) tasks
+    #a set consists of 8(ctsetsize) tasks
     ctset = (ct_size / ctsetsize)
     if condition == 'increasing':
         sequence = increasingsequence
@@ -151,25 +190,21 @@ def createTasklist(condition):
         for a in sequence:
             cts.append(getFreeCT(a))
     ctlist = cts
+    for ct in ctlist:
+        ctlistIDs.append(ct.pk)
 
 def orderTasklist(rule):
     #operator order by key
     global ctlist
+    the_list = ctlist
     tempList = []
     orderedList = []
     # amount_list = [2:8]
     if rule == 'increasing':
-         # for s in range(0,ctset,1):
-         #    for ct in range(0,ctsetsize,1):
-         #        for a in amount_list:
-         #            ctlist
-         # for ct in ctlist:
          law_order_temp = sorted(ctlist, key=operator.attrgetter('amount'))
          law_order = sorted(law_order_temp, key=operator.attrgetter('pk'))
          ctlist = law_order
          # pdb.set_trace()
-
-
     if rule == 'decreasing':
          law_order_temp = sorted(ctlist, key=operator.attrgetter('pk'))
          law_order = sorted(law_order_temp, key=operator.attrgetter('amount'), reverse=True)
@@ -282,8 +317,7 @@ def initPcpt(ext_ct_size, ext_pcpt_id, condition):
     global pcpt_id
     global group
     global ct_size
-    global ctasksources
-    ctasksources = exp.external_source_data_set.filter(filetype = 'ctask')
+    setCTaskSources()
     scales = exp.external_source_data_set.filter(filetype = 'scale')
     try:
         ct_size = int(ext_ct_size)
@@ -316,7 +350,6 @@ def get_scale_context(scale_name_string):
     scale_name = scale_name_string
     scale_id = '' #css id design for the form! will STAY EMPTY!!!
     print scale_order_ids
-    more_scale_order_ids = scale_order_ids
     order_id = scale_order_ids[scale_name_string]
     # pdb.set_trace()
     question_order = map(int, External_Order_Scale.objects.get(pk=order_id).scale_rnd_order_ext.split(','))

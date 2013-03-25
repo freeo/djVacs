@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-19 23:14+0100\n"
+"POT-Creation-Date: 2013-03-26 00:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,70 +27,70 @@ msgstr "Deutsch"
 msgid "English"
 msgstr "Englisch"
 
-#: .\eyevacs\views.py:15
+#: .\eyevacs\views.py:16
 msgid "Continue"
 msgstr "Weiter"
 
-#: .\eyevacs\views.py:68
+#: .\eyevacs\views.py:69
 msgid "This string has to be translated. It was marked with ugettext()."
 msgstr "Dieser string muss übersetzt werden. Er wurde mit ugettext() markiert."
 
-#: .\eyevacs\views.py:196 .\eyevacs\views.py:208 .\eyevacs\views.py:392
+#: .\eyevacs\views.py:220 .\eyevacs\views.py:233 .\eyevacs\views.py:433
 msgid "I do not agree at all"
-msgstr "Ich stimme überhaupt nicht zu"
+msgstr "Stimme gar nicht zu"
 
-#: .\eyevacs\views.py:196 .\eyevacs\views.py:208 .\eyevacs\views.py:392
+#: .\eyevacs\views.py:220 .\eyevacs\views.py:233 .\eyevacs\views.py:433
 msgid "I agree very much"
-msgstr "Ich stimme komplett zu"
+msgstr "Stimme voll und ganz zu"
 
-#: .\eyevacs\views.py:359
+#: .\eyevacs\views.py:398
 msgid "Proceed to selection"
 msgstr "Weiter zur Auswahl"
 
-#: .\eyevacs\views_pcpt.py:28 .\eyevacs\views_pcpt.py:29
-#: .\eyevacs\views_pcpt.py:31 .\eyevacs\views_pcpt.py:34
+#: .\eyevacs\views_pcpt.py:34 .\eyevacs\views_pcpt.py:35
+#: .\eyevacs\views_pcpt.py:37 .\eyevacs\views_pcpt.py:40
 #: .\templates\eyevacs\explanation7_favattributes.html.py:25
 msgid "good"
-msgstr "gut"
+msgstr "Gut"
 
-#: .\eyevacs\views_pcpt.py:28 .\eyevacs\views_pcpt.py:30
-#: .\eyevacs\views_pcpt.py:34 .\eyevacs\views_pcpt.py:35
+#: .\eyevacs\views_pcpt.py:34 .\eyevacs\views_pcpt.py:36
+#: .\eyevacs\views_pcpt.py:40 .\eyevacs\views_pcpt.py:41
 #: .\templates\eyevacs\explanation7_favattributes.html.py:42
 msgid "no sea view"
-msgstr "Kein Seeblick"
+msgstr "Kein Meerblick"
 
-#: .\eyevacs\views_pcpt.py:28 .\eyevacs\views_pcpt.py:29
-#: .\eyevacs\views_pcpt.py:32 .\eyevacs\views_pcpt.py:35
+#: .\eyevacs\views_pcpt.py:34 .\eyevacs\views_pcpt.py:35
+#: .\eyevacs\views_pcpt.py:38 .\eyevacs\views_pcpt.py:41
 #: .\templates\eyevacs\explanation7_favattributes.html.py:48
 msgid "$699"
 msgstr "699€"
 
-#: .\eyevacs\views_pcpt.py:28 .\eyevacs\views_pcpt.py:32
-#: .\eyevacs\views_pcpt.py:33 .\eyevacs\views_pcpt.py:34
+#: .\eyevacs\views_pcpt.py:34 .\eyevacs\views_pcpt.py:38
+#: .\eyevacs\views_pcpt.py:39 .\eyevacs\views_pcpt.py:40
 #: .\templates\eyevacs\explanation7_favattributes.html.py:53
 msgid "standard"
 msgstr "Standard"
 
-#: .\eyevacs\views_pcpt.py:29 .\eyevacs\views_pcpt.py:31
-#: .\eyevacs\views_pcpt.py:32 .\eyevacs\views_pcpt.py:33
+#: .\eyevacs\views_pcpt.py:35 .\eyevacs\views_pcpt.py:37
+#: .\eyevacs\views_pcpt.py:38 .\eyevacs\views_pcpt.py:39
 #: .\templates\eyevacs\explanation7_favattributes.html.py:43
 msgid "full sea view"
 msgstr "Uneingeschränkter Meerblick"
 
-#: .\eyevacs\views_pcpt.py:29 .\eyevacs\views_pcpt.py:30
-#: .\eyevacs\views_pcpt.py:31 .\eyevacs\views_pcpt.py:35
+#: .\eyevacs\views_pcpt.py:35 .\eyevacs\views_pcpt.py:36
+#: .\eyevacs\views_pcpt.py:37 .\eyevacs\views_pcpt.py:41
 #: .\templates\eyevacs\explanation7_favattributes.html.py:55
 msgid "deluxe"
 msgstr "Deluxe"
 
-#: .\eyevacs\views_pcpt.py:30 .\eyevacs\views_pcpt.py:32
-#: .\eyevacs\views_pcpt.py:33 .\eyevacs\views_pcpt.py:35
+#: .\eyevacs\views_pcpt.py:36 .\eyevacs\views_pcpt.py:38
+#: .\eyevacs\views_pcpt.py:39 .\eyevacs\views_pcpt.py:41
 #: .\templates\eyevacs\explanation7_favattributes.html.py:23
 msgid "excellent"
 msgstr "Ausgezeichnet"
 
-#: .\eyevacs\views_pcpt.py:30 .\eyevacs\views_pcpt.py:31
-#: .\eyevacs\views_pcpt.py:33 .\eyevacs\views_pcpt.py:34
+#: .\eyevacs\views_pcpt.py:36 .\eyevacs\views_pcpt.py:37
+#: .\eyevacs\views_pcpt.py:39 .\eyevacs\views_pcpt.py:40
 #: .\templates\eyevacs\explanation7_favattributes.html.py:47
 msgid "$899"
 msgstr "899€"
@@ -101,23 +100,31 @@ msgid ""
 "When I am in the car listening to the radio, I often check other stations to "
 "see if something better is playing, even if I am relatively satisfied with "
 "what I’m listening to."
-msgstr "Wenn ich im Auto Radio höre, schalte ich häufig durch die anderen Sender um zu hören ob etwas besseres läuft, obwohl ich relativ zufrieden bin mit dem was gerade läuft."
+msgstr ""
+"Wenn ich im Auto Radio höre, suche ich häufig nach Sendern, die etwas "
+"Besseres spielen - selbst wenn ich mit dem gegenwärtigen Song relativ "
+"zufrieden bin."
 
 #: .\scripts\scale_questions.py:9
 msgid ""
 "No matter how satisfied I am with my job, it’s only right for me to be on "
 "the lookout for better opportunities."
-msgstr "Unabhängig davon, wie zufrieden ich mit meinem Job bin, ist es für mich selbstverständlich stets nach besseren Alternativen Ausschau zu halten."
+msgstr ""
+"Unabhängig davon, wie zufrieden ich mit meinem Job bin, ist es für mich "
+"selbstverständlich stets nach besseren Alternativen Ausschau zu halten."
 
 #: .\scripts\scale_questions.py:9
 msgid "I often find it difficult to shop for a gift for a friend."
-msgstr "Mir fällt es oft schwer, ein passendes Geschenk für einen Freund zu finden."
+msgstr ""
+"Mir fällt es oft schwer, ein passendes Geschenk für einen Freund zu finden."
 
 #: .\scripts\scale_questions.py:9
 msgid ""
 "Renting videos is really difficult. I’m always struggling to pick the best "
 "one."
-msgstr "Das Ausleihen von Filmen emfinde ich als schwierig. Ich bemühe mich immer darum den besten Film auszuwählen."
+msgstr ""
+"Die Ausleihe von Filmen emfinde ich als schwierig. Ich bemühe mich immer "
+"darum den besten Film auszuwählen."
 
 #: .\scripts\scale_questions.py:9
 msgid "No matter what I do, I have the highest standards for myself."
@@ -131,41 +138,51 @@ msgstr "Ich entscheide mich nie für das Zweitbeste."
 msgid ""
 "Whenever I make a choice, I’m curious about what would have happened if I "
 "had chosen differently."
-msgstr "Immer wenn ich eine Auswahl treffe, frage ich mich was passiert wäre, wenn ich mich anders entschieden hätte."
+msgstr ""
+"Immer wenn ich eine Entscheidung treffe, frage ich mich was passiert wäre, "
+"wenn ich mich anders entschieden hätte."
 
 #: .\scripts\scale_questions.py:10
 msgid ""
 "Whenever I make a choice, I try to get information about how the other "
 "alternatives turned out."
-msgstr "Immer wenn ich eine Auswahl treffe, versuche ich Informationen darüber zu erhalten wie sich die anderen Alternativen entwickelt haben."
+msgstr ""
+"Immer wenn ich eine Entscheidung treffe, versuche ich Informationen darüber "
+"zu erhalten wie sich die anderen Alternativen entwickelt haben."
 
 #: .\scripts\scale_questions.py:10
 msgid ""
 "If I make a choice and it turns out well, I still feel like something of a "
 "failure if I find out that another choice would have turned out better."
-msgstr "Wenn ich eine Auswahl treffe und diese sich als gut herausstellt, denke ich trotzdem, dass die Entscheidung falsch war und dass eine andere Auswahl ein besseres Ergebnis erzielt hätte."
+msgstr ""
+"Wenn ich eine Entscheidung treffe, die sich als gut herausstellt, fühlt sie "
+"sich für mich trotzdem als Fehler an, wenn eine andere Alternative bessere "
+"Ergebnisse erzielt hätte."
 
 #: .\scripts\scale_questions.py:10
 msgid ""
 "When I think about how I’m doing in life, I often assess opportunities I "
 "have passed up."
-msgstr "Wenn ich über mein Leben nachdenke, bewerte ich oft die Chancen die ich verpasst habe."
+msgstr ""
+"Ich überdenke häufig Chancen aus meinem Leben, welche ich zuvor "
+"ausgeschlagen habe."
 
 #: .\scripts\scale_questions.py:10
 msgid "Once I make a decision, I don’t look back."
-msgstr "Wenn ich einmal eine Entscheidung getroffen habe, blicke ich nicht zurück."
+msgstr ""
+"Wenn ich einmal eine Entscheidung getroffen habe, blicke ich nicht zurück."
 
 #: .\scripts\scale_questions.py:11
 msgid "Overall, how familiar are you with booking vacation packages?"
-msgstr "Wie vertraut sind Sie im Allgemeinen mit dem Buchen von Pauschalreisen."
+msgstr "Wie vertraut bist du im Allgemeinen mit dem Buchen von Pauschalreisen."
 
 #: .\scripts\scale_questions.py:11
-msgid "The decision which vacation package to buy is a"
-msgstr "Die Entscheidung welche Reise gekauft wird, ist"
+msgid "The decision which vacation package to book is a"
+msgstr "Die Entscheidung, eine Reise zu buchen, ist"
 
 #: .\scripts\scale_questions.py:11
-msgid "The decision which vacation package to buy"
-msgstr " Die Entscheidung welche Reise gekauft wird"
+msgid "The decision which vacation package to book"
+msgstr "Die Entscheidung, eine Reise zu buchen"
 
 #: .\scripts\scale_questions.py:11
 msgid "When booking a vacation package there is"
@@ -175,25 +192,34 @@ msgstr "Wenn ich eine Pauschalreise buche"
 msgid ""
 "Even if I found a vacation package that I was relatively satisfied with, I "
 "still looked to the other available vacation packages before deciding."
-msgstr "Selbst wenn ich eine Pauschalreise gefunden habe mit der ich relativ zufrieden war, habe ich mir trotzdem weitere verfügbare Pauschalreisen angeschaut, bevor ich mich entschieden habe."
+msgstr ""
+"Selbst wenn ich eine Pauschalreise gefunden habe mit der ich relativ "
+"zufrieden war, habe ich mir trotzdem weitere verfügbare Pauschalreisen "
+"angeschaut, bevor ich mich entschieden habe."
 
 #: .\scripts\scale_questions.py:12
 msgid ""
 "I tried to find the best vacation package in each of the previous choice "
 "tasks."
-msgstr "Ich habe mich darum bemüht aus jeder der vorangegangenen Auswahlmöglichkeiten die beste Pauschalreise ausfindig zu machen."
+msgstr ""
+"Ich habe mich darum bemüht aus jeder der vorangegangenen "
+"Auswahlmöglichkeiten die beste Pauschalreise ausfindig zu machen."
 
 #: .\scripts\scale_questions.py:12
 msgid ""
 "I had in mind some ideal vacation package(s), and I tried to look for "
 "vacation packages similar to my ideal package(s)."
-msgstr "Ich hatte eine Idealvorstellung von einer Pauschalreise und habe nach Pauschalreisen gesucht, die meinem idealen Pauschalangebot ähnlich sind."
+msgstr ""
+"Ich hatte eine Idealvorstellung von einer Pauschalreise und habe nach "
+"Pauschalreisen gesucht, die meinem idealen Pauschalangebot ähnlich sind."
 
 #: .\scripts\scale_questions.py:12
 msgid ""
 "I made my decision in each choice task as soon as I found a vacation package "
 "that was good enough. "
-msgstr "Ich habe bei jeder Auswahlaufgabe meine Entscheidung getroffen, sobald ich eine Pauschalreise gefunden habe die gut genug war."
+msgstr ""
+"Ich habe bei jeder Auswahlaufgabe meine Entscheidung getroffen, sobald ich "
+"eine Pauschalreise gefunden habe die gut genug war."
 
 #: .\scripts\scale_questions.py:13
 msgid "In general, I consider myself:"
@@ -208,7 +234,10 @@ msgid ""
 "Some people are generally very happy. They enjoy life regardless of what is "
 "going on, getting the most out of everything. To what extent does this "
 "characterization describe you?"
-msgstr "Einige Menschen sind grundsätzlich glücklich. Sie genießen das Leben, unabhängig davon was gerade passiert und ziehen meistens das Beste aus Allem. Inwiefern trifft die Beschreibung auf Sie zu?"
+msgstr ""
+"Einige Menschen sind grundsätzlich glücklich. Sie genießen das Leben, "
+"unabhängig davon was gerade passiert und ziehen meistens das Beste aus "
+"Allem. Inwiefern trifft die Beschreibung auf dich zu?"
 
 #: .\scripts\scale_questions.py:17
 msgid ""
@@ -217,7 +246,11 @@ msgid ""
 "Please indicate your degree of agreement with the following statements (-3 = "
 "I do not agree with the statement at all, +3 = I agree with the statement "
 "very much)"
-msgstr "Wir würden gerne zunächst mit einigen allgemeinen Aussagen beginnen, die sich auf Ihr Verhalten in Alltagssituationen beziehen. \n" "Bitte bewerten Sie die folgenden Aussagen nach dem Grad Ihrer Zustimmung (-3 = Stimme gar nicht zu, +3 = Stimme voll und ganz zu)"
+msgstr ""
+"Wir würden gerne zunächst mit einigen allgemeinen Aussagen beginnen, die "
+"sich auf dein Verhalten in Alltagssituationen beziehen. \n"
+"Bitte bewerte die folgenden Aussagen nach dem Grad deiner Zustimmung (-3 = "
+"Stimme gar nicht zu, +3 = Stimme voll und ganz zu)"
 
 #: .\scripts\scale_questions.py:19
 msgid ""
@@ -225,11 +258,15 @@ msgid ""
 "Please indicate your degree of agreement with the following statements (-3 = "
 "I do not agree with the statement at all, +3 = I agree with the statement "
 "very much)"
-msgstr "Die folgenden Aussagen beziehen sich auf Auswahlentscheidungen in Alltagssituationen. \nBitte bewerten Sie die folgenden Aussagen nach dem Grad Ihrer Zustimmung (-3 = Stimme gar nicht zu, +3 = Stimme voll und ganz zu)"
+msgstr ""
+"Die folgenden Aussagen beziehen sich auf Entscheidungen in "
+"Alltagssituationen.\n"
+"Bitte bewerte die folgenden Aussagen nach dem Grad deiner Zustimmung (-3 = "
+"Stimme gar nicht zu, +3 = Stimme voll und ganz zu)"
 
 #: .\scripts\scale_questions.py:21
 msgid "What would you say:"
-msgstr "Was würden Sie sagen:"
+msgstr "Was würdest du sagen:"
 
 #: .\scripts\scale_questions.py:23
 msgid ""
@@ -240,15 +277,22 @@ msgid ""
 "Please indicate your degree of agreement with the following statements (-3 = "
 "I do not agree with the statement at all, +3 = I agree with the statement "
 "very much)"
-msgstr "Nun lassen Sie uns erneut auf die Hotelauswahl zurück kommen, welche Sie für sich und ihren Freund, mit dem Geld Ihres reichen Verwandten(2000€), getroffen haben. Wir würden gerne erfahren, wie Sie bei den Auswahlentscheidungen vorgegangen sind: \n"
+msgstr ""
+"Nun lass uns erneut auf die Hotelauswahl zurück kommen, welche du für dich "
+"und deinen Freund, mit dem Geld deines reichen Verwandten(2000€), getroffen "
+"hast. Wir würden gerne erfahren, wie du bei den Entscheidungen vorgegangen "
+"bist: \n"
 "\n"
-"Bitte bewerten Sie die folgenden Aussagen nach dem Grad Ihrer Zustimmung (-3 = Stimme gar nicht zu, +3 = Stimme voll und ganz zu)"
+"Bitte bewerte die folgenden Aussagen nach dem Grad deiner Zustimmung (-3 = "
+"Stimme gar nicht zu, +3 = Stimme voll und ganz zu)"
 
 #: .\scripts\scale_questions.py:25
 msgid ""
 "For each of the following statements and/or questions, please mark the point "
 "on the scale that you feel is most appropriate in describing you."
-msgstr "Bitte markieren Sie für die folgenden Aussagen und/oder Fragen den Punkt auf der Skala, welcher Sie Ihrer Meinung nach am besten beschreibt."
+msgstr ""
+"Bitte markiere für die folgenden Aussagen und/oder Fragen den Punkt auf der "
+"Skala, welcher dich deiner Meinung nach am besten beschreibt."
 
 #: .\scripts\scale_questions.py:34
 msgid "very unfamiliar"
@@ -276,11 +320,13 @@ msgstr "erfordert reichlich Überlegungen"
 
 #: .\scripts\scale_questions.py:34
 msgid "little to lose if you choose the wrong package"
-msgstr "es gibt wenig zu verlieren, wenn man das falsche Pauschalangebot auswählt"
+msgstr ""
+"es gibt wenig zu verlieren, wenn man das falsche Pauschalangebot auswählt"
 
 #: .\scripts\scale_questions.py:34
 msgid "a lot to lose if you choose the wrong package"
-msgstr "es gibt viel zu verlieren, wenn man das falsche Pauschalangebot auswählt"
+msgstr ""
+"es gibt viel zu verlieren, wenn man das falsche Pauschalangebot auswählt"
 
 #: .\scripts\scale_questions.py:36
 msgid "not a very happy person"
@@ -323,13 +369,19 @@ msgid ""
 "Thank you for your choices, now indicate how likely it would be that you "
 "would choose the following alternatives from 0 (definitely reject) to 10 "
 "(definitely accept)?"
-msgstr "Vielen Dank für Ihre Auswahlentscheidungen, bitte geben Sie nun von 0 (lehne voll und ganz ab) bis 10 (nehme voll und ganz an) an, wie wahrscheinlich es wäre, dass sie eine der folgenden Alternativen auswählen würden?"
+msgstr ""
+"Vielen Dank für deine Entscheidungen, bitte gib nun von 0 (lehne voll und "
+"ganz ab) bis 10 (nehme voll und ganz an) an, wie wahrscheinlich es wäre, "
+"dass du eine der folgenden Alternativen auswählen würdest?"
 
 #: .\templates\eyevacs\conjoint.html.py:11
 msgid ""
 "Indicate how likely it would be that you would choose the following "
 "alternative from 0 (definitely reject) to 10 (definitely accept)?"
-msgstr "Bitte geben Sie nun von 0 (lehne voll und ganz ab) bis 10 (akzeptiere voll und ganz) an, wie wahrscheinlich es wäre, dass sie die folgende Alternative auswählen würden?"
+msgstr ""
+"Bitte gib nun von 0 (lehne voll und ganz ab) bis 10 (akzeptiere voll und "
+"ganz) an, wie wahrscheinlich es wäre, dass du die folgende Alternative "
+"auswählen würdest?"
 
 #: .\templates\eyevacs\conjoint.html.py:26
 msgid "Option A"
@@ -390,7 +442,7 @@ msgstr "0 (lehne voll und ganz ab)"
 #: .\templates\eyevacs\conjoint.html.py:108
 msgid "10 (definately accept)"
 msgstr "10 (akzeptiere voll und ganz)"
- 
+
 #: .\templates\eyevacs\explanation0_overview.html.py:10
 msgid ""
 "Assume a rich relative has just given you $2000 to go on vacation for you "
@@ -399,7 +451,14 @@ msgid ""
 "nearby. You now need to consider the vacation package (hotel and catering) "
 "to buy. Later on in the survey, we will ask you to choose the vacation "
 "pacakge you like best based on the attributes you see on the following pages."
-msgstr "Nehmen Sie an, dass ein reicher Verwandter Ihnen 2000€ für eine Reise für Sie und Ihren Freund überlassen hat. An dem Ort den Sie ausgewählt haben, gibt es viele aufregende Dinge zu sehen und zu erleben. Sie können zum Strand gehen oder eine nahegelegene Stadt besichtigen. Sie müssen die Pauschalreise, welche Sie kaufen möchten nun näher betrachten(Hotel und Verpflegung). Im weiteren Verlauf des Fragebogens werden Sie aufgefordert die Pauschalreise auszuwählen, welche Ihnen, basierend auf den gezeigten Attributen der nachfolgenden Seiten, am besten gefällt."
+msgstr ""
+"Stell dir vor, dass ein reicher Verwandter dir 2000€ für eine Reise für dich "
+"und deinen Freund gegeben hat. An dem Ort den du ausgewählt hast, gibt es "
+"viele aufregende Dinge zu sehen und zu erleben. Ihr könnt zum Strand gehen "
+"oder eine nahegelegene Stadt besichtigen. Jetzt musst du nur noch die "
+"Pauschalreise auswählen (Hotel und Verpflegung), die du buchen möchten. Auf "
+"den folgenden Seiten zeigen wir dir einige Eigenschaften in denen sich die "
+"Pauschalreiseangebote unterscheiden."
 
 #: .\templates\eyevacs\explanation1_food.html.py:16
 msgid "Food quality"
@@ -410,16 +469,21 @@ msgid ""
 "One way that the vacation packages will differ is how good the quality of "
 "the food is in the hotel’s restaurants. All hotels offer breakfast, lunch "
 "and dinner, but the quality of the food ranges from good to excellent."
-msgstr "Ein Differenzierungskriterium der Pauschalreisen besteht darin, wie gut das Essen in dem Hotelrestaurant ist. Alle Hotels bieten Frühstück, Mittagessen und Abendessen an, aber die Qualität des Essens variiert zwischen gut und ausgezeichnet."
+msgstr ""
+"Ein Unterscheidungsmerkmal von Pauschalreisen ist die Qualität des Essen in "
+"den Hotelrestaurants. Alle Hotels bieten Frühstück, Mittagessen und "
+"Abendessen an, aber die Qualität des Essens variiert zwischen gut und "
+"ausgezeichnet."
 
 #: .\templates\eyevacs\explanation1_food.html.py:18
 msgid ""
 "The last time you were in a hotel, how good was the quality of the food?"
-msgstr "Wie gut war die Qualität des Essens bei Ihrem letzten Hotelaufenthalt?"
+msgstr ""
+"Wie gut war die Qualität des Essens bei deinem letzten Hotelaufenthalt?"
 
 #: .\templates\eyevacs\explanation1_food.html.py:22
 msgid "Miserable"
-msgstr "Miserabel"
+msgstr "Ungenießbar"
 
 #: .\templates\eyevacs\explanation1_food.html.py:23
 msgid "Very poor"
@@ -431,7 +495,7 @@ msgstr "Schlecht"
 
 #: .\templates\eyevacs\explanation1_food.html.py:25
 msgid "So-so"
-msgstr "So lala"
+msgstr "Mittelmäßig"
 
 #: .\templates\eyevacs\explanation1_food.html.py:26
 msgid "Good"
@@ -465,13 +529,20 @@ msgid ""
 "percent of customers who previously visited the hotel and recommended it. "
 "The percent of customers who recommend a good hotel is different and could "
 "range from 50%% to 90%% (50 to 90 out of every 100 customers)."
-msgstr "Die Pauschalreisen unterscheiden sich zudem in dem Prozentsatz der Konsumenten die das Hotel kürzlich besucht haben und denen, die es empfohlen haben. Der Prozentsatz der Konsumenten die ein gutes Hotel empfehlen fällt unterschiedlich aus und liegt zwischen 50%% und 90%% (50 bis 90 von jeweils 100 Konsumenten)."
+msgstr ""
+"Die Pauschalreisen unterscheiden sich zudem in dem Prozentsatz der "
+"Konsumenten die das Hotel kürzlich besucht haben und denen, die es empfohlen "
+"haben. Der Prozentsatz der Konsumenten die ein gutes Hotel empfehlen fällt "
+"unterschiedlich aus und liegt zwischen 50%% und 90%% (50 bis 90 von jeweils "
+"100 Konsumenten)."
 
 #: .\templates\eyevacs\explanation2_recommend.html.py:18
 msgid ""
 "Of the hotels you visited in the last two years, what percentage of hotels "
 "would you recommend to other customers?"
-msgstr "Wie viel Prozent der Hotels, welche Sie in den letzten zwei Jahren besucht haben, würden Sie anderen Konsumenten empfehlen?"
+msgstr ""
+"Wie viel Prozent der Hotels, welche du in den letzten zwei Jahren besucht "
+"hast, würdest du anderen Konsumenten empfehlen?"
 
 #: .\templates\eyevacs\explanation2_recommend.html.py:23
 #: .\templates\eyevacs\explanation5_price.html.py:27
@@ -487,13 +558,19 @@ msgid ""
 "The hotels of the vacation packages also differ in locations. All hotels are "
 "located near the coast, but the distance to the CBD ranges from 1km to 3km, "
 "so that you may have to take a bus to go to the city center."
-msgstr "Die Hotels der Pauschalreisen unterscheiden sich zudem in ihrer Lage. Alle Hotels befinden sich in der Nähe der Küste, aber die Entfernung zum Geschäftszentrum liegt zwischen 1km und 3km, sodass Sie unter Umständen mit dem Bus fahren müssen, um in die Innenstadt zu gelangen."
+msgstr ""
+"Die Hotels der Pauschalreisen unterscheiden sich zudem in ihrer Lage. Alle "
+"Hotels befinden sich in der Nähe der Küste, aber die Entfernung zum "
+"Geschäftszentrum liegt zwischen 1km und 3km, sodass du unter Umständen mit "
+"dem Bus fahren musst, um in die Innenstadt zu gelangen."
 
 #: .\templates\eyevacs\explanation3_distance.html.py:18
 msgid ""
 "The last time you were in a hotel near the sea, in terms of the distance to "
 "the CBD how far away was your hotel from the city center?"
-msgstr "Wie weit war das Hotel in der Nähe des Meeres, in dem Sie sich zuletzt aufgehalten haben, von der Innenstadt entfernt?"
+msgstr ""
+"Wie weit war das Hotel in der Nähe des Meeres, in dem du dich zuletzt "
+"aufgehalten hast, von der Innenstadt entfernt?"
 
 #: .\templates\eyevacs\explanation3_distance.html.py:36
 msgid "more than 10 km"
@@ -508,13 +585,18 @@ msgid ""
 "The rooms in your hotel also vary in terms of whether they have a sea view. "
 "Some hotels offer you a room with a full sea view, while others offer a side "
 "sea view or no sea view at all."
-msgstr "Die Zimmer des Hotels unterscheiden sich zudem in Bezug auf den Meeresblick. Einige Hotels verfügen über Zimmer mit einem uneingeschränkten Meeresblick während andere einen eingeschränkten oder gar keinen Meerblick anbieten."
+msgstr ""
+"Die Zimmer des Hotels unterscheiden sich zudem in Bezug auf den Meeresblick. "
+"Einige Hotels verfügen über Zimmer mit einem uneingeschränkten Meeresblick "
+"während andere einen eingeschränkten oder gar keinen Meerblick anbieten."
 
 #: .\templates\eyevacs\explanation4_seaview.html.py:25
 msgid ""
 "The last time you were in a hotel next to the sea, in terms of the sea view "
 "which kind of room did you choose?"
-msgstr "Für welches Zimmer haben Sie sich bei Ihrem letzten Hotelaufenthalt in der Nähe des Meeres in Bezug auf den Ausblick entschieden?"
+msgstr ""
+"Für welches Zimmer hast Du dich bei deinem letzten Hotelaufenthalt am Meer "
+"in Bezug auf den Ausblick entschieden?"
 
 #: .\templates\eyevacs\explanation4_seaview.html.py:29
 msgid "No sea view"
@@ -536,8 +618,12 @@ msgstr "Preis"
 msgid ""
 " Hotels also differ with respect to prices. All hotels offer special rates "
 "for a weekend stay (two nights) which already include catering. Special "
-"rates range from $699 to $899 per person for a one week stay." 
-msgstr "Die Hotels unterscheiden sich desweiteren in der Preissetzung. Alle Hotels bieten spezielle Tarife für einen Wochenendaufenthalt (zwei Nächte) inklusive Verpflegung an. Die Spezialtarife für den Hotelaufenthalt für die Dauer von einer Woche liegen zwischen 699€ und 899€ pro Person."
+"rates range from $699 to $899 per person for a one week stay."
+msgstr ""
+"Die Hotels unterscheiden sich desweiteren in der Preissetzung. Alle Hotels "
+"bieten spezielle Tarife für einen Wochenendaufenthalt (zwei Nächte) "
+"inklusive Verpflegung an. Die Spezialtarife für den Hotelaufenthalt für die "
+"Dauer von einer Woche liegen zwischen 699€ und 899€ pro Person."
 
 #: .\templates\eyevacs\explanation5_price.html.py:22
 msgid ""
@@ -545,7 +631,12 @@ msgid ""
 "you and a friend.  Savings from the trip, however, can be used for other "
 "things. Paying the stay out of your own pocket, what would be the maximum "
 "you would be willing to spend per person for a one week stay?"
-msgstr "In unserem Fallbeispiel hat Ihnen ein reicher Verwandter Geld für eine Reise für Sie und Ihren Freund zur Verfügung gestellt. Die Ersparnisse des Ausflugs dürfen für andere Dinge verwendet werden. Wenn Sie den Aufenthalt selbst bezahlen müssten, was wäre der maximale Preis den Sie für eine Woche pro Person aufbringen würden."
+msgstr ""
+"In unserem Fallbeispiel hat dir ein reicher Verwandter Geld für eine Reise "
+"für dich und deinen Freund zur Verfügung gestellt. Die Ersparnisse des "
+"Ausflugs dürfen für andere Dinge verwendet werden. Wenn du den Aufenthalt "
+"selbst bezahlen müsstest, was wäre der maximale Preis den du für eine Woche "
+"pro Person aufbringen würdest."
 
 #: .\templates\eyevacs\explanation5_price.html.py:28
 msgid "under $300"
@@ -592,7 +683,9 @@ msgid ""
 "Hotel rooms also vary with respect to the size of the room as well as the "
 "amenities and the facilities offered. Three different room categories are "
 "available:"
-msgstr "Die Hotelzimmer unterscheiden sich zudem in der Größe, den Zusatzleistungen und der Ausstattung des Zimmers. Es gibt drei verfügbare Zimmerkategorien:"
+msgstr ""
+"Die Hotelzimmer unterscheiden sich zudem in der Größe, den Zusatzleistungen "
+"und der Ausstattung des Zimmers. Es gibt drei verfügbare Zimmerkategorien:"
 
 #: .\templates\eyevacs\explanation6_room.html.py:18
 msgid "Standard rooms:"
@@ -604,7 +697,12 @@ msgid ""
 "needs. Amenities and facilities include a queen bed or twin beds, en-suite "
 "bathroom, high-speed internet access and flat screen television. The average "
 "size is 25 square meters (269 square feet)."
-msgstr "Die Standardzimmer sind gut eingerichtet und bestens geeignet, um all Ihre Bedürfnisse zu befriedigen. Die Zusatzleistungen und die Ausstattung umfassen ein Queen-size Bett, Doppelbetten, Badezimmer en-suite, Highspeed-Internet Zugang und Flachbildschirmfernseher. Die Größe beträgt im Durchschnitt 25 Quadratmeter (269 Quadratfuß)."
+msgstr ""
+"Die Standardzimmer sind gut eingerichtet und bestens geeignet, um all deine "
+"Bedürfnisse zu befriedigen. Die Zusatzleistungen und die Ausstattung "
+"umfassen ein Queen-size Bett, Doppelbetten, Badezimmer en-suite, Highspeed-"
+"Internet Zugang und Flachbildschirmfernseher. Die Größe beträgt im "
+"Durchschnitt 25 Quadratmeter (269 Quadratfuß)."
 
 #: .\templates\eyevacs\explanation6_room.html.py:24
 msgid "Superior rooms:"
@@ -617,7 +715,13 @@ msgid ""
 "King bed or twin beds, seating area for two, en-suite bathroom, high-speed "
 "internet access, flat-screen television, two line telephone and an "
 "electronic safe."
-msgstr "Die Superior Zimmer sind mit einer durchschnittlichen Größe von 30 Quadratmetern (322 Quadratfuss) größer als die Standardzimmer. Die Zusatzleistungen und die Ausstattung umfassen ein King-size Bett oder Doppelbetten, eine Sitzgruppe für zwei Personen, Badezimmer en-suite, Highspeed-Internet Zugang und Flachbildschirmfernseher, ein Telefon mit zwei Leitungen und einen elektronisch gesicherten Tresor."
+msgstr ""
+"Die Superior Zimmer sind mit einer durchschnittlichen Größe von 30 "
+"Quadratmetern (322 Quadratfuss) größer als die Standardzimmer. Die "
+"Zusatzleistungen und die Ausstattung umfassen ein King-size Bett oder "
+"Doppelbetten, eine Sitzgruppe für zwei Personen, Badezimmer en-suite, "
+"Highspeed-Internet Zugang und Flachbildschirmfernseher, ein Telefon mit zwei "
+"Leitungen und einen elektronisch gesicherten Tresor."
 
 #: .\templates\eyevacs\explanation6_room.html.py:30
 msgid "Deluxe rooms:"
@@ -632,13 +736,25 @@ msgid ""
 "telephone and an electronic safe. These rooms come with a host of extra "
 "services including private check-in, a state-of-the-art entertainment system "
 "and 24-hour butler service to make your stay seamlessly comfortable."
-msgstr "Die Deluxe Zimmer sind luxuriös und sehr großzügig angelegt mit einer Durchschnittsgröße von 45 Quadratmetern (484 Quadratfuss) und einer Sitzgruppe, bestehend aus Stühlen oder einem Sofa. Die Zusatzleistungen und die Ausstattung umfassen ein King-size Bett oder Doppelbetten, eine Sitzgruppe für zwei Personen, Badezimmer en-suite, Highspeed-Internet Zugang und Flachbildschirmfernseher, ein Telefon mit zwei Leitungen und einen elektronisch gesicherten Tresor. Um einen möglichst reibungslosen und angenehmen Aufenthalt zu gewährleisten, bieten diese Zimmer zahlreiche weitere Leistungen wie das private Einchecken, ein Entertainment System nach den neusten technischen Standards und einen 24 Stunden Butler-Service."
+msgstr ""
+"Die Deluxe Zimmer sind luxuriös und sehr großzügig angelegt mit einer "
+"Durchschnittsgröße von 45 Quadratmetern (484 Quadratfuss) und einer "
+"Sitzgruppe, bestehend aus Stühlen oder einem Sofa. Die Zusatzleistungen und "
+"die Ausstattung umfassen ein King-size Bett oder Doppelbetten, eine "
+"Sitzgruppe für zwei Personen, Badezimmer en-suite, Highspeed-Internet Zugang "
+"und Flachbildschirmfernseher, ein Telefon mit zwei Leitungen und einen "
+"elektronisch gesicherten Tresor. Um einen möglichst reibungslosen und "
+"angenehmen Aufenthalt zu gewährleisten, bieten diese Zimmer zahlreiche "
+"weitere Leistungen wie das private Einchecken, ein Entertainment System nach "
+"den neusten technischen Standards und einen 24 Stunden Butler-Service."
 
 #: .\templates\eyevacs\explanation6_room.html.py:34
 msgid ""
 "The last time you were in a hotel next to the sea, which kind of room did "
 "you choose?"
-msgstr "Welche Zimmerkategorie haben Sie bei Ihrem letzten Aufenthalt in einem Hotel in der Nähe des Meeres gebucht?"
+msgstr ""
+"Welche Zimmerkategorie hast du bei deinem letzten Aufenthalt in einem Hotel "
+"am Meer gebucht?"
 
 #: .\templates\eyevacs\explanation6_room.html.py:39
 msgid "Standard"
@@ -648,7 +764,7 @@ msgstr "Standard"
 msgid "Superior"
 msgstr "Superior"
 
-#: .\templates\eyevacs\explanation6_room.html.py:41 
+#: .\templates\eyevacs\explanation6_room.html.py:41
 msgid "Deluxe"
 msgstr "Deluxe"
 
@@ -657,7 +773,10 @@ msgid ""
 " Now that you have seen all characteristics, please indicate how your ideal "
 "vacation package would look like by clicking on the respective levels you "
 "like best."
-msgstr "Nachdem Sie nun alle Eigenschaften betrachtet haben, bitten wir Sie darum zu beschreiben, wie Ihre optimale Pauschalreise aussieht indem Sie die Antwortoptionen auswählen, die Ihnen am meisten zusagen."
+msgstr ""
+"Nachdem du nun alle Eigenschaften betrachtet hast, bitten wir dich darum zu "
+"beschreiben, wie deine optimale Pauschalreise aussieht indem du die "
+"Antwortoptionen auswählst, die dir am meisten zusagen."
 
 #: .\templates\eyevacs\explanation7_favattributes.html.py:24
 msgid "very good"
@@ -683,19 +802,28 @@ msgid ""
 "friend. Imagine that the hotels shown on the screen are the only options "
 "available, and the hotels are the same except for the differences shown in "
 "the questions."
-msgstr "In diesem Abschnitt ist es Ihre Aufgabe eine Auswahl aus einer Anzahl verschiedener Hotels zu treffen, die sich in der Ausprägung der zuvor beschriebenen Merkmale unterscheiden. Bitte erinnern Sie sich erneut an die Situation, dass ein reicher Verwandter Ihnen 2000€ überlassen hat, um eine Reise mit Ihrem Freund zu unternehmen. Stellen Sie sich vor, dass nur die auf dem Bildschirm angezeigten Hotels verfügbar sind und sich diese lediglich durch die in den Fragen dargestellten Merkmale unterscheiden."
+msgstr ""
+"In diesem Abschnitt ist es deine Aufgabe eine Auswahl aus einer Anzahl "
+"verschiedener Hotels zu treffen, die sich in der Ausprägung der zuvor "
+"beschriebenen Merkmale unterscheiden. Bitte erinnere dich erneut an die "
+"Situation, dass ein reicher Verwandter dir 2000€ überlassen hat, um eine "
+"Reise mit deinem Freund zu unternehmen. Stell dir vor, dass nur die auf dem "
+"Bildschirm angezeigten Hotels verfügbar sind und sich diese lediglich durch "
+"die in den Fragen dargestellten Merkmale unterscheiden."
 
 #: .\templates\eyevacs\explanation8_choicetasks.html.py:10
 msgid ""
 "Please click on the hotel you like best on every screen. You will be shown 8 "
 "different groups of hotels."
-msgstr "Bitte wählen Sie auf jeder Seite das Hotel aus, welches Ihnen am besten gefällt. Es werden Ihnen insgesamt acht verschiedene Hotelgruppen gezeigt."
+msgstr ""
+"Bitte wähle auf jeder Seite das Hotel aus, welches dir am besten gefällt. Es "
+"werden dir insgesamt acht verschiedene Hotelgruppen gezeigt."
 
 #: .\templates\eyevacs\hotel1.html.py:6 .\templates\eyevacs\hotel2.html.py:7
 #: .\templates\eyevacs\hotel3.html.py:6 .\templates\eyevacs\hotel4.html.py:6
 #: .\templates\eyevacs\hotel5.html.py:6 .\templates\eyevacs\hotel6.html.py:6
 msgid "Please find a hotel which is "
-msgstr "Bitte finden Sie das Hotel, das"
+msgstr "Bitte finde das Hotel, das"
 
 #: .\templates\eyevacs\hotel1.html.py:6 .\templates\eyevacs\hotel2.html.py:7
 #: .\templates\eyevacs\hotel3.html.py:6 .\templates\eyevacs\hotel4.html.py:6
@@ -714,7 +842,13 @@ msgid ""
 "fourth consecutive year, winner of the Travel + Leisure Magazine USA "
 "'World's Best Awards Readers' Survey' as the top city hotel in Australia, "
 "New Zealand and the South Pacific."
-msgstr "Erleben Sie die unvergleichbare Gastfreundschaft des ursprünglichen Langham Grand Hotel, welches heutzutage in Melbourne als Das Langham Melbourne Hotel neu interpretiert wird. Im vierten Jahr in Folge hat dieses Hotel bei der 'World's Best Awards Readers' Umfrage des 'Travel + Leisure Magazine USA' die Auszeichnung als das beste Stadthotel in Australien, Neuseeland und dem Südpazifik erhalten."
+msgstr ""
+"Erlebe die unvergleichbare Gastfreundschaft des ursprünglichen Langham Grand "
+"Hotel, welches heutzutage in Melbourne als Das Langham Melbourne Hotel neu "
+"interpretiert wird. Im vierten Jahr in Folge hat dieses Hotel bei der "
+"'World's Best Awards Readers' Umfrage des 'Travel + Leisure Magazine USA' "
+"die Auszeichnung als das beste Stadthotel in Australien, Neuseeland und dem "
+"Südpazifik erhalten."
 
 #: .\templates\eyevacs\hotel1.html.py:10
 msgid ""
@@ -722,7 +856,11 @@ msgid ""
 "jewel among Melbourne Accommodation. Its enviable riverside location further "
 "enhances the allure of this exceptional Melbourne conference and meeting "
 "venue and is only 27 kilometers away from the airport."
-msgstr "Der legendäre Service stellt das Langham Hotel Melbourne als Schmuckstück aller Unterkünfte in Melbourne dar. Die beneidenswerte Riverside Lage unterstreicht die Faszination dieser außergewöhnlichen Konferenz- und Meeting-Lokalität in Melbourne und ist nur 27 km vom Flughafen entfernt."
+msgstr ""
+"Der legendäre Service stellt das Langham Hotel Melbourne als Schmuckstück "
+"aller Unterkünfte in Melbourne dar. Die beneidenswerte Riverside Lage "
+"unterstreicht die Faszination dieser außergewöhnlichen Konferenz- und "
+"Meeting-Lokalität in Melbourne und ist nur 27 km vom Flughafen entfernt."
 
 #: .\templates\eyevacs\hotel1.html.py:10
 msgid ""
@@ -730,13 +868,18 @@ msgid ""
 "with our Melbourne accommodation packages. Indeed, our remarkable features "
 "and facilities - many of them unique to us - are what make this a most "
 "extraordinary Melbourne hotel. The price for a  weekend stay is only 389$."
-msgstr "Lassen Sie uns Ihnen nun anhand unserer Melbourne Aufenthaltsangebote die Wunder des Langham Melbourne Hotel vorstellen. In der Tat sind es die bemerkenswerten Besonderheiten und Ausstattungen, welche größtenteils einzigartig sind, die das Hotel außergwöhnlich in Melbourne machen. Der Preis für einen Wochenendaufenthalt liegt bei 389€."
+msgstr ""
+"Lass uns dir nun anhand unserer Melbourne Aufenthaltsangebote die Wunder des "
+"Langham Melbourne Hotel vorstellen. In der Tat sind es die bemerkenswerten "
+"Besonderheiten und Ausstattungen, welche größtenteils einzigartig sind, die "
+"das Hotel außergwöhnlich in Melbourne machen. Der Preis für einen "
+"Wochenendaufenthalt liegt bei 389€."
 
 #: .\templates\eyevacs\hotel1.html.py:10
 msgid ""
 "We greatly anticipate the pleasure of your company at The Langham Melbourne "
 "hotel."
-msgstr "Vielen Dank für Ihren Aufenthalt im Langham Melbourne."
+msgstr "Vielen Dank für deinen Aufenthalt im Langham Melbourne."
 
 #: .\templates\eyevacs\hotel1.html.py:12 .\templates\eyevacs\hotel2.html.py:17
 #: .\templates\eyevacs\hotel3.html.py:16 .\templates\eyevacs\hotel4.html.py:19
@@ -746,7 +889,7 @@ msgstr "Zurück zur Übersicht"
 
 #: .\templates\eyevacs\hotel2.html.py:10
 #: .\templates\eyevacs\transitOverview.html.py:10
-#: .\templates\eyevacs\transit_select.html.py:20
+#: .\templates\eyevacs\transit_select.html.py:19
 msgid "Grand Mercure"
 msgstr "Grand Mercure"
 
@@ -755,7 +898,11 @@ msgid ""
 "Mercure Welcome Melbourne hotel offers you affordable budget accommodation "
 "and a base from which to explore all the attractions and events in Melbourne "
 "city and the CBD (24 kilometers from the airport)."
-msgstr "Das Mercure Welcome Melbourne Hotel bietet Ihnen eine erschwingliche Unterkunft und ist ein guter Ausgangspunkt, um alle Sehenswürdigkeiten und Veranstaltungen in der Innenstadt und dem Geschäftszentrum von Melbourne zu erkunden."
+msgstr ""
+"Das Mercure Welcome Melbourne Hotel bietet Ihnen eine erschwingliche "
+"Unterkunft und ist ein guter Ausgangspunkt, um alle Sehenswürdigkeiten und "
+"Veranstaltungen in der Innenstadt und dem Geschäftszentrum von Melbourne zu "
+"erkunden."
 
 #: .\templates\eyevacs\hotel2.html.py:13
 msgid ""
@@ -764,18 +911,28 @@ msgid ""
 "be…\"what shall I do today?\" Fortunately, staying in the hotel you'll be "
 "right in the heart of all this and more - you'll have direct access to all "
 "the best things to do in Melbourne city!\""
-msgstr "Melbourne ist zweifelsohne das beste Ziel für Shopping, Essen, Trinken, Unterhaltung und Sport, sodass Ihre schwierigste Entscheidung in den Ferien sein wird:\"Was werde ich heute unternehmen?\" Glücklicherweise befinden sie sich in unserem Hotel im Zentrum aller Aktivitäten, sodass Sie den direkten Zugang zu den besten Dingen, die man in der Innenstadt von Melbourne unternehmen kann, haben.\""
+msgstr ""
+"Melbourne ist zweifelsohne das beste Ziel für Shopping, Essen, Trinken, "
+"Unterhaltung und Sport, sodass deine schwierigste Entscheidung in den Ferien "
+"sein wird:'Was werde ich heute unternehmen?' Glücklicherweise befindest du "
+"dich in unserem Hotel im Zentrum aller Aktivitäten, sodass du den direkten "
+"Zugang zu den besten Dingen, die man in der Innenstadt von Melbourne "
+"unternehmen kann, hast. "
 
 #: .\templates\eyevacs\hotel2.html.py:14
 msgid ""
 "You'll love our modern 3.5 star hotel accommodation, providing you with "
 "comfort, convenience, and great-value, budget rates  (415$ per weekend) that "
 "leave you more to spend on Melbourne city's many attractions!"
-msgstr "Sie werden unsere moderne 3,5 Sterne Hotelunterkunft lieben, die Sie mit Komfort, Behaglichkeit und großer Wertigkeit zu überzeugen weiß und Ihnen Tarife(415€ pro Wochenende) anbietet, die Ihnen erlauben Ihr Geld für die zahlreichen Attraktivitäten der Stadt Melbourne auszugeben."
+msgstr ""
+"Du wirst unsere moderne 3,5 Sterne Hotelunterkunft lieben, die dich mit "
+"Komfort, Behaglichkeit und großer Wertigkeit zu überzeugen weiß und dir "
+"Tarife(415€ pro Wochenende) anbietet, die dir erlauben dein Geld für die "
+"zahlreichen Attraktivitäten der Stadt Melbourne auszugeben."
 
 #: .\templates\eyevacs\hotel3.html.py:9
 #: .\templates\eyevacs\transitOverview.html.py:11
-#: .\templates\eyevacs\transit_select.html.py:22
+#: .\templates\eyevacs\transit_select.html.py:21
 msgid "Quay West Suites"
 msgstr "Quay West Suites"
 
@@ -788,14 +945,24 @@ msgid ""
 "overnight stay or for that longer period. Enjoy the ambience of Jarrah "
 "Restaurant and Bar or luxuriate in our indoor 15 metre pool spa sauna and "
 "gym."
-msgstr "In der Cosmopolitan Southgate (28 km vom Flughafen entfernt) ist das Hotel optimal in der Nähe von einigen guten Geschäften, Restaurants und dem Melbourner Arts Pecinct gelegen. Durch die Kombination des luxuriösen Service und der Ausstattung eines fünf Sterne Hotels mit dem Komfort einer vollkommen unabhänigen Suite, ist das Quay West bestens für eine Übernachtung oder für einen längeren Aufenthalt geeignet."
+msgstr ""
+"In der Cosmopolitan Southgate (28 km vom Flughafen entfernt) ist das Hotel "
+"optimal in der Nähe von einigen guten Geschäften, Restaurants und dem "
+"Melbourner Arts Pecinct gelegen. Durch die Kombination des luxuriösen "
+"Service und der Ausstattung eines fünf Sterne Hotels mit dem Komfort einer "
+"vollkommen unabhänigen Suite, ist das Quay West bestens für eine "
+"Übernachtung oder für einen längeren Aufenthalt geeignet."
 
 #: .\templates\eyevacs\hotel3.html.py:12
 msgid ""
 "The hotel is a stylish Southbank hotel set amongst the picturesque Southbank "
 "promenade, overlooking the Yarra River. A leisurely stroll from Melbourne's "
 "CBD & within walking distance to the major Melbourne attractions."
-msgstr "Das Hotel ist ein stylisches Southbank Hotel in der malerischen Southbank Promenade mit Blick über den Yarra Fluss. Einen Steinwurf vom Geschäftszentrum Melbourne entfernt, liegt es in einer fussläufigen Distanz zu den Hauptattraktionen Melbournes."
+msgstr ""
+"Das Hotel ist ein stylisches Southbank Hotel in der malerischen Southbank "
+"Promenade mit Blick über den Yarra Fluss. Einen Steinwurf vom "
+"Geschäftszentrum Melbourne entfernt, liegt es in einer fussläufigen Distanz "
+"zu den Hauptattraktionen Melbournes."
 
 #: .\templates\eyevacs\hotel3.html.py:13
 msgid ""
@@ -806,7 +973,16 @@ msgid ""
 "concierge. A stunning heated indoor swimming pool, spa, sauna, fully "
 "equipped gymnasium, valet parking and the dining delights of Jarrah "
 "Restaurant & Bar."
-msgstr "Das Quay West Melbourne verfügt über 100 Suiten, welche als Ein-, Zwei- oder Dreibettzimmer ausgelegt sind und über die Serviced-Appartment Suiten, welche optimal in der Southbank Promenade gelegen sind. Wenn Sie heute noch buchen, zahlen Sie nicht mehr als 349€ für einen Wochenendaufenthalt. Die Ausstattung beinhaltet: Einen Einkaufsservice, eine 24 Stunden besetzte Rezeption, Zimmerservice und die Möglichkeit in dem Zimmer zu essen. Desweitern zählen ein beheiztes Schwimmbad, Spa, Sauna, ein komplett ausgestattetes Fitnessstudio, Parkservice und die Köstlichkeiten des Jarrah Restaurant & Bar dazu."
+msgstr ""
+"Das Quay West Melbourne verfügt über 100 Suiten, welche als Ein-, Zwei- oder "
+"Dreibettzimmer ausgelegt sind und über die Serviced-Appartment Suiten, "
+"welche optimal in der Southbank Promenade gelegen sind. Wenn du heute noch "
+"buchst, zahlst du nicht mehr als 349€ für einen Wochenendaufenthalt. Die "
+"Ausstattung beinhaltet: Einen Einkaufsservice, eine 24 Stunden besetzte "
+"Rezeption, Zimmerservice und die Möglichkeit in dem Zimmer zu essen. "
+"Desweitern zählen ein beheiztes Schwimmbad, Spa, Sauna, ein komplett "
+"ausgestattetes Fitnessstudio, Parkservice und die Köstlichkeiten des Jarrah "
+"Restaurant & Bar dazu."
 
 #: .\templates\eyevacs\hotel4.html.py:9
 msgid "Art Series – The Olsen"
@@ -820,7 +996,15 @@ msgid ""
 "retail therapy. These South Yarra accommodations offer plentiful natural "
 "light and are thoughtfully appointed with 42” flatscreen televisions, "
 "wireless internet access and complete kitchenettes."
-msgstr "Im Olsen Hotel können Sie erholsam in exklusiver, kunstvoll gestalteter Bettwäsche schlafen, in das beeindruckende Schwimmbad mit gläsernem Boden oberhalb der Einkaufsstrasse Chapel Street springen, in unserem hochmodernen Fitnessstudio trainieren oder sich direkt vor der Tür bei einem Einkaufsbummel vergnügen. Diese South Yarra Unterkünfte werden mit Tageslicht durchflutet und sind selbstverständlich mit 42” Flachbildschirmfernsehern, einem drahtlosen Internetzugang und einer kompletten Küchenzeile ausgestattet."
+msgstr ""
+"Im Olsen Hotel kannst Du erholsam in exklusiver, kunstvoll gestalteter "
+"Bettwäsche schlafen, in das beeindruckende Schwimmbad mit gläsernem Boden "
+"oberhalb der Einkaufsstrasse Chapel Street springen, in unserem hochmodernen "
+"Fitnessstudio trainieren oder dich direkt vor der Tür bei einem "
+"Einkaufsbummel vergnügen. Diese South Yarra Unterkünfte werden mit "
+"Tageslicht durchflutet und sind selbstverständlich mit 42” "
+"Flachbildschirmfernsehern, einem drahtlosen Internetzugang und einer "
+"kompletten Küchenzeile ausgestattet."
 
 #: .\templates\eyevacs\hotel4.html.py:13
 msgid ""
@@ -831,7 +1015,16 @@ msgid ""
 "greet you on arrival and large prints adorn all hallways and suites. This "
 "boutique Melbourne hotel is complimented by a day spa and two delicious "
 "restaurants; you will be reveling in the Art of [Creature Comforts]."
-msgstr "Das auf Melbournes prestigeträchtiger Chapel Street (31 km vom Flughafen entfernt) gelegene Olsen Hotel, bietet Reisenden mit 229 eleganten fünf Sterne Suiten, die mit den lyrischen Werken des verehrten australischen Landschaftskünstlers Dr. John Olsen gestaltet wurden, eine erstklassige Unterkunft in South Yarra. Bereits in der Eingangshalle werden Sie bei Ihrer Ankunft beeindruckende Wandmalereien und Skulpturen vorfinden während alle Gänge und Suiten durch grosse Bilder geschmückt werden. Dieses Boutique Melbourne Hotel wird durch einen Day Spa und zwei ausgezeichnete Restaurants ergänzt; Sie werden die Kunst des [leiblichen Wohls] genießen."
+msgstr ""
+"Das auf Melbournes prestigeträchtiger Chapel Street (31 km vom Flughafen "
+"entfernt) gelegene Olsen Hotel, bietet Reisenden mit 229 eleganten fünf "
+"Sterne Suiten, die mit den lyrischen Werken des verehrten australischen "
+"Landschaftskünstlers Dr. John Olsen gestaltet wurden, eine erstklassige "
+"Unterkunft in South Yarra. Bereits in der Eingangshalle wirst du bei deiner "
+"Ankunft beeindruckende Wandmalereien und Skulpturen vorfinden während alle "
+"Gänge und Suiten durch grosse Bilder geschmückt werden. Dieses Boutique "
+"Melbourne Hotel wird durch einen Day Spa und zwei ausgezeichnete Restaurants "
+"ergänzt; Du wirst die Kunst des [leiblichen Wohls] genießen."
 
 #: .\templates\eyevacs\hotel4.html.py:14
 msgid ""
@@ -841,11 +1034,19 @@ msgid ""
 "including 24 hour reception, concierge and room service, secure luggage "
 "storage area, conference and event facilities, Day Spa, Hair Salon and iPod "
 "rental with extensive play lists."
-msgstr "Das Olsen Hotel in Melbourne verfügt über eine erstkassige Ausstattung und eine grosse Bandbreite an Dienstleistungen, um sich um jedes Bedürfnis während Ihres Aufenthalts zu kümmern. Genießen Sie den fünf Sterne Service und die Ausstattungen innerhalb und außerhalb des Hotels, die eine 24 Stunden besetzte Rezeption, einen Concierge- und Zimmerservice, eine sichere Aufbewahrung des Gepäcks, Konferenz- und Veranstaltungsräume, Day Spa, einen Friseur sowie einen IPod Verleih inklusive umfangreicher Playlisten gewährleisten."
+msgstr ""
+"Das Olsen Hotel in Melbourne verfügt über eine erstkassige Ausstattung und "
+"eine grosse Bandbreite an Dienstleistungen, um sich um jedes Bedürfnis "
+"während deines Aufenthalts zu kümmern. Genieße den fünf Sterne Service und "
+"die Ausstattungen innerhalb und außerhalb des Hotels, die eine 24 Stunden "
+"besetzte Rezeption, einen Concierge- und Zimmerservice, eine sichere "
+"Aufbewahrung des Gepäcks, Konferenz- und Veranstaltungsräume, Day Spa, einen "
+"Friseur sowie einen IPod Verleih inklusive umfangreicher Playlisten "
+"gewährleisten."
 
 #: .\templates\eyevacs\hotel4.html.py:16
 msgid "Book today for only 359$ a weekend!"
-msgstr "Buchen Sie noch heute einen Wochenendaufenthalt für nur 359€!"
+msgstr "Buche noch heute einen Wochenendaufenthalt für nur 359€!"
 
 #: .\templates\eyevacs\hotel5.html.py:9
 msgid "Grant Hyatt"
@@ -857,7 +1058,12 @@ msgid ""
 "centre of CBD, business, luxury shopping, theatre and restaurant district. "
 "The hotel is located within walking distance of Princess Theatre, Federation "
 "Square and Southgate, 25 kilometres from the airport."
-msgstr "Das Grand Hyatt Melbourne Hotel ist ein fünf Sterne Hotel und befindet sich an der Collins Street im Herzen von Geschäftszentrum, Business, Luxusgeschäften, Theater- und Restaurantbezirk. Das Hotel ist nur einen Spaziergang vom Princess Theatre, Federation Square und Southgate sowie 25 km vom Flughafen entfernt."
+msgstr ""
+"Das Grand Hyatt Melbourne Hotel ist ein fünf Sterne Hotel und befindet sich "
+"an der Collins Street im Herzen von Geschäftszentrum, Business, "
+"Luxusgeschäften, Theater- und Restaurantbezirk. Das Hotel ist nur einen "
+"Spaziergang vom Princess Theatre, Federation Square und Southgate sowie 25 "
+"km vom Flughafen entfernt."
 
 #: .\templates\eyevacs\hotel5.html.py:12
 msgid ""
@@ -865,7 +1071,11 @@ msgid ""
 "event facilities, spectacular upper and lower lobbies, the restaurant, "
 "Collins Kitchen, the bar, RU-CO, as well as an exclusive retail environment "
 "and innovative events venue, the residence."
-msgstr "Das Hotel bietet 544 Zimmer und Suiten und verfügt über zahlreiche Meeting- und Veranstaltungsräumlichkeiten, eine eindrucksvolle Lobby in der unteren und oberen Etage, das Collins Kitchen Restaurant, die RU-CO Bar und ist umgeben von exklusiven Geschäften und innovtiven Veranstaltungsangeboten."
+msgstr ""
+"Das Hotel bietet 544 Zimmer und Suiten und verfügt über zahlreiche Meeting- "
+"und Veranstaltungsräumlichkeiten, eine eindrucksvolle Lobby in der unteren "
+"und oberen Etage, das Collins Kitchen Restaurant, die RU-CO Bar und ist "
+"umgeben von exklusiven Geschäften und innovtiven Veranstaltungsangeboten."
 
 #: .\templates\eyevacs\hotel5.html.py:12
 msgid ""
@@ -878,11 +1088,22 @@ msgid ""
 "our Melbourne hotel offers a range of romantic rooms for your special day. "
 "Grand Hyatt Melbourne also offers all guests’ access to City Club Health & "
 "Fitness and exclusive spa treatments and massages at our Sanctuary Day Spa."
-msgstr "Gäste, die eine Club Unterkunft buchen (399€/Wochenende) können alle Vorzüge der Grand Club Lounge, inklusive Express Check-In und Check-Out, einem kontinentalen Luxusfrühstück, ganztägiger Getränkeverpflegung, abendlichen Drinks mit Canapés und privaten Meetingmöglichkeiten, in Anspruch nehmen. Das Grand Hyatt Melbourne bietet für Meetings und Veranstaltungen die perfekte Kombination aus bestens funktional ausgestatteten Räumlichkeiten, außergewöhnlichem Service und einer Bandbreite von flexiblen Angeboten. Für Hochzeiten bietet Ihnen unser Melbourne Hotel eine große Auswahl an besonders romantischen Zimmern für diesen besonderen Tag. Das Grand Hyatt gewährt zudem allen Gästen Zugang zum City Club Health & Fitness und exklusiven Wellnessanwendungen und Massagen in unserem Day-Spa-Bereich"
+msgstr ""
+"Gäste, die eine Club Unterkunft buchen (399€/Wochenende) können alle Vorzüge "
+"der Grand Club Lounge, inklusive Express Check-In und Check-Out, einem "
+"kontinentalen Luxusfrühstück, ganztägiger Getränkeverpflegung, abendlichen "
+"Drinks mit Canapés und privaten Meetingmöglichkeiten, in Anspruch nehmen. "
+"Das Grand Hyatt Melbourne bietet für Meetings und Veranstaltungen die "
+"perfekte Kombination aus bestens funktional ausgestatteten Räumlichkeiten, "
+"außergewöhnlichem Service und einer Bandbreite von flexiblen Angeboten. Für "
+"Hochzeiten bietet Ihnen unser Melbourne Hotel eine große Auswahl an "
+"besonders romantischen Zimmern für diesen besonderen Tag. Das Grand Hyatt "
+"gewährt zudem allen Gästen Zugang zum City Club Health & Fitness und "
+"exklusiven Wellnessanwendungen und Massagen in unserem Day-Spa-Bereich"
 
 #: .\templates\eyevacs\hotel6.html.py:8
 #: .\templates\eyevacs\transitOverview.html.py:26
-#: .\templates\eyevacs\transit_select.html.py:30
+#: .\templates\eyevacs\transit_select.html.py:29
 msgid "Park Hyatt"
 msgstr "Park Hyatt"
 
@@ -894,7 +1115,14 @@ msgid ""
 "Our 5-star luxury hotel in Melbourne CBD provides a warm ambience and "
 "exceptional levels of personalised service and luxury amenities. We offer a "
 "weekend stay for 329$."
-msgstr "Mit einem Blick über die St. Patrick's Kathedrale, die Fitzroy Gärten, die international inspirierte und viktorianisch sowie modern geprägte Architektur des zentralen Geschäftsviertels, stellt das Park Hyatt Hotel Melbourne einen exklusiven Zufluchtsort im Herzen der Stadt dar. Unser fünf Sterne Hotel im Geschäftszentrum von Melbourne bietet ein warmes Ambiente und ein außergewöhnliches Maß an persönlichem Service und luxuriöser Ausstattung. Einen Wochenendaufenthalt können Sie für 329€ buchen."
+msgstr ""
+"Mit einem Blick über die St. Patrick's Kathedrale, die Fitzroy Gärten, die "
+"international inspirierte und viktorianisch sowie modern geprägte "
+"Architektur des zentralen Geschäftsviertels, stellt das Park Hyatt Hotel "
+"Melbourne einen exklusiven Zufluchtsort im Herzen der Stadt dar. Unser fünf "
+"Sterne Hotel im Geschäftszentrum von Melbourne bietet ein warmes Ambiente "
+"und ein außergewöhnliches Maß an persönlichem Service und luxuriöser "
+"Ausstattung. Einen Wochenendaufenthalt kannst du für 329€ buchen."
 
 #: .\templates\eyevacs\hotel6.html.py:11
 msgid ""
@@ -904,7 +1132,14 @@ msgid ""
 "luxury. Guests are invited to enjoy the award-winning ‘radii’ restaurant & "
 "bar, a decadent Tea Lounge and our local-favourite day spa featuring an "
 "indoor aquamarine pool, spa, sauna, gym and private sun deck."
-msgstr "Bekannt für die größten luxuriösten 240 Zimmer und Suiten in Melbourne mit begehbaren Balkonen, italienischen Marmorbädern und großen Fenstern, eröffnet Ihnen unser Luxushotel in Melbourne ein unvergleichbares Erlebnis von elegantem und zeitgemäßen Luxus. Unsere Gäste sind herzlich eingeladen in unserem ausgezeichneten 'radii' Restaurant & Bar, der Tee-Lounge, unserem äußerst beliebten Day-Spa-Bereich mit aquamarinfarbenen Schwimmbad, Spa, Sauna, Fitnessstudio und privater Sonnenterrasse."
+msgstr ""
+"Bekannt für die größten luxuriösten 240 Zimmer und Suiten in Melbourne mit "
+"begehbaren Balkonen, italienischen Marmorbädern und großen Fenstern, "
+"eröffnet Ihnen unser Luxushotel in Melbourne ein unvergleichbares Erlebnis "
+"von elegantem und zeitgemäßen Luxus. Unsere Gäste sind herzlich eingeladen "
+"in unserem ausgezeichneten 'radii' Restaurant & Bar, der Tee-Lounge, unserem "
+"äußerst beliebten Day-Spa-Bereich mit aquamarinfarbenen Schwimmbad, Spa, "
+"Sauna, Fitnessstudio und privater Sonnenterrasse."
 
 #: .\templates\eyevacs\hotel6.html.py:12
 msgid ""
@@ -913,7 +1148,14 @@ msgid ""
 "corporate events for up to 450 people. The hotel also specialises in "
 "weddings offering a wedding planner, wedding packages, personalised menus "
 "and a range romantic rooms and suites."
-msgstr "Das Hotel verfügt zudem über eine wunderschöne Auswahl an Veranstaltungsräumlichkeiten, die sich in Größe und Design unterscheiden und sich für kleinere private Anlässe aber auch für geschäftliche Veranstaltungen mit bis zu 450 Personen eignen. Das Hotel ist zudem spezialisiert auf Hochzeitsangebote, die einen Hochzeitsplaner, Hochzeitsarrangements, individuell zusammengestellte Menüs und eine Vielzahl an romantischen Zimmern, umfassen."
+msgstr ""
+"Das Hotel verfügt zudem über eine wunderschöne Auswahl an "
+"Veranstaltungsräumlichkeiten, die sich in Größe und Design unterscheiden und "
+"sich für kleinere private Anlässe aber auch für geschäftliche "
+"Veranstaltungen mit bis zu 450 Personen eignen. Das Hotel ist zudem "
+"spezialisiert auf Hochzeitsangebote, die einen Hochzeitsplaner, "
+"Hochzeitsarrangements, individuell zusammengestellte Menüs und eine Vielzahl "
+"an romantischen Zimmern, umfassen."
 
 #: .\templates\eyevacs\hotel6.html.py:13
 msgid ""
@@ -923,11 +1165,18 @@ msgid ""
 "The Wonders of Ancient Mesopotamia, and the best boutique shopping, cafes, "
 "restaurants and theatre districts in CBD. Melbourne Airport is conveniently "
 "located only 23km away."
-msgstr "Unser luxuriöses Melbourne Hotel befindet sich in der Nähe des Melbourne Cricket Ground (MCG), der Trainingsstätte der Australian Football League (AFL) und dem Test Cricket. Es ist außerdem in einer fußläufigen Distanz zum Melbourne Museum mit der beeindruckenden Ausstellung 'The Wonders of Ancient Mesopotamia', den besten Boutiquen, Cafés, Restaurants und dem Theaterbezirk im Geschäftszentrum. Der Melbourner Flughafen ist mit einer Entfernung von 23km günstig gelegen."
+msgstr ""
+"Unser luxuriöses Melbourne Hotel befindet sich in der Nähe des Melbourne "
+"Cricket Ground (MCG), der Trainingsstätte der Australian Football League "
+"(AFL) und dem Test Cricket. Es ist außerdem in einer fußläufigen Distanz zum "
+"Melbourne Museum mit der beeindruckenden Ausstellung 'The Wonders of Ancient "
+"Mesopotamia', den besten Boutiquen, Cafés, Restaurants und dem Theaterbezirk "
+"im Geschäftszentrum. Der Melbourner Flughafen ist mit einer Entfernung von "
+"23km günstig gelegen."
 
 #: .\templates\eyevacs\pl_demographics.html.py:16
 msgid "You are..."
-msgstr "Sie sind..."
+msgstr "Du bist..."
 
 #: .\templates\eyevacs\pl_demographics.html.py:21
 msgid "Female"
@@ -939,7 +1188,7 @@ msgstr "männlich"
 
 #: .\templates\eyevacs\pl_demographics.html.py:33
 msgid "How old are you?"
-msgstr "Wie alt sind Sie?"
+msgstr "Wie alt bist du?"
 
 #: .\templates\eyevacs\pl_demographics.html.py:37
 msgid "under 30"
@@ -966,75 +1215,87 @@ msgid ""
 "Now let’s come to the main topic of this survey which is vacation packages. "
 "In the following a vacation package describes a hotel you choose for a "
 "summer holiday which already includes catering."
-msgstr "Nun kommen wir zum Hauptteil dieser Umfrage, den Pauschalreisen. Im Nachfolgenden werden Ihnen Hotels inklusive Verpflegung im Rahmen einer Pauschalreise vorgestellt, die Sie für Ihren Sommerurlaub auswählen können."
+msgstr ""
+"Kommen wir jetzt zum Thema Pauschalreisen. Unter einer Pauschalreise soll "
+"ein Hotel inklusive Verpflegung verstanden werden, welches du für einen "
+"Sommerurlaub buchen kannst."
 
 #: .\templates\eyevacs\pl_experience.html.py:17
 msgid ""
 "When was the last time you booked a vacation package including a seaside "
 "hotel?"
-msgstr "Wann haben Sie zum letzten Mal eine Pauschalreise in einem Hotel in der Nähe des Meeres gebucht? "
+msgstr ""
+"Wann hast du zum letzten Mal eine Pauschalreise in einem Hotel am Meer "
+"gebucht? "
 
 #: .\templates\eyevacs\pl_experience.html.py:22
-msgid " Within the last 12 months"
+msgid "Within the last 12 months"
 msgstr "Innerhalb der letzten 12 Monate"
 
 #: .\templates\eyevacs\pl_experience.html.py:26
-msgid " Between the last 12 and 36 months"
+msgid "Between the last 12 and 36 months"
 msgstr "In den letzten 12 bis 36 Monaten"
 
 #: .\templates\eyevacs\pl_experience.html.py:30
-msgid " Longer than 36 months ago"
+msgid "Longer than 36 months ago"
 msgstr "Vor mehr als 36 Monaten"
 
 #: .\templates\eyevacs\pl_experience.html.py:34
-msgid " I never booked a vacation package before."
+msgid "I never booked a vacation package before."
 msgstr "Ich habe noch nie eine Pauschalreise gebucht."
 
 #: .\templates\eyevacs\pl_experience.html.py:44
 msgid "Are you planning to book a vacation package within the next 12 months?"
-msgstr "Haben Sie vor in den nächsten 12 Monaten eine Pauschalreise zu buchen?"
+msgstr "Hast du vor in den nächsten 12 Monaten eine Pauschalreise zu buchen?"
 
 #: .\templates\eyevacs\pl_experience.html.py:48
-msgid " Yes"
+msgid "Yes"
 msgstr "Ja"
 
 #: .\templates\eyevacs\pl_experience.html.py:52
-msgid " No"
+msgid "No"
 msgstr "Nein"
 
 #: .\templates\eyevacs\pl_experience.html.py:59
 msgid ""
 "When it comes to booking a vacation package, what would you say: How long do "
 "you search for information before you decide which vacation package to book?"
-msgstr "Wenn Sie eine Pauschalreise buchen möchten, was würden Sie sagen: Wie lange suchen Sie nach Informationen bis sie sich entscheiden, welche Pauschalreise Sie buchen?"
+msgstr ""
+"In Bezug auf das Buchen von Pauschalreisen, was würdest du sagen: Wie lange "
+"suchst du nach Informationen bis du dich entscheidest, welche Pauschalreise "
+"du buchst?"
 
 #: .\templates\eyevacs\pl_experience.html.py:63
-msgid " Less than one week"
+msgid "Less than one week"
 msgstr "Weniger als eine Woche"
 
 #: .\templates\eyevacs\pl_experience.html.py:67
-msgid " Between one and two weeks"
+msgid "Between one and two weeks"
 msgstr "Ein bis zwei Wochen"
 
 #: .\templates\eyevacs\pl_experience.html.py:71
-msgid " More than two weeks"
+msgid "More than two weeks"
 msgstr "Mehr als zwei Wochen"
 
 #: .\templates\eyevacs\table.html.py:9
 msgid ""
 "If these hotels were your only options, which hotel would you buy for you "
 "and your friend with the money you got from your relative?"
-msgstr "Welches dieser Hotels würden Sie für sich und Ihren Freund, mit dem Geld Ihres Verwandten buchen, wenn nur diese verfügbar wären?"
+msgstr ""
+"Welches dieser Hotels würdest du für dich und deinen Freund, mit dem Geld "
+"deines Verwandten buchen, wenn nur diese verfügbar wären?"
 
 #: .\templates\eyevacs\thankyou.html.py:8
 msgid "Thank you very much for participating in this study! "
-msgstr "Vielen Dank für Ihre Teilnahme an dieser Umfrage!"
+msgstr "Vielen Dank für deine Teilnahme an dieser Umfrage!"
 
 #: .\templates\eyevacs\transitOverview.html.py:5
 msgid ""
 " Now imagine that a relative is coming to Melbourne for a weekend. He/she "
 "likes to find a hotel which is "
-msgstr "Stellen Sie sich bitte nun vor, dass ein Verwandter für ein Wochenende nach Melbourne kommt. Er/Sie sucht das Hotel, das"
+msgstr ""
+"Stell dir bitte nun vor, dass ein Verwandter für ein Wochenende nach "
+"Melbourne kommt. Er/Sie sucht das Hotel, das"
 
 #: .\templates\eyevacs\transitOverview.html.py:5
 msgid " both, nearest to the airport and also the cheapest."
@@ -1045,10 +1306,14 @@ msgid ""
 " Below you see six different offers from hotels in and around Melbourne. By "
 "clicking on those offers you can get more information about them. Please do "
 "NOT use paper and pencil in this task."
-msgstr "Unten dargestellt sehen Sie sechs verschiedene Angebote von Hotels in Melbourne und Umgebung. Sie können weitere Informationen erhalten, indem Sie das jeweilige Hotel anklicken. Bitte verwenden Sie bei dieser Aufgabe weder Papier noch Bleistift."
+msgstr ""
+"Unten dargestellt siehst du sechs verschiedene Angebote von Hotels in "
+"Melbourne und Umgebung. Du kannst weitere Informationen erhalten, indem du "
+"das jeweilige Hotel anklickst. Bitte verwende bei dieser Aufgabe weder "
+"Papier noch Bleistift."
 
 #: .\templates\eyevacs\transitOverview.html.py:9
-#: .\templates\eyevacs\transit_select.html.py:18
+#: .\templates\eyevacs\transit_select.html.py:17
 msgid "The Langham"
 msgstr "The Langham"
 
@@ -1057,14 +1322,14 @@ msgid "Art Series - The Olsen"
 msgstr "Art Series - The Olsen"
 
 #: .\templates\eyevacs\transitOverview.html.py:22
-#: .\templates\eyevacs\transit_select.html.py:28
+#: .\templates\eyevacs\transit_select.html.py:27
 msgid "Grand Hyatt"
 msgstr "Grand Hyatt"
 
-#: .\templates\eyevacs\transit_select.html.py:8
+#: .\templates\eyevacs\transit_select.html.py:7
 msgid "Please click on the hotel you would recommend to your friend."
-msgstr "Bitte wählen Sie das Hotel aus, welches Sie Ihrem Freund empfehlen würden."
+msgstr "Bitte wähle das Hotel aus, welches du deinem Freund empfehlen würdest."
 
-#: .\templates\eyevacs\transit_select.html.py:26
+#: .\templates\eyevacs\transit_select.html.py:25
 msgid "Art Series - The Olson"
 msgstr "Art Series - The Olsen"
