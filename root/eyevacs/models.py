@@ -7,8 +7,8 @@ LANGUAGE_CHOICES = (
 GROUP_CHOICES = (
         ('inc','increasing'),
         ('dec','decreasing'),
-        ('bsl','baseline'),
-
+        ('bs1','baseline'),
+        ('bs2','baseline2'),
     )
 GENDER_CHOICES = (
         ('m','Male'),
@@ -27,6 +27,31 @@ class Experiment(models.Model):
     language = models.CharField(max_length=2, choices= LANGUAGE_CHOICES)
     info = models.TextField( blank = True)
     #participants:wird als foreign key bei den participants geloest
+
+# class PubContainer(models.Model):
+    # experiment = models.ForeignKey(Experiment)
+
+class Pub(models.Model):
+    # container = models.ForeignKey(PubContainer)
+    experiment = models.ForeignKey(Experiment)
+    # set: scale_order_ids
+    #used as a dictionary of this pubs scale orderings
+    #Foreign Keys:
+    #external_order_scale
+
+    sessionid = models.CharField(max_length = 150)
+    csrftoken = models.CharField(max_length = 150)
+
+    # index of grouping.group_nr[index]
+    ct_size = models.IntegerField()
+    hard_id = models.IntegerField()
+    def_group = models.IntegerField()
+    #manual ID used?
+    #if overridde_id == false: man_group = None
+    override_group= models.IntegerField(null = True, blank = True)
+
+
+
 
 class Participant(models.Model):
     #bool, real participant = 1 or "Test-Experiments" = 0
@@ -121,6 +146,7 @@ class External_Choice_Task(models.Model):
     a8 = models.CharField(max_length = 15, default = "empty")
     used = models.BooleanField()
     linked_pcpt = models.ForeignKey(Participant, null = True, blank = True)
+    linked_pub = models.ForeignKey(Participant, null = True, blank = True)
     raw_src_line = models.CharField(max_length = 100)
 
 class External_Baseline_Choice_Task(models.Model):
@@ -147,6 +173,8 @@ class External_Order_Scale(models.Model):
     scale_rnd_order_ext = models.CharField(max_length = 100)
     source_file = models.ForeignKey(External_Source_Data, null = True, blank = True)
     linked_pcpt = models.ForeignKey(Participant, null = True, blank = True)
+    linked_pub = models.ForeignKey(Pub, null = True, blank = True)
+    used = models.BooleanField()
 
 class Scale(models.Model):
     name = models.CharField(max_length = 100)

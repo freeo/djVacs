@@ -185,9 +185,14 @@ def preparePcpt(request, exp_id):
         selectcondition = request.session.get('selectcondition')[0]
     selectlanguage = request.session.get('selectlanguage')[0]
     request.session['django_language'] = selectlanguage
+    #XXX dont need a try, values are hardcoded in exp views, maybe even int, try it!
+    # ct_size = int(request.session['ct_size'][0])
     ct_size = request.session['ct_size'][0]
-    valid_input = request.session['input_pcptid'][0]
-    pcpt.initPcpt(ct_size, valid_input, selectcondition)
+    # might be used to overwrite a corrupt pcpt (not valid one).
+    # is 'future', better not use it.
+    # stick to manual garbage collection of pubs
+    # valid_input = request.session['input_pcptid'][0]
+    pcpt.initPcpt(ct_size, request.cookies['sessionid'], request.cookies['csrftoken'], selectcondition)
     request.session['rnd_orderings'] = pcpt.scale_order_ids
     request.session['choice_tasks'] = pcpt.ctlistIDs
     return getRedirectURL(request, 'preparePcpt')
@@ -401,16 +406,22 @@ def transit(request, exp_id, pcpt_id):
     return render(request, 'eyevacs/transitOverview.html', context)
 
 def hotel1(request, exp_id, pcpt_id):
+    request.session['timestamps'].update({request.path:datetime.utcnow()})
     return render_to_response('eyevacs/hotel1.html', Context())
 def hotel2(request, exp_id, pcpt_id):
+    request.session['timestamps'].update({request.path:datetime.utcnow()})
     return render_to_response('eyevacs/hotel2.html', Context())
 def hotel3(request, exp_id, pcpt_id):
+    request.session['timestamps'].update({request.path:datetime.utcnow()})
     return render_to_response('eyevacs/hotel3.html', Context())
 def hotel4(request, exp_id, pcpt_id):
+    request.session['timestamps'].update({request.path:datetime.utcnow()})
     return render_to_response('eyevacs/hotel4.html', Context())
 def hotel5(request, exp_id, pcpt_id):
+    request.session['timestamps'].update({request.path:datetime.utcnow()})
     return render_to_response('eyevacs/hotel5.html', Context())
 def hotel6(request, exp_id, pcpt_id):
+    request.session['timestamps'].update({request.path:datetime.utcnow()})
     return render_to_response('eyevacs/hotel6.html', Context())
 
 def transit_select(request, exp_id, pcpt_id):

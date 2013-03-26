@@ -13,6 +13,7 @@ exp = None
 scales = None
 pcpt_id = None
 group = None
+group_all = None
 ct_size = None #choice task size for this.pcpt.id, can vary within experiment
 ctasksources = None
 ctlist = []
@@ -20,13 +21,13 @@ ctlistIDs = []
 attributes = None
 taskcounter = None
 ct_bsl_list = []
-validatedCTs = {}
+pub = None
 increasingsequence = [2,2,3,3,4,4,5,5]
 decreasingsequence = [5,5,4,4,3,3,2,2]
 baseline2sequence = [2,2,2,2,2,2,2,2]
 baseline5sequence = [5,5,5,5,5,5,5,5]
 groupName = {'1':'increasing','2':'decreasing','3':'baselinehigh','4':'baselinelow'}
-scale_order_ids = {}
+scale_sequence = {}
 scale_names = ['rnd_max', 'rnd_regret', 'rnd_involvement', 'rnd_searchgoals', 'rnd_happiness']
 # session = {}
 namelist = ['A','B','C','D','E','F','G','H']
@@ -189,7 +190,9 @@ def createTasklist(condition):
         # for a in amount_list:
         for a in sequence:
             cts.append(getFreeCT(a))
+    #return:
     ctlist = cts
+    #debug purposes
     for ct in ctlist:
         ctlistIDs.append(ct.pk)
 
@@ -309,48 +312,74 @@ def mapAttrLevel(lvlvalue, attrposition):
 
 def initExp(exp_id):
     global exp
-    exp = Experiment.objects.get(pk = exp_id)
-
-def initPcpt(ext_ct_size, ext_pcpt_id, condition):
     global scales
-    global scale_order_ids
+    global group_all
+    exp = Experiment.objects.get(pk = exp_id)
+    setCTaskSources()
+    scales = exp.external_source_data_set.filter(filetype = 'scale')
+    jsonDec = json.decoder.JSONDecoder()
+    group_all = jsonDec.decode(exp.grouping.group_nr)
+
+def initPcpt(ext_ct_size, ext_session_id, ext_csrftoken, condition):
+    '''Initiates a participant stub (pub).'''
+    global scale_sequence
     global pcpt_id
     global group
     global ct_size
-    setCTaskSources()
-    scales = exp.external_source_data_set.filter(filetype = 'scale')
-    try:
-        ct_size = int(ext_ct_size)
-    except:
-        raise Exception('Not a valid ct_size! Is a bug or a hack, cant be.')
-    jsonDec = json.decoder.JSONDecoder()
-    group_all = jsonDec.decode(exp.grouping.group_nr)
-    if (ext_pcpt_id == None):
+    global pub
+    ct_size = ext_ct_size
+    #plain, simple, hard:
+    pcpt_id = exp.grouping.counter
+    group = getGroup(pcpt_id)
+    ########################################################################
+    #move to legacy?!
+    # if (ext_pcpt_id == None): #should better be not used, too much confusion
         # has to be increased after pcpt.save() !!!
-        pcpt_id = exp.grouping.counter
-    else:
-        try:
-            valid_id = int(ext_pcpt_id)
-            pcpt_id = valid_id
-        except:
-            raise Exception('The entered ID '+ str(ext_pcpt_id)+ ' is invalid!')
+        # pcpt_id = exp.grouping.counter
+    # else:
+    #     try:
+    #         valid_id = int(ext_pcpt_id)
+    #         pcpt_id = valid_id
+    #     except:
+    #         raise Exception('The entered ID '+ str(ext_pcpt_id)+ ' is invalid!')
     #not yet implemented grouping:
     #group_all[pcpt_id]
+    ########################################################################
+
+    # manual override
     if condition == 'increasing':
         group = 1
     if condition == 'decreasing':
         group = 2
     for scale in scale_names:
-        scale_order_ids[scale] = assignScaleOrder(scale)
-    # return infoObject(exp.grouping.counter, group, scale_order_ids)
+        scale_sequence[scale] = assignScaleOrder(scale)
+
+    # return infoObject(exp.grouping.counter, group, scale_sequence)
     setChoiceTasks()
+    #Save all to pub. Needed to mark files as "used"
+    pub = Pub()
+    pub.sessionid = ext_sessionid
+    pub.csrftoken = ext_csrftoken
+    pub.hard_id = exp.grouping.counter
+    if condition == '':
+        pub.def_group = group
+    else:
+        pub.def_group = getGroup(pcpt_id)
+        pub.override_group = group
+    for ct in ctlist:
+        ct.linked_pub = pub
+        ct.used = True
+    for rnd in scale_sequence:
+        rnd.linked_pub = pub
+        rnd.used = True
+
 
 def get_scale_context(scale_name_string):
     question_title = scale_questions.question_titles[scale_name_string]
     scale_name = scale_name_string
     scale_id = '' #css id design for the form! will STAY EMPTY!!!
-    print scale_order_ids
-    order_id = scale_order_ids[scale_name_string]
+    # print scale_sequence
+    order_id = scale_sequence[scale_name_string].pk
     # pdb.set_trace()
     question_order = map(int, External_Order_Scale.objects.get(pk=order_id).scale_rnd_order_ext.split(','))
     questions = []

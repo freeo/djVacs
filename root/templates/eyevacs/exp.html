@@ -39,11 +39,11 @@ info: {{ exp.info }} <br/>
 </div>
 <br/>
 <div>
-    <b>Default next participant ID: {{pcpt_id}}</b><br/>
-    <b>Default next condition: {{ next_condition }}</b><br/>
+    <b>Next participant ID: {{pcpt_id}}</b><br/>
+    <b>Next condition: {{ next_condition }}</b><br/>
     <br/>
-Enter ID manually: <br/>
-<input type="text" value="{{ pcpt_id }}" name="input_pcptid" /> (dont change for next default ID = <b>{{pcpt_id}}</b> )
+{# Enter ID manually: <br/> #}
+{# <input type="text" value="{{ pcpt_id }}" name="input_pcptid" /> (dont change for next default ID = <b>{{pcpt_id}}</b> ) #}
 </div>
 <br/>
 <br/>
@@ -71,9 +71,10 @@ Show page list</label>
     {# <option value="welcome_paginated">Seperate pages</option> #}
 </select>
 </div>
-<p>Select Condition</p>
+<p>Change next Condition to:</p>
 <div style="text-indent:35px;">
 <select name="selectcondition" style="width:200px;">
+    <option value="">--select--</option>
     <option value="increasing">Increasing</option>
     <option value="decreasing">Decreasing</option>
     {# <option value="basetwo">Baseline 2 Tasks</option> #}
@@ -149,10 +150,10 @@ Show page list</label>
                 ct_size:{
                     required: true
                     } ,
-                input_pcptid: {
-                    required: true,
-                    max: (maxID)
-                    }
+                {# input_pcptid: { #}
+                {#     required: true, #}
+                {#     max: (maxID) #}
+                {#     } #}
                 },
             {# only executed on form submit!!! hiding of off error #}
             {# has to be solved with another funtion, eg: errorContainer #}
