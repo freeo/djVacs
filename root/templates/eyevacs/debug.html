@@ -5,13 +5,20 @@
 <div>
 <a href="../../lang/" >
 {% if lang == "en" %}
-    <img src="{% static "img/en.jpg" %}" style="height:80px;" >
+    <img src="{% static "img/en.jpg" %}" style="height:60px;" >
 {% elif lang == "de" %}
-    <img src="{% static "img/de.jpg" %}" style="height:80px;" >
+    <img src="{% static "img/de.jpg" %}" style="height:60px;" >
 {% endif %}
 </a>
 </div>
 
+<br/>
+1: increasing 2: decreasing 3: baseline1 4: baseline2
+{% if pub.override_group %}
+<p>Override group: {{ pub.override_group  }}</p>
+{% else %}
+<p>Default group: {{ pub.def_group  }}</p>
+{% endif %}
 <p class="">
 Jump to page:<br/>
 </p>

@@ -4,29 +4,55 @@
 {% block body %}
 {# ######################################################################## #}
 {# ######################################################################## #}
-<b> Experiment</b><br/>
-----------------------------------------------------------------------------------------------------
-<p style="background:#6cf; color:#555; line-height:150%;vertical-align:middle; font-size:24px; width:1000px; font-weight:bold; margin:0;">&nbsp;{{exp.name }}&nbsp;</p>
-----------------------------------------------------------------------------------------------------<br/>
+<a href="../" style="font-size:10px">&lt;&lt; Experiment overview</a><br/>
+<div style="float:left;" >
 <table>
+<tr>
+<td colspan="3">
+<p style="margin:0px;"><b>&nbsp;Experiment</b><br/></p>
+<p style="background:#6cf; color:#555; line-height:150%;vertical-align:middle; font-size:24px; font-weight:bold; margin:0;">&nbsp;{{exp.name }}&nbsp;</p>
+<br/>
+</td>
+</tr>
     <tr>
-        <td style="vertical-align:top;">
-# Comepleted participants: {{exp.participant_set.count}}<br/>
-----------------------------------<br/>
-# Total data files: {{exp.external_source_data_set.count }}<br/>
+        <td style="vertical-align:top;background:#666;padding:25px;" width="300px" >
+ Completed participants: {{exp.participant_set.count}}<br/>
+-----------------------------<br/>
+ {# Total data files: {{exp.external_source_data_set.count }}<br/> #}
 {# {% for file in exp.external_source_data_set.all %} #}
 {#    -- {{file.filetype}}: header: {{file.header}}<br/> #}
 {# {%endfor %} #}
-----------------------------------<br/>
+{# -----------------------------<br/> #}
 seed: {{ exp.grouping.seed }} <br/>
+info:<br/>
+<div class="info_field">
+ {{ exp.info }}
+ </div>
+first conditions: <br/>
+<div class="info_field">
+{{ grouping }}<br/>
+ </div>
+participant stubs:
+{% if exp.pub_set.count != 0 %}
+    <span class="highlight">
+    {{ exp.pub_set.count }}<br/>
+     </span>
+{% else %}
+    {{ exp.pub_set.count }}<br/>
+{% endif %}
 <br/>
-info: {{ exp.info }} <br/>
-<br/>
+Usage statistics:<br/>
+<div class="info_field">
+• choice tasks in use: {{ used.ctasks }} <br/>
+• baseline tasks in use: {{ used.bsltsks }}<br/>
+• scale orderings in use: {{ used.scales }} <br/>
+ </div>
+
 <form action="{{ destination }}"  method="post" name="experience_settings" id="exp_form_id" >
 {% csrf_token %}
-----------------------------------<br/>
+-----------------------------<br/>
 <div>
-    <b>Participant task size:</b>
+    <b>Participant task size:</b><br/>
     (Default value is: )
     {%for size in tasksize %}
         {%if size.checked == "checked" %}
@@ -34,13 +60,20 @@ info: {{ exp.info }} <br/>
         {%endif%}
     {%endfor %}
     {% for t in tasksize %}
-        <label class="lbadmin" ><input type="radio" name="ct_size" value={{t.value}} {{t.checked}} /> {{t.label}}</label>
+        <label class="lbadmin" ><input type="radio" name="ct_size" value={{t.value}} {{t.checked}} {{ t.enabled }}/> {{t.label}}</label>
         {% endfor %}
 </div>
 <br/>
 <div>
-    <b>Next participant ID: {{pcpt_id}}</b><br/>
-    <b>Next condition: {{ next_condition }}</b><br/>
+    {% if next_id_hole != None %}
+        <span class="highlight">
+        Filling ID hole: {{ next_id_hole }}<br/>
+        ID hole condition: {{ next_id_hole_group }}<br/>
+        </span>
+    {% else %}
+        <b>Next participant ID: {{pcpt_id}}</b><br/>
+        <b>Next condition: {{ next_condition }}</b><br/>
+    {% endif %}
     <br/>
 {# Enter ID manually: <br/> #}
 {# <input type="text" value="{{ pcpt_id }}" name="input_pcptid" /> (dont change for next default ID = <b>{{pcpt_id}}</b> ) #}
@@ -51,24 +84,29 @@ info: {{ exp.info }} <br/>
 
 {# 2nd column, RIGHT #}
 {# ######################################################################## #}
-<td style="width:100px;">
+<td style="width:50px;">
 {# spacer #}
 </td>
 {# ######################################################################## #}
 
-<td style="border:1px solid #6cf; padding:25px; padding-top:5px; padding-bottom:25px;">
+<td style="border:1px solid #6cf; background:#666; padding:25px; padding-top:5px; padding-bottom:25px;">
 <br/>
 <p style="background:#6cf; color:#555;"><b>Options override:</b></p>
 <p>Enable form validation?</p>
-<label class="lbadmin" style="width:250px;text-align:left;"><input type="checkbox" name="cbox_validation" checked >Validate user input?</label>
+<label class="lbadmin" style="width:250px;text-align:left;"><input type="checkbox" name="cbox_validation" checked />Validate user input?</label>
 <p>Jump to Page:</p>
-<label class="lbadmin" style="width:250px;text-align:left;"><input type="checkbox" name="cbox_singlepagedebug" checked >
+<label class="lbadmin" style="width:250px;text-align:left;"><input type="checkbox" name="cbox_singlepagedebug" checked />
 Show page list</label>
 <p>Select the "Welcome Page"</p>
 <div style="text-indent:35px;">
 <select name="selectwelcome" style="width:200px;">
-    <option value="welcome_scrollable">All in one page (scrollable)</option>
-    {# <option value="welcome_paginated">Seperate pages</option> #}
+    {% if project_language == "de" %}
+        <option value="welcome_ger">Bielefeld</option>
+        <option value="welcome_en">Melbourne</option>
+    {% else %}
+        <option value="welcome_en">Melbourne</option>
+        <option value="welcome_ger">Bielefeld</option>
+    {% endif %}
 </select>
 </div>
 <p>Change next Condition to:</p>
@@ -77,8 +115,8 @@ Show page list</label>
     <option value="">--select--</option>
     <option value="increasing">Increasing</option>
     <option value="decreasing">Decreasing</option>
-    {# <option value="basetwo">Baseline 2 Tasks</option> #}
-    {# <option value="baseeight">Baseline 8 Tasks</option> #}
+    <option value="baselinelow">Baseline low</option>
+    <option value="baselinehigh">Baseline high</option>
 </select>
 </div>
 <p>Select Language</p>
@@ -94,12 +132,73 @@ Show page list</label>
 </select>
 <div id="lang_picture" style="height:50px;margin-top:20px;"></div>
 </div>
+
+</td>
+</tr>
+
+<tr>
+<td colspan="3">
+<br/>
+<input type="submit" value="New Participant" class="bt_new_pcpt" />
+</form>
 </td>
 </tr>
 </table>
+</div>
+
+{# 3rd column #}
 {# ######################################################################## #}
+<div id="pub_list">
+<p> Participant stubs: </p>
+{# <br/> #}
+<form action="{{ remove_pubs_url }}" method="post">
+{% csrf_token %}
+{# Amount: {{ pubs|length}}<br/> #}
+{% if not id_holes == '[]' %}
+ID holes:
+<div class="info_field">
+{{ id_holes }}
+</div>
+respective groups: 
+<div class="info_field">
+{{ id_hole_groups }}
+</div>
+{% else %}
+<p style="color:#00cc00">No ID holes!</p>
+{% endif %}
+{% if pubs %}
+<p style="font-size:10px;"> time created | hard_id | default group | override group | PK</p>
+    <div style="border:3px solid #b00; max-height: 400px; overflow-y: scroll; color:#555; background:#444;">
+<input type="hidden" value="gimme my post data!" />
+    {# {% for pub_id, pub in pubs.items %} #}
+    {% for pub in pubs %}
+    {# {{ pub_id }} =  #}
+    <label class="pub_label" ><input type="checkbox" checked name="pubs_to_delete" id="cb_pubid{{ pub.id }}" value="{{pub.id}}" />{{ pub.time_string }}|ID{{ pub.hard_id }}|GRP{{ pub.def_group }}|OVR{{ pub.override_group }} PK{{ pub.id }}|{{ pub.sessionid|truncatechars:8 }}</label>
+{# {{ pub.create_time|time}} #}
+{# {{ pub.create_time|date}} #}
+
+    {% endfor %}
+    </div>
+{% else %}
+<p style="color:#00cc00">No stubs!</p>
+{% endif %}
+    {# <input type="submit" value="Select All" > #}
+    <br/>
+    <input type="submit" name="submit_pub" value="Eliminate ALL selected stubs"/>
+
+    </form>
+</div>
 {# ######################################################################## #}
 
+<div id="pub_list" style="margin-top:0px;">
+<form action="{{ url_reset_id_holes }}" method="post">
+{% csrf_token %}
+    <input type="submit" name="submit_reset_id_holes" disabled value="Reset ID holes"/>
+</form>
+</div>
+{# ######################################################################## #}
+
+</script>
 <script>
     $(document).ready(function(){
         var current_language = $("#lang").val();
@@ -125,8 +224,6 @@ Show page list</label>
 
 <br/>
 <br/>
-<input type="submit" value="New Participant" class="bt_new_pcpt" />
-</form>
 
 {# Form validation #}
 
@@ -137,56 +234,5 @@ Show page list</label>
 <div id="errorField" style="display:none" ></div>
 <br/>
 </div>
-
-<script>
-    $(document).ready(function(){
-        var maxID = 899;
-        var thisform = $('form');
-        var validator = thisform.validate({
-        {# var validator = thisform.validate({ #}
-            {# turn off debug to truly submit! #}
-            debug: true,
-            rules: {
-                ct_size:{
-                    required: true
-                    } ,
-                {# input_pcptid: { #}
-                {#     required: true, #}
-                {#     max: (maxID) #}
-                {#     } #}
-                },
-            {# only executed on form submit!!! hiding of off error #}
-            {# has to be solved with another funtion, eg: errorContainer #}
-            invalidHandler: function(thisform, validator) {
-                var errors = validator.numberOfInvalids();
-                if (errors) {
-                $("#errorField").text('There is ' + errors + ' error in this form!');
-                $("#errorField").show();
-                  } else {
-                $("#errorField").hide();
-                  }
-              },
-            messages: {
-                ct_size: "You did not select the choice task size!",
-                input_pcptid: "Enter a valid ID for a participant (maximum: "+ (maxID)+" )"
-            },
-                errorClass: "admin_error",
-{# invalid #}
-            {# error destination id #}
-            errorLabelContainer: "#allErrors",
-            errorContainer: "#errorField",            
-            {# wraps EVERY error inside wrapper: #}
-            wrapper: "ul", 
-            success: "valid",
-            errorElement: "err_elem",
-            {# debug only #}
-            submitHandler: function(thisform) { 
-                {# experience_settings.submit(); #}
-                thisform.submit();
-            }
-        });
-    });
-  </script>
-
 
 {% endblock %}

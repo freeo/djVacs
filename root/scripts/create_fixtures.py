@@ -111,7 +111,7 @@ x external_choice_task fixtures (x = total_tasks divided by amount).'''
     ext_data_pk = GetExtSrcDataDjangoPK()
     header = PrepareHeaderForFixture(model[0])
     ext_data_fields = r'"filetype":"ctask","header":"%s","exp_name":"%s","experiment":%s' % (header, experiment_name, GetExperimentDjangoPK())
-    print '-- EXP ID: ',GetExperimentDjangoPK() , ' --'
+    # print '-- EXP ID: ',GetExperimentDjangoPK() , ' --'
     ext_data_model = single_model % ("eyevacs.External_Source_Data", ext_data_pk, ext_data_fields)
     #Testing the output:
     #print 'External data Fixture: \n'
@@ -165,9 +165,7 @@ x external_choice_task fixtures (x = total_tasks divided by amount).'''
     tempfile.write("]")
     tempfile.close()
     print '-- ', fixturename, ' --'
-    print 'total tasks: ', total_tasks
-    print 'model length', len(model)
-    print ''
+    print 'total tasks: ', total_tasks, ' model length', len(model)
 
 def MakeBaselineFixture(model, amount, total_tasks):
     '''Similar to MakeFixture, but for baseline choice task files.'''
@@ -255,23 +253,21 @@ def MakeBaselineFixture(model, amount, total_tasks):
     tempfile.close()
     #print '\n-- Baseline fixture '+ fixturename + ' created --'
     print '-- ', fixturename, ' --'
-    print 'total tasks: ', total_tasks
-    print 'model length', len(model)
-    print '\n'
+    print 'total tasks: ', total_tasks, ' model length', len(model)
 
 
 def main(exp_id, ext_data_path, fixture_path):
     '''Processing all found .csv files in folder ./initial_data/'''
 
-    print '\n***********************\n'
+    print '***********************'
     print '    Creating Fixtures'
-    print '\n***********************\n'
+    print '***********************'
 
     global experiment_name
     global current_exp_id
     global init_path
     global output_path
-    print 'EXP IOD', exp_id
+    print 'EXP ID', exp_id
     exp = Experiment.objects.get(pk=exp_id)
     experiment_name = exp.name
     current_exp_id = exp.pk

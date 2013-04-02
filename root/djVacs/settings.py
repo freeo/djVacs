@@ -127,6 +127,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.transaction.TransactionMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -170,7 +171,19 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
     'eyevacs.context_processors.debug',
     )
 
-INTERNAL_IPS = ('127.0.0.1',)
+
+if DEBUG:
+
+    from fnmatch import fnmatch
+    class glob_list(list):
+        def __contains__(self, key):
+            for elt in self:
+                if fnmatch(key, elt): return True
+            return False
+
+    INTERNAL_IPS = glob_list(['127.0.0.1', '192.168.*.*'])
+
+# INTERNAL_IPS = ('127.0.0.1',)
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".

@@ -7,7 +7,8 @@
 <b>Existing Experiments:</b><br/>
 ------------------------------------------------------------------
 {% for exp in exp_list %}
-    <li style="font-size:24px; font-weight:bold; margin:0;"><a href='./exp{{exp.pk}}/'>{{exp.name}}</a> : {{exp.participant_set.count}} Participants
+    
+    <li style="font-size:24px; font-weight:bold; margin:0;"><a href='./exp{{exp.pk}}/'>{{exp.name}}</a> : {{exp.participant_set.count}} Participants  -  {{ exp.pub_set.count }} Stubs
 {% endfor %}
 
 

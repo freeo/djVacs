@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 LANGUAGE_CHOICES = (
         ('de','Deutsch'),
@@ -7,8 +8,8 @@ LANGUAGE_CHOICES = (
 GROUP_CHOICES = (
         ('inc','increasing'),
         ('dec','decreasing'),
-        ('bs1','baseline'),
-        ('bs2','baseline2'),
+        ('bl1','baseline'),
+        ('bl2','baseline2'),
     )
 GENDER_CHOICES = (
         ('m','Male'),
@@ -42,65 +43,14 @@ class Pub(models.Model):
     sessionid = models.CharField(max_length = 150)
     csrftoken = models.CharField(max_length = 150)
 
-    # index of grouping.group_nr[index]
     ct_size = models.IntegerField()
+    # index of grouping.group_nr[index]
     hard_id = models.IntegerField()
     def_group = models.IntegerField()
     #manual ID used?
     #if overridde_id == false: man_group = None
-    override_group= models.IntegerField(null = True, blank = True)
-
-
-
-
-class Participant(models.Model):
-    #bool, real participant = 1 or "Test-Experiments" = 0
-    genuine = models.BooleanField()
-    date = models.DateTimeField("date created")
-    #inc, dec, bsl
-    group = models.CharField(max_length=3, choices= GROUP_CHOICES)
-    #2nd page: begin_radio.html
-    begin_radio_recent = models.IntegerField()
-    begin_radio_bool= models.IntegerField()
-    begin_radio_quantity = models.IntegerField()
-    begin_radio_searchdepth = models.IntegerField()
-    #begin likert
-    begin_likert_services = models.IntegerField()
-    begin_likert_alikeness = models.IntegerField()
-    begin_likert_importance = models.IntegerField()
-    begin_likert_regret = models.IntegerField()
-    #Array of Choice Tasks IDs, the number counts the chronological order of the decisions! Values: 0-23 (3*8), links to db_ct_id_{#}
-    ct_id = models.CharField(max_length = (7*3+6)*3) #
-    #final choice array
-    ct_choice = models.CharField(max_length = 7+6) #5,4,7,2,4,2,...
-    #not defined yet! links to external file... same structure as "ct"
-    hc_id = models.CharField(max_length = 3*3+2)
-    hc_choice = models.CharField(max_length = 3+2)
-    #Picking a choice writes it to ts_list. They form the Tournament selection.
-    ts_list = models.CharField(max_length = 7*(7+8)+6) #8+7 for an item, 7 total items, items are seperated by ';'
-    #id of picked ts_list
-    ts_choice = models.IntegerField() # 1 simple number, non randomized position in array
-    #randomized order of the displayed ct's for the tournament selection
-    ts_order = models.CharField(max_length = 7+6)
-    #creation of a participant assigns him an individual randomization order of the max regret scale, links to external file: db_scale_rnd_id
-    scale_rnd_id = models.IntegerField()
-    #extracted order, less database dependence
-    scale_rnd_order = models.CharField(max_length = 100)
-    #array with ordered values of the max regret scale
-    scale_max_regret = models.CharField(max_length = 100) #ca. 18*2 +17 felder
-    #array of choices in the heuristics scale, length: 6
-    heur_choice = models.CharField(max_length = 6+5)
-    #demographics
-    demo_gender = models.CharField(max_length=6, choices= GENDER_CHOICES)
-    demo_student_bool = models.BooleanField()
-    demo_semester = models.IntegerField()
-    demo_age = models.IntegerField()
-    #array of timestamp per finished page
-    pg_time = models.CharField(max_length = 18*17+17) #323 with all values in ms since 1970-1-1 00:00:00 resulting in 17 digits per timestamp. 12 if milliseconds are omitted. 18*12+17  should be best!
-    #order of pages displayed, writes id of each page to this array
-    pg_order = models.CharField(max_length = 100)
-        #experiment
-    experiment = models.ForeignKey(Experiment)
+    override_group= models.IntegerField( null = True, blank = True)
+    create_time = models.DateTimeField(default = datetime.now, blank = True)
 
 
 class Attribute(models.Model):
@@ -125,7 +75,8 @@ class External_Source_Data(models.Model):
     exp_name = models.CharField(max_length = 100)
     experiment = models.ForeignKey(Experiment)
     info = models.TextField( blank = True)
-    sharingpoint = models.IntegerField(default=0)
+    range_start = models.IntegerField(default=0)
+    range_end = models.IntegerField(null = True, blank = True)
 
 #class External_Data_Column(models.Model):
 #    name = models.CharField(max_length = 100)
@@ -145,8 +96,8 @@ class External_Choice_Task(models.Model):
     a7 = models.CharField(max_length = 15, default = "empty")
     a8 = models.CharField(max_length = 15, default = "empty")
     used = models.BooleanField()
-    linked_pcpt = models.ForeignKey(Participant, null = True, blank = True)
-    linked_pub = models.ForeignKey(Participant, null = True, blank = True)
+    linked_pcpt = models.ForeignKey('eyevacs.Participant', null = True, blank = True, related_name = 'Choice_TasksAsParticipant')
+    linked_pub = models.ForeignKey(Pub, null = True, blank = True, related_name = 'Choice_TasksAsPub')
     raw_src_line = models.CharField(max_length = 100)
 
 class External_Baseline_Choice_Task(models.Model):
@@ -165,14 +116,15 @@ class External_Baseline_Choice_Task(models.Model):
     a4 = models.CharField(max_length = 15, default = "empty")
     a5 = models.CharField(max_length = 15, default = "empty")
     used = models.BooleanField()
-    linked_pcpt = models.ForeignKey(Participant, null = True, blank = True)
+    linked_pcpt = models.ForeignKey('eyevacs.Participant', null = True, blank = True, related_name = 'Baseline_Choice_TasksAsParticipant')
+    linked_pub = models.ForeignKey(Pub, null = True, blank = True, related_name = 'Baseline_Choice_TasksAsPub')
     raw_src_line = models.CharField(max_length = 100)
 
 class External_Order_Scale(models.Model):
     id_hard = models.CharField(max_length = 100)
     scale_rnd_order_ext = models.CharField(max_length = 100)
     source_file = models.ForeignKey(External_Source_Data, null = True, blank = True)
-    linked_pcpt = models.ForeignKey(Participant, null = True, blank = True)
+    linked_pcpt = models.ForeignKey('eyevacs.Participant', null = True, blank = True)
     linked_pub = models.ForeignKey(Pub, null = True, blank = True)
     used = models.BooleanField()
 
@@ -192,5 +144,279 @@ class Grouping(models.Model):
     seed = models.IntegerField()
     counter = models.IntegerField()
     #JSON-serialized (text) version of group numberlist
-    group_nr = models.TextField(null=True)
-    sharingpoint = models.IntegerField(default=0)
+    group_nr = models.TextField( null=True)
+    # sharingpoint = models.IntegerField(default=0)
+    # JSON field
+    id_holes = models.TextField( null=True)
+
+
+class Participant(models.Model):
+    experiment = models.ForeignKey(Experiment)
+    #is unique per exp, not more. grouping.group_nr[hard_id] sets condition
+    hard_id = models.IntegerField()
+    #inc, dec, bsl
+    def_group = models.CharField(max_length=3, choices= GROUP_CHOICES)
+    override_group= models.CharField(max_length=3, null = True, blank = True, choices = GROUP_CHOICES)
+    ct_size = models.IntegerField()
+    #bool, real participant = False or "Test-Experiments" = True
+    #maybe a switch in admin mask
+    testpcpt = models.BooleanField()
+    # begin time is pubs create_time
+    begin_time = models.DateTimeField()
+    end_time = models.DateTimeField(default = datetime.now, blank = True)
+    rnd_maxQ1 = models.CharField(max_length=100)
+    rnd_maxQ2 = models.CharField(max_length=100)
+    rnd_maxQ3 = models.CharField(max_length=100)
+    rnd_maxQ4 = models.CharField(max_length=100)
+    rnd_maxQ5 = models.CharField(max_length=100)
+    rnd_maxQ6 = models.CharField(max_length=100)
+    t_rnd_max = models.DateTimeField(blank = True)
+    rnd_regretQ1 = models.CharField(max_length=100)
+    rnd_regretQ2 = models.CharField(max_length=100)
+    rnd_regretQ3 = models.CharField(max_length=100)
+    rnd_regretQ4 = models.CharField(max_length=100)
+    rnd_regretQ5 = models.CharField(max_length=100)
+    t_rnd_regret = models.DateTimeField(blank = True)
+    experience_lastvacation = models.CharField(max_length=100)
+    experience_planningvacation = models.CharField(max_length=100)
+    experience_searchduration = models.CharField(max_length=100)
+    t_experience = models.DateTimeField(blank = True)
+    rnd_involvementQ1 = models.CharField(max_length=100)
+    rnd_involvementQ2 = models.CharField(max_length=100)
+    rnd_involvementQ3 = models.CharField(max_length=100)
+    rnd_involvementQ4 = models.CharField(max_length=100)
+    t_rnd_involvement = models.DateTimeField(blank = True)
+
+    explanation_distance = models.CharField(max_length=100)
+    t_expl_distance = models.DateTimeField(blank = True)
+    explanation_food = models.CharField(max_length=100)
+    t_expl_food = models.DateTimeField(blank = True)
+    explanation_price = models.CharField(max_length=100)
+    t_expl_price = models.DateTimeField(blank = True)
+    explanation_recommend = models.CharField(max_length=100)
+    t_expl_recommend = models.DateTimeField(blank = True)
+    explanation_room = models.CharField(max_length=100)
+    t_expl_room = models.DateTimeField(blank = True)
+    explanation_view = models.CharField(max_length=100)
+    t_expl_view = models.DateTimeField(blank = True)
+    fav_distance = models.CharField(max_length=100)
+    fav_food = models.CharField(max_length=100)
+    fav_price = models.CharField(max_length=100)
+    fav_recommending = models.CharField(max_length=100)
+    fav_room = models.CharField(max_length=100)
+    fav_seaview = models.CharField(max_length=100)
+    t_expl_fav = models.DateTimeField(blank = True)
+    #the final decision
+    ct1 = models.CharField(max_length=100)
+    ct2 = models.CharField(max_length=100)
+    ct3 = models.CharField(max_length=100)
+    ct4 = models.CharField(max_length=100)
+    ct5 = models.CharField(max_length=100)
+    ct6 = models.CharField(max_length=100)
+    ct7 = models.CharField(max_length=100)
+    ct8 = models.CharField(max_length=100)
+    ct9 = models.CharField(max_length=100, null = True, blank = True)
+    ct10 = models.CharField(max_length=100, null = True, blank = True)
+    ct11 = models.CharField(max_length=100, null = True, blank = True)
+    ct12 = models.CharField(max_length=100, null = True, blank = True)
+    ct13 = models.CharField(max_length=100, null = True, blank = True)
+    ct14 = models.CharField(max_length=100, null = True, blank = True)
+    ct15 = models.CharField(max_length=100, null = True, blank = True)
+    ct16 = models.CharField(max_length=100, null = True, blank = True)
+    #amount of alternatives presented
+    #kind of redundant, yet VERY helpful!
+    ctamount1 = models.CharField(max_length=100)
+    ctamount2 = models.CharField(max_length=100)
+    ctamount3 = models.CharField(max_length=100)
+    ctamount4 = models.CharField(max_length=100)
+    ctamount5 = models.CharField(max_length=100)
+    ctamount6 = models.CharField(max_length=100)
+    ctamount7 = models.CharField(max_length=100)
+    ctamount8 = models.CharField(max_length=100)
+    ctamount9 = models.CharField(max_length=100, null = True, blank = True)
+    ctamount10 = models.CharField(max_length=100, null = True, blank = True)
+    ctamount11 = models.CharField(max_length=100, null = True, blank = True)
+    ctamount12 = models.CharField(max_length=100, null = True, blank = True)
+    ctamount13 = models.CharField(max_length=100, null = True, blank = True)
+    ctamount14 = models.CharField(max_length=100, null = True, blank = True)
+    ctamount15 = models.CharField(max_length=100, null = True, blank = True)
+    ctamount16 = models.CharField(max_length=100, null = True, blank = True)
+    cttime1 = models.CharField(max_length=100)
+    cttime2 = models.CharField(max_length=100)
+    cttime3 = models.CharField(max_length=100)
+    cttime4 = models.CharField(max_length=100)
+    cttime5 = models.CharField(max_length=100)
+    cttime6 = models.CharField(max_length=100)
+    cttime7 = models.CharField(max_length=100)
+    cttime8 = models.CharField(max_length=100)
+    cttime9 = models.CharField(max_length=100, null = True, blank = True)
+    cttime10 = models.CharField(max_length=100, null = True, blank = True)
+    cttime11 = models.CharField(max_length=100, null = True, blank = True)
+    cttime12 = models.CharField(max_length=100, null = True, blank = True)
+    cttime13 = models.CharField(max_length=100, null = True, blank = True)
+    cttime14 = models.CharField(max_length=100, null = True, blank = True)
+    cttime15 = models.CharField(max_length=100, null = True, blank = True)
+    cttime16 = models.CharField(max_length=100, null = True, blank = True)
+    h1conjoint1 = models.CharField(max_length=100)
+    h1conjoint2 = models.CharField(max_length=100)
+    h1conjoint3 = models.CharField(max_length=100)
+    h1conjoint4 = models.CharField(max_length=100)
+    t_h1page1 = models.DateTimeField(blank = True)
+    h1conjoint5 = models.CharField(max_length=100)
+    h1conjoint6 = models.CharField(max_length=100)
+    h1conjoint7 = models.CharField(max_length=100)
+    h1conjoint8 = models.CharField(max_length=100)
+    t_h1page2 = models.DateTimeField(blank = True)
+
+    h2totaltime = models.CharField(max_length=100)
+    h2searchpath = models.TextField()
+    h2durationpath = models.TextField()
+    h2transitdecision = models.CharField(max_length=100)
+    t_h2transitdecision = models.DateTimeField(blank = True)
+
+    rnd_searchgoalsQ1 = models.IntegerField()
+    rnd_searchgoalsQ2 = models.IntegerField()
+    rnd_searchgoalsQ3 = models.IntegerField()
+    rnd_searchgoalsQ4 = models.IntegerField()
+    t_rnd_searchgoals = models.DateTimeField(blank = True)
+    #OPTIONAL EXPORT
+    rnd_happinessQ1 = models.IntegerField(max_length=100, null = True, blank = True)
+    rnd_happinessQ2 = models.IntegerField(max_length=100, null = True, blank = True)
+    rnd_happinessQ3 = models.IntegerField(max_length=100, null = True, blank = True)
+    rnd_happinessQ4 = models.IntegerField(max_length=100, null = True, blank = True)
+    t_rnd_happiness = models.DateTimeField(blank = True)
+
+    demo_gender = models.CharField(max_length=6, choices= GENDER_CHOICES)
+    demo_age = models.IntegerField()
+    t_demographics = models.DateTimeField(blank = True)
+
+    #2nd seperate file on export
+    #used initial pub data:
+    ct1pk = models.CharField(max_length=100)
+    ct1amount = models.CharField(max_length=100)
+    ct1a1 = models.CharField(max_length=100)
+    ct1a2 = models.CharField(max_length=100)
+    ct1a3 = models.CharField(max_length=100)
+    ct1a4 = models.CharField(max_length=100)
+    ct1a5 = models.CharField(max_length=100)
+    ct2pk = models.CharField(max_length=100)
+    ct2amount = models.CharField(max_length=100)
+    ct2a1 = models.CharField(max_length=100)
+    ct2a2 = models.CharField(max_length=100)
+    ct2a3 = models.CharField(max_length=100)
+    ct2a4 = models.CharField(max_length=100)
+    ct2a5 = models.CharField(max_length=100)
+    ct3pk = models.CharField(max_length=100)
+    ct3amount = models.CharField(max_length=100)
+    ct3a1 = models.CharField(max_length=100)
+    ct3a2 = models.CharField(max_length=100)
+    ct3a3 = models.CharField(max_length=100)
+    ct3a4 = models.CharField(max_length=100)
+    ct3a5 = models.CharField(max_length=100)
+    ct4pk = models.CharField(max_length=100)
+    ct4amount = models.CharField(max_length=100)
+    ct4a1 = models.CharField(max_length=100)
+    ct4a2 = models.CharField(max_length=100)
+    ct4a3 = models.CharField(max_length=100)
+    ct4a4 = models.CharField(max_length=100)
+    ct4a5 = models.CharField(max_length=100)
+    ct5pk = models.CharField(max_length=100)
+    ct5amount = models.CharField(max_length=100)
+    ct5a1 = models.CharField(max_length=100)
+    ct5a2 = models.CharField(max_length=100)
+    ct5a3 = models.CharField(max_length=100)
+    ct5a4 = models.CharField(max_length=100)
+    ct5a5 = models.CharField(max_length=100)
+    ct6pk = models.CharField(max_length=100)
+    ct6amount = models.CharField(max_length=100)
+    ct6a1 = models.CharField(max_length=100)
+    ct6a2 = models.CharField(max_length=100)
+    ct6a3 = models.CharField(max_length=100)
+    ct6a4 = models.CharField(max_length=100)
+    ct6a5 = models.CharField(max_length=100)
+    ct7pk = models.CharField(max_length=100)
+    ct7amount = models.CharField(max_length=100)
+    ct7a1 = models.CharField(max_length=100)
+    ct7a2 = models.CharField(max_length=100)
+    ct7a3 = models.CharField(max_length=100)
+    ct7a4 = models.CharField(max_length=100)
+    ct7a5 = models.CharField(max_length=100)
+    ct8pk = models.CharField(max_length=100)
+    ct8amount = models.CharField(max_length=100)
+    ct8a1 = models.CharField(max_length=100)
+    ct8a2 = models.CharField(max_length=100)
+    ct8a3 = models.CharField(max_length=100)
+    ct8a4 = models.CharField(max_length=100)
+    ct8a5 = models.CharField(max_length=100)
+    #optional CTs
+    ct9pk = models.CharField(max_length=100, null = True, blank = True)
+    ct9amount = models.CharField(max_length=100, null = True, blank = True)
+    ct9a1 = models.CharField(max_length=100, null = True, blank = True)
+    ct9a2 = models.CharField(max_length=100, null = True, blank = True)
+    ct9a3 = models.CharField(max_length=100, null = True, blank = True)
+    ct9a4 = models.CharField(max_length=100, null = True, blank = True)
+    ct9a5 = models.CharField(max_length=100, null = True, blank = True)
+    ct10pk = models.CharField(max_length=100, null = True, blank = True)
+    ct10amount = models.CharField(max_length=100, null = True, blank = True)
+    ct10a1 = models.CharField(max_length=100, null = True, blank = True)
+    ct10a2 = models.CharField(max_length=100, null = True, blank = True)
+    ct10a3 = models.CharField(max_length=100, null = True, blank = True)
+    ct10a4 = models.CharField(max_length=100, null = True, blank = True)
+    ct10a5 = models.CharField(max_length=100, null = True, blank = True)
+    ct11pk = models.CharField(max_length=100, null = True, blank = True)
+    ct11amount = models.CharField(max_length=100, null = True, blank = True)
+    ct11a1 = models.CharField(max_length=100, null = True, blank = True)
+    ct11a2 = models.CharField(max_length=100, null = True, blank = True)
+    ct11a3 = models.CharField(max_length=100, null = True, blank = True)
+    ct11a4 = models.CharField(max_length=100, null = True, blank = True)
+    ct11a5 = models.CharField(max_length=100, null = True, blank = True)
+    ct12pk = models.CharField(max_length=100, null = True, blank = True)
+    ct12amount = models.CharField(max_length=100, null = True, blank = True)
+    ct12a1 = models.CharField(max_length=100, null = True, blank = True)
+    ct12a2 = models.CharField(max_length=100, null = True, blank = True)
+    ct12a3 = models.CharField(max_length=100, null = True, blank = True)
+    ct12a4 = models.CharField(max_length=100, null = True, blank = True)
+    ct12a5 = models.CharField(max_length=100, null = True, blank = True)
+    ct13pk = models.CharField(max_length=100, null = True, blank = True)
+    ct13amount = models.CharField(max_length=100, null = True, blank = True)
+    ct13a1 = models.CharField(max_length=100, null = True, blank = True)
+    ct13a2 = models.CharField(max_length=100, null = True, blank = True)
+    ct13a3 = models.CharField(max_length=100, null = True, blank = True)
+    ct13a4 = models.CharField(max_length=100, null = True, blank = True)
+    ct13a5 = models.CharField(max_length=100, null = True, blank = True)
+    ct14pk = models.CharField(max_length=100, null = True, blank = True)
+    ct14amount = models.CharField(max_length=100, null = True, blank = True)
+    ct14a1 = models.CharField(max_length=100, null = True, blank = True)
+    ct14a2 = models.CharField(max_length=100, null = True, blank = True)
+    ct14a3 = models.CharField(max_length=100, null = True, blank = True)
+    ct14a4 = models.CharField(max_length=100, null = True, blank = True)
+    ct14a5 = models.CharField(max_length=100, null = True, blank = True)
+    ct15pk = models.CharField(max_length=100, null = True, blank = True)
+    ct15amount = models.CharField(max_length=100, null = True, blank = True)
+    ct15a1 = models.CharField(max_length=100, null = True, blank = True)
+    ct15a2 = models.CharField(max_length=100, null = True, blank = True)
+    ct15a3 = models.CharField(max_length=100, null = True, blank = True)
+    ct15a4 = models.CharField(max_length=100, null = True, blank = True)
+    ct15a5 = models.CharField(max_length=100, null = True, blank = True)
+    ct16pk = models.CharField(max_length=100, null = True, blank = True)
+    ct16amount = models.CharField(max_length=100, null = True, blank = True)
+    ct16a1 = models.CharField(max_length=100, null = True, blank = True)
+    ct16a2 = models.CharField(max_length=100, null = True, blank = True)
+    ct16a3 = models.CharField(max_length=100, null = True, blank = True)
+    ct16a4 = models.CharField(max_length=100, null = True, blank = True)
+    ct16a5 = models.CharField(max_length=100, null = True, blank = True)
+
+    #actual orders are added up json fields to save columns
+    #index: question number - Value: position
+    rnd_max_order_pk = models.CharField(max_length=100)
+    rnd_max_order = models.TextField()
+    rnd_regret_order_pk = models.CharField(max_length=100)
+    rnd_regret_order = models.TextField()
+    rnd_involvement_order_pk = models.CharField(max_length=100)
+    rnd_involvement_order = models.TextField()
+    rnd_searchgoals_order_pk = models.CharField(max_length=100)
+    rnd_searchgoals_order = models.TextField()
+    rnd_happiness_order_pk = models.CharField(max_length=100, null = True, blank = True)
+    rnd_happiness_order = models.TextField(max_length=100, null = True, blank = True)
+
+
