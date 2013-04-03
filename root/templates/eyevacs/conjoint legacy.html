@@ -147,7 +147,7 @@
 <br/>
 <br/>
 {# <div id="errCont">You have missed out at least 1 Question!</div> #}
-{% if validation %}
+{% if request.session.validation %}
 <script>
     $(this).ready(function(){
         window.log("{{validation}}");

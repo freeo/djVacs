@@ -138,10 +138,10 @@
 {# ######################################################################## #}
  
 <div style="margin-left:auto; margin-right:auto;width:700px;">
-<div id="fatError" style="" </div>
+<div id="fatError" style="" >
 </div>
 
-{% if validation %}
+{% if request.session.validation %}
 <script>
     $(this).ready(function(){
         var thisform = $('form');

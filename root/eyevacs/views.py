@@ -11,41 +11,42 @@ from django.contrib.sessions.models import Session
 from datetime import datetime, timedelta
 from django.forms.models import model_to_dict
 from django.db import transaction
+import subprocess
 import operator
 import pdb
 
-curr_exp = None
 default_page_order = []
 bt_label = ugettext("Continue")
-validation = False
-singlepagedebug = False
+# validation = False
+# singlepagedebug = False
 selectwelcome = ""
 
-def allUrls(pcpt_id):
+def allUrls(pcpt_id, exp_id, ctlist):
     outputlist = []
-    outputlist.append(reverse('eyevacs.views.welcome', args= [curr_exp.id, pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.rnd_max', args = [curr_exp.id, pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.rnd_regret', args= [curr_exp.id, pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.pl_experience', args= [curr_exp.id, pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.rnd_involvement', args= [curr_exp.id, pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.explanation_overview', args= [curr_exp.id, pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.explanation_food', args= [curr_exp.id, pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.explanation_recommend', args= [curr_exp.id, pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.explanation_distance', args= [curr_exp.id, pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.explanation_price', args= [curr_exp.id, pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.explanation_room', args= [curr_exp.id, pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.explanation_favattributes', args= [curr_exp.id, pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.explanation_choicetasks', args= [curr_exp.id, pcpt_id]))
-    for i in range(0,len(pcpt.ctlist),1):
-        outputlist.append(reverse('eyevacs.views.decisionsequence', args= [curr_exp.id, pcpt_id, i]))
-    outputlist.append(reverse('eyevacs.views.conjoint', args = [curr_exp.id, pcpt_id, 0]))
-    outputlist.append(reverse('eyevacs.views.conjoint', args = [curr_exp.id, pcpt_id, 1]))
-    outputlist.append(reverse('eyevacs.views.transit', args = [curr_exp.id, pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.transit_select', args = [curr_exp.id, pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.rnd_searchgoals', args = [curr_exp.id, pcpt_id]))
-    # outputlist.append(reverse('eyevacs.views.rnd_happiness', args = [curr_exp.id, pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.pl_demographics', args = [curr_exp.id, pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.finalPage', args = [curr_exp.id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.welcome', args= [exp_id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.rnd_max', args = [exp_id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.rnd_regret', args= [exp_id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.pl_experience', args= [exp_id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.rnd_involvement', args= [exp_id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.explanation_overview', args= [exp_id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.explanation_food', args= [exp_id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.explanation_recommend', args= [exp_id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.explanation_distance', args= [exp_id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.explanation_price', args= [exp_id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.explanation_room', args= [exp_id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.explanation_favattributes', args= [exp_id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.explanation_choicetasks', args= [exp_id, pcpt_id]))
+    for i in range(0,len(ctlist),1):
+    # for i in range(0,len(pcpt.ctlist),1):
+        outputlist.append(reverse('eyevacs.views.decisionsequence', args= [exp_id, pcpt_id, i]))
+    outputlist.append(reverse('eyevacs.views.conjoint', args = [exp_id, pcpt_id, 0]))
+    outputlist.append(reverse('eyevacs.views.conjoint', args = [exp_id, pcpt_id, 1]))
+    outputlist.append(reverse('eyevacs.views.transit', args = [exp_id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.transit_select', args = [exp_id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.rnd_searchgoals', args = [exp_id, pcpt_id]))
+    # outputlist.append(reverse('eyevacs.views.rnd_happiness', args = [exp_id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.pl_demographics', args = [exp_id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.finalPage', args = [exp_id, pcpt_id]))
     return outputlist
 
 def index(request):
@@ -105,7 +106,6 @@ def eye(request):
     return render(request, 'eyevacs/eye.html', cont)
 
 def exp(request, exp_id):
-    global curr_exp
     curr_exp = Experiment.objects.get(pk=exp_id)
     name = curr_exp.name
     pk = curr_exp.pk
@@ -122,15 +122,16 @@ def exp(request, exp_id):
     # tasksize.append(tsize3)
     #usual order id:
     pcpt_id = curr_exp.grouping.counter
-    pcpt.initExp(exp_id)
-    next_condition = pcpt.getGroup(pcpt_id)
+    # pcpt.initExp(exp_id)
+    next_condition = pcpt.getGroup(exp_id, pcpt_id)
     all_context = Context({'tasksize':tasksize,'exp_id':exp_id,'pcpt_id':pcpt_id, 'exp_name':name, 'exp':curr_exp})
     destination = reverse('eyevacs.views.preparePcpt', args= [curr_exp.id])
     all_context['destination'] = destination
     all_context['next_condition'] = next_condition
     all_context['project_language'] = curr_exp.language
     all_context['exp'] = curr_exp
-    all_context['used'] = pcpt.countUsedObjects()
+    all_context['used'] = pcpt.countUsedObjects(curr_exp.id)
+    all_context['unused'] = pcpt.countUnusedObjects(curr_exp.id)
 
     #Give ALL the pubs to exp!
     pubs = curr_exp.pub_set.all()#order_by timestamp
@@ -145,17 +146,18 @@ def exp(request, exp_id):
         new_item['time_string'] = str(t_delta.seconds / 60) + 'mins ago'
         pubsList.append(new_item)
     all_context['pubs'] = sorted(pubsList)
-    all_context['remove_pubs_url'] = reverse('eyevacs.views.removepubs')
+    all_context['remove_pubs_url'] = reverse('eyevacs.views.removepubs', args=[curr_exp.id])
     all_context['id_holes'] = curr_exp.grouping.id_holes #textfield!
-    all_context['url_reset_id_holes'] = reverse('eyevacs.views.resetIDholes')
-    all_context['next_id_hole'] = pcpt.get_next_id_hole()
-    all_context['next_id_hole_group'] = pcpt.getGroup(pcpt.get_next_id_hole())
-    all_context['id_hole_groups'] = str(pcpt.get_id_hole_groups())
+    all_context['url_reset_id_holes'] = reverse('eyevacs.views.resetIDholes', args=[curr_exp.id])
+    all_context['next_id_hole'] = pcpt.get_next_id_hole(curr_exp.id)
+    all_context['next_id_hole_group'] = pcpt.getGroup(curr_exp.id, pcpt.get_next_id_hole(curr_exp.id))
+    all_context['id_hole_groups'] = str(pcpt.get_id_hole_groups(curr_exp.id))
     all_context['grouping'] = curr_exp.grouping.group_nr[1:50]
+    request.session.create()
     request.session['debug_pubs'] = pubsList
     return render(request, 'eyevacs/exp.html', all_context)
 
-def removepubs(request):
+def removepubs(request, exp_id):
     '''removes all links and pubs from POST given IDs to delete. Redirects, after deletion.'''
     pubs_to_delete_string = request.POST.getlist('pubs_to_delete')
     #list comprehension
@@ -180,50 +182,52 @@ def removepubs(request):
                     e.used = False
                     e.save()
             #add deleted hard_id's to grouping.id_holes
-            pcpt.add_id_hole(pub.hard_id)
+            pcpt.add_id_hole(exp_id, pub.hard_id)
             #AFTER unlinking, otherwise the linked models get lost!
             pub.delete()
 
-    destination = reverse('eyevacs.views.exp',args= [curr_exp.id])
+    destination = reverse('eyevacs.views.exp',args= [exp_id])
     return HttpResponseRedirect(destination)
 
     #debug
-    pubs_after_deletion = Pub.objects.count()
-    somedice = {'text':pubs_after_deletion}
-    somedice = {'text':pubs_to_delete}
-    reqcontext = RequestContext(request,somedice)
-    tempdestination = reverse('eyevacs.views.exp',args= [curr_exp.id])
-    temp = {'destination': tempdestination}
-    reqcontext['temp'] = temp
-    return render(request, 'eyevacs/0preview1650.html', reqcontext)
+    # pubs_after_deletion = Pub.objects.count()
+    # somedice = {'text':pubs_after_deletion}
+    # somedice = {'text':pubs_to_delete}
+    # reqcontext = RequestContext(request,somedice)
+    # tempdestination = reverse('eyevacs.views.exp',args= [curr_exp.id])
+    # temp = {'destination': tempdestination}
+    # reqcontext['temp'] = temp
+    # return render(request, 'eyevacs/0preview1650.html', reqcontext)
 
-def resetIDholes(request):
-    pcpt.reset_id_holes()
+def resetIDholes(request, exp_id):
+    pcpt.reset_id_holes(exp_id)
 
-    destination = reverse('eyevacs.views.exp',args= [curr_exp.id])
+    destination = reverse('eyevacs.views.exp',args= [exp_id])
     return HttpResponseRedirect(destination)
 
 
 
 def singlePageDebug(request, exp_id, pcpt_id):
     data = {}
-    data['pub'] = pcpt.pubDict[int(pcpt_id)]
-    data['pages'] = allUrls(pcpt_id)
+    pub = Pub.objects.get(experiment=exp_id,hard_id=pcpt_id)
+    ctlist = request.session['pub_ctlist']
+    data['pub'] = pub
+    data['pages'] = allUrls(pcpt_id, exp_id, ctlist)
     data['lang'] = request.session['django_language']
     context = RequestContext(request, data)
     return render(request, 'eyevacs/debug.html', context)
 
-def getRedirectURL(request, source, pcpt_id):
+def getRedirectURL(request, source, exp_id, pcpt_id):
     '''
     Set benchmarkSQL for extra page before welcome, to enter debug toolbar for
     SQL performance.
     '''
     benchmarkSQL = 0
     if source == 'preparePcpt':
-        if singlepagedebug:
-            destination = reverse('eyevacs.views.singlePageDebug', args= [curr_exp.id, pcpt_id])
+        if request.session['singlepagedebug']:
+            destination = reverse('eyevacs.views.singlePageDebug', args= [exp_id, pcpt_id])
         else:
-            destination = reverse('eyevacs.views.welcome', args= [curr_exp.id, pcpt_id])
+            destination = reverse('eyevacs.views.welcome', args= [exp_id, pcpt_id])
         #SQL Benchmarking:
         if benchmarkSQL:
             data = {}
@@ -241,28 +245,33 @@ def getRedirectURL(request, source, pcpt_id):
 def preparePcpt(request, exp_id):
     #expects POST data
     #gets stored as list! need [0]
-    global validation
-    global singlepagedebug
-    global selectwelcome
-    global selectcondition
-    #XXX
-    request.session.clear()
+    # global singlepagedebug
+    # global selectwelcome
+    # global selectcondition
+    # request.session.clear()
+    # request.session.flush()
     request.session.create()
     request.session.update(request.POST)
     request.session['timestamps'] = {request.path:datetime.utcnow()}
+    # grabs from POST, not session. only explanation, not verified
     if request.session.get('cbox_validation') != None:
-        #cbox value is redundant!!! May be anything.
-        validation = True
+        request.session['validation'] = True
     else:
-        validation = False
+        request.session['validation'] = False
+    del request.session['cbox_validation']
+
     if request.session.get('cbox_singlepagedebug') != None:
-        singlepagedebug = True
+        request.session['singlepagedebug'] = True
     else:
-        singlepagedebug = False
-    if request.session.get('selectwelcome') != None:
-        selectwelcome = request.session.get('selectwelcome')[0]
+        request.session['singlepagedebug'] = False
+    del request.session['cbox_singlepagedebug']
+
+    # if request.session.get('selectwelcome') != None:
+    #     selectwelcome = request.session.get('selectwelcome')[0]
     if request.session.get('selectcondition') != None:
         selectcondition = request.session.get('selectcondition')[0]
+    del request.session['selectcondition']
+
     selectlanguage = request.session.get('selectlanguage')[0]
     request.session['django_language'] = selectlanguage
 
@@ -274,13 +283,22 @@ def preparePcpt(request, exp_id):
     # stick to manual garbage collection of pubs
     # valid_input = request.session['input_pcptid'][0]
     # pcpt_id = pcpt.initPcpt(ct_size, request.COOKIES['sessionid'], request.COOKIES['csrftoken'], selectcondition)
-    pcpt_id = pcpt.initPcpt(ct_size, request.session.session_key, request.COOKIES['csrftoken'], selectcondition)
+    (pcpt_id, ctlist, pub, scale_sequences) = pcpt.initPcpt(exp_id, ct_size, request.session.session_key, request.COOKIES['csrftoken'], selectcondition)
+    request.session['pub_pcpt_id'] = pcpt_id
+    request.session['pub_ctlist'] = ctlist
+    request.session['pub'] = ctlist
+    request.session['pub_scale_sequences'] = scale_sequences
+    request.session['pub_condition'] = pub.def_group
+    request.session['pub_condition_override'] = pub.override_group
+
+
 
     #DEBUG
     #first pcpt_id entry
-    request.session['THIS_PCPT_ID'] = pcpt_id
-    request.session['all_rnd_orderings'] = pcpt.scale_order_ids
-    request.session['all_choice_tasks'] = pcpt.ctlistIDs
+    # request.session['all_rnd_orderings'] = pcpt.scale_order_ids
+    # request.session['all_choice_tasks'] = pcpt.ctlistIDs
+    request.session['pub_ctlist_IDs'] = [ct.pk for ct in ctlist]
+    request.session['pub_scale_sequences_IDs'] = [rnd.pk for key, rnd in scale_sequences.iteritems()]
 
     #DEBUG Pubs
     # lastPubID = curr_exp.pub_set.count()
@@ -298,13 +316,15 @@ def preparePcpt(request, exp_id):
     #     rnds_string += str(rnd.pk) + ', '
     # request.session['pub_scales'] = rnds_string
 
-    return getRedirectURL(request, 'preparePcpt', pcpt_id)
+    return getRedirectURL(request, 'preparePcpt',exp_id, pcpt_id)
 
 def welcome(request, exp_id, pcpt_id):
         # debugpostdata(anydict, 'POST:', request.POST, 'SESSION:', request.session.items())
-    destination = reverse('eyevacs.views.rnd_max', args = [curr_exp.id, pcpt_id])
+    destination = reverse('eyevacs.views.rnd_max', args = [exp_id, pcpt_id])
     anydict = {'destination':destination,'bt_label':bt_label}
     reqcontext = RequestContext(request, anydict )
+    if request.session.get('selectwelcome') != None:
+        selectwelcome = request.session.get('selectwelcome')[0]
     if selectwelcome == "welcome_en":
         return render_to_response('eyevacs/1welcome_en.html', reqcontext)
     if selectwelcome == "welcome_ger":
@@ -324,26 +344,26 @@ def rnd_max(request, exp_id, pcpt_id):
     # reqcontext['language'] = 'language: '+ lang +'\n-------------\n'
     ########################################################################
     # reqcontext = pcpt.get_scale_context('rnd_max')
-    destination = reverse('eyevacs.views.rnd_regret', args= [curr_exp.id, pcpt_id])
+    destination = reverse('eyevacs.views.rnd_regret', args= [exp_id, pcpt_id])
     reqcontext['destination'] = destination
     reqcontext['bt_label'] = bt_label
     extracaption = {'left':ugettext('I do not agree at all'), 'right':ugettext('I agree very much')}
     reqcontext['extracaption'] = extracaption
-    reqcontext['validation'] = validation
-    reqcontext.update(pcpt.get_scale_context('rnd_max'))
+    scale_sequences = request.session['pub_scale_sequences']
+    reqcontext.update(pcpt.makeScaleContext(scale_sequences, 'rnd_max'))
     # debugpostdata(reqcontext, 'POST:', request.POST, 'SESSION:', request.session.items())
     return render(request, 'eyevacs/scale.html', reqcontext)
 
 def rnd_regret(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     request.session['timestamps'].update({request.path:datetime.utcnow()})
-    reqcontext = pcpt.get_scale_context('rnd_regret')
-    destination = reverse('eyevacs.views.pl_experience', args= [curr_exp.id, pcpt_id])
+    scale_sequences = request.session['pub_scale_sequences']
+    reqcontext = pcpt.makeScaleContext(scale_sequences, 'rnd_regret')
+    destination = reverse('eyevacs.views.pl_experience', args= [exp_id, pcpt_id])
     reqcontext['bt_label'] = bt_label
     extracaption = {'left':ugettext('I do not agree at all'), 'right':ugettext('I agree very much')}
     reqcontext['extracaption'] = extracaption
     reqcontext['destination'] = destination
-    reqcontext['validation'] = validation
     return render(request, 'eyevacs/scale.html', reqcontext)
 
 def pl_experience(request, exp_id, pcpt_id):
@@ -351,25 +371,24 @@ def pl_experience(request, exp_id, pcpt_id):
     request.session['timestamps'].update({request.path:datetime.utcnow()})
     site_vars = {'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
-    destination = reverse('eyevacs.views.rnd_involvement', args= [curr_exp.id, pcpt_id])
+    destination = reverse('eyevacs.views.rnd_involvement', args= [exp_id, pcpt_id])
     reqcontext['destination'] = destination
-    reqcontext['validation'] = validation
     return render (request, 'eyevacs/pl_experience.html', reqcontext)
 
 def rnd_involvement(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     request.session['timestamps'].update({request.path:datetime.utcnow()})
-    reqcontext = pcpt.get_scale_context('rnd_involvement')
-    destination = reverse('eyevacs.views.explanation_overview', args= [curr_exp.id, pcpt_id])
+    scale_sequences = request.session['pub_scale_sequences']
+    reqcontext = pcpt.makeScaleContext(scale_sequences, 'rnd_involvement')
+    destination = reverse('eyevacs.views.explanation_overview', args= [exp_id, pcpt_id])
     reqcontext['bt_label'] = bt_label
     reqcontext['destination'] = destination
-    reqcontext['validation'] = validation
     return render(request, 'eyevacs/scale.html', reqcontext)
 
 def explanation_overview(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     request.session['timestamps'].update({request.path:datetime.utcnow()})
-    destination = reverse('eyevacs.views.explanation_food', args= [curr_exp.id, pcpt_id])
+    destination = reverse('eyevacs.views.explanation_food', args= [exp_id, pcpt_id])
     site_vars = {'destination': destination, 'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
     return render (request, 'eyevacs/explanation0_overview.html', reqcontext)
@@ -377,71 +396,64 @@ def explanation_overview(request, exp_id, pcpt_id):
 def explanation_food(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     request.session['timestamps'].update({request.path:datetime.utcnow()})
-    destination = reverse('eyevacs.views.explanation_recommend', args= [curr_exp.id, pcpt_id])
+    destination = reverse('eyevacs.views.explanation_recommend', args= [exp_id, pcpt_id])
     site_vars = {'destination': destination, 'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
-    reqcontext['validation'] = validation
     return render (request, 'eyevacs/explanation1_food.html', reqcontext)
 
 def explanation_recommend(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     request.session['timestamps'].update({request.path:datetime.utcnow()})
-    destination = reverse('eyevacs.views.explanation_distance', args= [curr_exp.id, pcpt_id])
+    destination = reverse('eyevacs.views.explanation_distance', args= [exp_id, pcpt_id])
     site_vars = {'destination': destination, 'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
-    reqcontext['validation'] = validation
     return render (request, 'eyevacs/explanation2_recommend.html', reqcontext)
 
 def explanation_distance(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     request.session['timestamps'].update({request.path:datetime.utcnow()})
-    destination = reverse('eyevacs.views.explanation_seaview', args= [curr_exp.id, pcpt_id])
+    destination = reverse('eyevacs.views.explanation_seaview', args= [exp_id, pcpt_id])
     site_vars = {'destination': destination, 'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
-    reqcontext['validation'] = validation
     return render (request, 'eyevacs/explanation3_distance.html', reqcontext)
 
 def explanation_seaview(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     request.session['timestamps'].update({request.path:datetime.utcnow()})
-    destination = reverse('eyevacs.views.explanation_price', args= [curr_exp.id, pcpt_id])
+    destination = reverse('eyevacs.views.explanation_price', args= [exp_id, pcpt_id])
     site_vars = {'destination': destination, 'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
-    reqcontext['validation'] = validation
     return render (request, 'eyevacs/explanation4_seaview.html', reqcontext)
 
 def explanation_price(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     request.session['timestamps'].update({request.path:datetime.utcnow()})
-    destination = reverse('eyevacs.views.explanation_room', args= [curr_exp.id, pcpt_id])
+    destination = reverse('eyevacs.views.explanation_room', args= [exp_id, pcpt_id])
     site_vars = {'destination': destination, 'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
-    reqcontext['validation'] = validation
     return render (request, 'eyevacs/explanation5_price.html', reqcontext)
 
 def explanation_room(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     request.session['timestamps'].update({request.path:datetime.utcnow()})
-    destination = reverse('eyevacs.views.explanation_favattributes', args= [curr_exp.id, pcpt_id])
+    destination = reverse('eyevacs.views.explanation_favattributes', args= [exp_id, pcpt_id])
     site_vars = {'destination': destination, 'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
-    reqcontext['validation'] = validation
     reqcontext['scrollable'] = True
     return render (request, 'eyevacs/explanation6_room.html', reqcontext)
 
 def explanation_favattributes(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     request.session['timestamps'].update({request.path:datetime.utcnow()})
-    destination = reverse('eyevacs.views.explanation_choicetasks', args= [curr_exp.id, pcpt_id])
+    destination = reverse('eyevacs.views.explanation_choicetasks', args= [exp_id, pcpt_id])
     site_vars = {'destination': destination, 'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
-    reqcontext['validation'] = validation
     return render (request, 'eyevacs/explanation7_favattributes.html', reqcontext)
 
 def explanation_choicetasks(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     request.session['timestamps'].update({request.path:datetime.utcnow()})
-    destination = reverse('eyevacs.views.decisionsequence', args= [curr_exp.id, pcpt_id, 0])
+    destination = reverse('eyevacs.views.decisionsequence', args= [exp_id, pcpt_id, 0])
     site_vars = {'destination': destination, 'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
     return render (request, 'eyevacs/explanation8_choicetasks.html', reqcontext)
@@ -457,13 +469,17 @@ def decisionsequence(request, exp_id, pcpt_id, ct_page):
     data = {}
     #just a debug variable for special purposes
     data['text'] = ''
-    data['taskcounter'] = pcpt.taskcounter
-    ctdict = pcpt.getTask(int(ct_page))
+    # data['taskcounter'] = pcpt.taskcounter
+    # data['taskcounter'] = pub.taskcounter
+    ctlist = request.session['pub_ctlist']
+    this_task = ctlist[int(ct_page)]
+    ctdict = pcpt.makeTaskDict(exp_id, this_task, int(ct_page))
     data.update(ctdict)
     rq = RequestContext(request, data)
-    if pcpt.checkNextTask(int(ct_page)):
+    # if pcpt.checkNextTask(int(ct_page)):
+    if int(ct_page)+1 < len(ctlist):
         next_page = int(ct_page) + 1
-        destination = reverse('eyevacs.views.decisionsequence', args = [curr_exp.id, pcpt_id, next_page])
+        destination = reverse('eyevacs.views.loadingsequence', args = [exp_id, pcpt_id, next_page])
     else:
         destination = reverse('eyevacs.views.conjoint', args = [exp_id, pcpt_id, 0])
     data['destination'] = destination
@@ -471,8 +487,19 @@ def decisionsequence(request, exp_id, pcpt_id, ct_page):
     # lang = request.session['django_language']
     # data['language'] = 'language: '+ lang +'\n-------------\n'
     ########################################################################
-    # debugpostdata(data,pcpt.ctlist)
     return render(request, 'eyevacs/table.html', rq)
+
+def loadingsequence(request, exp_id, pcpt_id, ct_page):
+    request.session.update(request.POST)
+    request.session['timestamps'].update({request.path:datetime.utcnow()})
+    destination = reverse('eyevacs.views.decisionsequence', args = [exp_id, pcpt_id, ct_page])
+
+    data= {}
+    data['destination'] = destination
+    rq = RequestContext(request, data )
+
+    return render(request, 'eyevacs/loading.html', rq)
+
 
 def conjoint(request, exp_id, pcpt_id, conjoint_id):
     request.session.update(request.POST)
@@ -482,7 +509,7 @@ def conjoint(request, exp_id, pcpt_id, conjoint_id):
     if int(conjoint_id) == 0:
         for i in range(0,4,1):
             conjoint[i] = pcpt.getConjoint(i)
-            destination = reverse('eyevacs.views.conjoint', args = [curr_exp.id, pcpt_id, 1])
+            destination = reverse('eyevacs.views.conjoint', args = [exp_id, pcpt_id, 1])
             context['starter'] = True
     if int(conjoint_id) == 1:
         for i in range(4,8,1):
@@ -492,7 +519,7 @@ def conjoint(request, exp_id, pcpt_id, conjoint_id):
     context['destination'] = destination
     context['bt_label'] = bt_label
     context['conjointtasks'] = conjoint
-    context['validation'] = validation
+    # context['validation'] = validation
     reqcontext = RequestContext(request, context)
     return render(request, 'eyevacs/conjoint.html', reqcontext)
 
@@ -536,20 +563,20 @@ def transit_select(request, exp_id, pcpt_id):
     destination = reverse('eyevacs.views.rnd_searchgoals', args = [exp_id, pcpt_id])
     dynamic['destination'] = destination
     dynamic['bt_label'] = bt_label
-    dynamic['validation'] = validation
+    # dynamic['validation'] = validation
     reqcontext = RequestContext(request, dynamic)
     return render(request , 'eyevacs/transit_select.html', reqcontext)
 
 def rnd_searchgoals(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     request.session['timestamps'].update({request.path:datetime.utcnow()})
-    reqcontext = pcpt.get_scale_context('rnd_searchgoals')
-    destination = reverse('eyevacs.views.pl_demographics', args= [curr_exp.id, pcpt_id])
+    scale_sequences = request.session['pub_scale_sequences']
+    reqcontext = pcpt.makeScaleContext(scale_sequences, 'rnd_searchgoals')
+    destination = reverse('eyevacs.views.pl_demographics', args= [exp_id, pcpt_id])
     reqcontext['bt_label'] = bt_label
     extracaption = {'left':ugettext('I do not agree at all'), 'right':ugettext('I agree very much')}
     reqcontext['extracaption'] = extracaption
     reqcontext['destination'] = destination
-    reqcontext['validation'] = validation
     return render(request, 'eyevacs/scale.html', reqcontext)
 
 def rnd_happiness(request, exp_id, pcpt_id):
@@ -557,25 +584,24 @@ def rnd_happiness(request, exp_id, pcpt_id):
     # sorry happiness scale... you're out.
     # request.session.update(request.POST)
     # reqcontext = pcpt.get_scale_context('rnd_happiness')
-    # destination = reverse('eyevacs.views.pl_demographics', args= [str(curr_exp.id), str(pcpt_id)])
+    # destination = reverse('eyevacs.views.pl_demographics', args= [str(exp_id), str(pcpt_id)])
     # reqcontext['bt_label'] = bt_label
     # reqcontext['destination'] = destination
-    # reqcontext['validation'] = validation
     # return render(request, 'eyevacs/scale.html', reqcontext)
 
 def pl_demographics(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     request.session['timestamps'].update({request.path:datetime.utcnow()})
-    destination = reverse('eyevacs.views.finalPage', args= [curr_exp.id, pcpt_id])
+    destination = reverse('eyevacs.views.finalPage', args= [exp_id, pcpt_id])
     site_vars = {'destination': destination, 'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
-    reqcontext['validation'] = validation
     # debugpostdata(reqcontext, request.POST)
     return render (request, 'eyevacs/pl_demographics.html', reqcontext)
 
 def finalPage(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     request.session['timestamps'].update({request.path:datetime.utcnow()})
+
 
     return render (request, 'eyevacs/thankyou.html')
 

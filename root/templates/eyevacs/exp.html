@@ -41,13 +41,18 @@ participant stubs:
     {{ exp.pub_set.count }}<br/>
 {% endif %}
 <br/>
-Usage statistics:<br/>
+Used statistics:<br/>
 <div class="info_field">
-• choice tasks in use: {{ used.ctasks }} <br/>
-• baseline tasks in use: {{ used.bsltsks }}<br/>
-• scale orderings in use: {{ used.scales }} <br/>
+• choice tasks USED: {{ used.ctasks }} <br/>
+• baseline tasks USED: {{ used.bsltsks }}<br/>
+• scale sequences USED: {{ used.scales }} <br/>
  </div>
-
+Free statistics:<br/>
+<div class="info_field">
+• choice tasks FREE: {{ unused.ctasks }} <br/>
+• baseline tasks FREE: {{ unused.bsltsks }}<br/>
+• scale sequences FREE: {{ unused.scales }} <br/>
+ </div>
 <form action="{{ destination }}"  method="post" name="experience_settings" id="exp_form_id" >
 {% csrf_token %}
 -----------------------------<br/>

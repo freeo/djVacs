@@ -108,7 +108,7 @@
 <div id="fatError" style="" >
 </div>
 
-{% if validation %}
+{% if request.session.validation %}
 <script>
     $(this).ready(function(){
         var thisform = $('form');

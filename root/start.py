@@ -7,6 +7,7 @@ from subprocess import call
 from eyevacs.models import Experiment, External_Source_Data, External_Choice_Task, External_Order_Scale, External_Baseline_Choice_Task, Scale, Scale_Question, Grouping, Attribute, Level, Participant, Pub
 from django.db import transaction
 from django.db.models import Max
+from threading import Thread
 from django.forms.models import model_to_dict
 
 #paths
@@ -266,7 +267,8 @@ def deadlock():
     if resetUsedExtData():
         print "reset ok"
         resetted = True
-    if resetted:
+    # if resetted:
+    if 1:
         #actual deadlock
         #iterates over all exps
         exps = Experiment.objects.all()
@@ -318,6 +320,8 @@ def deadlock():
                 highest_id_hard = int(ctfile_cts[0].id_hard) +1
                 deadblock_range = range(0,ct.range_start,1) + range(ct.range_end, highest_id_hard,1)
                 # raise Exception(len(ctfile_cts),ct.id_hard,deadblock_range)
+
+
                 with transaction.commit_on_success():
                     for ct in ctfile_cts:
                         if int(ct.id_hard) in deadblock_range:
@@ -327,7 +331,9 @@ def deadlock():
                             #JUST USED, NO LINKS
                         else:
                             ct.used = False
+                            print (ct.pk),
                         ct.save()
+
 
             for bsl in bsl_files:
                 amount = bsl.external_baseline_choice_task_set.all()[0].amount
@@ -363,6 +369,7 @@ def deadlock():
                             #JUST USED, NO LINKS
                         else:
                             bsl.used = False
+                            print (bsl.pk),
                         bsl.save()
     EchoDeadlock()
 
@@ -390,7 +397,7 @@ def main():
     switch_load_fixtures =          0
     switch_load_experimentsetup =   0
     #3. chunk: <deadlock>
-    #use if AFTER all experiments are created
+    #use it AFTER all experiments are created
     switch_deadlock =               1
 
     Echo()
