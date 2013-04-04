@@ -11,6 +11,7 @@ from django.contrib.sessions.models import Session
 from datetime import datetime, timedelta
 from django.forms.models import model_to_dict
 from django.db import transaction
+from threading import Thread
 import subprocess
 import operator
 import pdb
@@ -272,6 +273,18 @@ def preparePcpt(request, exp_id):
         selectcondition = request.session.get('selectcondition')[0]
     del request.session['selectcondition']
 
+    if request.session.get('cbox_validpretest') != None:
+        request.session['validpretest'] = True
+        del request.session['cbox_validpretest']
+    else:
+        request.session['validpretest'] = False
+
+    if request.session.get('cbox_testpcpt') != None:
+        request.session['testpcpt'] = True
+        del request.session['cbox_testpcpt']
+    else:
+        request.session['testpcpt'] = False
+
     selectlanguage = request.session.get('selectlanguage')[0]
     request.session['django_language'] = selectlanguage
 
@@ -286,7 +299,7 @@ def preparePcpt(request, exp_id):
     (pcpt_id, ctlist, pub, scale_sequences) = pcpt.initPcpt(exp_id, ct_size, request.session.session_key, request.COOKIES['csrftoken'], selectcondition)
     request.session['pub_pcpt_id'] = pcpt_id
     request.session['pub_ctlist'] = ctlist
-    request.session['pub'] = ctlist
+    request.session['pub'] = model_to_dict(pub)
     request.session['pub_scale_sequences'] = scale_sequences
     request.session['pub_condition'] = pub.def_group
     request.session['pub_condition_override'] = pub.override_group
@@ -602,6 +615,10 @@ def finalPage(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     request.session['timestamps'].update({request.path:datetime.utcnow()})
 
+    try:
+        Thread(target=pcpt.makeParticipant, args=(request.session)).start()
+    except Exception, errtxt:
+        print errtxt
 
     return render (request, 'eyevacs/thankyou.html')
 

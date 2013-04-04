@@ -21,7 +21,7 @@ class ExtDataInline(admin.TabularInline):
     model = External_Source_Data
 
 class ExperimentAdmin(admin.ModelAdmin):
-    fields = ['name','language']
+    fields = ['name','language','info']
     list_display = ('id','name')
     inlines = [ExtDataInline,]
 

@@ -71,7 +71,7 @@ class Level(models.Model):
 class External_Source_Data(models.Model):
     # db_ct_id_{#}, db_rndorder_scale
     filetype = models.CharField(max_length =5, choices= EXT_DATA_TYPE)
-    header = models.CharField(max_length = 100)
+    header = models.CharField(max_length = 200)
     exp_name = models.CharField(max_length = 100)
     experiment = models.ForeignKey(Experiment)
     info = models.TextField( blank = True)
@@ -148,6 +148,7 @@ class Grouping(models.Model):
     # sharingpoint = models.IntegerField(default=0)
     # JSON field
     id_holes = models.TextField( null=True)
+    id_hole_history = models.TextField( null=True)
 
 
 class Participant(models.Model):
@@ -161,6 +162,7 @@ class Participant(models.Model):
     #bool, real participant = False or "Test-Experiments" = True
     #maybe a switch in admin mask
     testpcpt = models.BooleanField()
+    validated_pretest = models.BooleanField(default= False)
     # begin time is pubs create_time
     begin_time = models.DateTimeField()
     end_time = models.DateTimeField(default = datetime.now, blank = True)

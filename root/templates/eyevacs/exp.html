@@ -17,7 +17,7 @@
     <tr>
         <td style="vertical-align:top;background:#666;padding:25px;" width="300px" >
  Completed participants: {{exp.participant_set.count}}<br/>
------------------------------<br/>
+<br/>
  {# Total data files: {{exp.external_source_data_set.count }}<br/> #}
 {# {% for file in exp.external_source_data_set.all %} #}
 {#    -- {{file.filetype}}: header: {{file.header}}<br/> #}
@@ -55,7 +55,7 @@ Free statistics:<br/>
  </div>
 <form action="{{ destination }}"  method="post" name="experience_settings" id="exp_form_id" >
 {% csrf_token %}
------------------------------<br/>
+<br/>
 <div>
     <b>Participant task size:</b><br/>
     (Default value is: )
@@ -89,7 +89,7 @@ Free statistics:<br/>
 
 {# 2nd column, RIGHT #}
 {# ######################################################################## #}
-<td style="width:50px;">
+<td style="width:25px;">
 {# spacer #}
 </td>
 {# ######################################################################## #}
@@ -138,6 +138,14 @@ Show page list</label>
 <div id="lang_picture" style="height:50px;margin-top:20px;"></div>
 </div>
 
+<div style=" width:250px; margin-top:15px; text-align:left;">
+<p style="margin-bottom:0px;" >Debug Participant</p> 
+<label class="lbadmin" style="font-size:14px; width:180px; margin-left:auto; margin-right:auto; text-align:center;"><input type="checkbox" name="cbox_testpcpt" />&nbsp;invalid pcpt</label>
+</div>
+<div style="background:#c30;color:#fff; width:250px; padding:5px; margin-top:15px; text-align:center;">
+<p style="margin-bottom:0px;" >Valid Pretest<br/> Participant?</p> 
+<label class="lbadmin" style="color:#fff; width:180px; margin-left:auto; margin-right:auto; text-align:center;"><input type="checkbox" name="cbox_validpretest" />&nbsp;VALID PRETEST</label>
+</div>
 </td>
 </tr>
 
