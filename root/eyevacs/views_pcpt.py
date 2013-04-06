@@ -559,7 +559,7 @@ def timestampKeyfinder(urlstring, timestamps):
 
 def prepareCTdecisions(full_dict):
     cts = []
-    for key, value in full_dict:
+    for key, value in full_dict.iteritems():
         if 'ctdec' in key:
             cts.append(key)
     ct_list = []
@@ -609,28 +609,72 @@ def ts_url_to_string(dt_url_part_1, dt_url_part_2):
     dt1 = timestampKeyfinder(dt_url_part_1)
     dt2 = timestampKeyfinder(dt_url_part_2)
     td = dt1 - dt2
-    delta_string = str(td.seconds / 60)+':'+str(td.seconds % 60)
+    # delta_string = str(td.seconds / 60)+':'+str(td.seconds % 60)
+    delta_string = str(td.seconds)
     return delta_string
 
 def process_transit_tstamps(raw_timestamp_dict):
     # h2totaltime = models.CharField(max_length=100)
-    # h2searchpath = models.TextField()
-    # h2durationpath = models.TextField()
     # h2transitdecision = models.CharField(max_length=100)
     # t_h2transitdecision = models.DateTimeField(blank = True)
     transit_ts_dict = {}
     for url, dtime in raw_timestamp_dict.iteritems():
         if 'transit/' in url:
             transit_ts_dict[url] = dtime
-    ts_urls = []
-    ts_tds = [] #as string MM:SS
-    for url, dtime in transit_ts_dict:
+    ts_tuple = []
+    for url, dtime in transit_ts_dict.iteritems():
+        ts_tuple.append((url, dtime))
+    sorted_ts_tuple = sorted(ts_tuple, key=lambda ts: ts[1])
 
-
-
+    for i in range(0, len(sorted_ts_tuple)-1,1):
+        try:
+            td = sorted_ts_tuple[i+1][1] - sorted_ts_tuple[i][1]
+            durationpath.append(str(td.seconds))
+        except:
+            pass
+        searchpath.append(sorted_ts_tuple[i][0])
 
     return (searchpath, durationpath)
 
+def getCT(pub, pk):
+    def_group = pub.def_group
+    override_group= pub.override_group
+    if pub.override_group in (3,4):
+        is_baseline = True
+    if pub.override_group in (1,2):
+        is_baseline = False
+    if pub.override_group == None:
+        if pub.def_group in (3,4):
+            is_baseline = True
+        if pub.def_group in (1,2):
+            is_baseline = False
+
+    if is_baseline:
+        return External_Baseline_Choice_Task.objects.get(pk=pk)
+    else:
+        return External_Choice_Task.objects.get(pk=pk)
+
+def checkCTs(pub, session_ct_ids):
+    try:
+        pub_cts = pub.external_choice_task_set.all()
+    except:
+        pub_cts = pub.external_baseline_choice_task_set.all()
+
+    pub_ct_list =[]
+    for id in pub_cts:
+        pub_ct_list.append(id.pk)
+    if sorted(pub_ct_list) == session_ct_ids:
+        raise Exception('CTs from session and pub object don\'t match!',
+            pub_ct_list,session_ct_ids)
+
+def checkRNDs(pub, session_rnd_ids):
+    pub_rnds = pub.external_order_scale_set.all()
+    pub_rnd_list =[]
+    for id in pub_rnds:
+        pub_rnd_list.append(id.pk)
+    if sorted(pub_rnd_list) == session_rnd_ids:
+        raise Exception('RNDs from session and pub object don\'t match!',
+            pub_rnd_list,session_rnd_ids)
 
 def makeParticipant(s):
     '''exports whole session dictionary to pcp object.'''
@@ -640,283 +684,321 @@ def makeParticipant(s):
     sorted_ctdec_list = prepareCTdecisions(s)
     ct_tslist = prepareCTTimestamps
     (transit_searchpath, transit_durationpath) = process_transit_tstamps()
-    # s['']
+    try:
+        try_happiness_exist = ts_url_to_string('pl_demographics', 'rnd_happiness')
+        opt_happiness = True
+    except:
+        opt_happiness = False
+    checkCTs(pub, s['pub_ctlist_IDs'])
+    checkCTs(pub, s['pub_scale_sequences_IDs'])
+    rnd_dict = s['pub_scale_sequences']
 
+    PCPT = Participant()
 
-    experiment = pub.experiment
+    PCPT.experiment = pub.experiment
     #is unique per exp, not more. grouping.group_nr[hard_id] sets condition
-    hard_id = pub.hard_id
+    PCPT.hard_id = pub.hard_id
     #inc, dec, bsl
-    def_group = pub.def_group
-    override_group= pub.override_group
-    ct_size = pub.ct_size
+    PCPT.def_group = pub.def_group
+    PCPT.override_group= pub.override_group
+    PCPT.ct_size = pub.ct_size
     #bool, real participant = False or "Test-Experiments" = True
     #maybe a switch in admin mask
-    testpcpt = s['testpcpt']
-    validated_pretest = s['validpretest']
+    PCPT.testpcpt = s['testpcpt']
+    PCPT.validated_pretest = s['validpretest']
     # begin time is pubs create_time
-    begin_time = pub.create_time
-    end_time = timestampKeyfinder('finalpage', ts)
-#XXX total_time
+    PCPT.begin_time = pub.create_time
+    PCPT.end_time = timestampKeyfinder('finalpage', ts)
+    PCPT.total_time = str((begin_time - end_time).seconds)
+    PCPT.rnd_maxQ1 = str(s['rnd_maxQ1'][0])
+    PCPT.rnd_maxQ2 = str(s['rnd_maxQ2'][0])
+    PCPT.rnd_maxQ3 = str(s['rnd_maxQ3'][0])
+    PCPT.rnd_maxQ4 = str(s['rnd_maxQ4'][0])
+    PCPT.rnd_maxQ5 = str(s['rnd_maxQ5'][0])
+    PCPT.rnd_maxQ6 = str(s['rnd_maxQ6'][0])
+    PCPT.t_rnd_max = ts_url_to_string('rng_regret','rnd_max')
+    PCPT.rnd_regretQ1 = str(s['rnd_regretQ1'][0])
+    PCPT.rnd_regretQ2 = str(s['rnd_regretQ2'][0])
+    PCPT.rnd_regretQ3 = str(s['rnd_regretQ3'][0])
+    PCPT.rnd_regretQ4 = str(s['rnd_regretQ4'][0])
+    PCPT.rnd_regretQ5 = str(s['rnd_regretQ5'][0])
+    PCPT.t_rnd_regret = ts_url_to_string('pl_experience', 'rng_regret')
+    PCPT.experience_lastvacation    = str(s['experience_lastvacation'][0])
+    PCPT.experience_planningvacation = str(s['experience_planningvacation'][0])
+    PCPT.experience_searchduration   = str(s['experience_searchduration'][0])
+    PCPT.t_experience = ts_url_to_string('rnd_involvement', 'pl_experience')
+    PCPT.rnd_involvementQ1 = str(s['rnd_involvementQ1'][0])
+    PCPT.rnd_involvementQ2 = str(s['rnd_involvementQ2'][0])
+    PCPT.rnd_involvementQ3 = str(s['rnd_involvementQ3'][0])
+    PCPT.rnd_involvementQ4 = str(s['rnd_involvementQ4'][0])
+    PCPT.t_rnd_involvement = ts_url_to_string('distance', 'rnd_involvement')
 
-    rnd_maxQ1 = str(s['rnd_maxQ1'][0])
-    rnd_maxQ2 = str(s['rnd_maxQ2'][0])
-    rnd_maxQ3 = str(s['rnd_maxQ3'][0])
-    rnd_maxQ4 = str(s['rnd_maxQ4'][0])
-    rnd_maxQ5 = str(s['rnd_maxQ5'][0])
-    rnd_maxQ6 = str(s['rnd_maxQ6'][0])
-    t_rnd_max = ts_url_to_string('rng_regret','rnd_max')
-    rnd_regretQ1 = str(s['rnd_regretQ1'][0])
-    rnd_regretQ2 = str(s['rnd_regretQ2'][0])
-    rnd_regretQ3 = str(s['rnd_regretQ3'][0])
-    rnd_regretQ4 = str(s['rnd_regretQ4'][0])
-    rnd_regretQ5 = str(s['rnd_regretQ5'][0])
-    t_rnd_regret = ts_url_to_string('pl_experience', 'rng_regret')
-    experience_lastvacation     = str(s['experience_lastvacation'][0])
-    experience_planningvacation = str(s['experience_planningvacation'][0])
-    experience_searchduration   = str(s['experience_searchduration'][0])
-    t_experience = ts_url_to_string('rnd_involvement', 'pl_experience')
-    rnd_involvementQ1 = str(s['rnd_involvementQ1'][0])
-    rnd_involvementQ2 = str(s['rnd_involvementQ2'][0])
-    rnd_involvementQ3 = str(s['rnd_involvementQ3'][0])
-    rnd_involvementQ4 = str(s['rnd_involvementQ4'][0])
-    t_rnd_involvement = ts_url_to_string('distance', 'rnd_involvement')
-
-    explanation_distance = str(s['explanation_distance'][0])
-    t_expl_distance = ts_url_to_string('food', 'distance')
-    explanation_food = str(s['explanation_food'][0])
-    t_expl_food = ts_url_to_string('price', 'food')
-    explanation_price = str(s['explanation_price'][0])
-    t_expl_price = ts_url_to_string('recommend', 'price')
-    explanation_recommend = str(s['explanation_recommend'][0])
-    t_expl_recommend = ts_url_to_string('room', 'recommend')
-    explanation_room = str(s['explanation_room'][0])
-    t_expl_room = ts_url_to_string('view', 'room')
-    explanation_view = str(s['explanation_view'][0])
-    t_expl_view = ts_url_to_string('8_choicetasks', 'view')
-    fav_distance = str(s['fave_distance'][0])
-    fav_food = str(s['fav_food'][0])
-    fav_price = str(s['fav_price'][0])
-    fav_recommending = str(s['fav_recommending'][0])
-    fav_room = str(s['fav_room'][0])
-    fav_seaview = str(s['fav_seaview'][0])
-    t_expl_fav =  ts_url_to_string('ct0', '8_choicetasks')
+    PCPT.explanation_distance = str(s['explanation_distance'][0])
+    PCPT.t_expl_distance = ts_url_to_string('food', 'distance')
+    PCPT.explanation_food = str(s['explanation_food'][0])
+    PCPT.t_expl_food = ts_url_to_string('price', 'food')
+    PCPT.explanation_price = str(s['explanation_price'][0])
+    PCPT.t_expl_price = ts_url_to_string('recommend', 'price')
+    PCPT.explanation_recommend = str(s['explanation_recommend'][0])
+    PCPT.t_expl_recommend = ts_url_to_string('room', 'recommend')
+    PCPT.explanation_room = str(s['explanation_room'][0])
+    PCPT.t_expl_room = ts_url_to_string('view', 'room')
+    PCPT.explanation_view = str(s['explanation_view'][0])
+    PCPT.t_expl_view = ts_url_to_string('8_choicetasks', 'view')
+    PCPT.fav_distance = str(s['fave_distance'][0])
+    PCPT.fav_food = str(s['fav_food'][0])
+    PCPT.fav_price = str(s['fav_price'][0])
+    PCPT.fav_recommending = str(s['fav_recommending'][0])
+    PCPT.fav_room = str(s['fav_room'][0])
+    PCPT.fav_seaview = str(s['fav_seaview'][0])
+    PCPT.t_expl_fav =  ts_url_to_string('ct0', '8_choicetasks')
     #the final decision
-    l = sorted_ctdec_list
+    PCPT.l = sorted_ctdec_list
     # 'taskcounter''amount''decision''pk'
-    ct1 = l[0]['decision']
-    ct2 = l[1]['decision']
-    ct3 = l[2]['decision']
-    ct4 = l[3]['decision']
-    ct5 = l[4]['decision']
-    ct6 = l[5]['decision']
-    ct7 = l[6]['decision']
-    ct8 = l[7]['decision']
+    PCPT.ct1 = l[0]['decision']
+    PCPT.ct2 = l[1]['decision']
+    PCPT.ct3 = l[2]['decision']
+    PCPT.ct4 = l[3]['decision']
+    PCPT.ct5 = l[4]['decision']
+    PCPT.ct6 = l[5]['decision']
+    PCPT.ct7 = l[6]['decision']
+    PCPT.ct8 = l[7]['decision']
     if len(l) == 16:
-        ct9  = l[9]['decision']
+        PCPT.ct9  = l[9]['decision']
         ct10 = l[10]['decision']
         ct11 = l[11]['decision']
         ct12 = l[12]['decision']
-        ct13 = l[13]['decision']
-        ct14 = l[14]['decision']
-        ct15 = l[15]['decision']
-        ct16 = l[16]['decision']
+        PCPT.ct13 = l[13]['decision']
+        PCPT.ct14 = l[14]['decision']
+        PCPT.ct15 = l[15]['decision']
+        PCPT.ct16 = l[16]['decision']
     #amount of alternatives presented
     #kind of redundant, yet VERY helpful!
-    ctamount1 = l[0]['amount']
-    ctamount2 = l[1]['amount']
-    ctamount3 = l[2]['amount']
-    ctamount4 = l[3]['amount']
-    ctamount5 = l[4]['amount']
-    ctamount6 = l[5]['amount']
-    ctamount7 = l[6]['amount']
-    ctamount8 = l[7]['amount']
+    PCPT.ctamount1 = l[0]['amount']
+    PCPT.ctamount2 = l[1]['amount']
+    PCPT.ctamount3 = l[2]['amount']
+    PCPT.ctamount4 = l[3]['amount']
+    PCPT.ctamount5 = l[4]['amount']
+    PCPT.ctamount6 = l[5]['amount']
+    PCPT.ctamount7 = l[6]['amount']
+    PCPT.ctamount8 = l[7]['amount']
     if len(l) == 16:
-        ctamount9  = l[9]['amount']
-        ctamount10 = l[10]['amount']
-        ctamount11 = l[11]['amount']
-        ctamount12 = l[12]['amount']
-        ctamount13 = l[13]['amount']
-        ctamount14 = l[14]['amount']
-        ctamount15 = l[15]['amount']
-        ctamount16 = l[16]['amount']
-    cttime1 = ct_tslist[0]
-    cttime2 = ct_tslist[1]
-    cttime3 = ct_tslist[2]
-    cttime4 = ct_tslist[3]
-    cttime5 = ct_tslist[4]
-    cttime6 = ct_tslist[5]
-    cttime7 = ct_tslist[6]
-    cttime8 = ct_tslist[7]
+        PCPT.ctamount9  = l[9]['amount']
+        PCPT.ctamount10 = l[10]['amount']
+        PCPT.ctamount11 = l[11]['amount']
+        PCPT.ctamount12 = l[12]['amount']
+        PCPT.ctamount13 = l[13]['amount']
+        PCPT.ctamount14 = l[14]['amount']
+        PCPT.ctamount15 = l[15]['amount']
+        PCPT.ctamount16 = l[16]['amount']
+    PCPT.cttime1 = ct_tslist[0]
+    PCPT.cttime2 = ct_tslist[1]
+    PCPT.cttime3 = ct_tslist[2]
+    PCPT.cttime4 = ct_tslist[3]
+    PCPT.cttime5 = ct_tslist[4]
+    PCPT.cttime6 = ct_tslist[5]
+    PCPT.cttime7 = ct_tslist[6]
+    PCPT.cttime8 = ct_tslist[7]
     if len(ct_tslist) == 16:
-        cttime9 =  ct_tslist[8]
-        cttime10 = ct_tslist[9]
-        cttime11 = ct_tslist[10]
-        cttime12 = ct_tslist[11]
-        cttime13 = ct_tslist[12]
-        cttime14 = ct_tslist[13]
-        cttime15 = ct_tslist[14]
-        cttime16 = ct_tslist[15]
-    h1conjoint1 = str(s['select_con1'][0])
-    h1conjoint2 = str(s['select_con2'][0])
-    h1conjoint3 = str(s['select_con3'][0])
-    h1conjoint4 = str(s['select_con4'][0])
-    t_h1page1 = ts_url_to_string('conjoint/1', 'conjoint/0')
-    h1conjoint5 = str(s['select_con5'][0])
-    h1conjoint6 = str(s['select_con6'][0])
-    h1conjoint7 = str(s['select_con7'][0])
-    h1conjoint8 = str(s['select_con8'][0])
-    t_h1page2 = ts_url_to_string('transit/overview', 'conjoint/1')
+        PCPT.cttime9 =  ct_tslist[8]
+        PCPT.cttime10 = ct_tslist[9]
+        PCPT.cttime11 = ct_tslist[10]
+        PCPT.cttime12 = ct_tslist[11]
+        PCPT.cttime13 = ct_tslist[12]
+        PCPT.cttime14 = ct_tslist[13]
+        PCPT.cttime15 = ct_tslist[14]
+        PCPT.cttime16 = ct_tslist[15]
+    PCPT.h1conjoint1 = str(s['select_con1'][0])
+    PCPT.h1conjoint2 = str(s['select_con2'][0])
+    PCPT.h1conjoint3 = str(s['select_con3'][0])
+    PCPT.h1conjoint4 = str(s['select_con4'][0])
+    PCPT.t_h1page1 = ts_url_to_string('conjoint/1', 'conjoint/0')
+    PCPT.h1conjoint5 = str(s['select_con5'][0])
+    PCPT.h1conjoint6 = str(s['select_con6'][0])
+    PCPT.h1conjoint7 = str(s['select_con7'][0])
+    PCPT.h1conjoint8 = str(s['select_con8'][0])
+    PCPT.t_h1page2 = ts_url_to_string('transit/overview', 'conjoint/1')
 
-    h2totaltime = models.CharField(max_length=100)
-    h2searchpath = models.TextField()
-    h2durationpath = models.TextField()
-    h2transitdecision = models.CharField(max_length=100)
-    t_h2transitdecision = models.DateTimeField(blank = True)
+    PCPT.h2totaltime = ts_url_to_string('transit/select', 'transit/overview')
+    PCPT.h2searchpath = transit_searchpath
+    PCPT.h2durationpath = transit_durationpath
+    PCPT.h2transitdecision = str(s['transit'][0])
+    PCPT.t_h2transitdecision = ts_url_to_string('rnd_searchgoals', 'transit/select')
 
-    rnd_searchgoalsQ1 = models.IntegerField()
-    rnd_searchgoalsQ2 = models.IntegerField()
-    rnd_searchgoalsQ3 = models.IntegerField()
-    rnd_searchgoalsQ4 = models.IntegerField()
-    t_rnd_searchgoals = models.DateTimeField(blank = True)
-    #OPTIONAL EXPORT
-    rnd_happinessQ1 = models.IntegerField(max_length=100, null = True, blank = True)
-    rnd_happinessQ2 = models.IntegerField(max_length=100, null = True, blank = True)
-    rnd_happinessQ3 = models.IntegerField(max_length=100, null = True, blank = True)
-    rnd_happinessQ4 = models.IntegerField(max_length=100, null = True, blank = True)
-    t_rnd_happiness = models.DateTimeField(blank = True)
+    PCPT.rnd_searchgoalsQ1 = str(s['rnd_maxQ1'][0])
+    PCPT.rnd_searchgoalsQ2 = str(s['rnd_maxQ2'][0])
+    PCPT.rnd_searchgoalsQ3 = str(s['rnd_maxQ3'][0])
+    PCPT.rnd_searchgoalsQ4 = str(s['rnd_maxQ4'][0])
+    if not opt_happiness:
+        PCPT.t_rnd_searchgoals = ts_url_to_string('pl_demographics', 'rnd_searchgoals')
+    else:
+        PCPT.t_rnd_searchgoals = ts_url_to_string('rnd_happiness', 'rnd_searchgoals')
+        PCPT.rnd_happinessQ1 = str(s['rnd_happinessQ1'][0])
+        PCPT.rnd_happinessQ2 = str(s['rnd_happinessQ2'][0])
+        PCPT.rnd_happinessQ3 = str(s['rnd_happinessQ3'][0])
+        PCPT.rnd_happinessQ4 = str(s['rnd_happinessQ4'][0])
+        PCPT.t_rnd_happiness = ts_url_to_string('pl_demographics', 'rnd_happiness')
 
-    demo_gender = models.CharField(max_length=6, choices= GENDER_CHOICES)
-    demo_age = models.IntegerField()
-    t_demographics = models.DateTimeField(blank = True)
+    PCPT.demo_gender = str(s['gender'][0])
+    PCPT.demo_age = str(s['age'][0])
+    PCPT.t_demographics = ts_url_to_string('finalPage', 'pl_demographics')
 
     #2nd seperate file on export
     #used initial pub data:
-    ct1pk = models.CharField(max_length=100)
-    ct1amount = models.CharField(max_length=100)
-    ct1a1 = models.CharField(max_length=100)
-    ct1a2 = models.CharField(max_length=100)
-    ct1a3 = models.CharField(max_length=100)
-    ct1a4 = models.CharField(max_length=100)
-    ct1a5 = models.CharField(max_length=100)
-    ct2pk = models.CharField(max_length=100)
-    ct2amount = models.CharField(max_length=100)
-    ct2a1 = models.CharField(max_length=100)
-    ct2a2 = models.CharField(max_length=100)
-    ct2a3 = models.CharField(max_length=100)
-    ct2a4 = models.CharField(max_length=100)
-    ct2a5 = models.CharField(max_length=100)
-    ct3pk = models.CharField(max_length=100)
-    ct3amount = models.CharField(max_length=100)
-    ct3a1 = models.CharField(max_length=100)
-    ct3a2 = models.CharField(max_length=100)
-    ct3a3 = models.CharField(max_length=100)
-    ct3a4 = models.CharField(max_length=100)
-    ct3a5 = models.CharField(max_length=100)
-    ct4pk = models.CharField(max_length=100)
-    ct4amount = models.CharField(max_length=100)
-    ct4a1 = models.CharField(max_length=100)
-    ct4a2 = models.CharField(max_length=100)
-    ct4a3 = models.CharField(max_length=100)
-    ct4a4 = models.CharField(max_length=100)
-    ct4a5 = models.CharField(max_length=100)
-    ct5pk = models.CharField(max_length=100)
-    ct5amount = models.CharField(max_length=100)
-    ct5a1 = models.CharField(max_length=100)
-    ct5a2 = models.CharField(max_length=100)
-    ct5a3 = models.CharField(max_length=100)
-    ct5a4 = models.CharField(max_length=100)
-    ct5a5 = models.CharField(max_length=100)
-    ct6pk = models.CharField(max_length=100)
-    ct6amount = models.CharField(max_length=100)
-    ct6a1 = models.CharField(max_length=100)
-    ct6a2 = models.CharField(max_length=100)
-    ct6a3 = models.CharField(max_length=100)
-    ct6a4 = models.CharField(max_length=100)
-    ct6a5 = models.CharField(max_length=100)
-    ct7pk = models.CharField(max_length=100)
-    ct7amount = models.CharField(max_length=100)
-    ct7a1 = models.CharField(max_length=100)
-    ct7a2 = models.CharField(max_length=100)
-    ct7a3 = models.CharField(max_length=100)
-    ct7a4 = models.CharField(max_length=100)
-    ct7a5 = models.CharField(max_length=100)
-    ct8pk = models.CharField(max_length=100)
-    ct8amount = models.CharField(max_length=100)
-    ct8a1 = models.CharField(max_length=100)
-    ct8a2 = models.CharField(max_length=100)
-    ct8a3 = models.CharField(max_length=100)
-    ct8a4 = models.CharField(max_length=100)
-    ct8a5 = models.CharField(max_length=100)
-    #optional CTs
-    ct9pk = models.CharField(max_length=100, null = True, blank = True)
-    ct9amount = models.CharField(max_length=100, null = True, blank = True)
-    ct9a1 = models.CharField(max_length=100, null = True, blank = True)
-    ct9a2 = models.CharField(max_length=100, null = True, blank = True)
-    ct9a3 = models.CharField(max_length=100, null = True, blank = True)
-    ct9a4 = models.CharField(max_length=100, null = True, blank = True)
-    ct9a5 = models.CharField(max_length=100, null = True, blank = True)
-    ct10pk = models.CharField(max_length=100, null = True, blank = True)
-    ct10amount = models.CharField(max_length=100, null = True, blank = True)
-    ct10a1 = models.CharField(max_length=100, null = True, blank = True)
-    ct10a2 = models.CharField(max_length=100, null = True, blank = True)
-    ct10a3 = models.CharField(max_length=100, null = True, blank = True)
-    ct10a4 = models.CharField(max_length=100, null = True, blank = True)
-    ct10a5 = models.CharField(max_length=100, null = True, blank = True)
-    ct11pk = models.CharField(max_length=100, null = True, blank = True)
-    ct11amount = models.CharField(max_length=100, null = True, blank = True)
-    ct11a1 = models.CharField(max_length=100, null = True, blank = True)
-    ct11a2 = models.CharField(max_length=100, null = True, blank = True)
-    ct11a3 = models.CharField(max_length=100, null = True, blank = True)
-    ct11a4 = models.CharField(max_length=100, null = True, blank = True)
-    ct11a5 = models.CharField(max_length=100, null = True, blank = True)
-    ct12pk = models.CharField(max_length=100, null = True, blank = True)
-    ct12amount = models.CharField(max_length=100, null = True, blank = True)
-    ct12a1 = models.CharField(max_length=100, null = True, blank = True)
-    ct12a2 = models.CharField(max_length=100, null = True, blank = True)
-    ct12a3 = models.CharField(max_length=100, null = True, blank = True)
-    ct12a4 = models.CharField(max_length=100, null = True, blank = True)
-    ct12a5 = models.CharField(max_length=100, null = True, blank = True)
-    ct13pk = models.CharField(max_length=100, null = True, blank = True)
-    ct13amount = models.CharField(max_length=100, null = True, blank = True)
-    ct13a1 = models.CharField(max_length=100, null = True, blank = True)
-    ct13a2 = models.CharField(max_length=100, null = True, blank = True)
-    ct13a3 = models.CharField(max_length=100, null = True, blank = True)
-    ct13a4 = models.CharField(max_length=100, null = True, blank = True)
-    ct13a5 = models.CharField(max_length=100, null = True, blank = True)
-    ct14pk = models.CharField(max_length=100, null = True, blank = True)
-    ct14amount = models.CharField(max_length=100, null = True, blank = True)
-    ct14a1 = models.CharField(max_length=100, null = True, blank = True)
-    ct14a2 = models.CharField(max_length=100, null = True, blank = True)
-    ct14a3 = models.CharField(max_length=100, null = True, blank = True)
-    ct14a4 = models.CharField(max_length=100, null = True, blank = True)
-    ct14a5 = models.CharField(max_length=100, null = True, blank = True)
-    ct15pk = models.CharField(max_length=100, null = True, blank = True)
-    ct15amount = models.CharField(max_length=100, null = True, blank = True)
-    ct15a1 = models.CharField(max_length=100, null = True, blank = True)
-    ct15a2 = models.CharField(max_length=100, null = True, blank = True)
-    ct15a3 = models.CharField(max_length=100, null = True, blank = True)
-    ct15a4 = models.CharField(max_length=100, null = True, blank = True)
-    ct15a5 = models.CharField(max_length=100, null = True, blank = True)
-    ct16pk = models.CharField(max_length=100, null = True, blank = True)
-    ct16amount = models.CharField(max_length=100, null = True, blank = True)
-    ct16a1 = models.CharField(max_length=100, null = True, blank = True)
-    ct16a2 = models.CharField(max_length=100, null = True, blank = True)
-    ct16a3 = models.CharField(max_length=100, null = True, blank = True)
-    ct16a4 = models.CharField(max_length=100, null = True, blank = True)
-    ct16a5 = models.CharField(max_length=100, null = True, blank = True)
 
-    #actual orders are added up json fields to save columns
-    #index: question number - Value: position
-    rnd_max_order_pk = models.CharField(max_length=100)
-    rnd_max_order = models.TextField()
-    rnd_regret_order_pk = models.CharField(max_length=100)
-    rnd_regret_order = models.TextField()
-    rnd_involvement_order_pk = models.CharField(max_length=100)
-    rnd_involvement_order = models.TextField()
-    rnd_searchgoals_order_pk = models.CharField(max_length=100)
-    rnd_searchgoals_order = models.TextField()
-    rnd_happiness_order_pk = models.CharField(max_length=100, null = True, blank = True)
-    rnd_happiness_order = models.TextField(max_length=100, null = True, blank = True)
+    # l = sorted_ctdec_list
+    # getCT(pub, pk) is finds corresponding group, baseline/not
+    PCPT.ct1pk = l[0]['pk']
+    PCPT.ct1 = getCT(pub, ct1pk) #helper, not saved to model
+    PCPT.ct1amount = ct1.amount # 2 possible ways
+    PCPT.ct1a1 = ct1.a1
+    PCPT.ct1a2 = ct1.a2
+    PCPT.ct1a3 = ct1.a3
+    PCPT.ct1a4 = ct1.a4
+    PCPT.ct1a5 = ct1.a5
+    PCPT.ct2pk = l[1]['pk']
+    PCPT.ct2 = getCT(pub, ct2pk) #helper, not saved to model
+    PCPT.ct2amount = l[1]['amount']
+    PCPT.ct2a1 = ct2.a1
+    PCPT.ct2a2 = ct2.a2
+    PCPT.ct2a3 = ct2.a3
+    PCPT.ct2a4 = ct2.a4
+    PCPT.ct2a5 = ct2.a5
+    PCPT.ct3pk = l[2]['pk']
+    PCPT.ct3 = getCT(pub, ct3pk) #helper, not saved to model
+    PCPT.ct3amount = l[2]['amount']
+    PCPT.ct3a1 = ct3.a1
+    PCPT.ct3a2 = ct3.a2
+    PCPT.ct3a3 = ct3.a3
+    PCPT.ct3a4 = ct3.a4
+    PCPT.ct3a5 = ct3.a5
+    PCPT.ct4pk = l[3]['pk']
+    PCPT.ct4 = getCT(pub, ct4pk) #helper, not saved to model
+    PCPT.ct4amount =  l[3]['amount']
+    PCPT.ct4a1 = ct4.a1
+    PCPT.ct4a2 = ct4.a2
+    PCPT.ct4a3 = ct4.a3
+    PCPT.ct4a4 = ct4.a4
+    PCPT.ct4a5 = ct4.a5
+    PCPT.ct5pk = l[4]['pk']
+    PCPT.ct5 = getCT(pub, ct5pk) #helper, not saved to model
+    PCPT.ct5amount = l[4]['amount']
+    PCPT.ct5a1 = ct5.a1
+    PCPT.ct5a2 = ct5.a2
+    PCPT.ct5a3 = ct5.a3
+    PCPT.ct5a4 = ct5.a4
+    PCPT.ct5a5 = ct5.a5
+    PCPT.ct6pk = l[5]['pk']
+    PCPT.ct6 = getCT(pub, ct6pk) #helper, not saved to model
+    PCPT.ct6amount = l[5]['amount']
+    PCPT.ct6a1 = ct6.a1
+    PCPT.ct6a2 = ct6.a2
+    PCPT.ct6a3 = ct6.a3
+    PCPT.ct6a4 = ct6.a4
+    PCPT.ct6a5 = ct6.a5
+    PCPT.ct7pk = l[6]['pk']
+    PCPT.ct7 = getCT(pub, ct7pk) #helper, not saved to model
+    PCPT.ct7amount = l[6]['amount']
+    PCPT.ct7a1 = ct7.a1
+    PCPT.ct7a2 = ct7.a2
+    PCPT.ct7a3 = ct7.a3
+    PCPT.ct7a4 = ct7.a4
+    PCPT.ct7a5 = ct7.a5
+    PCPT.ct8pk = l[7]['pk']
+    PCPT.ct8 = getCT(pub, ct8pk) #helper, not saved to model
+    PCPT.ct8amount = l[7]['amount']
+    PCPT.ct8a1 = ct8.a1
+    PCPT.ct8a2 = ct8.a2
+    PCPT.ct8a3 = ct8.a3
+    PCPT.ct8a4 = ct8.a4
+    PCPT.ct8a5 = ct8.a5
+    #optional CTs
+    if len(l) == 16:
+        PCPT.ct9pk =     l[8]['pk']
+        PCPT.ct9 = getCT(pub, ct9pk) #h
+        PCPT.ct9amount = ct9.amount # 2
+        PCPT.ct9a1 =    ct9.a1
+        PCPT.ct9a2 =    ct9.a2
+        PCPT.ct9a3 =    ct9.a3
+        PCPT.ct9a4 =    ct9.a4
+        PCPT.ct9a5 =    ct9.a5
+        PCPT.ct10pk =   l[9]['pk']
+        PCPT.ct10 = getCT(pub, ct10pk) #h
+        PCPT.ct10amount = l[9]['amount']
+        PCPT.ct10a1 =     ct10.a1
+        PCPT.ct10a2 =     ct10.a2
+        PCPT.ct10a3 =     ct10.a3
+        PCPT.ct10a4 =     ct10.a4
+        PCPT.ct10a5 =     ct10.a5
+        PCPT.ct11pk =     l[10]['pk']
+        PCPT.ct11 =       getCT(pub, ct11pk)
+        PCPT.ct11amount = l[10]['amount']
+        PCPT.ct11a1 =     ct11.a1
+        PCPT.ct11a2 =     ct11.a2
+        PCPT.ct11a3 =     ct11.a3
+        PCPT.ct11a4 =     ct11.a4
+        PCPT.ct11a5 =     ct11.a5
+        PCPT.ct12pk =     l[11]['pk']
+        PCPT.ct12 =       getCT(pub, ct12pk)
+        PCPT.ct12amount = l[11]['amount']
+        PCPT.ct12a1 =     ct12.a1
+        PCPT.ct12a2 =     ct12.a2
+        PCPT.ct12a3 =     ct12.a3
+        PCPT.ct12a4 =     ct12.a4
+        PCPT.ct12a5 =     ct12.a5
+        PCPT.ct13pk =     l[12]['pk']
+        PCPT.ct13pk =     getCT(pub, ct13pk)
+        PCPT.ct13amount = l[12]['amount']
+        PCPT.ct13a1 =     ct13.a1
+        PCPT.ct13a2 =     ct13.a2
+        PCPT.ct13a3 =     ct13.a3
+        PCPT.ct13a4 =     ct13.a4
+        PCPT.ct13a5 =     ct13.a5
+        PCPT.ct14pk =     l[13]['pk']
+        PCPT.ct14 =       getCT(pub, ct14pk)
+        PCPT.ct14amount = l[13]['amount']
+        PCPT.ct14a1 =     ct14.a1
+        PCPT.ct14a2 =     ct14.a2
+        PCPT.ct14a3 =     ct14.a3
+        PCPT.ct14a4 =     ct14.a4
+        PCPT.ct14a5 =     ct14.a5
+        PCPT.ct15pk =     l[14]['pk']
+        PCPT.ct15 =       getCT(pub, ct15pk)
+        PCPT.ct15amount = l[14]['amount']
+        PCPT.ct15a1 =     ct15.a1
+        PCPT.ct15a2 =     ct15.a2
+        PCPT.ct15a3 =     ct15.a3
+        PCPT.ct15a4 =     ct15.a4
+        PCPT.ct15a5 =     ct15.a5
+        PCPT.ct16pk =     l[15]['pk']
+        PCPT.ct16 =       getCT(pub, ct16pk)
+        PCPT.ct16amount = l[15]['amount']
+        PCPT.ct16a1 =     ct16.a1
+        PCPT.ct16a2 =     ct16.a2
+        PCPT.ct16a3 =     ct16.a3
+        PCPT.ct16a4 =     ct16.a4
+        PCPT.ct16a5 =     ct16.a5
+
+    #actual orders   getCT(pub, ctXpk)atCT(pub, ct8pk) #hre added up json fields to save columns
+    #index: questiont = l[7]['amount'] number - Value: position
+    PCPT.rnd_max_order_pk = rnd_dict['rnd_max'].pk
+    PCPT.rnd_max_order =    rnd_dict['rnd_max'].scale_rnd_order_ext
+    PCPT.rnd_regret_order_pk = rnd_dict['rnd_regret'].pk
+    PCPT.rnd_regret_order =    rnd_dict['rnd_regret'].scale_rnd_order_ext
+    PCPT.rnd_involvement_order_pk = rnd_dict['rnd_involvement'].pk
+    PCPT.rnd_involvement_order =    rnd_dict['rnd_involvement'].scale_rnd_order_ext
+    PCPT.rnd_searchgoals_order_pk = rnd_dict['rnd_searchgoals'].pk
+    PCPT.rnd_searchgoals_order =    rnd_dict['rnd_searchgoals'].scale_rnd_order_ext
+    try:
+        PCPT.rnd_happiness_order_pk = rnd_dict['rnd_happiness'].pk
+        PCPT.rnd_happiness_order =    rnd_dict['rnd_happiness'].scale_rnd_order_ext
+    except:
+        pass
+
+    PCPT.raw_timestamps = ts
+    PCPT.save()
+
+    raise Exception('PARTICIPANT SUCCESSFUllY SAVED!!!', PCPT)
+
 
 

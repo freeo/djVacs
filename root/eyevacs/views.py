@@ -615,10 +615,12 @@ def finalPage(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     request.session['timestamps'].update({request.path:datetime.utcnow()})
 
-    try:
-        Thread(target=pcpt.makeParticipant, args=(request.session)).start()
-    except Exception, errtxt:
-        print errtxt
+    pcpt.makeParticipant(request.session)
+
+    # try:
+    #     Thread(target=pcpt.makeParticipant, args=(request.session)).start()
+    # except Exception, errtxt:
+    #     print errtxt
 
     return render (request, 'eyevacs/thankyou.html')
 
