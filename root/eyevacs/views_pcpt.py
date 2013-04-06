@@ -406,7 +406,7 @@ def makeTaskDict(exp_id, ctask, taskcounter):
     for i in range(0, task.amount, 1):
         templ.update(mapCT(exp_id, alts[i], altModel[i], i))
         #taskbysequenceviewn_amountofalternatives_choosenalternative_taskuniquepk
-        templ[buybuttons[i]] = str(taskcounter) + '_' + str(task.amount) + '_' + str(i+1) + '_' + str(task.pk)
+        templ[buybuttons[i]] = 'ctdec_'+ str(taskcounter) + '_' + str(task.amount) + '_' + str(i+1) + '_' + str(task.pk)
     templ.update(getAttributeLabelDict(exp_id))
     #finalize:
     return templ
@@ -557,22 +557,92 @@ def timestampKeyfinder(urlstring, timestamps):
         if urlstring.lower() in key.lower():
             return value
 
-def ctDissect(ctstr):
-    elements = ctstr.split('_')
-    return {
-        'taskcounter':elements[0],
-        'amount':elements[1],
-        'decision':elements[2],
-        'pk':elements[3]
-    }
+def prepareCTdecisions(full_dict):
+    cts = []
+    for key, value in full_dict:
+        if 'ctdec' in key:
+            cts.append(key)
+    ct_list = []
+    for ct in cts:
+        elements = ct.split('_')
+        ct_dict_item = {
+            'taskcounter':elements[1],
+            'amount':elements[2],
+            'decision':elements[3],
+            'pk':elements[4]}
+        ct_list.append(ct_dict_item)
+    return_ct_list = sorted(ct_list, key = operator.itemgetter('taskcounter'))
+    return return_ct_list
     #templ[buybuttons[i]] = str(taskcounter) + '_' + str(task.amount) + '_' + str(i+1) + '_' + str(task.pk)
+
+def prepareCTTimestamps(raw_timestamps):
+    ts = raw_timestamps
+    t = timestampKeyfinder
+    t1 = t('ct1', ts) - t('ct0', ts)
+    t2 = t('ct2', ts) - t('ct1', ts)
+    t3 = t('ct3', ts) - t('ct2', ts)
+    t4 = t('ct4', ts) - t('ct3', ts)
+    t5 = t('ct5', ts) - t('ct4', ts)
+    t6 = t('ct6', ts) - t('ct5', ts)
+    t7 = t('ct7', ts) - t('ct6', ts)
+    try:
+        t8  = t('ct8',ts) - t('ct7', ts)
+        t9  = t('ct9', ts) - t('ct8', ts)
+        t10 = t('ct10', ts) - t('ct9', ts)
+        t11 = t('ct11', ts) - t('ct10', ts)
+        t12 = t('ct12', ts) - t('ct11', ts)
+        t13 = t('ct13', ts) - t('ct12', ts)
+        t14 = t('ct14', ts) - t('ct13', ts)
+        t15 = t('ct15', ts) - t('ct14', ts)
+        t16 = t('conjoint/0', ts) - t('ct15', ts)
+        dt_deltalist = [t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15,t16]
+    except:
+        t8 = t('ct9',ts) - t('ct8', ts)
+        dt_deltalist = [t1,t2,t3,t4,t5,t6,t7,t8]
+    tslist = []
+    for ts in dt_deltalist:
+        min_sec = str(ts.seconds / 60)+':'+str(ts.seconds % 60)
+        tslist.append(min_sec)
+    return tlist
+
+def ts_url_to_string(dt_url_part_1, dt_url_part_2):
+    dt1 = timestampKeyfinder(dt_url_part_1)
+    dt2 = timestampKeyfinder(dt_url_part_2)
+    td = dt1 - dt2
+    delta_string = str(td.seconds / 60)+':'+str(td.seconds % 60)
+    return delta_string
+
+def process_transit_tstamps(raw_timestamp_dict):
+    # h2totaltime = models.CharField(max_length=100)
+    # h2searchpath = models.TextField()
+    # h2durationpath = models.TextField()
+    # h2transitdecision = models.CharField(max_length=100)
+    # t_h2transitdecision = models.DateTimeField(blank = True)
+    transit_ts_dict = {}
+    for url, dtime in raw_timestamp_dict.iteritems():
+        if 'transit/' in url:
+            transit_ts_dict[url] = dtime
+    ts_urls = []
+    ts_tds = [] #as string MM:SS
+    for url, dtime in transit_ts_dict:
+
+
+
+
+    return (searchpath, durationpath)
+
 
 def makeParticipant(s):
     '''exports whole session dictionary to pcp object.'''
 
     pub = s['pub']
     ts = s['timestamps']
-    s['']
+    sorted_ctdec_list = prepareCTdecisions(s)
+    ct_tslist = prepareCTTimestamps
+    (transit_searchpath, transit_durationpath) = process_transit_tstamps()
+    # s['']
+
+
     experiment = pub.experiment
     #is unique per exp, not more. grouping.group_nr[hard_id] sets condition
     hard_id = pub.hard_id
@@ -587,109 +657,116 @@ def makeParticipant(s):
     # begin time is pubs create_time
     begin_time = pub.create_time
     end_time = timestampKeyfinder('finalpage', ts)
+#XXX total_time
+
     rnd_maxQ1 = str(s['rnd_maxQ1'][0])
     rnd_maxQ2 = str(s['rnd_maxQ2'][0])
     rnd_maxQ3 = str(s['rnd_maxQ3'][0])
     rnd_maxQ4 = str(s['rnd_maxQ4'][0])
     rnd_maxQ5 = str(s['rnd_maxQ5'][0])
     rnd_maxQ6 = str(s['rnd_maxQ6'][0])
-    t_rnd_max = timestampKeyfinder('rnd_max', ts)
+    t_rnd_max = ts_url_to_string('rng_regret','rnd_max')
     rnd_regretQ1 = str(s['rnd_regretQ1'][0])
     rnd_regretQ2 = str(s['rnd_regretQ2'][0])
     rnd_regretQ3 = str(s['rnd_regretQ3'][0])
     rnd_regretQ4 = str(s['rnd_regretQ4'][0])
     rnd_regretQ5 = str(s['rnd_regretQ5'][0])
-    t_rnd_regret = timestampKeyfinder('rng_regret', ts)
+    t_rnd_regret = ts_url_to_string('pl_experience', 'rng_regret')
     experience_lastvacation     = str(s['experience_lastvacation'][0])
     experience_planningvacation = str(s['experience_planningvacation'][0])
     experience_searchduration   = str(s['experience_searchduration'][0])
-    t_experience = timestampKeyfinder('pl_experience', ts)
+    t_experience = ts_url_to_string('rnd_involvement', 'pl_experience')
     rnd_involvementQ1 = str(s['rnd_involvementQ1'][0])
     rnd_involvementQ2 = str(s['rnd_involvementQ2'][0])
     rnd_involvementQ3 = str(s['rnd_involvementQ3'][0])
     rnd_involvementQ4 = str(s['rnd_involvementQ4'][0])
-    t_rnd_involvement = timestampKeyfinder('rnd_involvement', ts)
+    t_rnd_involvement = ts_url_to_string('distance', 'rnd_involvement')
 
     explanation_distance = str(s['explanation_distance'][0])
-    t_expl_distance = timestampKeyfinder('distance', ts)
+    t_expl_distance = ts_url_to_string('food', 'distance')
     explanation_food = str(s['explanation_food'][0])
-    t_expl_food = timestampKeyfinder('food', ts)
+    t_expl_food = ts_url_to_string('price', 'food')
     explanation_price = str(s['explanation_price'][0])
-    t_expl_price = timestampKeyfinder('price', ts)
+    t_expl_price = ts_url_to_string('recommend', 'price')
     explanation_recommend = str(s['explanation_recommend'][0])
-    t_expl_recommend = timestampKeyfinder('recommend', ts)
+    t_expl_recommend = ts_url_to_string('room', 'recommend')
     explanation_room = str(s['explanation_room'][0])
-    t_expl_room =  timestampKeyfinder('room', ts)
+    t_expl_room = ts_url_to_string('view', 'room')
     explanation_view = str(s['explanation_view'][0])
-    t_expl_view = timestampKeyfinder('view', ts)
+    t_expl_view = ts_url_to_string('8_choicetasks', 'view')
     fav_distance = str(s['fave_distance'][0])
     fav_food = str(s['fav_food'][0])
     fav_price = str(s['fav_price'][0])
     fav_recommending = str(s['fav_recommending'][0])
     fav_room = str(s['fav_room'][0])
     fav_seaview = str(s['fav_seaview'][0])
-    t_expl_fav = timestampKeyfinder('8_choicetasks', ts)
+    t_expl_fav =  ts_url_to_string('ct0', '8_choicetasks')
     #the final decision
-    ct1 =
-    ct2 = models.CharField(max_length=100)
-    ct3 = models.CharField(max_length=100)
-    ct4 = models.CharField(max_length=100)
-    ct5 = models.CharField(max_length=100)
-    ct6 = models.CharField(max_length=100)
-    ct7 = models.CharField(max_length=100)
-    ct8 = models.CharField(max_length=100)
-    ct9 = models.CharField(max_length=100, null = True, blank = True)
-    ct10 = models.CharField(max_length=100, null = True, blank = True)
-    ct11 = models.CharField(max_length=100, null = True, blank = True)
-    ct12 = models.CharField(max_length=100, null = True, blank = True)
-    ct13 = models.CharField(max_length=100, null = True, blank = True)
-    ct14 = models.CharField(max_length=100, null = True, blank = True)
-    ct15 = models.CharField(max_length=100, null = True, blank = True)
-    ct16 = models.CharField(max_length=100, null = True, blank = True)
+    l = sorted_ctdec_list
+    # 'taskcounter''amount''decision''pk'
+    ct1 = l[0]['decision']
+    ct2 = l[1]['decision']
+    ct3 = l[2]['decision']
+    ct4 = l[3]['decision']
+    ct5 = l[4]['decision']
+    ct6 = l[5]['decision']
+    ct7 = l[6]['decision']
+    ct8 = l[7]['decision']
+    if len(l) == 16:
+        ct9  = l[9]['decision']
+        ct10 = l[10]['decision']
+        ct11 = l[11]['decision']
+        ct12 = l[12]['decision']
+        ct13 = l[13]['decision']
+        ct14 = l[14]['decision']
+        ct15 = l[15]['decision']
+        ct16 = l[16]['decision']
     #amount of alternatives presented
     #kind of redundant, yet VERY helpful!
-    ctamount1 = models.CharField(max_length=100)
-    ctamount2 = models.CharField(max_length=100)
-    ctamount3 = models.CharField(max_length=100)
-    ctamount4 = models.CharField(max_length=100)
-    ctamount5 = models.CharField(max_length=100)
-    ctamount6 = models.CharField(max_length=100)
-    ctamount7 = models.CharField(max_length=100)
-    ctamount8 = models.CharField(max_length=100)
-    ctamount9 = models.CharField(max_length=100, null = True, blank = True)
-    ctamount10 = models.CharField(max_length=100, null = True, blank = True)
-    ctamount11 = models.CharField(max_length=100, null = True, blank = True)
-    ctamount12 = models.CharField(max_length=100, null = True, blank = True)
-    ctamount13 = models.CharField(max_length=100, null = True, blank = True)
-    ctamount14 = models.CharField(max_length=100, null = True, blank = True)
-    ctamount15 = models.CharField(max_length=100, null = True, blank = True)
-    ctamount16 = models.CharField(max_length=100, null = True, blank = True)
-    cttime1 = models.CharField(max_length=100)
-    cttime2 = models.CharField(max_length=100)
-    cttime3 = models.CharField(max_length=100)
-    cttime4 = models.CharField(max_length=100)
-    cttime5 = models.CharField(max_length=100)
-    cttime6 = models.CharField(max_length=100)
-    cttime7 = models.CharField(max_length=100)
-    cttime8 = models.CharField(max_length=100)
-    cttime9 = models.CharField(max_length=100, null = True, blank = True)
-    cttime10 = models.CharField(max_length=100, null = True, blank = True)
-    cttime11 = models.CharField(max_length=100, null = True, blank = True)
-    cttime12 = models.CharField(max_length=100, null = True, blank = True)
-    cttime13 = models.CharField(max_length=100, null = True, blank = True)
-    cttime14 = models.CharField(max_length=100, null = True, blank = True)
-    cttime15 = models.CharField(max_length=100, null = True, blank = True)
-    cttime16 = models.CharField(max_length=100, null = True, blank = True)
-    h1conjoint1 = models.CharField(max_length=100)
-    h1conjoint2 = models.CharField(max_length=100)
-    h1conjoint3 = models.CharField(max_length=100)
-    h1conjoint4 = models.CharField(max_length=100)
-    t_h1page1 = models.DateTimeField(blank = True)
-    h1conjoint5 = models.CharField(max_length=100)
-    h1conjoint6 = models.CharField(max_length=100)
-    h1conjoint7 = models.CharField(max_length=100)
-    h1conjoint8 = models.CharField(max_length=100)
-    t_h1page2 = models.DateTimeField(blank = True)
+    ctamount1 = l[0]['amount']
+    ctamount2 = l[1]['amount']
+    ctamount3 = l[2]['amount']
+    ctamount4 = l[3]['amount']
+    ctamount5 = l[4]['amount']
+    ctamount6 = l[5]['amount']
+    ctamount7 = l[6]['amount']
+    ctamount8 = l[7]['amount']
+    if len(l) == 16:
+        ctamount9  = l[9]['amount']
+        ctamount10 = l[10]['amount']
+        ctamount11 = l[11]['amount']
+        ctamount12 = l[12]['amount']
+        ctamount13 = l[13]['amount']
+        ctamount14 = l[14]['amount']
+        ctamount15 = l[15]['amount']
+        ctamount16 = l[16]['amount']
+    cttime1 = ct_tslist[0]
+    cttime2 = ct_tslist[1]
+    cttime3 = ct_tslist[2]
+    cttime4 = ct_tslist[3]
+    cttime5 = ct_tslist[4]
+    cttime6 = ct_tslist[5]
+    cttime7 = ct_tslist[6]
+    cttime8 = ct_tslist[7]
+    if len(ct_tslist) == 16:
+        cttime9 =  ct_tslist[8]
+        cttime10 = ct_tslist[9]
+        cttime11 = ct_tslist[10]
+        cttime12 = ct_tslist[11]
+        cttime13 = ct_tslist[12]
+        cttime14 = ct_tslist[13]
+        cttime15 = ct_tslist[14]
+        cttime16 = ct_tslist[15]
+    h1conjoint1 = str(s['select_con1'][0])
+    h1conjoint2 = str(s['select_con2'][0])
+    h1conjoint3 = str(s['select_con3'][0])
+    h1conjoint4 = str(s['select_con4'][0])
+    t_h1page1 = ts_url_to_string('conjoint/1', 'conjoint/0')
+    h1conjoint5 = str(s['select_con5'][0])
+    h1conjoint6 = str(s['select_con6'][0])
+    h1conjoint7 = str(s['select_con7'][0])
+    h1conjoint8 = str(s['select_con8'][0])
+    t_h1page2 = ts_url_to_string('transit/overview', 'conjoint/1')
 
     h2totaltime = models.CharField(max_length=100)
     h2searchpath = models.TextField()

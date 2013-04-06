@@ -14,7 +14,6 @@ urlpatterns = patterns('eyevacs.views',
     # url(r'^exp(?P<exp_id>\d+)/welcome/$','welcome'),                #/eye/expID/
     url(r'^exp(?P<exp_id>\d+)/welcome/(?P<wel_page>\d+)/$','welcome_paginated'),                #/eye/expID/
     # url(r'^exp(?P<exp_id>\d+)/welcome/(?P<wel_page>\d+)/$','welcome_paginated'),                #/eye/expID/
-    # url(r'^exp(?P<exp_id>\d+)/debug/$','singlePageDebug'),
     url( pcptID % r'debug/','singlePageDebug'),
     url( pcptID % r'welcome/','welcome'),
     # url( pcptID % r'welcome/','welcome'), #/eye/expID/pcptID/welcome
@@ -32,9 +31,9 @@ urlpatterns = patterns('eyevacs.views',
     url( pcptID % r'explanation/7_favattributes/','explanation_favattributes'),
     url( pcptID % r'explanation/8_choicetasks/','explanation_choicetasks'),
     url( pcptID % r'ct(?P<ct_page>\d+)/','decisionsequence'),
-    url( pcptID % r'ct(?P<ct_page>\d+)/loading/$','loadingsequence'),
+    url( pcptID % r'ct(?P<ct_page>\d+)/loading/','loadingsequence'),
     url( pcptID % r'conjoint/(?P<conjoint_id>\d+)/','conjoint'),
-    url( pcptID % r'transit/','transit'),
+    url( pcptID % r'transit/overview/','transit'),
     url( pcptID % r'transit/hotel1/','hotel1'),
     url( pcptID % r'transit/hotel2/','hotel2'),
     url( pcptID % r'transit/hotel3/','hotel3'),
