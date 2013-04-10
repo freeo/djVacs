@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block body %}
+{% load staticfiles %}
+
+<style>
+.wrapper{
+        width:300px;
+        height:300px;
+        text-align:center;
+        margin: auto;
+    }
+    .link_text {
+        background:None !important;
+        font-weight:bold;
+        color:#999 !important;
+    }
+</style>
+<hr style="border-color:#999">
+<div class="wrapper" style="margin:auto">
+<a href="./eye/" class="link_text">
+<img src="{% static "img/title.png" %}" style="vertical-align:middle; height:240px;"/>
+<br/>
+&nbsp;&nbsp;&nbsp;Proceed to experiment overview
+</a>
+</div>
+
+
+<hr style="border-color:#999">
+
+
+
+{% endblock %}

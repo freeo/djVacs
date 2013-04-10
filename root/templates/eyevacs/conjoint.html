@@ -14,7 +14,7 @@
 <form action="{{ destination }}" method="post" >
 {% csrf_token %}
 
-<div style="padding-left:200px; padding-top:0px;" >
+<div style="padding-left:100px; padding-top:0px;" >
 <table>
 {# # CAPTIONS ############################################################# #}
  
@@ -93,9 +93,9 @@
     <td class="spacercon"></td>
     {% for key, conjoint in conjointtasks.items %}
     <td class="dctdcon" style="font-size:16px;background:#fff;"> 
-    <select name="select_con{{ conjoint.id }}" >
+    <select name="select_con{{ conjoint.id }}" class="conjoint_select">
     <option value="">{% trans "--select--" %}</option>
-    <option value="0">{% trans "0 (definately reject)" %}</option>
+    <option value="0">{% trans "0 (definitely reject)" %}</option>
     <option value="1">1</option>
     <option value="2">2</option>
     <option value="3">3</option>
@@ -105,7 +105,7 @@
     <option value="7">7</option>
     <option value="8">8</option>
     <option value="9">9</option>
-    <option value="1">{% trans "10 (definately accept)" %}</option>
+    <option value="1">{% trans "10 (definitely accept)" %}</option>
     </select>
     </td> 
     <td class="spacercon"></td>

@@ -30,7 +30,7 @@ info:<br/>
  </div>
 first conditions: <br/>
 <div class="info_field">
-{{ grouping }}<br/>
+{{ grouping|truncatechars:30  }}<br/>
  </div>
 participant stubs:
 {% if exp.pub_set.count != 0 %}
@@ -71,10 +71,10 @@ Free statistics:<br/>
 <br/>
 <div>
     {% if next_id_hole != None %}
-        <span class="highlight">
+        {# <span class="highlight"> #}
         Filling ID hole: {{ next_id_hole }}<br/>
         ID hole condition: {{ next_id_hole_group }}<br/>
-        </span>
+        {# </span> #}
     {% else %}
         <b>Next participant ID: {{pcpt_id}}</b><br/>
         <b>Next condition: {{ next_condition }}</b><br/>
@@ -100,7 +100,7 @@ Free statistics:<br/>
 <p>Enable form validation?</p>
 <label class="lbadmin" style="width:250px;text-align:left;"><input type="checkbox" name="cbox_validation" checked />Validate user input?</label>
 <p>Jump to Page:</p>
-<label class="lbadmin" style="width:250px;text-align:left;"><input type="checkbox" name="cbox_singlepagedebug" checked />
+<label class="lbadmin" style="width:250px;text-align:left;"><input type="checkbox" name="cbox_singlepagedebug" />
 Show page list</label>
 <p>Select the "Welcome Page"</p>
 <div style="text-indent:35px;">
@@ -142,10 +142,15 @@ Show page list</label>
 <p style="margin-bottom:0px;" >Debug Participant</p> 
 <label class="lbadmin" style="font-size:14px; width:180px; margin-left:auto; margin-right:auto; text-align:center;"><input type="checkbox" name="cbox_testpcpt" />&nbsp;invalid pcpt</label>
 </div>
-<div style="background:#c30;color:#fff; width:250px; padding:5px; margin-top:15px; text-align:center;">
-<p style="margin-bottom:0px;" >Valid Pretest<br/> Participant?</p> 
-<label class="lbadmin" style="color:#fff; width:180px; margin-left:auto; margin-right:auto; text-align:center;"><input type="checkbox" name="cbox_validpretest" />&nbsp;VALID PRETEST</label>
+<div style="background:#844;color:#fff; width:250px; padding:5px; margin-top:15px; text-align:center;">
+<p style="margin-bottom:0px;" >Valid <br/> Participant?</p> 
+<label class="lbadmin" style="color:#fff; width:180px; margin-left:auto; margin-right:auto; text-align:center;"><input type="checkbox" name="cbox_valid_pcpt" />&nbsp;VALID </label>
 </div>
+{# <div style=" width:250px; margin-top:15px; text-align:left; background:#0fb"> #}
+{# <p style="margin-bottom:0px;" >Debug saving</p>  #}
+{# <label class="lbadmin" style="font-size:14px; width:180px; margin-left:auto; margin-right:auto; text-align:center;"><input type="checkbox" name="cbox_debugsaving" />&nbsp;use save function</label> #}
+{# </div> #}
+
 </td>
 </tr>
 

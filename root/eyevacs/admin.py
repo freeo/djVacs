@@ -20,10 +20,6 @@ class ExtDataAdmin(admin.ModelAdmin):
 class ExtDataInline(admin.TabularInline):
     model = External_Source_Data
 
-class ExperimentAdmin(admin.ModelAdmin):
-    fields = ['name','language','info']
-    list_display = ('id','name')
-    inlines = [ExtDataInline,]
 
 class LevelAdmin(admin.ModelAdmin):
     fields = ['link_attribute','name','value']
@@ -33,6 +29,11 @@ class AttributeTranslationAdmin(TranslationAdmin):
     fields = ['name','position']
     list_display = ('id','name','position')
     inlines = [AttributeInline,]
+
+class ExperimentAdmin(admin.ModelAdmin):
+    fields = ['name','language','info']
+    list_display = ('id','name')
+    inlines = [ExtDataInline,]
 
 admin.site.register(Experiment, ExperimentAdmin)
 admin.site.register(Grouping)

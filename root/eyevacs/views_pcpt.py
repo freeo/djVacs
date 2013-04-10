@@ -1,14 +1,17 @@
-from eyevacs.models import Scale, Scale_Question, Experiment, Participant, External_Order_Scale, Attribute, Level, Pub, External_Choice_Task
+from eyevacs.models import Scale, Scale_Question, Experiment, Participant, External_Order_Scale, Attribute, Level, Pub, External_Choice_Task,External_Baseline_Choice_Task
 from scripts import scale_questions
+from eyevacs import large_strings, debug
 import json
 import re
 import ast
 import pdb
 import operator
+from django.http import HttpResponse
 from django.utils.translation import ugettext
 from django.forms.models import model_to_dict
 from django.db import transaction
 import datetime
+import csv
 
 ctsetsize = 8
 
@@ -75,8 +78,17 @@ def add_id_hole(exp_id, hole):
         id_holes = jsonDec.decode(exp.grouping.id_holes)
     else:
         id_holes = []
+    if not exp.grouping.id_hole_history == None:
+        id_hole_history = jsonDec.decode(exp.grouping.id_hole_history)
+    else:
+        id_hole_history = []
+
+
     id_holes.append(hole)
+    # if not hole in id_hole_history:
+    id_hole_history.append(hole)
     exp.grouping.id_holes = json.dumps(sorted(id_holes))
+    exp.grouping.id_hole_history = json.dumps(sorted(id_hole_history))
     exp.grouping.save()
 
 def get_id_hole_groups(exp_id):
@@ -185,13 +197,7 @@ def assignScaleOrder(exp_id, scale_name_string):
     except:
         raise Exception('We ran out of '+scale_name_string+' orderings! Quick! We need more!')
     return assign_this_scale
-#
-# def incrementTaskCounter(pub):
-#     # global taskcounter
-#     # taskcounter += 1
-#     pub.taskcounter += 1
-#     pub.save()
-#
+
 def createBaselineTasklist(pub, condition ):
     # global ctlist
     # global ctlistIDs
@@ -550,6 +556,31 @@ def makeScaleContext(scale_sequence, scale_name_string):
     # lb_button_continue = 'Continue'
     context = {'question_title': question_title,'scale_name':scale_name, 'questions':questions , 'restoreCheck':restoreCheck}
     return context
+#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#
+################ PARTICIPANT EXPORTING ##########################
+
+def exportToCSV(exp_id):
+    # Create the HttpResponse object with the appropriate CSV header.
+    exp = Experiment.objects.get(pk=exp_id)
+    filename = 'eyevacsEXP'+str(exp_id)+'_'+exp.name
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="'+ filename +'.csv"'
+
+    header = large_strings.header
+
+    writer = csv.writer(response)
+    writer.writerow(header)
+    for PCPT in exp.participant_set.all():
+        # l_pcpt = str(model_to_dict(pcpt)).split(',')
+        pcpt_export_sequence = large_strings.pcpt_export_sequence(PCPT)
+        writer.writerow(pcpt_export_sequence)
+        # raise Exception(len(header), len(pcpt_export_sequence))
+
+    # writer.writerow(['Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"])
+    return response
+
+#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#
+################ PARTICIPANT SAVING #############################
 
 def timestampKeyfinder(urlstring, timestamps):
     '''urlstring is the last part of the url, timestamps is the dict.'''
@@ -578,36 +609,37 @@ def prepareCTdecisions(full_dict):
 def prepareCTTimestamps(raw_timestamps):
     ts = raw_timestamps
     t = timestampKeyfinder
-    t1 = t('ct1', ts) - t('ct0', ts)
-    t2 = t('ct2', ts) - t('ct1', ts)
-    t3 = t('ct3', ts) - t('ct2', ts)
-    t4 = t('ct4', ts) - t('ct3', ts)
-    t5 = t('ct5', ts) - t('ct4', ts)
-    t6 = t('ct6', ts) - t('ct5', ts)
-    t7 = t('ct7', ts) - t('ct6', ts)
+    t1 = t('ct1/loading', ts) - t('ct0', ts)
+    t2 = t('ct2/loading', ts) - t('ct1', ts)
+    t3 = t('ct3/loading', ts) - t('ct2', ts)
+    t4 = t('ct4/loading', ts) - t('ct3', ts)
+    t5 = t('ct5/loading', ts) - t('ct4', ts)
+    t6 = t('ct6/loading', ts) - t('ct5', ts)
+    t7 = t('ct7/loading', ts) - t('ct6', ts)
     try:
-        t8  = t('ct8',ts) - t('ct7', ts)
-        t9  = t('ct9', ts) - t('ct8', ts)
-        t10 = t('ct10', ts) - t('ct9', ts)
-        t11 = t('ct11', ts) - t('ct10', ts)
-        t12 = t('ct12', ts) - t('ct11', ts)
-        t13 = t('ct13', ts) - t('ct12', ts)
-        t14 = t('ct14', ts) - t('ct13', ts)
-        t15 = t('ct15', ts) - t('ct14', ts)
+        t8  = t('ct8/loading',ts) - t('ct7', ts)
+        t9  = t('ct9/loading', ts) - t('ct8', ts)
+        t10 = t('ct1/loading0', ts) - t('ct9', ts)
+        t11 = t('ct1/loading1', ts) - t('ct10', ts)
+        t12 = t('ct1/loading2', ts) - t('ct11', ts)
+        t13 = t('ct1/loading3', ts) - t('ct12', ts)
+        t14 = t('ct1/loading4', ts) - t('ct13', ts)
+        t15 = t('ct1/loading5', ts) - t('ct14', ts)
         t16 = t('conjoint/0', ts) - t('ct15', ts)
         dt_deltalist = [t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15,t16]
     except:
-        t8 = t('ct9',ts) - t('ct8', ts)
+        t8 = t('conjoint/0',ts) - t('ct7', ts)
         dt_deltalist = [t1,t2,t3,t4,t5,t6,t7,t8]
     tslist = []
     for ts in dt_deltalist:
-        min_sec = str(ts.seconds / 60)+':'+str(ts.seconds % 60)
-        tslist.append(min_sec)
-    return tlist
+        # min_sec = str(ts.seconds / 60)+':'+str(ts.seconds % 60)
+        sec = str(ts.seconds)
+        tslist.append(sec)
+    return tslist
 
-def ts_url_to_string(dt_url_part_1, dt_url_part_2):
-    dt1 = timestampKeyfinder(dt_url_part_1)
-    dt2 = timestampKeyfinder(dt_url_part_2)
+def ts_url_to_string(dt_url_part_1, dt_url_part_2, raw_timestamps):
+    dt1 = timestampKeyfinder(dt_url_part_1, raw_timestamps)
+    dt2 = timestampKeyfinder(dt_url_part_2, raw_timestamps)
     td = dt1 - dt2
     # delta_string = str(td.seconds / 60)+':'+str(td.seconds % 60)
     delta_string = str(td.seconds)
@@ -625,6 +657,9 @@ def process_transit_tstamps(raw_timestamp_dict):
     for url, dtime in transit_ts_dict.iteritems():
         ts_tuple.append((url, dtime))
     sorted_ts_tuple = sorted(ts_tuple, key=lambda ts: ts[1])
+
+    durationpath = []
+    searchpath = []
 
     for i in range(0, len(sorted_ts_tuple)-1,1):
         try:
@@ -655,15 +690,13 @@ def getCT(pub, pk):
         return External_Choice_Task.objects.get(pk=pk)
 
 def checkCTs(pub, session_ct_ids):
-    try:
-        pub_cts = pub.external_choice_task_set.all()
-    except:
-        pub_cts = pub.external_baseline_choice_task_set.all()
-
+    pub_cts = pub.Choice_TasksAsPub.all()
+    if len(pub_cts) == 0:
+        pub_cts = pub.Baseline_Choice_TasksAsPub.all()
     pub_ct_list =[]
     for id in pub_cts:
         pub_ct_list.append(id.pk)
-    if sorted(pub_ct_list) == session_ct_ids:
+    if sorted(pub_ct_list) != sorted(session_ct_ids):
         raise Exception('CTs from session and pub object don\'t match!',
             pub_ct_list,session_ct_ids)
 
@@ -672,25 +705,38 @@ def checkRNDs(pub, session_rnd_ids):
     pub_rnd_list =[]
     for id in pub_rnds:
         pub_rnd_list.append(id.pk)
-    if sorted(pub_rnd_list) == session_rnd_ids:
+    if sorted(pub_rnd_list) != sorted(session_rnd_ids):
         raise Exception('RNDs from session and pub object don\'t match!',
             pub_rnd_list,session_rnd_ids)
+
+def debugMakePCPT(condition, pub, ctlist, scale_sequences):
+    if condition == 'increasing':
+        debug_dict = debug.increasing
+    if condition == 'baselinelow':
+        debug_dict = debug.baselinelow
+    if condition == 'baselinehigh':
+        debug_dict = debug.baselinehigh
+    debug_dict['pub_ctlist'] = ctlist
+    debug_dict['pub_scale_sequences'] = scale_sequences
+    makeParticipant(debug_dict)
 
 def makeParticipant(s):
     '''exports whole session dictionary to pcp object.'''
 
-    pub = s['pub']
+    # pub_dict = s['pub']
+    pub = Pub.objects.get(pk= s['pub']['id'])
+    # raise Exception(model_to_dict(pub),'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' ,s['pub'])
     ts = s['timestamps']
     sorted_ctdec_list = prepareCTdecisions(s)
-    ct_tslist = prepareCTTimestamps
-    (transit_searchpath, transit_durationpath) = process_transit_tstamps()
+    ct_tslist = prepareCTTimestamps(ts)
+    (transit_searchpath, transit_durationpath) = process_transit_tstamps(ts)
     try:
-        try_happiness_exist = ts_url_to_string('pl_demographics', 'rnd_happiness')
+        try_happiness_exist = ts_url_to_string('pl_demographics', 'rnd_happiness', ts)
         opt_happiness = True
     except:
         opt_happiness = False
     checkCTs(pub, s['pub_ctlist_IDs'])
-    checkCTs(pub, s['pub_scale_sequences_IDs'])
+    checkRNDs(pub, s['pub_scale_sequences_IDs'])
     rnd_dict = s['pub_scale_sequences']
 
     PCPT = Participant()
@@ -705,55 +751,58 @@ def makeParticipant(s):
     #bool, real participant = False or "Test-Experiments" = True
     #maybe a switch in admin mask
     PCPT.testpcpt = s['testpcpt']
-    PCPT.validated_pretest = s['validpretest']
+    PCPT.valid_pcpt = s['valid_pcpt']
     # begin time is pubs create_time
-    PCPT.begin_time = pub.create_time
+    # PCPT.begin_time = pub.create_time
+    PCPT.begin_time = pub.create_time.replace(tzinfo=None)
     PCPT.end_time = timestampKeyfinder('finalpage', ts)
-    PCPT.total_time = str((begin_time - end_time).seconds)
+    PCPT.total_time = str((PCPT.end_time - PCPT.begin_time).seconds)
+    PCPT.t_welcome = ts_url_to_string('rnd_max', 'welcome', ts)
     PCPT.rnd_maxQ1 = str(s['rnd_maxQ1'][0])
     PCPT.rnd_maxQ2 = str(s['rnd_maxQ2'][0])
     PCPT.rnd_maxQ3 = str(s['rnd_maxQ3'][0])
     PCPT.rnd_maxQ4 = str(s['rnd_maxQ4'][0])
     PCPT.rnd_maxQ5 = str(s['rnd_maxQ5'][0])
     PCPT.rnd_maxQ6 = str(s['rnd_maxQ6'][0])
-    PCPT.t_rnd_max = ts_url_to_string('rng_regret','rnd_max')
+    PCPT.t_rnd_max = ts_url_to_string('rnd_regret','rnd_max', ts)
     PCPT.rnd_regretQ1 = str(s['rnd_regretQ1'][0])
     PCPT.rnd_regretQ2 = str(s['rnd_regretQ2'][0])
     PCPT.rnd_regretQ3 = str(s['rnd_regretQ3'][0])
     PCPT.rnd_regretQ4 = str(s['rnd_regretQ4'][0])
     PCPT.rnd_regretQ5 = str(s['rnd_regretQ5'][0])
-    PCPT.t_rnd_regret = ts_url_to_string('pl_experience', 'rng_regret')
+    PCPT.t_rnd_regret = ts_url_to_string('pl_experience', 'rnd_regret', ts)
     PCPT.experience_lastvacation    = str(s['experience_lastvacation'][0])
     PCPT.experience_planningvacation = str(s['experience_planningvacation'][0])
     PCPT.experience_searchduration   = str(s['experience_searchduration'][0])
-    PCPT.t_experience = ts_url_to_string('rnd_involvement', 'pl_experience')
+    PCPT.t_experience = ts_url_to_string('rnd_involvement', 'pl_experience', ts)
     PCPT.rnd_involvementQ1 = str(s['rnd_involvementQ1'][0])
     PCPT.rnd_involvementQ2 = str(s['rnd_involvementQ2'][0])
     PCPT.rnd_involvementQ3 = str(s['rnd_involvementQ3'][0])
     PCPT.rnd_involvementQ4 = str(s['rnd_involvementQ4'][0])
-    PCPT.t_rnd_involvement = ts_url_to_string('distance', 'rnd_involvement')
-
-    PCPT.explanation_distance = str(s['explanation_distance'][0])
-    PCPT.t_expl_distance = ts_url_to_string('food', 'distance')
+    PCPT.t_rnd_involvement = ts_url_to_string('explanation/0_overview', 'rnd_involvement', ts)
+    PCPT.t_expl_0_overview = ts_url_to_string('food', 'explanation/0_overview', ts)
     PCPT.explanation_food = str(s['explanation_food'][0])
-    PCPT.t_expl_food = ts_url_to_string('price', 'food')
-    PCPT.explanation_price = str(s['explanation_price'][0])
-    PCPT.t_expl_price = ts_url_to_string('recommend', 'price')
+    PCPT.t_expl_1_food = ts_url_to_string('recommend', 'food', ts)
     PCPT.explanation_recommend = str(s['explanation_recommend'][0])
-    PCPT.t_expl_recommend = ts_url_to_string('room', 'recommend')
-    PCPT.explanation_room = str(s['explanation_room'][0])
-    PCPT.t_expl_room = ts_url_to_string('view', 'room')
+    PCPT.t_expl_2_recommend = ts_url_to_string('distance', 'recommend', ts)
+    PCPT.explanation_distance = str(s['explanation_distance'][0])
+    PCPT.t_expl_3_distance = ts_url_to_string('seaview', 'distance', ts)
     PCPT.explanation_view = str(s['explanation_view'][0])
-    PCPT.t_expl_view = ts_url_to_string('8_choicetasks', 'view')
-    PCPT.fav_distance = str(s['fave_distance'][0])
+    PCPT.t_expl_4_view = ts_url_to_string('price', 'seaview', ts)
+    PCPT.explanation_price = str(s['explanation_price'][0])
+    PCPT.t_expl_5_price = ts_url_to_string('room', 'price', ts)
+    PCPT.explanation_room = str(s['explanation_room'][0])
+    PCPT.t_expl_6_room = ts_url_to_string('favattributes', 'room', ts)
     PCPT.fav_food = str(s['fav_food'][0])
-    PCPT.fav_price = str(s['fav_price'][0])
     PCPT.fav_recommending = str(s['fav_recommending'][0])
-    PCPT.fav_room = str(s['fav_room'][0])
+    PCPT.fav_distance = str(s['fav_distance'][0])
     PCPT.fav_seaview = str(s['fav_seaview'][0])
-    PCPT.t_expl_fav =  ts_url_to_string('ct0', '8_choicetasks')
+    PCPT.fav_price = str(s['fav_price'][0])
+    PCPT.fav_room = str(s['fav_room'][0])
+    PCPT.t_expl_7_fav =  ts_url_to_string('ctseqintro', 'favattributes', ts)
+    PCPT.t_expl_8_ctseqintro =  ts_url_to_string('ct0', 'ctseqintro', ts)
     #the final decision
-    PCPT.l = sorted_ctdec_list
+    l = sorted_ctdec_list
     # 'taskcounter''amount''decision''pk'
     PCPT.ct1 = l[0]['decision']
     PCPT.ct2 = l[1]['decision']
@@ -765,9 +814,9 @@ def makeParticipant(s):
     PCPT.ct8 = l[7]['decision']
     if len(l) == 16:
         PCPT.ct9  = l[9]['decision']
-        ct10 = l[10]['decision']
-        ct11 = l[11]['decision']
-        ct12 = l[12]['decision']
+        PCPT.ct10 = l[10]['decision']
+        PCPT.ct11 = l[11]['decision']
+        PCPT.ct12 = l[12]['decision']
         PCPT.ct13 = l[13]['decision']
         PCPT.ct14 = l[14]['decision']
         PCPT.ct15 = l[15]['decision']
@@ -812,44 +861,45 @@ def makeParticipant(s):
     PCPT.h1conjoint2 = str(s['select_con2'][0])
     PCPT.h1conjoint3 = str(s['select_con3'][0])
     PCPT.h1conjoint4 = str(s['select_con4'][0])
-    PCPT.t_h1page1 = ts_url_to_string('conjoint/1', 'conjoint/0')
+    PCPT.t_h1page1 = ts_url_to_string('conjoint/loading', 'conjoint/0', ts)
+    PCPT.t_loadingconjoint = ts_url_to_string('conjoint/1', 'conjoint/loading', ts)
     PCPT.h1conjoint5 = str(s['select_con5'][0])
     PCPT.h1conjoint6 = str(s['select_con6'][0])
     PCPT.h1conjoint7 = str(s['select_con7'][0])
     PCPT.h1conjoint8 = str(s['select_con8'][0])
-    PCPT.t_h1page2 = ts_url_to_string('transit/overview', 'conjoint/1')
+    PCPT.t_h1page2 = ts_url_to_string('transit/overview', 'conjoint/1', ts)
 
-    PCPT.h2totaltime = ts_url_to_string('transit/select', 'transit/overview')
+    PCPT.h2totaltime = ts_url_to_string('transit/select', 'transit/overview', ts)
     PCPT.h2searchpath = transit_searchpath
     PCPT.h2durationpath = transit_durationpath
     PCPT.h2transitdecision = str(s['transit'][0])
-    PCPT.t_h2transitdecision = ts_url_to_string('rnd_searchgoals', 'transit/select')
+    PCPT.t_h2transitdecision = ts_url_to_string('rnd_searchgoals', 'transit/select', ts)
 
-    PCPT.rnd_searchgoalsQ1 = str(s['rnd_maxQ1'][0])
-    PCPT.rnd_searchgoalsQ2 = str(s['rnd_maxQ2'][0])
-    PCPT.rnd_searchgoalsQ3 = str(s['rnd_maxQ3'][0])
-    PCPT.rnd_searchgoalsQ4 = str(s['rnd_maxQ4'][0])
+    PCPT.rnd_searchgoalsQ1 = str(s['rnd_searchgoalsQ1'][0])
+    PCPT.rnd_searchgoalsQ2 = str(s['rnd_searchgoalsQ2'][0])
+    PCPT.rnd_searchgoalsQ3 = str(s['rnd_searchgoalsQ3'][0])
+    PCPT.rnd_searchgoalsQ4 = str(s['rnd_searchgoalsQ4'][0])
     if not opt_happiness:
-        PCPT.t_rnd_searchgoals = ts_url_to_string('pl_demographics', 'rnd_searchgoals')
+        PCPT.t_rnd_searchgoals = ts_url_to_string('pl_demographics', 'rnd_searchgoals', ts)
     else:
-        PCPT.t_rnd_searchgoals = ts_url_to_string('rnd_happiness', 'rnd_searchgoals')
+        PCPT.t_rnd_searchgoals = ts_url_to_string('rnd_happiness', 'rnd_searchgoals', ts)
         PCPT.rnd_happinessQ1 = str(s['rnd_happinessQ1'][0])
         PCPT.rnd_happinessQ2 = str(s['rnd_happinessQ2'][0])
         PCPT.rnd_happinessQ3 = str(s['rnd_happinessQ3'][0])
         PCPT.rnd_happinessQ4 = str(s['rnd_happinessQ4'][0])
-        PCPT.t_rnd_happiness = ts_url_to_string('pl_demographics', 'rnd_happiness')
+        PCPT.t_rnd_happiness = ts_url_to_string('pl_demographics', 'rnd_happiness', ts)
 
     PCPT.demo_gender = str(s['gender'][0])
     PCPT.demo_age = str(s['age'][0])
-    PCPT.t_demographics = ts_url_to_string('finalPage', 'pl_demographics')
+    PCPT.t_demographics = ts_url_to_string('finalPage', 'pl_demographics', ts)
 
     #2nd seperate file on export
     #used initial pub data:
 
-    # l = sorted_ctdec_list
+    #INFO: l = sorted_ctdec_list
     # getCT(pub, pk) is finds corresponding group, baseline/not
     PCPT.ct1pk = l[0]['pk']
-    PCPT.ct1 = getCT(pub, ct1pk) #helper, not saved to model
+    ct1 = getCT(pub, PCPT.ct1pk) #helper, not saved to model
     PCPT.ct1amount = ct1.amount # 2 possible ways
     PCPT.ct1a1 = ct1.a1
     PCPT.ct1a2 = ct1.a2
@@ -857,7 +907,7 @@ def makeParticipant(s):
     PCPT.ct1a4 = ct1.a4
     PCPT.ct1a5 = ct1.a5
     PCPT.ct2pk = l[1]['pk']
-    PCPT.ct2 = getCT(pub, ct2pk) #helper, not saved to model
+    ct2 = getCT(pub, PCPT.ct2pk) #helper, not saved to model
     PCPT.ct2amount = l[1]['amount']
     PCPT.ct2a1 = ct2.a1
     PCPT.ct2a2 = ct2.a2
@@ -865,7 +915,7 @@ def makeParticipant(s):
     PCPT.ct2a4 = ct2.a4
     PCPT.ct2a5 = ct2.a5
     PCPT.ct3pk = l[2]['pk']
-    PCPT.ct3 = getCT(pub, ct3pk) #helper, not saved to model
+    ct3 = getCT(pub, PCPT.ct3pk) #helper, not saved to model
     PCPT.ct3amount = l[2]['amount']
     PCPT.ct3a1 = ct3.a1
     PCPT.ct3a2 = ct3.a2
@@ -873,7 +923,7 @@ def makeParticipant(s):
     PCPT.ct3a4 = ct3.a4
     PCPT.ct3a5 = ct3.a5
     PCPT.ct4pk = l[3]['pk']
-    PCPT.ct4 = getCT(pub, ct4pk) #helper, not saved to model
+    ct4 = getCT(pub, PCPT.ct4pk) #helper, not saved to model
     PCPT.ct4amount =  l[3]['amount']
     PCPT.ct4a1 = ct4.a1
     PCPT.ct4a2 = ct4.a2
@@ -881,7 +931,7 @@ def makeParticipant(s):
     PCPT.ct4a4 = ct4.a4
     PCPT.ct4a5 = ct4.a5
     PCPT.ct5pk = l[4]['pk']
-    PCPT.ct5 = getCT(pub, ct5pk) #helper, not saved to model
+    ct5 = getCT(pub, PCPT.ct5pk) #helper, not saved to model
     PCPT.ct5amount = l[4]['amount']
     PCPT.ct5a1 = ct5.a1
     PCPT.ct5a2 = ct5.a2
@@ -889,7 +939,7 @@ def makeParticipant(s):
     PCPT.ct5a4 = ct5.a4
     PCPT.ct5a5 = ct5.a5
     PCPT.ct6pk = l[5]['pk']
-    PCPT.ct6 = getCT(pub, ct6pk) #helper, not saved to model
+    ct6 = getCT(pub, PCPT.ct6pk) #helper, not saved to model
     PCPT.ct6amount = l[5]['amount']
     PCPT.ct6a1 = ct6.a1
     PCPT.ct6a2 = ct6.a2
@@ -897,7 +947,7 @@ def makeParticipant(s):
     PCPT.ct6a4 = ct6.a4
     PCPT.ct6a5 = ct6.a5
     PCPT.ct7pk = l[6]['pk']
-    PCPT.ct7 = getCT(pub, ct7pk) #helper, not saved to model
+    ct7 = getCT(pub, PCPT.ct7pk) #helper, not saved to model
     PCPT.ct7amount = l[6]['amount']
     PCPT.ct7a1 = ct7.a1
     PCPT.ct7a2 = ct7.a2
@@ -905,7 +955,7 @@ def makeParticipant(s):
     PCPT.ct7a4 = ct7.a4
     PCPT.ct7a5 = ct7.a5
     PCPT.ct8pk = l[7]['pk']
-    PCPT.ct8 = getCT(pub, ct8pk) #helper, not saved to model
+    ct8 = getCT(pub, PCPT.ct8pk) #helper, not saved to model
     PCPT.ct8amount = l[7]['amount']
     PCPT.ct8a1 = ct8.a1
     PCPT.ct8a2 = ct8.a2
@@ -915,7 +965,7 @@ def makeParticipant(s):
     #optional CTs
     if len(l) == 16:
         PCPT.ct9pk =     l[8]['pk']
-        PCPT.ct9 = getCT(pub, ct9pk) #h
+        ct9 = getCT(pub, PCPT.ct9pk) #h
         PCPT.ct9amount = ct9.amount # 2
         PCPT.ct9a1 =    ct9.a1
         PCPT.ct9a2 =    ct9.a2
@@ -923,7 +973,7 @@ def makeParticipant(s):
         PCPT.ct9a4 =    ct9.a4
         PCPT.ct9a5 =    ct9.a5
         PCPT.ct10pk =   l[9]['pk']
-        PCPT.ct10 = getCT(pub, ct10pk) #h
+        ct10 = getCT(pub, PCPT.ct10pk) #h
         PCPT.ct10amount = l[9]['amount']
         PCPT.ct10a1 =     ct10.a1
         PCPT.ct10a2 =     ct10.a2
@@ -931,7 +981,7 @@ def makeParticipant(s):
         PCPT.ct10a4 =     ct10.a4
         PCPT.ct10a5 =     ct10.a5
         PCPT.ct11pk =     l[10]['pk']
-        PCPT.ct11 =       getCT(pub, ct11pk)
+        ct11 =       getCT(pub, PCPT.ct11pk)
         PCPT.ct11amount = l[10]['amount']
         PCPT.ct11a1 =     ct11.a1
         PCPT.ct11a2 =     ct11.a2
@@ -939,7 +989,7 @@ def makeParticipant(s):
         PCPT.ct11a4 =     ct11.a4
         PCPT.ct11a5 =     ct11.a5
         PCPT.ct12pk =     l[11]['pk']
-        PCPT.ct12 =       getCT(pub, ct12pk)
+        ct12 =       getCT(pub, PCPT.ct12pk)
         PCPT.ct12amount = l[11]['amount']
         PCPT.ct12a1 =     ct12.a1
         PCPT.ct12a2 =     ct12.a2
@@ -947,7 +997,7 @@ def makeParticipant(s):
         PCPT.ct12a4 =     ct12.a4
         PCPT.ct12a5 =     ct12.a5
         PCPT.ct13pk =     l[12]['pk']
-        PCPT.ct13pk =     getCT(pub, ct13pk)
+        ct13 =     getCT(pub, PCPT.ct13pk)
         PCPT.ct13amount = l[12]['amount']
         PCPT.ct13a1 =     ct13.a1
         PCPT.ct13a2 =     ct13.a2
@@ -955,7 +1005,7 @@ def makeParticipant(s):
         PCPT.ct13a4 =     ct13.a4
         PCPT.ct13a5 =     ct13.a5
         PCPT.ct14pk =     l[13]['pk']
-        PCPT.ct14 =       getCT(pub, ct14pk)
+        ct14 =       getCT(pub, PCPT.ct14pk)
         PCPT.ct14amount = l[13]['amount']
         PCPT.ct14a1 =     ct14.a1
         PCPT.ct14a2 =     ct14.a2
@@ -963,7 +1013,7 @@ def makeParticipant(s):
         PCPT.ct14a4 =     ct14.a4
         PCPT.ct14a5 =     ct14.a5
         PCPT.ct15pk =     l[14]['pk']
-        PCPT.ct15 =       getCT(pub, ct15pk)
+        ct15 =       getCT(pub, PCPT.ct15pk)
         PCPT.ct15amount = l[14]['amount']
         PCPT.ct15a1 =     ct15.a1
         PCPT.ct15a2 =     ct15.a2
@@ -971,7 +1021,7 @@ def makeParticipant(s):
         PCPT.ct15a4 =     ct15.a4
         PCPT.ct15a5 =     ct15.a5
         PCPT.ct16pk =     l[15]['pk']
-        PCPT.ct16 =       getCT(pub, ct16pk)
+        ct16 =       getCT(pub, PCPT.ct16pk)
         PCPT.ct16amount = l[15]['amount']
         PCPT.ct16a1 =     ct16.a1
         PCPT.ct16a2 =     ct16.a2
@@ -996,9 +1046,27 @@ def makeParticipant(s):
         pass
 
     PCPT.raw_timestamps = ts
+    dictPCPT = model_to_dict(PCPT)
     PCPT.save()
+    # raise Exception('PARTICIPANT SUCCESSFULLY SAVED!!!', PCPT)
 
-    raise Exception('PARTICIPANT SUCCESSFUllY SAVED!!!', PCPT)
-
-
+    # delete pub, relink pub data to pcpt. taken from removepubs
+    #XXX
+    pub_cts = pub.Choice_TasksAsPub.all()
+    pub_scales = pub.external_order_scale_set.all()
+    try:
+        pub_bsl_id_hard = pub.Baseline_Choice_TasksAsPub.all()[0].id_hard
+        pub_bsl_source_file = pub.Baseline_Choice_TasksAsPub.all()[0].ext_src_data
+        pub_bsls = pub_bsl_source_file.external_baseline_choice_task_set.filter(id_hard = pub_bsl_id_hard).order_by('pk')
+    except:
+        pub_bsls = []
+    objects = [pub_cts, pub_scales, pub_bsls]
+    for o in objects: #each objects
+        for e in o: #each linked item of each object
+            e.linked_pub = None
+            e.linked_pcpt = PCPT
+            e.used = True #no change
+            e.save()
+    #AFTER unlinking, otherwise the linked models get lost!
+    pub.delete()
 

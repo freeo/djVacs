@@ -1,15 +1,68 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block body %}
+{% load staticfiles %}
+
+<style>
+    .table_wrapper {
+        margin-left:auto;
+        margin-right:auto;
+        width:800px;
+    }
+    table {
+        border-collapse:collapse;
+        border:0px;
+    }
+    td {
+        width:140px;
+        {# border-spacing:0px; #}
+    }
+    .td_header {
+        background:#444;
+    }
+
+</style>
 
 <a href="../admin/">Administrator</a><br/>
 <br/><br/>
-<b>Existing Experiments:</b><br/>
-------------------------------------------------------------------
+<p style="font-size:28px; color:#888; margin-bottom:10px; margin-top:20px;"> Experiments</p>
+<hr style="border-color:#999">
+<div class="table_wrapper">
+<table style='text-align:center; margin-right:10px;'>
+<tr>
+<td class="td_header">Name</td>
+<td class="td_header">Info</td>
+<td class="td_header">Language</td>
+<td class="td_header">Participants</td>
+<td class="td_header">Stubs</td>
+<td class="td_header"></td>
+</tr>
+
 {% for exp in exp_list %}
     
-    <li style="font-size:24px; font-weight:bold; margin:0;"><a href='./exp{{exp.pk}}/'>{{exp.name}}</a> : {{exp.participant_set.count}} Participants  -  {{ exp.pub_set.count }} Stubs
+    <tr style="font-size:24px; font-weight:bold; margin:0;">
+    <td><a href='./exp{{exp.pk}}/'>{{exp.name}}</td>
+    <td style="font-weight:normal; font-size:10px">{{exp.info}} </td>
+    {% if exp.language == 'en' %}
+        <td> <img src="{% static "img/en.jpg" %}" style="height:40px;" ></td>
+    {% elif exp.language == 'de' %}
+        <td><img src="{% static "img/de.jpg" %}" style="height:40px;" ></td>
+    {% endif %}
+    <td>{{exp.participant_set.count}} </td>
+    <td>{{ exp.pub_set.count }} 
+    </a> </td>
+    <td><a href="./exp{{ exp.id }}/outputcsv/" style='background:None; '><img src="{% static "img/exportbutton.jpg" %}" style="vertical-align:middle; height:40px;"/></a></td>
+    </tr>
+    {# <li style="font-size:24px; font-weight:bold; margin:0;"><a href='./exp{{exp.pk}}/'>{{exp.name}}</a> : {{exp.participant_set.count}} Participants  -  {{ exp.pub_set.count }} Stubs <a href="./exp{{ exp.id }}/outputcsv/" style='background:None; '><img src="{% static "img/exportbutton.jpg" %}" style="vertical-align:middle; height:40px;"/></a> #}
 {% endfor %}
+</table>
+</div>
+
+<hr style="border-color:#777">
+<ul style="font-size:14px; color:#888">
+<li>Participants are valid, complete participant entries, which can be exported to .CSV
+<li>Stubs are uncompleted entries. They are either participants who are currently filling out the forms, or abondoned entries, which have to be deleted manually.
+</ul>
 
 
 {% endblock %}

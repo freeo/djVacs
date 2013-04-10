@@ -34,13 +34,15 @@
 
 </head>
 <body>
+{% load i18n %}    
+{% get_current_language as LANG %}
 <div class='wrapper'>
 <img src="{% static "img/bigloading.gif" %}" class='loading_gif' />
 <br/>
-Loading your next task.
+{% trans "Loading your next task." %}
 <br/>
 <br/>
-Please wait.
+{% trans "Please wait." %}
 </div>
 </body>
 </html>
