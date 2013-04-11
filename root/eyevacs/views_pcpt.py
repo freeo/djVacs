@@ -7,7 +7,7 @@ import ast
 import pdb
 import operator
 from django.http import HttpResponse
-from django.utils.translation import ugettext
+from django.utils.translation import ugettext_lazy
 from django.forms.models import model_to_dict
 from django.db import transaction
 import datetime
@@ -43,14 +43,14 @@ scale_names = ['rnd_max', 'rnd_regret', 'rnd_involvement', 'rnd_searchgoals', 'r
 # session = {}
 namelist = ['A','B','C','D','E','F','G','H']
 max_task_size = 21
-conjoint1={'id':'1','food':ugettext('good'),'recommending':'90%','distance':'1 km','view':ugettext('no sea view'),'price':ugettext('$699'),'room':ugettext('standard')}
-conjoint2={'id':'2','food':ugettext('good'),'recommending':'90%','distance':'3 km','view':ugettext('full sea view'),'price':ugettext('$699'),'room':ugettext('deluxe')}
-conjoint3={'id':'3','food':ugettext('excellent'),'recommending':'90%','distance':'1 km','view':ugettext('no sea view'),'price':ugettext('$899'),'room':ugettext('deluxe')}
-conjoint4={'id':'4','food':ugettext('good'),'recommending':'50%','distance':'1 km','view':ugettext('full sea view'),'price':ugettext('$899'),'room':ugettext('deluxe')}
-conjoint5={'id':'5','food':ugettext('excellent'),'recommending':'50%','distance':'1 km','view':ugettext('full sea view'),'price':ugettext('$699'),'room':ugettext('standard')}
-conjoint6={'id':'6','food':ugettext('excellent'),'recommending':'90%','distance':'3 km','view':ugettext('full sea view'),'price':ugettext('$899'),'room':ugettext('standard')}
-conjoint7={'id':'7','food':ugettext('good'),'recommending':'50%','distance':'3 km','view':ugettext('no sea view'),'price':ugettext('$899'),'room':ugettext('standard')}
-conjoint8={'id':'8','food':ugettext('excellent'),'recommending':'50%','distance':'3 km','view':ugettext('no sea view'),'price':ugettext('$699'),'room':ugettext('deluxe')}
+conjoint1={'id':'1','food':ugettext_lazy('good'),'recommending':'90%','distance':'1 km','view':ugettext_lazy('no sea view'),'price':ugettext_lazy('$699'),'room':ugettext_lazy('standard')}
+conjoint2={'id':'2','food':ugettext_lazy('good'),'recommending':'90%','distance':'3 km','view':ugettext_lazy('full sea view'),'price':ugettext_lazy('$699'),'room':ugettext_lazy('deluxe')}
+conjoint3={'id':'3','food':ugettext_lazy('excellent'),'recommending':'90%','distance':'1 km','view':ugettext_lazy('no sea view'),'price':ugettext_lazy('$899'),'room':ugettext_lazy('deluxe')}
+conjoint4={'id':'4','food':ugettext_lazy('good'),'recommending':'50%','distance':'1 km','view':ugettext_lazy('full sea view'),'price':ugettext_lazy('$899'),'room':ugettext_lazy('deluxe')}
+conjoint5={'id':'5','food':ugettext_lazy('excellent'),'recommending':'50%','distance':'1 km','view':ugettext_lazy('full sea view'),'price':ugettext_lazy('$699'),'room':ugettext_lazy('standard')}
+conjoint6={'id':'6','food':ugettext_lazy('excellent'),'recommending':'90%','distance':'3 km','view':ugettext_lazy('full sea view'),'price':ugettext_lazy('$899'),'room':ugettext_lazy('standard')}
+conjoint7={'id':'7','food':ugettext_lazy('good'),'recommending':'50%','distance':'3 km','view':ugettext_lazy('no sea view'),'price':ugettext_lazy('$899'),'room':ugettext_lazy('standard')}
+conjoint8={'id':'8','food':ugettext_lazy('excellent'),'recommending':'50%','distance':'3 km','view':ugettext_lazy('no sea view'),'price':ugettext_lazy('$699'),'room':ugettext_lazy('deluxe')}
 conjoint = [conjoint1,conjoint2,conjoint3,conjoint4,conjoint5,conjoint6,conjoint7,conjoint8]
 
 def getConjoint(index):

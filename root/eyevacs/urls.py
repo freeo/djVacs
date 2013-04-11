@@ -5,7 +5,7 @@ pcptID = r'^exp(?P<exp_id>\d+)/pcpt(?P<pcpt_id>\d+)/'+'%s'+r'$'
 
 urlpatterns = patterns('eyevacs.views',
     url(r'^$', 'eye'),
-    url(r'^lang/$', 'set_language'),
+    url(r'lang/$', 'set_language'),
     url(r'^exp(?P<exp_id>\d+)/$','exp'),
     url(r'^exp(?P<exp_id>\d+)/outputcsv/$','outputCSV'),
     url(r'^exp(?P<exp_id>\d+)/removepubs/$','removepubs'),

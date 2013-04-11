@@ -3,7 +3,7 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import Context, RequestContext, Template
 from eyevacs.models import Experiment, Participant, Pub
-from django.utils.translation import ugettext
+from django.utils.translation import ugettext, ugettext_lazy
 from django.utils import translation
 from django.core.urlresolvers import reverse
 from eyevacs import views_pcpt as pcpt
@@ -17,7 +17,7 @@ import operator
 import pdb
 
 default_page_order = []
-bt_label = ugettext("Continue")
+bt_label = ugettext_lazy("Continue")
 # validation = False
 # singlepagedebug = False
 selectwelcome = ""

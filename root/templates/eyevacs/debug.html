@@ -3,7 +3,7 @@
 {# {% load i18n %} #}
 {% block body %}
 <div>
-<a href="../../lang/" >
+<a href="{% url eyevacs.views.set_language  %}" >
 {% if lang == "en" %}
     <img src="{% static "img/en.jpg" %}" style="height:60px;" >
 {% elif lang == "de" %}
