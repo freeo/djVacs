@@ -867,9 +867,11 @@ def makeParticipant(s):
     PCPT.h1conjoint6 = str(s['select_con6'][0])
     PCPT.h1conjoint7 = str(s['select_con7'][0])
     PCPT.h1conjoint8 = str(s['select_con8'][0])
-    PCPT.t_h1page2 = ts_url_to_string('transit/overview', 'conjoint/1', ts)
+    PCPT.t_h1page2 = ts_url_to_string('transit/overview/0', 'conjoint/1', ts)
 
-    PCPT.h2totaltime = ts_url_to_string('transit/select', 'transit/overview', ts)
+    #XXX
+    # PCPT.h2totaltime = ts_url_to_string('transit/select', 'transit/overview', ts)
+    PCPT.h2totaltime = ts_url_to_string('transit/select', 'transit/overview/0', ts)
     PCPT.h2searchpath = transit_searchpath
     PCPT.h2durationpath = transit_durationpath
     PCPT.h2transitdecision = str(s['transit'][0])

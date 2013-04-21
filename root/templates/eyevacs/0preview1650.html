@@ -7,16 +7,15 @@
 {# <html xmlns="http://www.w3.org/1999/xhtml"> #}
 <head>
     {# <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> #}
-    <style>
-            #debug{
-                font-family:"Droid Sans Mono", Courier, monospace;
-                font-size:16px;
-                background:#383838;
-                color:#bbf;
-                {# position:static; #}
-                z-index:+10;
-        }
-    </style>
+    {# <style> #}
+    {#         #debug{ #}
+    {#             font-family:"Droid Sans Mono", Courier, monospace; #}
+    {#             font-size:16px; #}
+    {#             background:#383838; #}
+    {#             color:#bbf; #}
+    {#             z-index:+10; #}
+    {#     } #}
+    {# </style> #}
 {% load staticfiles %}
     <script src="{% static "js/jquery-1.9.1.min.js" %}" > </script>
     <script src="{% static "js/jquery.validate.min.js" %}" > </script>
@@ -25,7 +24,17 @@
 <title>{{title}}</title>
 {% load i18n %}
 {# {% load static from staticfiles %} #}
-<link href="{% static "css/layout.css" %}" rel="stylesheet" type="text/css" />
+
+
+{% if request.session.resolution == "default" %}
+    <link href="{% static "css/layout.css" %}" rel="stylesheet" type="text/css" />
+{% elif request.session.resolution == "1650x1050" %}
+    <link href="{% static "css/layout1650x1050.css" %}" rel="stylesheet" type="text/css" />
+{% elif request.session.resolution == "1280x1024" %}
+    <link href="{% static "css/layout1280x1024.css" %}" rel="stylesheet" type="text/css" />
+{% else %}
+    <link href="{% static "css/layout.css" %}" rel="stylesheet" type="text/css" />
+{% endif %}
 <link href="{% static "css/main.css" %}" rel="stylesheet" type="text/css" />
 <link href="{% static "css/normalize.css" %}" rel="stylesheet" type="text/css" />
 

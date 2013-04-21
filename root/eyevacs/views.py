@@ -302,6 +302,7 @@ def preparePcpt(request, exp_id):
     else:
         debugsaving_activated = False
 
+    request.session['resolution'] = str(request.session.get('selectresolution')[0])
 
     selectlanguage = request.session.get('selectlanguage')[0]
     request.session['django_language'] = selectlanguage
