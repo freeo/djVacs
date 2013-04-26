@@ -1,0 +1,195 @@
+{% extends 'eyevacs/0preview1650.html' %}
+{% load i18n %}
+{% load staticfiles %}
+{% block body %}
+{% get_current_language as LANG %}
+<div>
+    {# {% autoescape off %} #}
+    <div class="question_title">{{question_title|safe}}</div>
+    {# {% endautoescape %} #}
+    <form action="{{ destination }}" method="post" id="difficulty_last">
+    {% csrf_token %}
+    <br/>
+<table border="0" cellspacing="0">
+  <!--HEADER and legend-->
+  <tr >
+    <td class="spacer_left_limit"></td>
+    <td class="sc_table_question_spacer"></td>
+    <td class="sc_table_spacer"></td>
+    <td class="cell_white right"><p class="sc_table_legend">-3</p></td>
+    <td class="cell_grey"><p class="sc_table_legend">-2</p></td>
+    <td class="cell_white"><p class="sc_table_legend">-1</p></td>
+    <td class="cell_grey"><p class="sc_table_legend">0</p></td>
+    <td class="cell_white"><p class="sc_table_legend">+1</p></td>
+    <td class="cell_grey"><p class="sc_table_legend">+2</p></td>
+    <td class="cell_white left"><p class="sc_table_legend">+3</p></td>
+  </tr>
+{% if extracaption %}
+    <tr class="extracaptionrow" >
+        <td class=""></td>
+        <td class=""></td>
+        <td class=""></td>
+        <td class="caption_cell_white right">
+        <p class="caption">{{ extracaption.left }}</p></td>
+        <td class="caption_cell_grey"></td>
+        <td class="caption_cell_white"></td>
+        <td class="caption_cell_grey"></td>
+        <td class="caption_cell_white"></td>
+        <td class="caption_cell_grey"></td>
+        <td class="caption_cell_white left">
+        <p class="caption">{{ extracaption.right }}</p></td>
+    </tr>        
+{% endif %}
+  <!--QUESTIONIONS-->
+
+<script>
+    var questions = []
+</script>
+    
+  {% for question in questions %}
+
+    {% if not extracaption %}
+       <tr class="captionrow addcaption" >
+    {% else %}
+       <tr class="captionrow" >
+    {% endif %}
+        <td class=""></td>
+        <td class=""></td>
+        <td class=""></td>
+        <td class="caption_cell_white right">
+        <p class="caption">{{ question.caption.left }}</p></td>
+        <td class="caption_cell_grey"></td>
+        <td class="caption_cell_white"></td>
+        <td class="caption_cell_grey"></td>
+        <td class="caption_cell_white"></td>
+        <td class="caption_cell_grey"></td>
+        <td class="caption_cell_white left">
+        <p class="caption">{{ question.caption.right }}</p></td>
+    </tr> 
+    
+
+    <tr class="questionrow" >
+        <td class=""></td>
+        <td class="sc_question">{{question.text|linebreaksbr}}</td>
+        <td class=""></td>
+        <td class="cell_white right">
+        <label for="Q{{ question.id }}_1" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_1" value="-3" /></label></td>
+        <td class="cell_grey">
+        <label for="Q{{ question.id }}_2" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_2" value="-2" /></label></td>
+        <td class="cell_white">
+        <label for="Q{{ question.id }}_3" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_3" value="-1" /></label></td>
+        <td class="cell_grey">
+        <label for="Q{{ question.id }}_4" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_4" value="0" /></label></td>
+        <td class="cell_white">
+        <label for="Q{{ question.id }}_5" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_5" value="+1" /></label></td>
+        <td class="cell_grey">
+        <label for="Q{{ question.id }}_6" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_6" value="+2" /></label></td>
+        <td class="cell_white left">
+        <label for="Q{{ question.id }}_7" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_7" value="+3" /></label></td>
+
+{# ######################################################################## #}
+<script>
+    $(this).ready(function(){
+        var question = $('input[name={{ scale_name }}Q{{question.id}}]');
+        questions.push(question);
+        {% if DEBUG %}
+        window.log(question);
+        {% endif %}
+    });
+</script>
+               {% endfor %}
+  </tr>
+  
+  <tr class="extracaptionrow" >
+        <td class=""></td>
+        <td class=""></td>
+        <td class=""></td>
+        <td class="caption_cell_white right"></td>
+        <td class="caption_cell_grey"></td>
+        <td class="caption_cell_white"></td>
+        <td class="caption_cell_grey"></td>
+        <td class="caption_cell_white"></td>
+        <td class="caption_cell_grey"></td>
+        <td class="caption_cell_white left"></td>
+    </tr>
+</table>
+{# ######################################################################## #}
+{# <div class="debugtext"></div> #}
+
+<script>
+    $(this).ready(function(){
+        {# both working #}
+        {# $("input").change(function(){ #}
+        $("form").click(function(){
+            {# Highlight selected item #}
+            var checkedRadio = $("input:checked");
+            checkedRadio.each(function(i){
+                itemID = $(this).attr("id");
+                $("label[for="+itemID+"]").addClass("highlight");
+                });
+            {# revert others to default color  #}
+            var unCheckedRadio = $("input:not(:checked)");
+            unCheckedRadio.each(function(i){
+                itemID = $(this).attr("id");
+                $("label[for="+itemID+"]").removeClass("highlight");
+                });
+            });
+        });
+</script>
+
+{# ######################################################################## #}
+ 
+<div class="fatErrorWrapper">
+<div id="fatError" style="" >
+</div>
+
+{% if request.session.validation %}
+<script>
+    $(this).ready(function(){
+        var thisform = $('form');
+        window.log('validation is running...');
+        var validator = thisform.validate({
+            {# turn off debug to truly submit! #}
+            debug: true,
+            rules: {
+                {% for question in questions %}
+                {% if not forloop.last %}
+                    {{ scale_name }}Q{{question.id}}: "required",
+                {% else %}
+                    {{ scale_name }}Q{{question.id}}: "required"
+                {% endif %}
+                {% endfor %}
+                },
+            {# empty function places the usually obligatory error messages into nowhere #}
+            errorPlacement: function(error, element) {},
+            showErrors: function(errorMap, errorList) {
+                var errors = validator.numberOfInvalids();
+                $("#fatError").addClass("mainError");
+                {% if LANG == "en" %}
+                var errorText = "You have left "+errors+" questions unanswered!";
+                {% elif LANG == "de" %}
+                var errorText = "Du hast "+errors+" Fragen noch nicht beantwortet!";
+                {% endif %}
+                $("#fatError").text(errorText);
+                if (!errors) {
+                    window.log('hiding   ..  ');
+                    $("#fatError").hide();
+                };
+            },
+            errorClass: "invalid",
+            {# debug only #}
+            submitHandler: function(thisform) { 
+                // do other stuff for a valid form
+                thisform.submit();
+            }
+        });
+    });
+  </script>
+  {% endif %}
+<!-- #### END VALIDATION ############################################# -->
+
+<input type="submit" class="weiter" value="{{bt_label}}" />
+
+</form>
+</div>
+{% endblock %}

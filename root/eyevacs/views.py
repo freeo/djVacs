@@ -483,7 +483,7 @@ def explanation_room(request, exp_id, pcpt_id):
     destination = reverse('eyevacs.views.explanation_favattributes', args= [exp_id, pcpt_id])
     site_vars = {'destination': destination, 'bt_label':bt_label}
     reqcontext = RequestContext(request, site_vars)
-    reqcontext['scrollable'] = True
+    # reqcontext['scrollable'] = True
     return render (request, 'eyevacs/explanation6_room.html', reqcontext)
 
 def explanation_favattributes(request, exp_id, pcpt_id):
@@ -526,7 +526,7 @@ def decisionsequence(request, exp_id, pcpt_id, ct_page):
         next_page = int(ct_page) + 1
         destination = reverse('eyevacs.views.loadingsequence', args = [exp_id, pcpt_id, next_page])
     else:
-        destination = reverse('eyevacs.views.conjoint', args = [exp_id, pcpt_id, 0])
+        destination = reverse('eyevacs.views.rnd_searchgoals', args = [exp_id, pcpt_id])
     data['destination'] = destination
     ########################################################################
     # lang = request.session['django_language']
@@ -546,6 +546,29 @@ def loadingsequence(request, exp_id, pcpt_id, ct_page):
 
     return render(request, 'eyevacs/loading.html', rq)
 
+def rnd_searchgoals(request, exp_id, pcpt_id):
+    request.session.update(request.POST)
+    request.session['timestamps'].update({createUniqueKey(request):datetime.utcnow()})
+    scale_sequences = request.session['pub_scale_sequences']
+    reqcontext = pcpt.makeScaleContext(scale_sequences, 'rnd_searchgoals')
+    destination = reverse('eyevacs.views.pl_difficulty_last', args= [exp_id, pcpt_id])
+    reqcontext['bt_label'] = bt_label
+    extracaption = {'left':ugettext('I do not agree at all'), 'right':ugettext('I agree very much')}
+    reqcontext['extracaption'] = extracaption
+    reqcontext['destination'] = destination
+    return render(request, 'eyevacs/scale.html', reqcontext)
+
+def pl_difficulty_last(request, exp_id, pcpt_id):
+    request.session.update(request.POST)
+    request.session['timestamps'].update({createUniqueKey(request):datetime.utcnow()})
+    destination = reverse('eyevacs.views.conjoint', args= [exp_id, pcpt_id, 0])
+    contextDict = pcpt.getDifficultyDict('difficulty_last')
+    reqcontext = RequestContext(request, contextDict)
+    extracaption = {'left':ugettext_lazy('not at all'), 'right':ugettext_lazy('very much')}
+    reqcontext['extracaption'] = extracaption
+    reqcontext['destination'] = destination
+    reqcontext['bt_label'] = bt_label
+    return render(request, 'eyevacs/pl_difficulty.html', reqcontext)
 
 def conjoint(request, exp_id, pcpt_id, conjoint_id):
     request.session.update(request.POST)
@@ -590,17 +613,7 @@ def createUniqueKey(request):
     counter = len(urls)
     return path + str(counter)
 
-def rnd_searchgoals(request, exp_id, pcpt_id):
-    request.session.update(request.POST)
-    request.session['timestamps'].update({createUniqueKey(request):datetime.utcnow()})
-    scale_sequences = request.session['pub_scale_sequences']
-    reqcontext = pcpt.makeScaleContext(scale_sequences, 'rnd_searchgoals')
-    destination = reverse('eyevacs.views.pl_demographics', args= [exp_id, pcpt_id])
-    reqcontext['bt_label'] = bt_label
-    extracaption = {'left':ugettext('I do not agree at all'), 'right':ugettext('I agree very much')}
-    reqcontext['extracaption'] = extracaption
-    reqcontext['destination'] = destination
-    return render(request, 'eyevacs/scale.html', reqcontext)
+
 
 def rnd_happiness(request, exp_id, pcpt_id):
     pass

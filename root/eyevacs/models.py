@@ -19,6 +19,7 @@ EXT_DATA_TYPE = (
         ('ctask','Choice Task File'),
         ('bltsk','Base-Line Task File'),
         ('scale','Random Scale Ordering File'),
+        ('hlout','Holdout x3 Alts Task File'),
     )
 
 class Experiment(models.Model):

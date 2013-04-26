@@ -540,13 +540,42 @@ def initPcpt(exp_id, ext_ct_size, ext_sessionid, ext_csrftoken, condition):
     # pubDict[pcpt_id] = pub
     return pcpt_id, ctlist, pub, scale_sequence
 
+def getDifficultyDict(difficulty_name):
+    '''Returns Context Dict with values for pl_difficulty template.
+
+    Similar to makeScaleContext to simplify multiple difficulty pages.
+    The pre-existing template makes is easier as well.'''
+
+    question_title = scale_questions.difficulty_titles[difficulty_name]
+    scale_name = difficulty_name
+    questionList = []
+    questions = scale_questions.pl_difficulty_questions
+    idnames = scale_questions.pl_difficulty_questions_idnames
+    captions = scale_questions.pl_difficulty_caption
+    for i in range(len(questions)):
+        qDict = {
+            'text':questions[i],
+            'id':idnames[i],
+            'caption':captions[i]
+            }
+        questionList.append(qDict)
+
+    diffDict= {
+            'question_title': question_title,
+            'scale_name':scale_name,
+            'questions':questionList
+        }
+    return diffDict
+
+
+
 def makeScaleContext(scale_sequence, scale_name_string):
     question_title = scale_questions.question_titles[scale_name_string]
     scale_name = scale_name_string
     order_id = scale_sequence[scale_name_string].pk
     question_order = map(int, External_Order_Scale.objects.get(pk=order_id).scale_rnd_order_ext.split(','))
     questions = []
-    restoreCheck = [None]*7
+    # restoreCheck = [None]*7
     for i in range(0, len(question_order),1):
         qtext = scale_questions.questions[scale_name_string][question_order[i]-1]
         qcaption= scale_questions.question_captions[scale_name_string][question_order[i]-1]
@@ -554,7 +583,8 @@ def makeScaleContext(scale_sequence, scale_name_string):
         q = {'text':qtext,'id':qid, 'caption':qcaption}
         questions.append(q)
     # lb_button_continue = 'Continue'
-    context = {'question_title': question_title,'scale_name':scale_name, 'questions':questions , 'restoreCheck':restoreCheck}
+    context = {'question_title': question_title,'scale_name':scale_name, 'questions':questions }
+    # context = {'question_title': question_title,'scale_name':scale_name, 'questions':questions , 'restoreCheck':restoreCheck}
     return context
 #XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#XXX#
 ################ PARTICIPANT EXPORTING ##########################

@@ -14,7 +14,7 @@ rnd_happiness_questions = [ugettext_lazy(u'In general, I consider myself:'), uge
 
 ##XXX###################################################################
 
-rnd_max_title = ugettext_lazy(u'We’d like to start with some general statements about how you behave in daily situations. \nPlease indicate your degree of agreement with the following statements (-3 = I do not agree with the statement at all, +3 = I agree with the statement very much)')
+rnd_max_title = ugettext_lazy(u'Welcome to the study on vacation packages!\n \nWe’d like to start with some general statements about how you behave in daily situations. \nPlease indicate your degree of agreement with the following statements (-3 = I do not agree with the statement at all, +3 = I agree with the statement very much)')
 
 rnd_regret_title = ugettext_lazy(u'The following statements are related to choices in daily situations. \nPlease indicate your degree of agreement with the following statements (-3 = I do not agree with the statement at all, +3 = I agree with the statement very much)')
 
@@ -40,6 +40,35 @@ question_captions = {'rnd_max':rnd_max_caption,'rnd_regret':rnd_regret_caption, 
 ########################################################################
 
 questions = {'rnd_max':rnd_max_questions,'rnd_regret':rnd_regret_questions, 'rnd_involvement':rnd_involvement_questions,'rnd_searchgoals':rnd_searchgoals_questions, 'rnd_happiness':rnd_happiness_questions}
+
+########################################################################
+########### PL_DIFFICULTY PAGES ########################################
+########################################################################
+
+
+difficulty_last_title= ugettext_lazy(u'Regarding <b>only</b> your last choice:')
+
+pl_difficulty_questions = [
+    ugettext_lazy(u'How difficult was it for you to choose the vacation package you wanted when last making a choice?'),
+    ugettext_lazy(u'How frustrated did you feel when making the choice?'),
+    ugettext_lazy(u'How hesitant did you feel when making the choice?'),
+    ugettext_lazy(u'How similar did you find the options were to one another?')]
+
+pl_difficulty_questions_idnames = [
+    'choice_difficulty',
+    'frustration',
+    'hesitation',
+    'similarity',
+    ]
+
+pl_difficulty_caption = [{'left':'','right':''},{'left':'','right':''},{'left':'','right':''},{'left':'','right':''},{'left':'','right':''},{'left':'','right':''}]
+
+difficulty_titles = {
+        'difficulty_last':difficulty_last_title
+    }
+########################################################################
+########################################################################
+
 
 def load_rnd_files():
     global rnd_files

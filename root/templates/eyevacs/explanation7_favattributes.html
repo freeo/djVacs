@@ -11,46 +11,48 @@
 {# <p class="full_page_text"> #}
 <br/>
 <br/>
-<p class="full_page_text">{% trans " We would like to make sure that you understand the previously shown characteristics of vacation packages: <br/>Please indicate for each characteristic what the best level would be for most of the consumers." %}</p>
-{# <p class="full_page_text">{% trans " Now that you have seen all characteristics, please indicate how your ideal vacation package would look like by clicking on the respective levels you like best." %}</p> #}
-
-{# <p class="full_page_text"><i>Summary of all attributes</i></p> #}
+<p class="full_page_text">{% trans "We would like to make sure that you understand the previously shown characteristics of vacation packages: <br/>Please indicate for each characteristic what the best level would be for most of the consumers by clicking on the respective boxes." %}</p>
 <br/>
 <br/>
 <div style="width:100em;margin-right: auto;margin-left: auto;" class="table_info">
 <table  style="width:100em;" >
 <tr id="food" > 
-<td class="table_attribute dark2">{% trans "food quality" %}</td>
+<td class="table_attribute table_attribute_light">{% trans "food quality" %}</td>
     <td id="food_2" class="food dark3 table_level">{% trans "excellent" %}</td>
     <td id="food_1" class="food dark2 table_level">{% trans "very good" %}</td>
     <td id="food_0" class="food dark3 table_level">{% trans "good" %}</td>
 </tr>
+<tr id="spacer" > <td style="height:1em;"></td></tr>
 <tr id="recommending">
-<td class="table_attribute dark1">{% trans "customers recommending" %}</td> 
+<td class="table_attribute">{% trans "customers recommending" %}</td> 
     <td id="recommending_0" class="recommending dark4 table_level">50%</td>
     <td id="recommending_2" class="recommending dark1 table_level">90%</td>
     <td id="recommending_1" class="recommending dark4 table_level">70%</td>
 </tr>
+<tr id="spacer" > <td style="height:1em;"></td></tr>
 <tr id="distance" >
-<td class="table_attribute dark2">{% trans "distance to CBD" %}</td> 
+<td class="table_attribute table_attribute_light">{% trans "distance to CBD" %}</td> 
     <td id="distance_2" class="distance dark3 table_level">1 km</td>
     <td id="distance_0" class="distance dark2 table_level">3 km</td>
     <td id="distance_1" class="distance dark3 table_level">2 km</td>
 </tr>
+<tr id="spacer" > <td style="height:1em;"></td></tr>
 <tr id="seaview" >
-<td class="table_attribute dark1">{% trans "sea view" %}</td>
+<td class="table_attribute">{% trans "sea view" %}</td>
     <td id="seaview_1" class="seaview dark4 table_level">{% trans "side sea view" %}</td>
     <td id="seaview_0" class="seaview dark1 table_level">{% trans "no sea view" %}</td>
     <td id="seaview_2" class="seaview dark4 table_level">{% trans "full sea view" %}</td>
 </tr>
+<tr id="spacer" > <td style="height:1em;"></td></tr>
 <tr id="price" >
-<td class="table_attribute dark2">{% trans "price per person" %}</td>
+<td class="table_attribute table_attribute_light">{% trans "price per person" %}</td>
     <td id="price_0" class="price dark3 table_level">{% trans "$899" %}</td>
     <td id="price_2" class="price dark2 table_level">{% trans "$699" %}</td>
     <td id="price_1" class="price dark3 table_level">{% trans "$799" %}</td>
 </tr>
+<tr id="spacer" > <td style="height:1em;"></td></tr>
 <tr id="room" >
-<td class="table_attribute dark1">{% trans "room category" %}</td>
+<td class="table_attribute">{% trans "room category" %}</td>
     <td id="room_0" class="room dark4 table_level">{% trans "standard" %}</td>
     <td id="room_1" class="room dark1 table_level">{% trans "superior" %}</td>
     <td id="room_2" class="room dark4 table_level">{% trans "deluxe" %}</td>

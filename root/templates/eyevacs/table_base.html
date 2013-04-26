@@ -4,12 +4,17 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
+
+{% load staticfiles %}
+    <script src="{% static "js/jquery-1.9.1.min.js" %}" > </script>
+    <script src="{% static "js/jquery.validate.min.js" %}" > </script>
+    <script src="{% static "js/modernizr-2.6.2.min.js" %}" > </script>
+
     <style>
         table {
             position:absolute;
             left:5em;
             top:10em;
-            {# height:90em; #}
         }
         td {
             text-align:center;
@@ -48,14 +53,13 @@
             width:10.8em;
             height:3.25em;
         }
+        .buy_button:focus {outline:none;}
+        .buy_button::-moz-focus-inner {border:0;}
             {% block style %}
             {% endblock %}
 
     </style>
-{% load staticfiles %}
-    <script src="{% static "js/jquery-1.9.1.min.js" %}" > </script>
-    <script src="{% static "js/jquery.validate.min.js" %}" > </script>
-    <script src="{% static "js/modernizr-2.6.2.min.js" %}" > </script>
+
 
 <title>{{title}}</title>
 {% load i18n %}

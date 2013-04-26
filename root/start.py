@@ -2,7 +2,7 @@ import os
 import sys
 import re
 import random
-from scripts import load_fixtures, create_fixtures, create_rnd_scale, scale_questions, grouping, load_setup
+from scripts import load_fixtures, create_fixtures,create_holdouttask_fixtures, create_rnd_scale, scale_questions, grouping, load_setup
 from subprocess import call
 from eyevacs.models import Experiment, External_Source_Data, External_Choice_Task, External_Order_Scale, External_Baseline_Choice_Task, Scale, Scale_Question, Grouping, Attribute, Level, Participant, Pub
 from django.db import transaction
@@ -13,6 +13,7 @@ from django.forms.models import model_to_dict
 #paths
 root = '' #sys.path[0]
 external_data_path = './external_data/'
+holdout_data_path = './ext_data_holdout/'
 fixture_output = './eyevacs/fixtures/'
 output_data_path = './eyevacs/'
 experiment_name = ''
@@ -394,11 +395,14 @@ def main():
     #DONT USE _ct and default_rnd TOGETHER !!! ID PROBLEM
     switch_default_rnd =            0 # use together with switch_load_fixtures
     # switch_rnd = 0 #overridden by default rnd
+
+    switch_holdout_ct=              1
+
     switch_load_fixtures =          0
     switch_load_experimentsetup =   0
     #3. chunk: <deadlock>
     #use it AFTER all experiments are created
-    switch_deadlock =               1
+    switch_deadlock =               0
 
     Echo()
 
@@ -451,6 +455,8 @@ def main():
         print ' ### CURRENT EXP ID:', current_exp_id
         if switch_ct:
             create_fixtures.main(current_exp_id, external_data_path, fixture_output)
+        if switch_holdout_ct:
+            create_holdouttask_fixtures.main(current_exp_id, holdout_data_path, fixture_output)
         #kind of obsolete
         # if switch_rnd:
             # create_rnd_scale.main(current_exp_id)
