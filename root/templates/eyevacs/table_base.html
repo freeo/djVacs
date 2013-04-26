@@ -1,37 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-{# <html xmlns="http://www.w3.org/1999/xhtml"> #}
 <head>
-    {# <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> #}
-    {# /* #}
-    {# cellpadding  #}
-    {# th, td { padding: 5px; } #}
-    {#  #}
-    {# cellspacing #}
-    {# table { border-collapse:separate; border-spacing: 5px; } // cellspacing="5" #}
-    {# table { border-collapse:collapse; border-spacing: 0; }   // cellspacing="0" #}
-    {# valign #}
-    {# th, td { vertical-align: top; } #}
-    {# align (center) #}
-    {# table { margin: 0 auto; } #}
-    {# */ #}
-
     <style>
-            #debug{
-                font-family:"Droid Sans Mono", Courier, monospace;
-                font-size:16px;
-                background:#383838;
-                color:#bbf;
-        }
         table {
             position:absolute;
-            left:50px;
-            top:100px;
-            /* width=1650px; */
-            height= 900px;
+            left:5em;
+            top:10em;
+            {# height:90em; #}
         }
         td {
             text-align:center;
@@ -39,22 +17,23 @@
             /* margin:70px; is invalid in table cells, is ignored. */ 
         }
         .dctd {
-            width:216px;
-            height:65px;
+            font-size:2em;
+            width:10.8em;
+            height:3.25em;
             background:#f8f8f8;
             color:#000;
             /* color:#444; */
         }
         .spacer {
-            width:50px;
-            height:50px;
+            width:5em;
+            height:5em;
         }
         .attr_spacer {
-            width:216px;
-            height:65px;
+            width:21.6em;
+            height:6.5em;
         }
         .tr_spacer {
-            height:50px;
+            height:5em;
         }
         .attr {
             background:#ddd;
@@ -65,10 +44,10 @@
             color:#000;
         }
         .buy_button {
-            width:216px;
-            height:65px;
+            font-size:2em;
+            width:10.8em;
+            height:3.25em;
         }
-
             {% block style %}
             {% endblock %}
 
@@ -80,14 +59,17 @@
 
 <title>{{title}}</title>
 {% load i18n %}
-{# {% load static from staticfiles %} #}
-<link href="{% static "css/forms.css" %}" rel="stylesheet" type="text/css" />
-<link href="{% static "css/strings.css" %}" rel="stylesheet" type="text/css" />
 <link href="{% static "css/layout.css" %}" rel="stylesheet" type="text/css" />
 <link href="{% static "css/main.css" %}" rel="stylesheet" type="text/css" />
 <link href="{% static "css/normalize.css" %}" rel="stylesheet" type="text/css" />
 
-{# <!-- HTML5 Boilerplate stuff, see up, other meta--> #}
+{% if request.session.resolution == "1650x1050" %}
+    <link href="{% static "css/layout1650x1050.css" %}" rel="stylesheet" type="text/css" />
+{% elif request.session.resolution == "1280x1024" %}
+    <link href="{% static "css/layout1280x1024.css" %}" rel="stylesheet" type="text/css" />
+{% endif %}
+
+<!-- HTML5 Boilerplate stuff-->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="description" content="">
@@ -96,41 +78,12 @@
 </head>
 <body id="body_black">
     <div id="center_content">
-        <div id="debug">
-            {# DEBUG DATA:<br/> #}
-            {# {{ debugdata|linebreaksbr }} #}
-            <script>
-                {% if not DEBUG %}
-                    var console = {};
-                    console.log = function(){};
-                {% endif %} 
-            </script>
-            </div>
             <div id="target_screen_layout">
 
-{# <div id="divTest1"></div> #}
-{# <script type="text/javascript"> #}
-{# $("#divTest1").text("Hello, world!"); #}
-{# </script> #}
-
-            {# ######################################################################## #}
             {% block body %}
+            {# ################################################################ #}
+            {# ################################################################ #}
             {% endblock %}
-            {{ text }}
-            {% if temp %}
-                <form action="{{ temp.destination }}" method="post" >
-                {% csrf_token %}    
-                    <input type="submit" value="TEMP CONTINUE" class="weiter" >
-                </form>
-                {% endif %}
-            {# {{ debugdata }} #}
-            {# ######################################################################## #}
-
-            {% if language %}
-            <p style="font-size:24px;color:#5d8;font-weight:bold">
-            {{ language|linebreaks }}
-            </p>
-            {% endif %}
 
             </div>
         </div>

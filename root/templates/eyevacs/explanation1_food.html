@@ -10,15 +10,15 @@
 {% csrf_token %}
 {# <p class="full_page_text"> #}
 <br/>
-<div style="margin-left:120px;">
-<img src="{% static "img/food.jpg" %}"><br/>
+<div class="exp_img_spacer">
+<img src="{% static "img/food.jpg" %}" class="exp_img_sizer"><br/>
 </div>
 <p class="explanation_title">{% trans "Food quality" %}</p>
 <p class="full_page_text">{% trans "One way that the vacation packages will differ is how good the quality of the food is in the hotel’s restaurants. All hotels offer breakfast, lunch and dinner, but the quality of the food ranges from good to excellent." %}<br/>
 <br/>{% trans "The last time you were in a hotel, how good was the quality of the food?" %}<br/>
 </p>
-<div class="rg" style="margin-left:200px;">
-<table style="width:600px;">
+<div class="rg exp_inputTable_spacer" >
+<table class="exp_inputTable">
 <tr><td class="rg_text_line_no_lite"><label for="exp_food_miserable" ><input id="exp_food_miserable" type="radio" name="explanation_food" value="0miserable" ></input>{% trans "Miserable" %}</label></tr></td>
 <tr><td class="rg_text_line_hi_lite"><label for="exp_food_very_poor" ><input id="exp_food_very_poor" type="radio" name="explanation_food" value="1verypoor" ></input>{% trans "Very poor" %}</label></tr></td>
 <tr><td class="rg_text_line_no_lite"><label for="exp_food_poor" ><input id="exp_food_poor" type="radio" name="explanation_food" value="2poor" ></input>{% trans "Poor" %}</label></tr></td>
@@ -36,7 +36,6 @@
 <!-- ################################################################# -->
 
 {# ######################################################################## #}
-<div class="debugtext"></div>
 <script>
     $(this).ready(function(){
         window.log('clicker ready');
@@ -46,7 +45,6 @@
             checkedRadio.each(function(i){
                 window.log('click!');
                 itemID = $(this).attr("id");
-                {# $(".debugtext").html(itemID); #}
                 $("label[for="+itemID+"]").addClass("highlight");
                 });
             {# revert others to default color  #}
@@ -61,7 +59,7 @@
 
 {# ######################################################################## #}
  
-<div style="margin-left:auto; margin-right:auto;width:700px;">
+<div class="fatErrorWrapper">
 <div id="fatError" style="" ></div>
 
 {% if request.session.validation %}

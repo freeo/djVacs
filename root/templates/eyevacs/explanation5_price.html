@@ -10,11 +10,11 @@
 {% csrf_token %}
 {# <p class="full_page_text"> #}
 <br/>
-<div style="margin-left:120px;">
+<div class="exp_img_spacer">
 {% if LANG == "en" %}
-    <img src="{% static "img/money_en.jpg" %}">
+    <img src="{% static "img/money_en.jpg" %}" class="exp_img_sizer">
 {% elif LANG == "de" %}
-    <img src="{% static "img/money_de.jpg" %}">
+    <img src="{% static "img/money_de.jpg" %}" class="exp_img_sizer" >
 {% endif %}
 </div>
 <p class="explanation_title">{% trans "Price" %}</p>
@@ -22,8 +22,9 @@
 <br/>{% trans " In our example your rich relative has given you money to go on vacation for you and a friend.  Savings from the trip, however, can be used for other things. Paying the stay out of your own pocket, what would be the maximum you would be willing to spend per person for a one week stay?" %}<br/>
 <br/>
 </p>
-<div style="margin-left:200px;" >
-<select name="explanation_price" style="width:600px;height:35px;font-size:20px;font-weight:normal;">
+
+<div class="rg exp_inputTable_spacer" >
+<select name="explanation_price" class="exp_select_field">
 <option value="">{% trans " --select-- " %}</option>
 <option value="<300">{% trans "under $300" %}</option>
 <option value="300">{% trans "$300" %}</option>
@@ -69,7 +70,7 @@
 
 {# ######################################################################## #}
 {# VALIDATE ALL REQUIRED INPUTS  #}
-<div style="margin-left:auto; margin-right:auto;width:700px;">
+<div class="fatErrorWrapper">
 <div id="fatError" style=""></div>
 
 {% if request.session.validation %}

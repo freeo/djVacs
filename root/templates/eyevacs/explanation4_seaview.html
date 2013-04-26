@@ -17,15 +17,15 @@
 <p class="full_page_text">{% trans "The rooms in your hotel also vary in terms of whether they have a sea view. Some hotels offer you a room with a full sea view, while others offer a side sea view or no sea view at all." %}<br/>
 </p>
 <br/>
-<div style="margin-left:200px;">
-<img src="{% static "img/no_view.jpg" %}" style="height:150px" >
-<img src="{% static "img/side_view.jpg" %}" style="height:150px" >
-<img src="{% static "img/full_view.jpg" %}" style="height:150px" >
+<div class="exp_inputTable_spacer" >
+<img src="{% static "img/no_view.jpg" %}" style="height:15em" >
+<img src="{% static "img/side_view.jpg" %}" style="height:15em" >
+<img src="{% static "img/full_view.jpg" %}" style="height:15em" >
 </div><br/>
 <p class="full_page_text">{% trans "The last time you were in a hotel next to the sea, in terms of the sea view which kind of room did you choose?" %}<br/>
 </p>
-<div class="rg" style="margin-left:200px;">
-<table style="width:600px;">
+<div class="rg exp_inputTable_spacer" >
+<table class="exp_inputTable">
 <tr><td class="rg_text_line_no_lite"><label for="exp_view_full" ><input id="exp_view_full" type="radio" name="explanation_view" value="no_sea_view" ></input>{% trans "No sea view" %}</label></tr></td>
 <tr><td class="rg_text_line_hi_lite"><label for="exp_view_side" ><input id="exp_view_side" type="radio" name="explanation_view" value="side_sea_view" ></input>{% trans "Side sea view" %}</label></tr></td>
 <tr><td class="rg_text_line_no_lite"><label for="exp_view_no" ><input id="exp_view_no" type="radio" name="explanation_view" value="full_sea_view" ></input>{% trans "Full sea view" %}</label></tr></td>
@@ -64,7 +64,7 @@
 
 {# ######################################################################## #}
 {# VALIDATE ALL REQUIRED INPUTS  #}
-<div style="margin-left:auto; margin-right:auto;width:700px;">
+<div class="fatErrorWrapper">
 <div id="fatError" style=""></div>
 
 {% if request.session.validation %}

@@ -42,8 +42,8 @@ def allUrls(pcpt_id, exp_id, ctlist):
         outputlist.append(reverse('eyevacs.views.decisionsequence', args= [exp_id, pcpt_id, i]))
     outputlist.append(reverse('eyevacs.views.conjoint', args = [exp_id, pcpt_id, 0]))
     outputlist.append(reverse('eyevacs.views.conjoint', args = [exp_id, pcpt_id, 1]))
-    outputlist.append(reverse('eyevacs.views.transit', args = [exp_id, pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.transit_select', args = [exp_id, pcpt_id]))
+    # outputlist.append(reverse('eyevacs.views.transit', args = [exp_id, pcpt_id]))
+    # outputlist.append(reverse('eyevacs.views.transit_select', args = [exp_id, pcpt_id]))
     outputlist.append(reverse('eyevacs.views.rnd_searchgoals', args = [exp_id, pcpt_id]))
     # outputlist.append(reverse('eyevacs.views.rnd_happiness', args = [exp_id, pcpt_id]))
     outputlist.append(reverse('eyevacs.views.pl_demographics', args = [exp_id, pcpt_id]))
@@ -75,6 +75,14 @@ def set_language(request):
     postnext = {'next':'www.google.de'}
     mycopy = request.POST.copy()
     mycopy.update(postnext)
+    request.session.update(request.POST)
+    try:
+        if request.session['selectresolution'] != None:
+            request.session['resolution'] = str(request.session['selectresolution'][0])
+            request.session.modified = True
+    except:
+            request.session['resolution'] = "1280x1024"
+            request.session.modified = True
     return render(request, 'eyevacs/i18n_choose_lan.html', {'redirect_to':'./'})
 
 def debugpostdata(context, *args):
@@ -302,7 +310,9 @@ def preparePcpt(request, exp_id):
     else:
         debugsaving_activated = False
 
-    request.session['resolution'] = str(request.session.get('selectresolution')[0])
+    # request.session['resolution'] = str(request.session.get('selectresolution')[0])
+    request.session['resolution'] = str(request.session['selectresolution'][0])
+
 
     selectlanguage = request.session.get('selectlanguage')[0]
     request.session['django_language'] = selectlanguage
@@ -550,7 +560,7 @@ def conjoint(request, exp_id, pcpt_id, conjoint_id):
     if int(conjoint_id) == 1:
         for i in range(4,8,1):
             conjoint[i-4] = pcpt.getConjoint(i)
-            destination = reverse('eyevacs.views.transit', args = [exp_id, pcpt_id])
+            destination = reverse('eyevacs.views.rnd_searchgoals', args = [exp_id, pcpt_id])
             context['starter'] = False
     context['destination'] = destination
     context['bt_label'] = bt_label
@@ -570,22 +580,6 @@ def loadingconjoint(request, exp_id, pcpt_id):
     rq = RequestContext(request, data)
     return render(request, 'eyevacs/loading.html', rq)
 
-def transit(request, exp_id, pcpt_id):
-    request.session.update(request.POST)
-    request.session['timestamps'].update({createUniqueKey(request):datetime.utcnow()})
-    request.session.modified = True
-    data = {}
-    # data['text'] = 'transit choice, holdout task 2!'
-    destination = reverse('eyevacs.views.transit_select', args = [exp_id, pcpt_id])
-    # destination = reverse('eyevacs.views.rnd_searchgoals', args = [exp_id, pcpt_id])
-    # temp = {'destination': temp_dest}
-    # data['temp'] = temp
-    request.session['req_path'] = request.path
-    data['lb_button_continue'] = ugettext('Proceed to selection')
-    data['destination'] = destination
-    rq = RequestContext(request, data)
-    return render(request, 'eyevacs/transitOverview.html', rq)
-
 def createUniqueKey(request):
     path = request.path
     ts_keys = request.session['timestamps'].keys()
@@ -595,48 +589,6 @@ def createUniqueKey(request):
             urls.append(url)
     counter = len(urls)
     return path + str(counter)
-
-def hotel1(request, exp_id, pcpt_id):
-    request.session['timestamps'].update({createUniqueKey(request):datetime.utcnow()})
-    request.session.modified = True
-    rq = RequestContext(request, {})
-    return render(request, 'eyevacs/hotel1.html', rq)
-
-def hotel2(request, exp_id, pcpt_id):
-    request.session['timestamps'].update({createUniqueKey(request):datetime.utcnow()})
-    request.session.modified = True
-    rq = RequestContext(request, {})
-    return render(request, 'eyevacs/hotel2.html', rq)
-
-def hotel3(request, exp_id, pcpt_id):
-    request.session['timestamps'].update({createUniqueKey(request):datetime.utcnow()})
-    request.session.modified = True
-    rq = RequestContext(request, {})
-    return render(request, 'eyevacs/hotel3.html', rq)
-def hotel4(request, exp_id, pcpt_id):
-    request.session['timestamps'].update({createUniqueKey(request):datetime.utcnow()})
-    request.session.modified = True
-    return render(request, 'eyevacs/hotel4.html', RequestContext(request))
-def hotel5(request, exp_id, pcpt_id):
-    request.session['timestamps'].update({createUniqueKey(request):datetime.utcnow()})
-    request.session.modified = True
-    return render(request, 'eyevacs/hotel5.html', RequestContext(request))
-def hotel6(request, exp_id, pcpt_id):
-    request.session['timestamps'].update({createUniqueKey(request):datetime.utcnow()})
-    request.session.modified = True
-    return render(request, 'eyevacs/hotel6.html', RequestContext(request))
-
-def transit_select(request, exp_id, pcpt_id):
-    request.session.update(request.POST)
-    request.session['timestamps'].update({createUniqueKey(request):datetime.utcnow()})
-    request.session.modified = True
-    dynamic = {}
-    destination = reverse('eyevacs.views.rnd_searchgoals', args = [exp_id, pcpt_id])
-    dynamic['destination'] = destination
-    dynamic['bt_label'] = bt_label
-    # dynamic['validation'] = validation
-    reqcontext = RequestContext(request, dynamic)
-    return render(request , 'eyevacs/transit_select.html', reqcontext)
 
 def rnd_searchgoals(request, exp_id, pcpt_id):
     request.session.update(request.POST)

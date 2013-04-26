@@ -11,7 +11,7 @@
 <form action="{{ destination }}" method="post" name="pl_experience">
 {% csrf_token %}
 <div class="rg">
-<table width="1200px" border="0" align="center" summary="layout table which contains all 4 radio groups including their questions.">
+<table class="pl_exp_table" summary="layout table which contains all 4 radio groups including their questions.">
 <tr>
 <td valign="top">
     <p class="rg_question_text" >{% trans "When was the last time you booked a vacation package including a seaside hotel?" %}</p>
@@ -79,7 +79,7 @@
 <input name="pl_experience_button" type="submit" class="weiter" value={{bt_label}} />
 </form>
 {# ######################################################################## #}
-<div class="debugtext"></div>
+{# <div class="debugtext"></div> #}
 
 <script>
     $(this).ready(function(){
@@ -104,7 +104,7 @@
 </script>
 {# ######################################################################## #}
  
-<div style="margin-left:auto; margin-right:auto;width:700px;">
+<div class="fatErrorWrapper">
 <div id="fatError" style="" >
 </div>
 

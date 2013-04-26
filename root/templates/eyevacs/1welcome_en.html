@@ -6,16 +6,6 @@
 {# <html> #}
 {# <html xmlns="http://www.w3.org/1999/xhtml"> #}
 <head>
-    {# <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> #}
-    <style>
-            #debug{
-                font-family:"Droid Sans Mono", Courier, monospace;
-                font-size:16px;
-                background:#383838;
-                color:#bbf;
-                z-index:+10;
-        }
-    </style>
 {% load staticfiles %}
     <script src="{% static "js/jquery-1.9.1.min.js" %}" > </script>
     <script src="{% static "js/jquery.validate.min.js" %}" > </script>
@@ -23,7 +13,13 @@
 
 <title>EyeVacs</title>
 {% load i18n %}
+
 <link href="{% static "css/layout.css" %}" rel="stylesheet" type="text/css" />
+{% if request.session.resolution == "1650x1050" %}
+    <link href="{% static "css/layout1650x1050.css" %}" rel="stylesheet" type="text/css" />
+{% elif request.session.resolution == "1280x1024" %}
+    <link href="{% static "css/layout1280x1024.css" %}" rel="stylesheet" type="text/css" />
+{% endif %}
 <link href="{% static "css/main.css" %}" rel="stylesheet" type="text/css" />
 <link href="{% static "css/normalize.css" %}" rel="stylesheet" type="text/css" />
 
@@ -36,7 +32,7 @@
 </head>
 <body id="body_black">
     <div id="center_content">
-        <div id="debug">
+        <div>
         <script>
             window.log=function(){log.history=log.history||[];log.history.push(arguments);if(this.console){console.log(Array.prototype.slice.call(arguments))}};
             </script>
@@ -47,10 +43,10 @@
 
 
 {# ############################################################## #}
-<div style="padding:150px">
+<div class="welcome_wrapper">
 <p class="welcome_text">
 An Invitation to participate in a research project conducted by the Department of Marketing, Monash University</p><br/>
-<p class="welcome_text" style="padding-top:30px; padding-bottom:30px; font-weight:bold; font-size:28px">Dear Sir/Madam,</p><br/>
+<p class="welcome_text welcome_bold">Dear Sir/Madam,</p><br/>
 <p class="welcome_text">
 The Department of marketing is conducting research on marketing communications. To this end, we are seeking people to participate in this project. The project is designed to gain an understanding of buying preferences and how marketing communications moderate purchase preference.<br/><br/>
 We are conducting research on vacation packages. This research is not intended to benefit any supplier of vacation packages or airline nor is it intended for any specific commercial gain. All responses are anonymous and we appreciate your time taken to complete this survey.<br/><br/>

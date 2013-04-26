@@ -14,19 +14,19 @@
 </p>
 <div style="clear:left;" >
 <p class="full_page_text" >
-<img src="{% static "img/standard.jpg" %}" style="float:left;height:120px;margin-right:20px;padding-top:20px;" >
+<img src="{% static "img/standard.jpg" %}" class="exp_room_img" >
 <b>{% trans "Standard rooms:" %}</b>&nbsp;{% trans "The standard rooms are well appointed and perfectly suited for all your needs. Amenities and facilities include a queen bed or twin beds, en-suite bathroom, high-speed internet access and flat screen television. The average size is 25 square meters (269 square feet)." %}</p>
 </div>
 <br/>
 <div style="clear:left;" >
 <p class="full_page_text" >
-<img src="{% static "img/superior.jpg" %}" style="float:left;height:120px;margin-right:20px;padding-top:20px;"  >
+<img src="{% static "img/superior.jpg" %}" class="exp_room_img"  >
 <b>{% trans "Superior rooms:" %}</b>&nbsp;{% trans "The Superior rooms are larger than the standard rooms, with an average size of 30 square meters (322 square feet). Amenities and facilities include a King bed or twin beds, seating area for two, en-suite bathroom, high-speed internet access, flat-screen television, two line telephone and an electronic safe." %}</p>
 </div>
 <br/>
 <div style="clear:left;" >
 <p class="full_page_text">
-<img src="{% static "img/deluxe.jpg" %}" style="float:left;height:120px;margin-right:20px;padding-top:20px;" >
+<img src="{% static "img/deluxe.jpg" %}" class="exp_room_img" >
 <b>{% trans "Deluxe rooms:" %}</b>&nbsp;{% trans "The Deluxe rooms are luxurious and spacious with an average size of 45 square metres (484 square feet) including a seating area with chairs or sofa. Amenities and facilities include a King bed or twin beds, en-suite bathroom, high-speed internet access, flat-screen television, two line telephone and an electronic safe. These rooms come with a host of extra services including private check-in, a state-of-the-art entertainment system and 24-hour butler service to make your stay seamlessly comfortable." %}<br/>
 </p>
 </div>
@@ -34,8 +34,8 @@
 <br/>{% trans "The last time you were in a hotel next to the sea, which kind of room did you choose?" %}</p>
 <br/>
 
-<div class="rg" style="margin-left:200px;">
-<table style="width:600px;">
+<div class="rg exp_inputTable_spacer" >
+<table class="exp_inputTable">
 <tr><td class="rg_text_line_no_lite"><label for="exp_room_standard" ><input id="exp_room_standard" type="radio" name="explanation_room" value="0standardroom" ></input>{% trans "Standard" %}</label></tr></td>
 <tr><td class="rg_text_line_hi_lite"><label for="exp_room_superior" ><input id="exp_room_superior" type="radio" name="explanation_room" value="1superiorroom" ></input>{% trans "Superior" %}</label></tr></td>
 <tr><td class="rg_text_line_no_lite"><label for="exp_room_deluxe" ><input id="exp_room_deluxe" type="radio" name="explanation_room" value="3deluxeroom" ></input>{% trans "Deluxe" %}</label></tr></td>
@@ -43,14 +43,13 @@
 </table>
 </div>
 
-<div style="height:140px">
+<div style="height:14em">
 <input name="begin_radio_weiter" type="submit" class="weiter" value={{bt_label}} />
 </div>
 </form>
 
 {# ######################################################################## #}
 {# HIGHLIGHTING ALL ACTIVE LABELS #}
-<div class="debugtext"></div>
 <script>
     $(this).ready(function(){
         window.log('clicker ready');
@@ -60,7 +59,6 @@
             checkedRadio.each(function(i){
                 window.log('click!');
                 itemID = $(this).attr("id");
-                {# $(".debugtext").html(itemID); #}
                 $("label[for="+itemID+"]").addClass("highlight");
                 });
             {# revert others to default color  #}
@@ -76,7 +74,7 @@
 
 {# ######################################################################## #}
 {# VALIDATE ALL REQUIRED INPUTS  #}
-<div style="margin-left:auto; margin-right:auto;width:700px;">
+<div class="fatErrorWrapper">
 <div id="fatError" style=""></div>
 
 {% if request.session.validation %}

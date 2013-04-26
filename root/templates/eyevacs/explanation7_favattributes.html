@@ -17,43 +17,43 @@
 {# <p class="full_page_text"><i>Summary of all attributes</i></p> #}
 <br/>
 <br/>
-<div style="width:1000px;margin-right: auto;margin-left: auto;" class="table_info">
-<table  style="width:1000px;" >
+<div style="width:100em;margin-right: auto;margin-left: auto;" class="table_info">
+<table  style="width:100em;" >
 <tr id="food" > 
 <td class="table_attribute dark2">{% trans "food quality" %}</td>
-    <td id="food_2" class="food table_level">{% trans "excellent" %}</td>
-    <td id="food_1" class="food table_level level_dark2">{% trans "very good" %}</td>
-    <td id="food_0" class="food table_level">{% trans "good" %}</td>
+    <td id="food_2" class="food dark3 table_level">{% trans "excellent" %}</td>
+    <td id="food_1" class="food dark2 table_level">{% trans "very good" %}</td>
+    <td id="food_0" class="food dark3 table_level">{% trans "good" %}</td>
 </tr>
 <tr id="recommending">
 <td class="table_attribute dark1">{% trans "customers recommending" %}</td> 
-    <td id="recommending_0" class="recommending table_level">50%</td>
-    <td id="recommending_2" class="recommending table_level level_dark1">90%</td>
-    <td id="recommending_1" class="recommending table_level">70%</td>
+    <td id="recommending_0" class="recommending dark4 table_level">50%</td>
+    <td id="recommending_2" class="recommending dark1 table_level">90%</td>
+    <td id="recommending_1" class="recommending dark4 table_level">70%</td>
 </tr>
 <tr id="distance" >
 <td class="table_attribute dark2">{% trans "distance to CBD" %}</td> 
-    <td id="distance_2" class="distance table_level">1 km</td>
-    <td id="distance_0" class="distance table_level level_dark2">3 km</td>
-    <td id="distance_1" class="distance table_level">2 km</td>
+    <td id="distance_2" class="distance dark3 table_level">1 km</td>
+    <td id="distance_0" class="distance dark2 table_level">3 km</td>
+    <td id="distance_1" class="distance dark3 table_level">2 km</td>
 </tr>
 <tr id="seaview" >
 <td class="table_attribute dark1">{% trans "sea view" %}</td>
-    <td id="seaview_1" class="seaview table_level">{% trans "side sea view" %}</td>
-    <td id="seaview_0" class="seaview table_level level_dark1">{% trans "no sea view" %}</td>
-    <td id="seaview_2" class="seaview table_level">{% trans "full sea view" %}</td>
+    <td id="seaview_1" class="seaview dark4 table_level">{% trans "side sea view" %}</td>
+    <td id="seaview_0" class="seaview dark1 table_level">{% trans "no sea view" %}</td>
+    <td id="seaview_2" class="seaview dark4 table_level">{% trans "full sea view" %}</td>
 </tr>
 <tr id="price" >
 <td class="table_attribute dark2">{% trans "price per person" %}</td>
-    <td id="price_0" class="price table_level">{% trans "$899" %}</td>
-    <td id="price_2" class="price table_level level_dark2">{% trans "$699" %}</td>
-    <td id="price_1" class="price table_level">{% trans "$799" %}</td>
+    <td id="price_0" class="price dark3 table_level">{% trans "$899" %}</td>
+    <td id="price_2" class="price dark2 table_level">{% trans "$699" %}</td>
+    <td id="price_1" class="price dark3 table_level">{% trans "$799" %}</td>
 </tr>
 <tr id="room" >
 <td class="table_attribute dark1">{% trans "room category" %}</td>
-    <td id="room_0" class="room table_level">{% trans "standard" %}</td>
-    <td id="room_1" class="room table_level level_dark1">{% trans "superior" %}</td>
-    <td id="room_2" class="room table_level">{% trans "deluxe" %}</td>
+    <td id="room_0" class="room dark4 table_level">{% trans "standard" %}</td>
+    <td id="room_1" class="room dark1 table_level">{% trans "superior" %}</td>
+    <td id="room_2" class="room dark4 table_level">{% trans "deluxe" %}</td>
 </tr>
 
 </table>
@@ -73,7 +73,7 @@
 
 {# ######################################################################## #}
 {# VALIDATE ALL REQUIRED INPUTS  #}
-<div style="margin-left:auto; margin-right:auto;width:700px;">
+<div class="fatErrorWrapper">
 <div id="fatError" style=""></div>
 
 {% if request.session.validation %}
@@ -122,16 +122,12 @@
         window.log('table clicker ready');
         var marked = {}
         $(".table_level").click(function() {
-        {# $(this).closest("tr").siblings().removeClass("higlight"); #}
                 validator;
-                parent = $(this).parent('tr').attr('id');
+                var parent = $(this).parent('tr').attr('id');
                 marked[parent] = this.id;
-                {# window.log(marked); #}
-                $.each( marked, function(row, cell){
-                    {# window.log(row, cell); #}
-                    {# $("input ." + row).value = cell; #}
-                    $("input:hidden."+row+" ").val(cell);
-                    window.log($("input:hidden."+row).val());
+                $.each( marked, function(key, value){
+                    window.log(key, value);
+                    $("input:hidden."+key+" ").val(value);
                 });
         {# $(this).closest("tr").siblings().removeClass("higlight"); #}
         {# $(this).parent("tr").addClass("highlight", this.clicked); #}

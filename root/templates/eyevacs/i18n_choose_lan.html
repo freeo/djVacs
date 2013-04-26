@@ -16,7 +16,7 @@
 <br/>
 <br/>
 <b> Language selection for the partcipant </p>
-<form action="/i18n/setlang/" method="post" >
+<form action="/i18n/setlang/" id="i18n_form" method="post" >
 {% csrf_token %}
 
 <input name="next" type="hidden" value="{{ redirect_to }}" />
@@ -31,9 +31,24 @@
 </select>
 </div>
 
+
+
 <input type="submit" value="Go" hidden />
 </form>
 
+<form action="./" id="res_form" method="post" >
+{% csrf_token %}
+<div>
+<p>Select Resolution</p>  
+<select name="selectresolution" id="res_select" style="height:70px;width:250px; font-size:28px; font-weight:bold; align:center; color:#666;">
+<option value="{{request.session.resolution }}">{{request.session.resolution }}</option>
+<option value="1650x1050">1650x1050</option>
+<option value="1280x1024">1280x1024</option>
+</select>
+</div>
+
+<input type="submit" value="change resolution" hidden />
+</form>
 
 <br/>
 <p>
@@ -47,7 +62,10 @@ exp1 page list
 <script>
     $(document).ready(function(){
         $("#lang").change(function(){
-            $('form').submit();
+            $('#i18n_form').submit();
+            });
+        $("#res_select").change(function(){
+            $('#res_form').submit();
             });
         });
 </script>

@@ -10,16 +10,16 @@
 {% csrf_token %}
 {# <p class="full_page_text"> #}
 <br/>
-<div style="margin-left:120px;">
-<img src="{% static "img/recommend.jpg" %}"><br/>
+<div class="exp_img_spacer">
+<img src="{% static "img/recommend.jpg" %}" class="exp_img_sizer"><br/>
 </div>
 <p class="explanation_title">{% trans "Customers recommending" %}</p>
 <p class="full_page_text">{% blocktrans %}The vacation packages you can choose from also differ in terms of the percent of customers who previously visited the hotel and recommended it. The percent of customers who recommend a good hotel is different and could range from 50% to 90% (50 to 90 out of every 100 customers).{% endblocktrans %}<br/
 <br/>{% trans "Of the hotels you visited in the last two years, what percentage of hotels would you recommend to other customers?" %}<br/>
 </p>
 
-<div style="margin-left:200px;">
-<select name="explanation_recommend" class="" style="width:600px;height:35px;font-size:20px;font-weight:normal;">
+<div class="rg exp_inputTable_spacer" >
+<select name="explanation_recommend" class="exp_select_field">
 <option value="">{% trans " --select-- " %}</option>
 <option value="0"> 0% 
 </option>
@@ -72,7 +72,7 @@
 
 {# ######################################################################## #}
 {# VALIDATE ALL REQUIRED INPUTS  #}
-<div style="margin-left:auto; margin-right:auto;width:700px;">
+<div class="fatErrorWrapper">
 <div id="fatError" style="" ></div>
 
 {% if request.session.validation %}

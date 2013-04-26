@@ -10,8 +10,8 @@
 {% csrf_token %}
 {# <p class="full_page_text"> #}
 <br/>
-<div style="margin-left:120px;">
-<img src="{% static "img/mall.jpg" %}"><br/>
+<div class="exp_img_spacer">
+<img src="{% static "img/mall.jpg" %}" class="exp_img_sizer"><br/>
 </div>
 <p class="explanation_title">{% trans "Distance to CBD" %}</p>
 <p class="full_page_text">{% trans "The hotels of the vacation packages also differ in locations. All hotels are located near the coast, but the distance to the CBD ranges from 1km to 3km, so that you may have to take a bus to go to the city center." %}<br/>
@@ -19,8 +19,8 @@
 <br/>
 </p>
 
-<div style="margin-left:200px;">
-<select name="explanation_distance" style="width:600px;height:35px;font-size:20px;font-weight:normal;">
+<div class="rg exp_inputTable_spacer" >
+<select name="explanation_distance" class="exp_select_field" >
 <option value="">{% trans "--select--" %}</option>
 <option value="0">0 km</option>
 <option value="1">1 km</option>
@@ -43,7 +43,7 @@
 
 {# ######################################################################## #}
 {# VALIDATE ALL REQUIRED INPUTS  #}
-<div style="margin-left:auto; margin-right:auto;width:700px;">
+<div class="fatErrorWrapper">
 <div id="fatError" style=""></div>
 
 {% if request.session.validation %}

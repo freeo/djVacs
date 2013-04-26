@@ -1,0 +1,84 @@
+.transit_header {
+    background:#444;
+	text-align: center;
+	font-size: 32px;
+    font-weight: bold;
+    color:#ddd;
+}
+.transit_body {
+    display:block;
+    text-align: left;
+	font-size: 20px;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 0px;
+    color:#444;
+}
+.transit_link {
+    font-size: 26px;
+    margin-left:30px;
+    margin-top:40px;
+    /* padding:10px; */
+    /* color:#444; */
+    font-weight: bold;
+    color:#76d;
+}
+.transit_link:link {
+    color:#76d;
+}
+.transit_link:visited {
+    color:#76d;
+}
+.transit_link:hover {
+    color:#d53 ;
+}
+.transit {
+	display:block;
+    margin-right: auto;
+	margin-left: auto;
+	width: 900px;
+    }
+.transit td {
+    width: 230px;
+    height:100%;
+    /* height:250px; */
+    border:20px white;
+    padding:20px;
+    padding-bottom:10px;
+}
+
+.transit label{
+     color:#000;
+/*    border-radius:0px; not supported in ff3.6  */
+    width: 100%;
+    height:100%;
+	display:block;
+    padding:10px;
+    margin:0px;
+    /* text-align:left; */
+    cursor:pointer;   
+    /* vertical-align:middle; */
+}
+.transit img{
+    width:100%; height:auto;
+    max-height:200px;
+    max-width:200px;
+    /* vertical-align:middle; */
+    text-align:center;
+}
+.transittable {
+    width:900px;
+    height:500px;
+    font-weight:bold;
+    font-size:24px;
+}
+.transitimg {
+    height:350px;
+}
+.transitselect {
+    /* margin: 0 auto */
+	/* text-align:center; */
+    /* margin-right: auto; */
+	/* margin-left: auto; */
+    
+}

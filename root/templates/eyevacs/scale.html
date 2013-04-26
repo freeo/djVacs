@@ -3,23 +3,25 @@
 {% load staticfiles %}
 {% block body %}
 {% get_current_language as LANG %}
+<div>
     <div class="question_title">{{question_title|linebreaks }}</div>
     <form action="{{ destination }}" method="post" name="{{scale_name}}" id="{{scale_id}}">{% csrf_token %}
-<div style="height:10px" > </div>
+{# <div style="height:10px" > </div> #}
+<br/>
 {# <table width="1400px" border="0" align="center" cellspacing="0"> #}
-<table border="0" align="center" cellspacing="0">
+<table border="0" cellspacing="0">
   <!--HEADER and legend-->
   <tr >
     <td class="spacer_left_limit"></td>
     <td class="sc_table_question_spacer"></td>
     <td class="sc_table_spacer"></td>
-    <td class="cell_white"><p class="sc_table_legend right">-3</p></td>
+    <td class="cell_white right"><p class="sc_table_legend">-3</p></td>
     <td class="cell_grey"><p class="sc_table_legend">-2</p></td>
     <td class="cell_white"><p class="sc_table_legend">-1</p></td>
     <td class="cell_grey"><p class="sc_table_legend">0</p></td>
     <td class="cell_white"><p class="sc_table_legend">+1</p></td>
     <td class="cell_grey"><p class="sc_table_legend">+2</p></td>
-    <td class="cell_white"><p class="sc_table_legend left">+3</p></td>
+    <td class="cell_white left"><p class="sc_table_legend">+3</p></td>
   </tr>
 {% if extracaption %}
     <tr class="extracaptionrow" >
@@ -71,19 +73,20 @@
         {# <!--question_spacer--><td class="sc_table_spacer"></td> #}
         <td class=""></td>
         {# <td class="cell_white right"><div class="caption">{{ question.caption.left }}</div> <label for="Q{{ question.id }}_1" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_1" value="{{ scale_name }}-3" /></label></td> #}
-        <td class="cell_white right"><label for="Q{{ question.id }}_1" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_1" value="{{ scale_name }}-3" /></label></td>
+        <td class="cell_white right">
+        <label for="Q{{ question.id }}_1" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_1" value="-3" /></label></td>
         <td class="cell_grey">
-        <label for="Q{{ question.id }}_2" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_2" value="{{ scale_name }}-2" /></label></td>
+        <label for="Q{{ question.id }}_2" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_2" value="-2" /></label></td>
         <td class="cell_white">
-        <label for="Q{{ question.id }}_3" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_3" value="{{ scale_name }}-1" /></label></td>
+        <label for="Q{{ question.id }}_3" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_3" value="-1" /></label></td>
         <td class="cell_grey">
-        <label for="Q{{ question.id }}_4" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_4" value="{{ scale_name }}0" /></label></td>
+        <label for="Q{{ question.id }}_4" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_4" value="0" /></label></td>
         <td class="cell_white">
-        <label for="Q{{ question.id }}_5" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_5" value="{{ scale_name }}+1" /></label></td>
+        <label for="Q{{ question.id }}_5" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_5" value="+1" /></label></td>
         <td class="cell_grey">
-        <label for="Q{{ question.id }}_6" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_6" value="{{ scale_name }}+2" /></label></td>
+        <label for="Q{{ question.id }}_6" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_6" value="+2" /></label></td>
         {# <td class="cell_white left"><div class="caption">{{ question.caption.right }}</div> <label for="Q{{ question.id }}_7" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_7" value="{{ scale_name }}+3" /></label></td> #}
-        <td class="cell_white left"><label for="Q{{ question.id }}_7" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_7" value="{{ scale_name }}+3" /></label></td>
+        <td class="cell_white left"><label for="Q{{ question.id }}_7" ><input type="radio" name="{{ scale_name }}Q{{question.id}}" id="Q{{question.id}}_7" value="+3" /></label></td>
 
 {# ######################################################################## #}
 <script>
@@ -112,7 +115,7 @@
     </tr>
 </table>
 {# ######################################################################## #}
-<div class="debugtext"></div>
+{# <div class="debugtext"></div> #}
 
 <script>
     $(this).ready(function(){
@@ -137,7 +140,7 @@
 
 {# ######################################################################## #}
  
-<div style="margin-left:auto; margin-right:auto;width:700px;">
+<div class="fatErrorWrapper">
 <div id="fatError" style="" >
 </div>
 
@@ -151,7 +154,11 @@
             debug: true,
             rules: {
                 {% for question in questions %}
-                {{ scale_name }}Q{{question.id}}: "required",
+                {% if not forloop.last %}
+                    {{ scale_name }}Q{{question.id}}: "required",
+                {% else %}
+                    {{ scale_name }}Q{{question.id}}: "required"
+                {% endif %}
                 {% endfor %}
                 },
             {# empty function places the usually obligatory error messages into nowhere #}
@@ -207,4 +214,5 @@
 <input type="submit" class="weiter" value="{{bt_label}}" />
 
 </form>
+</div>
 {% endblock %}
