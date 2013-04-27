@@ -188,39 +188,59 @@ def EchoDeadlock(single_exp_pk = None):
         exps = []
         single_exp = Experiment.objects.get(pk=single_exp_pk)
         exps.append(single_exp)
+
     for i,e in enumerate(exps):
         echostring = str(e.pk)+ '. '+ e.name +': '
+
         ct_files = e.external_source_data_set.filter(filetype = 'ctask')
         cts_used = 0
         cts_free = 0
         for f in ct_files:
             cts_used += f.external_choice_task_set.filter(used=True).count()
             cts_free += f.external_choice_task_set.filter(used=False).count()
-        echostring += " ct files:"+str(len(ct_files))
-        echostring += " used cts:"+str(cts_used)
-        echostring += " free cts:"+str(cts_free)
+        echostring += "  CTs|"+str(len(ct_files))
+        echostring += "|used|"+str(cts_used)
+        echostring += "|free|"+str(cts_free)
+
         bsl_files = e.external_source_data_set.filter(filetype = 'bltsk')
         bsl_used = 0
         bsl_free = 0
         for f in bsl_files:
             bsl_used += f.external_baseline_choice_task_set.filter(used=True).count()
             bsl_free += f.external_baseline_choice_task_set.filter(used=False).count()
-        echostring += " bsl files:"+str(len(bsl_files))
-        echostring += " used bsl:"+str(bsl_used)
-        echostring += " free bsl:"+str(bsl_free)
+        echostring += "  BSLs|"+str(len(bsl_files))
+        echostring += "|used|"+str(bsl_used)
+        echostring += "|free|"+str(bsl_free)
+
+        hlout_files = e.external_source_data_set.filter(filetype = 'hlout')
+        hlouts_used = 0
+        hlouts_free = 0
+        for f in hlout_files:
+            hlouts_used += f.external_choice_task_set.filter(used=True).count()
+            hlouts_free += f.external_choice_task_set.filter(used=False).count()
+        echostring += "  HLOUTs|"+str(len(hlout_files))
+        echostring += "|used|"+str(hlouts_used)
+        echostring += "|free|"+str(hlouts_free)
 
         print echostring
+
         for ct in ct_files:
             amount = ct.external_choice_task_set.all()[0].amount
-            rangestring = str(i)+ '.       ct  amount: '+str(amount)
-            rangestring += ' range start: '+ str(ct.range_start)
+            rangestring = str(i)+ '.     ct    amount: '+str(amount)
+            rangestring += ' | start: '+ str(ct.range_start)
             rangestring += ' end: '+ str(ct.range_end)
             print rangestring
         for bsl in bsl_files:
             amount = bsl.external_baseline_choice_task_set.all()[0].amount
-            rangestring = str(i)+ '.       bsl amount: '+str(amount)
-            rangestring += ' range start: '+ str(bsl.range_start)
+            rangestring = str(i)+ '.     bsl   amount: '+str(amount)
+            rangestring += ' | start: '+ str(bsl.range_start)
             rangestring += ' end: '+ str(bsl.range_end)
+            print rangestring
+        for hlout in hlout_files:
+            amount = hlout.external_choice_task_set.all()[0].amount
+            rangestring = str(i)+ '.     hlout amount: '+str(amount)
+            rangestring += ' | start: '+ str(hlout.range_start)
+            rangestring += ' end: '+ str(hlout.range_end)
             print rangestring
 
 def resetUsedExtData():
@@ -265,16 +285,28 @@ def deadlock():
     EchoDeadlock()
     print "\nExecuting DEADLOCK on existing existing experiments.\n"
     #ALL entries should be reset before usage
-    if resetUsedExtData():
-        print "reset ok"
-        resetted = True
+    # if resetUsedExtData():
+    #     print "reset ok"
+    #     resetted = True
     # if resetted:
-    if 1:
-        #actual deadlock
-        #iterates over all exps
+    if raw_input("Proceed with deadlock? (yes/no):") == "yes":
+        echoExps()
         exps = Experiment.objects.all()
+        curr_exp = None
+        # while 1:
+        #     switch_to = raw_input('\nEnter the # of EXPERIMENT to work on: \n #####:')
+        #     if switch_to in str(range(len(exps))):
+        #         curr_exp = Experiment.objects.get(pk=switch_to)
+        #         break
+        #     else:
+        #         print "invalid input..."
+        #actual deadlock
+
+        # exps = Experiment.objects.all()
         for e in exps:
-            EchoDeadlock()
+            EchoDeadlock(e.pk)
+            raise Exception("dafuq.")
+            #XXX deadlock_these = raw_input "Select files to deadlock: cltsk|bltsk|hlout"
             print 'How many participants will be approximately in'
             print 'Exp '+ str(e.pk) +' ' + e.name +'?'
             try:
@@ -372,7 +404,96 @@ def deadlock():
                             bsl.used = False
                             print (bsl.pk),
                         bsl.save()
+
+        EchoDeadlock()
+    else:
+        print "Aborted deadlock."
+
+def deadlockHoldoutTasks():
     EchoDeadlock()
+    print "\nExecuting HOLDOUT DEADLOCK for all experiments.\n"
+    #XXX deadlock_these = raw_input "Select files to deadlock: cltsk|bltsk|hlout"
+    echoExps()
+    if raw_input("Proceed with holdout deadlock? (yes/no):") == "yes":
+        exps = Experiment.objects.all()
+        for e in exps:
+            def get_previous_values():
+                file = e.external_source_data_set.filter(filetype = 'ctask')[0]
+                end = file.range_end
+                start = file.range_start
+                pcpts = 2*(end - start)
+                hard_id_range = str(file.range_start)+"-"+str(file.range_end)
+                return (pcpts, hard_id_range)
+            (previous_pcpts, hard_id_range) = get_previous_values()
+
+            print 'How many participants will be approximately in'
+            print 'Exp '+ str(e.pk) +' ' + e.name +'?'
+            print '('+str(previous_pcpts)+' is the last used value)'
+            print 'Press enter without a value to use the last known value.'
+            try:
+                raw_approx_pcpt_amount = int(input('Enter a positive integer:'))
+                e.info += 'Approximate participants: '+str(raw_approx_pcpt_amount)
+                e.save()
+            except:
+                print 'No valid integer, using last known value for participants'
+                raw_approx_pcpt_amount = previous_pcpts
+            #modulo difference to divisor, results group with all the same size
+            rest = raw_approx_pcpt_amount % 4
+            if rest != 0:
+                round_up_by = 4 - (raw_approx_pcpt_amount % 4)
+            else:
+                round_up_by = 0
+            approx_pcpt_amount_per_group = (raw_approx_pcpt_amount + round_up_by) / 4
+            #define range
+            hlout_files = e.external_source_data_set.filter(filetype = 'hlout')
+
+            for hlout in hlout_files:
+                amount = hlout.external_choice_task_set.all()[0].amount
+                rangestring = str(e.pk)+ '.       hlout  '+str(amount)
+                rangestring += '  range start:'+ str(hlout.range_start)
+                rangestring += '  end:'+ str(hlout.range_end)
+                print rangestring
+                #output suggested starting point
+                try:
+                    highest_taked_id_hard = External_Choice_Task.objects.filter(amount=amount, used=True).order_by('-id_hard')[0].id_hard
+                except IndexError:
+                    highest_taked_id_hard = 0
+                try:
+                    new_lower_range = int(input("Input new lower range: (previous: "+hard_id_range+" )"))
+                    #4x groups per file for holdout tasks
+                    new_upper_range = new_lower_range + 4*approx_pcpt_amount_per_group
+                    hlout.range_start = new_lower_range
+                    hlout.range_end = new_upper_range
+                    hlout.save()
+                except:
+                    print '*Using previous value*'
+                    new_lower_range = hlout.range_start
+                    new_upper_range = hlout.range_end
+                hloutfile_hlouts = hlout.external_choice_task_set.all().order_by('-pk')
+                #char field on id hard was stupid. have to rely on id_hard being sorted according to the pk
+                highest_id_hard = int(hloutfile_hlouts[0].id_hard) +1
+                deadblock_range = range(0,hlout.range_start,1) + range(hlout.range_end, highest_id_hard,1)
+                # raise Exception(len(ctfile_cts),ct.id_hard,deadblock_range)
+
+                with transaction.commit_on_success():
+                    for hlout in hloutfile_hlouts:
+                        if int(hlout.id_hard) in deadblock_range:
+                            #DEADBLOCKING
+                            hlout.used = True
+                            #JUST USED, NO LINKS
+                        else:
+                            hlout.used = False
+                            print (hlout.pk),
+                        hlout.save()
+        EchoDeadlock()
+
+
+def echoExps():
+    exps = Experiment.objects.all()
+    print 'EXISTING EXPERIMENTS:'
+    print '---------------------'
+    for i,e in enumerate(exps):
+        print str(i)+ '. '+ e.name
 
 def main():
 
@@ -396,22 +517,19 @@ def main():
     switch_default_rnd =            0 # use together with switch_load_fixtures
     # switch_rnd = 0 #overridden by default rnd
 
-    switch_holdout_ct=              1
+    switch_create_holdout=          0
 
     switch_load_fixtures =          0
     switch_load_experimentsetup =   0
     #3. chunk: <deadlock>
     #use it AFTER all experiments are created
-    switch_deadlock =               0
+    switch_deadlock =               1
+    switch_hlout_deadlock =         1
 
     Echo()
 
     if not switch_deadlock:
-        exps = Experiment.objects.all()
-        print 'EXISTING EXPERIMENTS:'
-        print '---------------------'
-        for i,e in enumerate(exps):
-            print str(i)+ '. '+ e.name
+        echoExps()
         if switch_new_exp:
             #NEW EXPERIMENT
 
@@ -455,7 +573,7 @@ def main():
         print ' ### CURRENT EXP ID:', current_exp_id
         if switch_ct:
             create_fixtures.main(current_exp_id, external_data_path, fixture_output)
-        if switch_holdout_ct:
+        if switch_create_holdout:
             create_holdouttask_fixtures.main(current_exp_id, holdout_data_path, fixture_output)
         #kind of obsolete
         # if switch_rnd:
@@ -481,7 +599,10 @@ def main():
         Echo()
 
     elif switch_deadlock:
-        deadlock()
+        if not switch_hlout_deadlock:
+            deadlock()
+        else:
+            deadlockHoldoutTasks()
 
     print '___________________________'
     # print 'Everthing went as expected!'
