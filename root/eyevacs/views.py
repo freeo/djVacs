@@ -40,11 +40,16 @@ def allUrls(pcpt_id, exp_id, ctlist):
     for i in range(0,len(ctlist),1):
     # for i in range(0,len(pcpt.ctlist),1):
         outputlist.append(reverse('eyevacs.views.decisionsequence', args= [exp_id, pcpt_id, i]))
+    outputlist.append(reverse('eyevacs.views.rnd_searchgoals', args = [exp_id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.pl_difficulty_last', args = [exp_id, pcpt_id]))
+    outputlist.append(reverse('eyevacs.views.holdout', args = [exp_id, pcpt_id, 0]))
+    outputlist.append(reverse('eyevacs.views.holdout', args = [exp_id, pcpt_id, 1]))
     outputlist.append(reverse('eyevacs.views.conjoint', args = [exp_id, pcpt_id, 0]))
     outputlist.append(reverse('eyevacs.views.conjoint', args = [exp_id, pcpt_id, 1]))
+
+    outputlist.append(reverse('eyevacs.views.favorite_package', args = [exp_id, pcpt_id]))
     # outputlist.append(reverse('eyevacs.views.transit', args = [exp_id, pcpt_id]))
     # outputlist.append(reverse('eyevacs.views.transit_select', args = [exp_id, pcpt_id]))
-    outputlist.append(reverse('eyevacs.views.rnd_searchgoals', args = [exp_id, pcpt_id]))
     # outputlist.append(reverse('eyevacs.views.rnd_happiness', args = [exp_id, pcpt_id]))
     outputlist.append(reverse('eyevacs.views.pl_demographics', args = [exp_id, pcpt_id]))
     outputlist.append(reverse('eyevacs.views.finalPage', args = [exp_id, pcpt_id]))
@@ -325,14 +330,16 @@ def preparePcpt(request, exp_id):
     # stick to manual garbage collection of pubs
     # valid_input = request.session['input_pcptid'][0]
     # pcpt_id = pcpt.initPcpt(ct_size, request.COOKIES['sessionid'], request.COOKIES['csrftoken'], selectcondition)
-    (pcpt_id, ctlist, pub, scale_sequences) = pcpt.initPcpt(exp_id, ct_size, request.session.session_key, request.COOKIES['csrftoken'], selectcondition)
+    (pcpt_id, ctlist, hloutlist, pub, scale_sequences) = pcpt.initPcpt(exp_id, ct_size, request.session.session_key, request.COOKIES['csrftoken'], selectcondition)
     request.session['pub_pcpt_id'] = pcpt_id
     request.session['pub_ctlist'] = ctlist
+    request.session['pub_hloutlist'] = hloutlist
     request.session['pub'] = model_to_dict(pub)
     request.session['pub_scale_sequences'] = scale_sequences
     request.session['pub_condition'] = pub.def_group
     request.session['pub_condition_override'] = pub.override_group
     request.session['pub_ctlist_IDs'] = [ct.pk for ct in ctlist]
+    request.session['pub_hloutlist_IDs'] = [hl.pk for hl in hloutlist]
     request.session['pub_scale_sequences_IDs'] = [rnd.pk for key, rnd in scale_sequences.iteritems()]
 
 
@@ -345,7 +352,8 @@ def preparePcpt(request, exp_id):
     if debugsaving_activated:
         # pcpt.debugMakePCPT('increasing', pub, ctlist, scale_sequences)
         # pcpt.debugMakePCPT('baselinelow', pub, ctlist, scale_sequences)
-        pcpt.debugMakePCPT('baselinehigh', pub, ctlist, scale_sequences)
+        #pcpt.debugMakePCPT('baselinehigh', pub, ctlist, scale_sequences)
+        pcpt.debugMakePCPT('s27042013', pub, ctlist, scale_sequences)
         return render(request, 'eyevacs/thankyou.html')
 
     #DEBUG Pubs
@@ -518,7 +526,7 @@ def decisionsequence(request, exp_id, pcpt_id, ct_page):
     # data['taskcounter'] = pub.taskcounter
     ctlist = request.session['pub_ctlist']
     this_task = ctlist[int(ct_page)]
-    ctdict = pcpt.makeTaskDict(exp_id, this_task, int(ct_page))
+    ctdict = pcpt.makeTaskDict(exp_id, this_task, int(ct_page), 'ctdec')
     data.update(ctdict)
     rq = RequestContext(request, data)
     # if pcpt.checkNextTask(int(ct_page)):
@@ -561,14 +569,44 @@ def rnd_searchgoals(request, exp_id, pcpt_id):
 def pl_difficulty_last(request, exp_id, pcpt_id):
     request.session.update(request.POST)
     request.session['timestamps'].update({createUniqueKey(request):datetime.utcnow()})
-    destination = reverse('eyevacs.views.conjoint', args= [exp_id, pcpt_id, 0])
+    destination = reverse('eyevacs.views.holdout', args= [exp_id, pcpt_id, 0])
     contextDict = pcpt.getDifficultyDict('difficulty_last')
+    #XXX
     reqcontext = RequestContext(request, contextDict)
     extracaption = {'left':ugettext_lazy('not at all'), 'right':ugettext_lazy('very much')}
     reqcontext['extracaption'] = extracaption
     reqcontext['destination'] = destination
     reqcontext['bt_label'] = bt_label
     return render(request, 'eyevacs/pl_difficulty.html', reqcontext)
+
+def holdout(request, exp_id, pcpt_id, holdout_page):
+    request.session.update(request.POST)
+    request.session['timestamps'].update({request.path:datetime.utcnow()})
+    ########################################################################
+    data = {}
+    data['alternative_title'] = pcpt.getholdoutTitle(int(holdout_page))
+    hloutlist = request.session['pub_hloutlist']
+    this_task = hloutlist[int(holdout_page)]
+    taskdict = pcpt.makeTaskDict(exp_id, this_task, int(holdout_page),'hloutdec')
+    data.update(taskdict)
+    if int(holdout_page) == 0:
+        destination = reverse('eyevacs.views.loading_holdout', args = [exp_id, pcpt_id])
+    else:
+        destination = reverse('eyevacs.views.conjoint', args = [exp_id, pcpt_id, 0])
+    data['destination'] = destination
+    rq = RequestContext(request, data)
+    return render(request, 'eyevacs/table.html', rq)
+
+def loading_holdout(request, exp_id, pcpt_id):
+    '''Only in between the 2 holdout pages.'''
+    request.session.update(request.POST)
+    request.session['timestamps'].update({createUniqueKey(request):datetime.utcnow()})
+    request.session.modified = True
+    destination = reverse('eyevacs.views.holdout', args = [exp_id, pcpt_id, 1])
+    data= {}
+    data['destination'] = destination
+    rq = RequestContext(request, data)
+    return render(request, 'eyevacs/loading.html', rq)
 
 def conjoint(request, exp_id, pcpt_id, conjoint_id):
     request.session.update(request.POST)
@@ -583,7 +621,7 @@ def conjoint(request, exp_id, pcpt_id, conjoint_id):
     if int(conjoint_id) == 1:
         for i in range(4,8,1):
             conjoint[i-4] = pcpt.getConjoint(i)
-            destination = reverse('eyevacs.views.rnd_searchgoals', args = [exp_id, pcpt_id])
+            destination = reverse('eyevacs.views.favorite_package', args = [exp_id, pcpt_id])
             context['starter'] = False
     context['destination'] = destination
     context['bt_label'] = bt_label
@@ -613,8 +651,6 @@ def createUniqueKey(request):
     counter = len(urls)
     return path + str(counter)
 
-
-
 def rnd_happiness(request, exp_id, pcpt_id):
     pass
     # sorry happiness scale... you're out.
@@ -624,6 +660,14 @@ def rnd_happiness(request, exp_id, pcpt_id):
     # reqcontext['bt_label'] = bt_label
     # reqcontext['destination'] = destination
     # return render(request, 'eyevacs/scale.html', reqcontext)
+
+def favorite_package(request, exp_id, pcpt_id):
+    request.session.update(request.POST)
+    request.session['timestamps'].update({createUniqueKey(request):datetime.utcnow()})
+    destination = reverse('eyevacs.views.pl_demographics', args= [exp_id, pcpt_id])
+    site_vars = {'destination': destination, 'bt_label':bt_label}
+    reqcontext = RequestContext(request, site_vars)
+    return render (request, 'eyevacs/favorite_package.html', reqcontext)
 
 def pl_demographics(request, exp_id, pcpt_id):
     request.session.update(request.POST)

@@ -1,6 +1,5 @@
 from eyevacs.models import Scale, Scale_Question, Experiment, Participant, External_Order_Scale, Attribute, Level, Pub, External_Choice_Task,External_Baseline_Choice_Task
-from scripts import scale_questions
-from eyevacs import large_strings, debug
+from eyevacs import large_strings, debug, strings
 import json
 import re
 import ast
@@ -16,31 +15,14 @@ import csv
 ctsetsize = 8
 
 #experiment specific global variables
-# exp = None
-# scales = None
-# group_all = None
-# ctasksources = None
-# bsltasksources = None
 
 #depreciated pcpt related global vars
-# pcpt_id = None
-# group = None
-# ct_size = None #choice task size for this.pcpt.id, can vary within experiment
-# scale_sequence = {}
-# ctlist = []
-# ctlistIDs = []
-# attributes = None
-# taskcounter = None
-# pub = None
-# pubDict = {}
-# scale_order_ids = []
 increasingsequence = [2,2,3,3,4,4,5,5]
 decreasingsequence = [5,5,4,4,3,3,2,2]
 baseline2sequence = [2,2,2,2,2,2,2,2]
 baseline5sequence = [5,5,5,5,5,5,5,5]
 groupName = {'1':'increasing','2':'decreasing','3':'baselinelow','4':'baselinehigh'}
 scale_names = ['rnd_max', 'rnd_regret', 'rnd_involvement', 'rnd_searchgoals', 'rnd_happiness']
-# session = {}
 namelist = ['A','B','C','D','E','F','G','H']
 max_task_size = 21
 conjoint1={'id':'1','food':ugettext_lazy('good'),'recommending':'90%','distance':'1 km','view':ugettext_lazy('no sea view'),'price':ugettext_lazy('$699'),'room':ugettext_lazy('standard')}
@@ -355,6 +337,26 @@ def setChoiceTasks(pub):
         ctlist = orderTasklist(ctlist, group)
     return ctlist
 
+def setHoldoutTasks(pub):
+    hloutlist = []
+    exp = pub.experiment
+    file1 = exp.external_source_data_set.get(filetype="hlout", info__contains="holdoutid_1")
+    file2 = exp.external_source_data_set.get(filetype="hlout", info__contains="holdoutid_2")
+    try:
+        task1 = file1.external_choice_task_set.order_by('used','pk')[0]
+        task2 = file2.external_choice_task_set.order_by('used','pk')[0]
+        task1.used = True
+        task2.used = True
+        task1.save()
+        task2.save()
+    except:
+        raise Exception("No free holdout task found!")
+    hloutlist.append(task1)
+    hloutlist.append(task2)
+    return hloutlist
+
+
+
 def getAttributeLabelDict(exp_id):
     exp = Experiment.objects.get(pk=exp_id)
     attributes = exp.attribute_set.all()
@@ -381,7 +383,12 @@ def checkNextConjoint(curr_conjoint):
         return False
 
 # def getTask(task_nr):
-def makeTaskDict(exp_id, ctask, taskcounter):
+def makeTaskDict(exp_id, ctask, taskcounter, dec_type):
+    '''
+    For decision sequence and holdout tasks.
+
+    dec_type options: ctdec and hloutdec.
+    '''
     #maps a choice task to template: table.html
     #cells of attributes: can wait...
     # attr = ctlist
@@ -393,26 +400,27 @@ def makeTaskDict(exp_id, ctask, taskcounter):
     a3keys = ['rc14', 'rc24', 'rc34', 'rc44', 'rc54', 'rc64', 'rc74' ]
     a4keys = ['rc15', 'rc25', 'rc35', 'rc45', 'rc55', 'rc65', 'rc75' ]
     a5keys = ['rc16', 'rc26', 'rc36', 'rc46', 'rc56', 'rc66', 'rc76' ]
-    a6keys = ['rc17', 'rc27', 'rc37', 'rc47', 'rc57', 'rc67', 'rc77' ]
-    a7keys = ['rc18', 'rc28', 'rc38', 'rc48', 'rc58', 'rc68', 'rc78' ]
-    a8keys = ['rc19', 'rc29', 'rc39', 'rc49', 'rc59', 'rc69', 'rc79' ]
-    buybuttons = ['rc82', 'rc83', 'rc84', 'rc85', 'rc86', 'rc87', 'rc88', 'rc89']
+    # a6keys = ['rc17', 'rc27', 'rc37', 'rc47', 'rc57', 'rc67', 'rc77' ]
+    # a7keys = ['rc18', 'rc28', 'rc38', 'rc48', 'rc58', 'rc68', 'rc78' ]
+    # a8keys = ['rc19', 'rc29', 'rc39', 'rc49', 'rc59', 'rc69', 'rc79' ]
+    # buybuttons = ['rc82', 'rc83', 'rc84', 'rc85', 'rc86', 'rc87', 'rc88', 'rc89']
+    buybuttons = ['rc82', 'rc83', 'rc84', 'rc85', 'rc86']
     alts = []
     alts.append(a1keys)
     alts.append(a2keys)
     alts.append(a3keys)
     alts.append(a4keys)
     alts.append(a5keys)
-    alts.append(a6keys)
-    alts.append(a7keys)
-    alts.append(a8keys)
+    # alts.append(a6keys)
+    # alts.append(a7keys)
+    # alts.append(a8keys)
     #old version, max 8 alternatives
     # altModel = [task.a1, task.a2, task.a3, task.a4, task.a5, task.a6,task.a7, task.a8]
     altModel = [task.a1, task.a2, task.a3, task.a4, task.a5]
     for i in range(0, task.amount, 1):
         templ.update(mapCT(exp_id, alts[i], altModel[i], i))
-        #taskbysequenceviewn_amountofalternatives_choosenalternative_taskuniquepk
-        templ[buybuttons[i]] = 'ctdec_'+ str(taskcounter) + '_' + str(task.amount) + '_' + str(i+1) + '_' + str(task.pk)
+        #taskpagenumber_amountofalternatives_choosenalternative_taskuniquepk
+        templ[buybuttons[i]] = dec_type+'_'+ str(taskcounter) + '_' + str(task.amount) + '_' + str(i+1) + '_' + str(task.pk)
     templ.update(getAttributeLabelDict(exp_id))
     #finalize:
     return templ
@@ -524,11 +532,15 @@ def initPcpt(exp_id, ext_ct_size, ext_sessionid, ext_csrftoken, condition):
 
     #here's the cheese
     ctlist = setChoiceTasks(pub)
+    hloutlist = setHoldoutTasks(pub)
 
     with transaction.commit_on_success():
         for ct in ctlist:
             ct.linked_pub = pub
             ct.save()
+        for hlout in hloutlist:
+            hlout.linked_pub = pub
+            hlout.save()
         for name, scale_object in scale_sequence.iteritems():
             scale_object.linked_pub = pub
             scale_object.save()
@@ -538,7 +550,13 @@ def initPcpt(exp_id, ext_ct_size, ext_sessionid, ext_csrftoken, condition):
             exp.grouping.save()
 
     # pubDict[pcpt_id] = pub
-    return pcpt_id, ctlist, pub, scale_sequence
+    return pcpt_id, ctlist, hloutlist, pub, scale_sequence
+
+def getholdoutTitle(holdout_nr):
+    if holdout_nr == 0:
+        return strings.holdout_title_1
+    if holdout_nr == 1:
+        return strings.holdout_title_2
 
 def getDifficultyDict(difficulty_name):
     '''Returns Context Dict with values for pl_difficulty template.
@@ -546,12 +564,12 @@ def getDifficultyDict(difficulty_name):
     Similar to makeScaleContext to simplify multiple difficulty pages.
     The pre-existing template makes is easier as well.'''
 
-    question_title = scale_questions.difficulty_titles[difficulty_name]
+    question_title = strings.difficulty_titles[difficulty_name]
     scale_name = difficulty_name
     questionList = []
-    questions = scale_questions.pl_difficulty_questions
-    idnames = scale_questions.pl_difficulty_questions_idnames
-    captions = scale_questions.pl_difficulty_caption
+    questions = strings.pl_difficulty_questions
+    idnames = strings.pl_difficulty_questions_idnames
+    captions = strings.pl_difficulty_caption
     for i in range(len(questions)):
         qDict = {
             'text':questions[i],
@@ -570,15 +588,15 @@ def getDifficultyDict(difficulty_name):
 
 
 def makeScaleContext(scale_sequence, scale_name_string):
-    question_title = scale_questions.question_titles[scale_name_string]
+    question_title = strings.question_titles[scale_name_string]
     scale_name = scale_name_string
     order_id = scale_sequence[scale_name_string].pk
     question_order = map(int, External_Order_Scale.objects.get(pk=order_id).scale_rnd_order_ext.split(','))
     questions = []
     # restoreCheck = [None]*7
     for i in range(0, len(question_order),1):
-        qtext = scale_questions.questions[scale_name_string][question_order[i]-1]
-        qcaption= scale_questions.question_captions[scale_name_string][question_order[i]-1]
+        qtext = strings.questions[scale_name_string][question_order[i]-1]
+        qcaption= strings.question_captions[scale_name_string][question_order[i]-1]
         qid = question_order[i]
         q = {'text':qtext,'id':qid, 'caption':qcaption}
         questions.append(q)
@@ -592,7 +610,7 @@ def makeScaleContext(scale_sequence, scale_name_string):
 def exportToCSV(exp_id):
     # Create the HttpResponse object with the appropriate CSV header.
     exp = Experiment.objects.get(pk=exp_id)
-    filename = 'eyevacsEXP'+str(exp_id)+'_'+exp.name
+    filename = 'eyevacs_'+str(exp_id)+'_'+exp.name
     response = HttpResponse(mimetype='text/csv')
     response['Content-Disposition'] = 'attachment; filename="'+ filename +'.csv"'
 
@@ -636,6 +654,23 @@ def prepareCTdecisions(full_dict):
     return return_ct_list
     #templ[buybuttons[i]] = str(taskcounter) + '_' + str(task.amount) + '_' + str(i+1) + '_' + str(task.pk)
 
+def prepareHoldoutdecisions(full_dict):
+    cts = []
+    for key, value in full_dict.iteritems():
+        if 'hloutdec' in key:
+            cts.append(key)
+    ct_list = []
+    for ct in cts:
+        elements = ct.split('_')
+        ct_dict_item = {
+            'taskcounter':elements[1],
+            'amount':elements[2],
+            'decision':elements[3],
+            'pk':elements[4]}
+        ct_list.append(ct_dict_item)
+    return_ct_list = sorted(ct_list, key = operator.itemgetter('taskcounter'))
+    return return_ct_list
+
 def prepareCTTimestamps(raw_timestamps):
     ts = raw_timestamps
     t = timestampKeyfinder
@@ -655,10 +690,10 @@ def prepareCTTimestamps(raw_timestamps):
         t13 = t('ct1/loading3', ts) - t('ct12', ts)
         t14 = t('ct1/loading4', ts) - t('ct13', ts)
         t15 = t('ct1/loading5', ts) - t('ct14', ts)
-        t16 = t('conjoint/0', ts) - t('ct15', ts)
+        t16 = t('rnd_searchgoals/', ts) - t('ct15', ts) #XXX
         dt_deltalist = [t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15,t16]
     except:
-        t8 = t('conjoint/0',ts) - t('ct7', ts)
+        t8 = t('rnd_searchgoals/',ts) - t('ct7', ts)
         dt_deltalist = [t1,t2,t3,t4,t5,t6,t7,t8]
     tslist = []
     for ts in dt_deltalist:
@@ -719,16 +754,19 @@ def getCT(pub, pk):
     else:
         return External_Choice_Task.objects.get(pk=pk)
 
+
 def checkCTs(pub, session_ct_ids):
     pub_cts = pub.Choice_TasksAsPub.all()
-    if len(pub_cts) == 0:
+    if len(pub_cts) == 2: #2 is holdout tasks over all groups, it's the min.
         pub_cts = pub.Baseline_Choice_TasksAsPub.all()
     pub_ct_list =[]
     for id in pub_cts:
         pub_ct_list.append(id.pk)
-    if sorted(pub_ct_list) != sorted(session_ct_ids):
-        raise Exception('CTs from session and pub object don\'t match!',
-            pub_ct_list,session_ct_ids)
+    # if sorted(pub_ct_list) != sorted(session_ct_ids):
+    for s_ct in session_ct_ids:
+        if not s_ct in pub_ct_list:
+            raise Exception('CTs from session and pub object don\'t match!',
+                pub_ct_list,session_ct_ids)
 
 def checkRNDs(pub, session_rnd_ids):
     pub_rnds = pub.external_order_scale_set.all()
@@ -746,6 +784,8 @@ def debugMakePCPT(condition, pub, ctlist, scale_sequences):
         debug_dict = debug.baselinelow
     if condition == 'baselinehigh':
         debug_dict = debug.baselinehigh
+    if condition == 's27042013':
+        debug_dict = debug.s27042013
     debug_dict['pub_ctlist'] = ctlist
     debug_dict['pub_scale_sequences'] = scale_sequences
     makeParticipant(debug_dict)
@@ -755,9 +795,11 @@ def makeParticipant(s):
 
     # pub_dict = s['pub']
     pub = Pub.objects.get(pk= s['pub']['id'])
-    # raise Exception(model_to_dict(pub),'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' ,s['pub'])
+    # pub_cts = pub.Choice_TasksAsPub.all()
+    # raise Exception(model_to_dict(pub),'XXX' ,pub_cts)
     ts = s['timestamps']
     sorted_ctdec_list = prepareCTdecisions(s)
+    sorted_hloutdecs = prepareHoldoutdecisions(s)
     ct_tslist = prepareCTTimestamps(ts)
     (transit_searchpath, transit_durationpath) = process_transit_tstamps(ts)
     try:
@@ -827,7 +869,7 @@ def makeParticipant(s):
     PCPT.fav_recommending = str(s['fav_recommending'][0])
     PCPT.fav_distance = str(s['fav_distance'][0])
     PCPT.fav_seaview = str(s['fav_seaview'][0])
-    PCPT.fav_price = str(s['fav_price'][0])
+    # PCPT.fav_price = str(s['fav_price'][0])
     PCPT.fav_room = str(s['fav_room'][0])
     PCPT.t_expl_7_fav =  ts_url_to_string('ctseqintro', 'favattributes', ts)
     PCPT.t_expl_8_ctseqintro =  ts_url_to_string('ct0', 'ctseqintro', ts)
@@ -887,6 +929,26 @@ def makeParticipant(s):
         PCPT.cttime14 = ct_tslist[13]
         PCPT.cttime15 = ct_tslist[14]
         PCPT.cttime16 = ct_tslist[15]
+
+    PCPT.rnd_searchgoalsQ1 = str(s['rnd_searchgoalsQ1'][0])
+    PCPT.rnd_searchgoalsQ2 = str(s['rnd_searchgoalsQ2'][0])
+    PCPT.rnd_searchgoalsQ3 = str(s['rnd_searchgoalsQ3'][0])
+    PCPT.rnd_searchgoalsQ4 = str(s['rnd_searchgoalsQ4'][0])
+    PCPT.t_rnd_searchgoals = ts_url_to_string('pl_difficulty_last/', 'rnd_searchgoals', ts)
+
+    PCPT.difficulty_lastQchoice_difficulty = str(s['difficulty_lastQchoice_difficulty'][0])
+    PCPT.difficulty_lastQfrustration = str(s['difficulty_lastQfrustration'][0])
+    PCPT.difficulty_lastQhesitation  = str(s['difficulty_lastQhesitation'][0])
+    PCPT.difficulty_lastQsimilarity = str(s['difficulty_lastQsimilarity'][0])
+    PCPT.t_pl_difficulty_last = ts_url_to_string('holdout/0', 'pl_difficulty_last/', ts)
+
+    h = sorted_hloutdecs
+    PCPT.holdout1 = h[0]['decision']
+    PCPT.t_holdout1 = ts_url_to_string('holdout/loading', 'holdout/0', ts)
+    PCPT.t_loadingholdout = ts_url_to_string('holdout/1', 'holdout/loading', ts)
+    PCPT.holdout2 = h[1]['decision']
+    PCPT.t_holdout2 = ts_url_to_string('conjoint/0', 'holdout/1', ts)
+
     PCPT.h1conjoint1 = str(s['select_con1'][0])
     PCPT.h1conjoint2 = str(s['select_con2'][0])
     PCPT.h1conjoint3 = str(s['select_con3'][0])
@@ -897,29 +959,26 @@ def makeParticipant(s):
     PCPT.h1conjoint6 = str(s['select_con6'][0])
     PCPT.h1conjoint7 = str(s['select_con7'][0])
     PCPT.h1conjoint8 = str(s['select_con8'][0])
-    PCPT.t_h1page2 = ts_url_to_string('transit/overview/0', 'conjoint/1', ts)
+    PCPT.t_h1page2 = ts_url_to_string('favorite_package/', 'conjoint/1', ts)
 
-    #XXX
-    # PCPT.h2totaltime = ts_url_to_string('transit/select', 'transit/overview', ts)
-    PCPT.h2totaltime = ts_url_to_string('transit/select', 'transit/overview/0', ts)
-    PCPT.h2searchpath = transit_searchpath
-    PCPT.h2durationpath = transit_durationpath
-    PCPT.h2transitdecision = str(s['transit'][0])
-    PCPT.t_h2transitdecision = ts_url_to_string('rnd_searchgoals', 'transit/select', ts)
+    PCPT.favpackage_food = str(s['favpackage_food'][0])
+    PCPT.favpackage_recommending = str(s['favpackage_recommending'][0])
+    PCPT.favpackage_distance = str(s['favpackage_distance'][0])
+    PCPT.favpackage_seaview = str(s['favpackage_seaview'][0])
+    PCPT.favpackage_price = str(s['favpackage_price'][0])
+    PCPT.favpackage_room = str(s['favpackage_room'][0])
+    PCPT.t_favpackage = ts_url_to_string('pl_demographics/', 'favorite_package/', ts)
 
-    PCPT.rnd_searchgoalsQ1 = str(s['rnd_searchgoalsQ1'][0])
-    PCPT.rnd_searchgoalsQ2 = str(s['rnd_searchgoalsQ2'][0])
-    PCPT.rnd_searchgoalsQ3 = str(s['rnd_searchgoalsQ3'][0])
-    PCPT.rnd_searchgoalsQ4 = str(s['rnd_searchgoalsQ4'][0])
-    if not opt_happiness:
-        PCPT.t_rnd_searchgoals = ts_url_to_string('pl_demographics', 'rnd_searchgoals', ts)
-    else:
-        PCPT.t_rnd_searchgoals = ts_url_to_string('rnd_happiness', 'rnd_searchgoals', ts)
-        PCPT.rnd_happinessQ1 = str(s['rnd_happinessQ1'][0])
-        PCPT.rnd_happinessQ2 = str(s['rnd_happinessQ2'][0])
-        PCPT.rnd_happinessQ3 = str(s['rnd_happinessQ3'][0])
-        PCPT.rnd_happinessQ4 = str(s['rnd_happinessQ4'][0])
-        PCPT.t_rnd_happiness = ts_url_to_string('pl_demographics', 'rnd_happiness', ts)
+
+    # if not opt_happiness:
+    #     PCPT.t_rnd_searchgoals = ts_url_to_string('pl_demographics', 'rnd_searchgoals', ts)
+    # else:
+    #     PCPT.t_rnd_searchgoals = ts_url_to_string('rnd_happiness', 'rnd_searchgoals', ts)
+    #     PCPT.rnd_happinessQ1 = str(s['rnd_happinessQ1'][0])
+    #     PCPT.rnd_happinessQ2 = str(s['rnd_happinessQ2'][0])
+    #     PCPT.rnd_happinessQ3 = str(s['rnd_happinessQ3'][0])
+    #     PCPT.rnd_happinessQ4 = str(s['rnd_happinessQ4'][0])
+    #     PCPT.t_rnd_happiness = ts_url_to_string('pl_demographics', 'rnd_happiness', ts)
 
     PCPT.demo_gender = str(s['gender'][0])
     PCPT.demo_age = str(s['age'][0])
@@ -1061,6 +1120,17 @@ def makeParticipant(s):
         PCPT.ct16a4 =     ct16.a4
         PCPT.ct16a5 =     ct16.a5
 
+    PCPT.hlout1pk =     h[0]['pk']
+    hlout1 = External_Choice_Task.objects.get(pk = PCPT.hlout1pk)
+    PCPT.hlout1a1 = hlout1.a1
+    PCPT.hlout1a2 = hlout1.a2
+    PCPT.hlout1a3 = hlout1.a3
+    PCPT.hlout2pk =     h[1]['pk']
+    hlout2 = External_Choice_Task.objects.get(pk = PCPT.hlout2pk)
+    PCPT.hlout2a1 = hlout2.a1
+    PCPT.hlout2a2 = hlout2.a2
+    PCPT.hlout2a3 = hlout2.a3
+
     #actual orders   getCT(pub, ctXpk)atCT(pub, ct8pk) #hre added up json fields to save columns
     #index: questiont = l[7]['amount'] number - Value: position
     PCPT.rnd_max_order_pk = rnd_dict['rnd_max'].pk
@@ -1084,7 +1154,7 @@ def makeParticipant(s):
 
     # delete pub, relink pub data to pcpt. taken from removepubs
     #XXX
-    pub_cts = pub.Choice_TasksAsPub.all()
+    pub_cts = pub.Choice_TasksAsPub.all() #includes hlout cts
     pub_scales = pub.external_order_scale_set.all()
     try:
         pub_bsl_id_hard = pub.Baseline_Choice_TasksAsPub.all()[0].id_hard

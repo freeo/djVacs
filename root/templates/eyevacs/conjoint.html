@@ -135,7 +135,11 @@
             debug: true,
             rules: {
                 {% for key,conjoint in conjointtasks.items %}
-                    select_con{{ conjoint.id }}: "required",
+                    {% if not forloop.last %}
+                        select_con{{ conjoint.id }}: "required",
+                    {% else %}
+                        select_con{{ conjoint.id }}: "required"
+                    {% endif %}
                 {% endfor %}
                 },
             {# empty function places the usually obligatory error messages into nowhere #}

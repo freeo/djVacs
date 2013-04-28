@@ -204,7 +204,7 @@ class Participant(models.Model):
     fav_recommending = models.CharField(max_length=100)
     fav_distance = models.CharField(max_length=100)
     fav_seaview = models.CharField(max_length=100)
-    fav_price = models.CharField(max_length=100)
+    fav_price = models.CharField(max_length=100, blank = True, default="")
     fav_room = models.CharField(max_length=100)
     t_expl_7_fav = models.CharField(max_length=50, default='9999')
     t_expl_8_ctseqintro = models.CharField(max_length=50, default='9999')
@@ -260,6 +260,25 @@ class Participant(models.Model):
     cttime14 = models.CharField(max_length=100,blank = True, default="")
     cttime15 = models.CharField(max_length=100,blank = True, default="")
     cttime16 = models.CharField(max_length=100,blank = True, default="")
+
+    rnd_searchgoalsQ1 = models.CharField(max_length=100)
+    rnd_searchgoalsQ2 = models.CharField(max_length=100)
+    rnd_searchgoalsQ3 = models.CharField(max_length=100)
+    rnd_searchgoalsQ4 = models.CharField(max_length=100)
+    t_rnd_searchgoals = models.CharField(max_length=50, default='9999')
+
+    difficulty_lastQchoice_difficulty =  models.CharField(max_length=100,blank = True, default="")
+    difficulty_lastQfrustration =  models.CharField(max_length=100,blank = True, default="")
+    difficulty_lastQhesitation  = models.CharField(max_length=100,blank = True, default="")
+    difficulty_lastQsimilarity = models.CharField(max_length=100,blank = True, default="")
+    t_pl_difficulty_last = models.CharField(max_length=100,blank = True, default="")
+
+    holdout1 = models.CharField(max_length=100,blank = True, default="")
+    t_holdout1 = models.CharField(max_length=100,blank = True, default="")
+    t_loadingholdout = models.CharField(max_length=100,blank = True, default="")
+    holdout2 = models.CharField(max_length=100,blank = True, default="")
+    t_holdout2 = models.CharField(max_length=100,blank = True, default="")
+
     h1conjoint1 = models.CharField(max_length=100)
     h1conjoint2 = models.CharField(max_length=100)
     h1conjoint3 = models.CharField(max_length=100)
@@ -272,17 +291,23 @@ class Participant(models.Model):
     h1conjoint8 = models.CharField(max_length=100)
     t_h1page2 = models.CharField(max_length=50, default='9999')
 
-    h2totaltime = models.CharField(max_length=100)
-    h2searchpath = models.TextField()
-    h2durationpath = models.TextField()
-    h2transitdecision = models.CharField(max_length=100)
-    t_h2transitdecision = models.CharField(max_length=50, default='9999')
+    favpackage_food =  models.CharField(max_length=100,blank = True, default="")
+    favpackage_recommending = models.CharField(max_length=100,blank = True, default="")
+    favpackage_distance =  models.CharField(max_length=100,blank = True, default="")
+    favpackage_seaview =  models.CharField(max_length=100,blank = True, default="")
+    favpackage_price =  models.CharField(max_length=100,blank = True, default="")
+    favpackage_room =  models.CharField(max_length=100,blank = True, default="")
+    t_favpackage =  models.CharField(max_length=100,blank = True, default="")
 
-    rnd_searchgoalsQ1 = models.CharField(max_length=100)
-    rnd_searchgoalsQ2 = models.CharField(max_length=100)
-    rnd_searchgoalsQ3 = models.CharField(max_length=100)
-    rnd_searchgoalsQ4 = models.CharField(max_length=100)
-    t_rnd_searchgoals = models.CharField(max_length=50, default='9999')
+
+    #legacy
+    h2totaltime = models.CharField(max_length=100, blank = True)
+    h2searchpath = models.TextField(blank = True)
+    h2durationpath = models.TextField(blank = True)
+    h2transitdecision = models.CharField(max_length=100, blank = True)
+    t_h2transitdecision = models.CharField(max_length=50, default='9999', blank = True)
+
+
     #OPTIONAL EXPORT
     rnd_happinessQ1 = models.CharField(max_length=100,blank = True, default="")
     rnd_happinessQ2 = models.CharField(max_length=100,blank = True, default="")
@@ -411,6 +436,15 @@ class Participant(models.Model):
     ct16a3 = models.CharField(max_length=100, blank = True, default="")
     ct16a4 = models.CharField(max_length=100, blank = True, default="")
     ct16a5 = models.CharField(max_length=100, blank = True, default="")
+
+    hlout1pk = models.CharField(max_length=100,blank = True, default="")
+    hlout1a1 = models.CharField(max_length=100,blank = True, default="")
+    hlout1a2 = models.CharField(max_length=100,blank = True, default="")
+    hlout1a3 = models.CharField(max_length=100,blank = True, default="")
+    hlout2pk = models.CharField(max_length=100,blank = True, default="")
+    hlout2a1 = models.CharField(max_length=100,blank = True, default="")
+    hlout2a2 = models.CharField(max_length=100,blank = True, default="")
+    hlout2a3 = models.CharField(max_length=100,blank = True, default="")
 
     #actual orders are added up json fields to save columns
     #index: question number - Value: position

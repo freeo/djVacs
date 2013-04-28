@@ -1,0 +1,153 @@
+{% extends 'eyevacs/0preview1650.html' %}
+{% block body %}
+{% load i18n %}    
+{% get_current_language as LANG %}
+{% load staticfiles %}
+<!-- ################################################################# -->
+
+{# <p class="question_title"></p> #}
+<form action={{destination}} method="post" name="favorite_package" >
+{% csrf_token %}
+{# <p class="full_page_text"> #}
+<br/>
+<br/>
+
+<p class="full_page_text">{% trans "We'd like to know how your ideal vacation package would look like. <br/> Please define your ideal vacation package by clicking on the respective boxes." %}</p>
+<br/>
+<br/>
+<div style="width:100em;margin-right: auto;margin-left: auto;" class="table_info">
+<table  style="width:100em;" >
+<tr id="food" > 
+<td class="table_attribute table_attribute_light">{% trans "food quality" %}</td>
+    <td name="1" class="food dark3 table_level">{% trans "very good" %}</td>
+    <td name="0" class="food dark2 table_level">{% trans "good" %}</td>
+    <td name="2" class="food dark3 table_level">{% trans "excellent" %}</td>
+</tr>
+<tr id="spacer" > <td style="height:1em;"></td></tr>
+<tr id="recommending">
+<td class="table_attribute">{% trans "customers recommending" %}</td> 
+    <td name="0" class="recommending dark4 table_level">50%</td>
+    <td name="2" class="recommending dark1 table_level">90%</td>
+    <td name="1" class="recommending dark4 table_level">70%</td>
+</tr>
+<tr id="spacer" > <td style="height:1em;"></td></tr>
+<tr id="distance" >
+<td class="table_attribute table_attribute_light">{% trans "distance to CBD" %}</td> 
+    <td name="0" class="distance dark3 table_level">3 km</td>
+    <td name="1" class="distance dark2 table_level">2 km</td>
+    <td name="2" class="distance dark3 table_level">1 km</td>
+</tr>
+<tr id="spacer" > <td style="height:1em;"></td></tr>
+<tr id="seaview" >
+<td class="table_attribute">{% trans "sea view" %}</td>
+    <td name="2" class="seaview dark4 table_level">{% trans "full sea view" %}</td>
+    <td name="1" class="seaview dark1 table_level">{% trans "side sea view" %}</td>
+    <td name="0" class="seaview dark4 table_level">{% trans "no sea view" %}</td>
+</tr>
+<tr id="spacer" > <td style="height:1em;"></td></tr>
+<tr id="price" >
+<td class="table_attribute table_attribute_light">{% trans "price per person" %}</td>
+    <td name="0" class="price dark3 table_level">{% trans "$899" %}</td>
+    <td name="1" class="price dark2 table_level">{% trans "$799" %}</td>
+    <td name="2" class="price dark3 table_level">{% trans "$699" %}</td>
+</tr>
+<tr id="spacer" > <td style="height:1em;"></td></tr>
+<tr id="room" >
+<td class="table_attribute">{% trans "room category" %}</td>
+    <td name="0" class="room dark4 table_level">{% trans "standard" %}</td>
+    <td name="2" class="room dark1 table_level">{% trans "deluxe" %}</td>
+    <td name="1" class="room dark4 table_level">{% trans "superior" %}</td>
+</tr>
+
+</table>
+</div>
+
+<div id="hidden_marked_levels" >
+<input class="food" name="favpackage_food" type="hidden"  />
+<input class="recommending" name="favpackage_recommending" type="hidden" />
+<input class="distance" name="favpackage_distance" type="hidden" />
+<input class="seaview" name="favpackage_seaview" type="hidden" />
+<input class="price" name="favpackage_price" type="hidden" />
+<input class="room" name="favpackage_room" type="hidden"  />
+</div>
+
+<input name="begin_radio_weiter" type="submit" class="weiter" value={{bt_label}} />
+</form>
+
+{# ######################################################################## #}
+{# VALIDATE ALL REQUIRED INPUTS  #}
+<div class="fatErrorWrapper">
+<div id="fatError" style=""></div>
+
+{% if request.session.validation %}
+<script>
+    $(this).ready(function(){
+        var thisform = $('form');
+        window.log('validation is running...');
+        var validator = thisform.validate({
+            {# hidden, invisible inputs are ignored by default...  #}
+            {# revert this behaviour with: #}
+            ignore: '',
+            debug: true,
+            rules: {
+                favpackage_food: "required",
+                favpackage_recommending: "required",
+                favpackage_distance: "required",
+                favpackage_seaview: "required",
+                favpackage_price: "required",
+                favpackage_room: "required",
+                },
+            errorPlacement: function(error, element) {},
+            showErrors: function(errorMap, errorList) {
+                var errors = validator.numberOfInvalids();
+                $("#fatError").addClass("mainError");
+                {% if LANG == "en" %}
+                var errorText = "You have left "+errors+" questions unanswered!";
+                {% elif LANG == "de" %}
+                var errorText = "Du hast "+errors+" Fragen noch nicht beantwortet!";
+                {% endif %}
+                $("#fatError").text(errorText);
+                if (!errors) {
+                    window.log('hiding   ..  ');
+                    $("#fatError").hide();
+                };
+                {# ###################################################### #}
+                this.defaultShowErrors();
+                {# kleines 'true' #}
+                {# durch window. wird eine globale Variable gesetzt #}
+                window.errorActive = true;
+            },
+            errorClass: "invalid",
+            submitHandler: function(thisform) { 
+                thisform.submit();
+            }
+        });
+        window.log('table clicker ready');
+        var marked = {}
+        $(".table_level").click(function() {
+                validator;
+                var parent = $(this).parent('tr').attr('id');
+                marked[parent] = $(this).attr('name');
+                $.each( marked, function(key, value){
+                    window.log(key, value);
+                    $("input:hidden."+key+" ").val(value);
+                });
+        {# $(this).closest("tr").siblings().removeClass("higlight"); #}
+        {# $(this).parent("tr").addClass("highlight", this.clicked); #}
+                {# $(this).toggleClass("highlight", this.clicked); #}
+                $(this).addClass("highlight", this.clicked);
+                $(this).siblings("td").removeClass("highlight");
+                {# force validation, because the plugin doesnt auto-update #}
+                {# on hidden, invisible input fields! but only force it, when #}
+                {# the error message has been displayed initially by trying to submit #}
+                if (window.errorActive){
+                    thisform.valid()
+                    };
+             }); 
+    });
+  </script>
+{% endif %}
+{# END # VALIDATE ALL REQUIRED INPUTS ##################################### #}
+
+
+{% endblock %}

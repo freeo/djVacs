@@ -2,7 +2,7 @@ import os
 import sys
 import re
 import random
-from scripts import load_fixtures, create_fixtures,create_holdouttask_fixtures, create_rnd_scale, scale_questions, grouping, load_setup
+from scripts import load_fixtures, create_fixtures,create_holdouttask_fixtures, create_rnd_scale, grouping, load_setup
 from subprocess import call
 from eyevacs.models import Experiment, External_Source_Data, External_Choice_Task, External_Order_Scale, External_Baseline_Choice_Task, Scale, Scale_Question, Grouping, Attribute, Level, Participant, Pub
 from django.db import transaction
@@ -583,9 +583,6 @@ def main():
         if switch_load_fixtures:
             print root
             load_fixtures.Run(root, fixture_output[1:], output_data_path[1:])
-        # if switch_load_scale_questions:
-        #     curr_exp = Experiment.objects.get(pk = current_exp_id )
-        #     scale_questions.load_scale_questions(curr_exp)
         if switch_load_experimentsetup:
             # try:
             curr_exp.attribute_set.all().delete()

@@ -18,44 +18,44 @@
 <table  style="width:100em;" >
 <tr id="food" > 
 <td class="table_attribute table_attribute_light">{% trans "food quality" %}</td>
-    <td id="food_2" class="food dark3 table_level">{% trans "excellent" %}</td>
-    <td id="food_1" class="food dark2 table_level">{% trans "very good" %}</td>
-    <td id="food_0" class="food dark3 table_level">{% trans "good" %}</td>
+    <td name="2" class="food dark3 table_level">{% trans "excellent" %}</td>
+    <td name="1" class="food dark2 table_level">{% trans "very good" %}</td>
+    <td name="0" class="food dark3 table_level">{% trans "good" %}</td>
 </tr>
 <tr id="spacer" > <td style="height:1em;"></td></tr>
 <tr id="recommending">
 <td class="table_attribute">{% trans "customers recommending" %}</td> 
-    <td id="recommending_0" class="recommending dark4 table_level">50%</td>
-    <td id="recommending_2" class="recommending dark1 table_level">90%</td>
-    <td id="recommending_1" class="recommending dark4 table_level">70%</td>
+    <td name="0" class="recommending dark4 table_level">50%</td>
+    <td name="2" class="recommending dark1 table_level">90%</td>
+    <td name="1" class="recommending dark4 table_level">70%</td>
 </tr>
 <tr id="spacer" > <td style="height:1em;"></td></tr>
 <tr id="distance" >
 <td class="table_attribute table_attribute_light">{% trans "distance to CBD" %}</td> 
-    <td id="distance_2" class="distance dark3 table_level">1 km</td>
-    <td id="distance_0" class="distance dark2 table_level">3 km</td>
-    <td id="distance_1" class="distance dark3 table_level">2 km</td>
+    <td name="2" class="distance dark3 table_level">1 km</td>
+    <td name="0" class="distance dark2 table_level">3 km</td>
+    <td name="1" class="distance dark3 table_level">2 km</td>
 </tr>
 <tr id="spacer" > <td style="height:1em;"></td></tr>
 <tr id="seaview" >
 <td class="table_attribute">{% trans "sea view" %}</td>
-    <td id="seaview_1" class="seaview dark4 table_level">{% trans "side sea view" %}</td>
-    <td id="seaview_0" class="seaview dark1 table_level">{% trans "no sea view" %}</td>
-    <td id="seaview_2" class="seaview dark4 table_level">{% trans "full sea view" %}</td>
+    <td name="1" class="seaview dark4 table_level">{% trans "side sea view" %}</td>
+    <td name="0" class="seaview dark1 table_level">{% trans "no sea view" %}</td>
+    <td name="2" class="seaview dark4 table_level">{% trans "full sea view" %}</td>
 </tr>
-<tr id="spacer" > <td style="height:1em;"></td></tr>
-<tr id="price" >
-<td class="table_attribute table_attribute_light">{% trans "price per person" %}</td>
-    <td id="price_0" class="price dark3 table_level">{% trans "$899" %}</td>
-    <td id="price_2" class="price dark2 table_level">{% trans "$699" %}</td>
-    <td id="price_1" class="price dark3 table_level">{% trans "$799" %}</td>
-</tr>
+{# <tr id="spacer" > <td style="height:1em;"></td></tr> #}
+{# <tr id="price" > #}
+{# <td class="table_attribute table_attribute_light">{% trans "price per person" %}</td> #}
+{#     <td name="0" class="price dark3 table_level">{% trans "$899" %}</td> #}
+{#     <td name="2" class="price dark2 table_level">{% trans "$699" %}</td> #}
+{#     <td name="1" class="price dark3 table_level">{% trans "$799" %}</td> #}
+{# </tr> #}
 <tr id="spacer" > <td style="height:1em;"></td></tr>
 <tr id="room" >
-<td class="table_attribute">{% trans "room category" %}</td>
-    <td id="room_0" class="room dark4 table_level">{% trans "standard" %}</td>
-    <td id="room_1" class="room dark1 table_level">{% trans "superior" %}</td>
-    <td id="room_2" class="room dark4 table_level">{% trans "deluxe" %}</td>
+<td class="table_attribute table_attribute_light">{% trans "room category" %}</td>
+    <td name="0" class="room dark3 table_level">{% trans "standard" %}</td>
+    <td name="1" class="room dark2 table_level">{% trans "superior" %}</td>
+    <td name="2" class="room dark3 table_level">{% trans "deluxe" %}</td>
 </tr>
 
 </table>
@@ -66,7 +66,7 @@
 <input class="recommending" name="fav_recommending" type="hidden" />
 <input class="distance" name="fav_distance" type="hidden" />
 <input class="seaview" name="fav_seaview" type="hidden" />
-<input class="price" name="fav_price" type="hidden" />
+{# <input class="price" name="fav_price" type="hidden" /> #}
 <input class="room" name="fav_room" type="hidden"  />
 </div>
 
@@ -93,7 +93,7 @@
                 fav_recommending: "required",
                 fav_distance: "required",
                 fav_seaview: "required",
-                fav_price: "required",
+                {# fav_price: "required", #}
                 fav_room: "required",
                 },
             errorPlacement: function(error, element) {},
@@ -126,7 +126,7 @@
         $(".table_level").click(function() {
                 validator;
                 var parent = $(this).parent('tr').attr('id');
-                marked[parent] = this.id;
+                marked[parent] = $(this).attr('name');
                 $.each( marked, function(key, value){
                     window.log(key, value);
                     $("input:hidden."+key+" ").val(value);
