@@ -43,19 +43,19 @@
     <td name="0" class="seaview dark1 table_level">{% trans "no sea view" %}</td>
     <td name="2" class="seaview dark4 table_level">{% trans "full sea view" %}</td>
 </tr>
-{# <tr id="spacer" > <td style="height:1em;"></td></tr> #}
-{# <tr id="price" > #}
-{# <td class="table_attribute table_attribute_light">{% trans "price per person" %}</td> #}
-{#     <td name="0" class="price dark3 table_level">{% trans "$899" %}</td> #}
-{#     <td name="2" class="price dark2 table_level">{% trans "$699" %}</td> #}
-{#     <td name="1" class="price dark3 table_level">{% trans "$799" %}</td> #}
-{# </tr> #}
+<tr id="spacer" > <td style="height:1em;"></td></tr>
+<tr id="price" >
+<td class="table_attribute table_attribute_light">{% trans "price per person" %}</td>
+    <td name="0" class="price dark3 table_level">{% trans "$899" %}</td>
+    <td name="2" class="price dark2 table_level">{% trans "$699" %}</td>
+    <td name="1" class="price dark3 table_level">{% trans "$799" %}</td>
+</tr>
 <tr id="spacer" > <td style="height:1em;"></td></tr>
 <tr id="room" >
-<td class="table_attribute table_attribute_light">{% trans "room category" %}</td>
-    <td name="0" class="room dark3 table_level">{% trans "standard" %}</td>
-    <td name="1" class="room dark2 table_level">{% trans "superior" %}</td>
-    <td name="2" class="room dark3 table_level">{% trans "deluxe" %}</td>
+<td class="table_attribute">{% trans "room category" %}</td>
+    <td name="0" class="room dark4 table_level">{% trans "standard" %}</td>
+    <td name="1" class="room dark1 table_level">{% trans "superior" %}</td>
+    <td name="2" class="room dark4 table_level">{% trans "deluxe" %}</td>
 </tr>
 
 </table>
@@ -66,7 +66,7 @@
 <input class="recommending" name="fav_recommending" type="hidden" />
 <input class="distance" name="fav_distance" type="hidden" />
 <input class="seaview" name="fav_seaview" type="hidden" />
-{# <input class="price" name="fav_price" type="hidden" /> #}
+<input class="price" name="fav_price" type="hidden" />
 <input class="room" name="fav_room" type="hidden"  />
 </div>
 

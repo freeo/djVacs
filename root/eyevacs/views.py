@@ -16,6 +16,7 @@ import subprocess
 import operator
 import pdb
 
+
 default_page_order = []
 bt_label = ugettext_lazy("Continue")
 # validation = False
@@ -116,8 +117,18 @@ def eye(request):
     #lang = request.session['django_language']
     lang = translation.get_language()
     exp_list = Experiment.objects.all()
-    cont = Context({'lang':lang,'exp_list':exp_list})
-    return render(request, 'eyevacs/eye.html', cont)
+    # cont = Context({'lang':lang,'exp_list':exp_list})
+    reqdict = {}
+    reqdict['lang'] = lang
+    reqdict['exp_list'] = exp_list
+    rc = RequestContext(request, reqdict)
+
+    return render(request, 'eyevacs/eye.html', rc)
+
+def defaultMelbournePcpt(request):
+    request.session.create()
+    get_string = 'ct_size=8;cbox_validation=True;selectcondition=;selectresolution=1280x1024;selectwelcome=welcome_en;default_participant_link=True;selectlanguage=en'
+    return HttpResponseRedirect('../exp3/preparePcpt/?%s' % get_string)
 
 def exp(request, exp_id):
     curr_exp = Experiment.objects.get(pk=exp_id)
@@ -126,6 +137,7 @@ def exp(request, exp_id):
     if curr_exp.grouping.id_holes == None:
         curr_exp.grouping.id_holes = '[]'
         curr_exp.grouping.save()
+
     # sets default task size by the order!
     tasksize =[]
     tsize1 = {'label':'8 tasks','checked':'checked', 'value':8, 'enabled':''}
@@ -146,6 +158,11 @@ def exp(request, exp_id):
     all_context['exp'] = curr_exp
     all_context['used'] = pcpt.countUsedObjects(curr_exp.id)
     all_context['unused'] = pcpt.countUnusedObjects(curr_exp.id)
+
+    all_context['group1count'] = curr_exp.participant_set.filter(def_group=1).count
+    all_context['group2count'] = curr_exp.participant_set.filter(def_group=2).count
+    all_context['group3count'] = curr_exp.participant_set.filter(def_group=3).count
+    all_context['group4count'] = curr_exp.participant_set.filter(def_group=4).count
 
     #Give ALL the pubs to exp!
     pubs = curr_exp.pub_set.all()#order_by timestamp
@@ -268,6 +285,8 @@ def preparePcpt(request, exp_id):
     # request.session.flush()
     request.session.create()
     request.session.update(request.POST)
+    request.session.update(request.GET)
+    request.session.modified = True
     request.session['timestamps'] = {request.path:datetime.utcnow()}
     # request.session['timestamps'] = {createUniqueKey(request):datetime.utcnow()}
     # grabs from POST, not session. only explanation, not verified
@@ -319,8 +338,12 @@ def preparePcpt(request, exp_id):
     request.session['resolution'] = str(request.session['selectresolution'][0])
 
 
+    # if request.session.get('selectlanguage') != None:
     selectlanguage = request.session.get('selectlanguage')[0]
     request.session['django_language'] = selectlanguage
+    #     translation.set_language()
+    # else:
+    #     selectlanguage = request.session.get('selectlanguage')[0]
 
     # HTML stringifies all chars. Cant obtain integers from session.
     ct_size = int(request.session['ct_size'][0])
@@ -353,7 +376,7 @@ def preparePcpt(request, exp_id):
         # pcpt.debugMakePCPT('increasing', pub, ctlist, scale_sequences)
         # pcpt.debugMakePCPT('baselinelow', pub, ctlist, scale_sequences)
         #pcpt.debugMakePCPT('baselinehigh', pub, ctlist, scale_sequences)
-        pcpt.debugMakePCPT('s27042013', pub, ctlist, scale_sequences)
+        # pcpt.debugMakePCPT('s27042013', pub, ctlist, scale_sequences)
         return render(request, 'eyevacs/thankyou.html')
 
     #DEBUG Pubs

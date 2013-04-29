@@ -95,12 +95,15 @@
     {# Explanation: 1st button has to be a dummy button. #}
     {#     Will be immediately hidden, after the page is loaded. #}
     {#     Hiding disables "onEnter" as well, next page cannot be skipped, tried it. #}
-    <input type="submit"  id="ie_hack_button" name="hack_button" value="">
-    <script>
-        $(this).ready(function(){
-                $("#ie_hack_button").hide();
-            });
-    </script>
+    {# <input type="submit"  id="ie_hack_button" name="hack_button" value="" /> #}
+    {# <script> #}
+        {# $(this).ready(function(){ #}
+                {# $("#ie_hack_button").hide(); #}
+                {# $(document).click(function(e){ #}
+                    {# $("#ie_hack_button").hide(); #}
+    {#             }); #}
+    {#         }); #}
+    {# </script> #}
     
     <td class="attr_spacer" >{{ rc81 }}</td><td class="spacer"></td>
     {% if rc82 %}

@@ -1,0 +1,172 @@
+{% extends 'eyevacs/0preview1650.html' %}
+{% load staticfiles %}
+{% block body %}
+{% load i18n %}    
+{% get_current_language as LANG %}
+<!-- ################################################################# -->
+
+    {% if starter %}
+    <div class="question_title" style="padding-top:15px;">{% trans "Thank you for your choices, now indicate how likely it would be that you would choose the following alternatives from 0 (definitely reject) to 10 (definitely accept)?" %}</div>
+    {% else %}
+    <div class="question_title" style="padding-top:15px;">{% trans "Indicate how likely it would be that you would choose the following alternative from 0 (definitely reject) to 10 (definitely accept)?" %}</div>
+    {% endif %}
+
+<form action="{{ destination }}" method="post" >
+{% csrf_token %}
+
+<div style="padding-left:100px; padding-top:0px;" >
+<table>
+{# # CAPTIONS ############################################################# #}
+ 
+    <tr>
+    <td class="dctdcon attrcon" style="background:#fff;">
+    {# spacer  #}
+    </td> 
+    <td class="spacercon"></td>
+    <td class="dctdcon attrcon">{% trans "Option A" %}</td>
+    <td class="spacercon"></td>
+    <td class="dctdcon attrcon">{% trans "Option B" %}</td>
+    <td class="spacercon"></td>
+    <td class="dctdcon attrcon">{% trans "Option C" %}</td>
+    <td class="spacercon"></td>
+    <td class="dctdcon attrcon">{% trans "Option D" %}</td>
+    <td class="spacercon"></td>
+
+    </tr>
+    {# END # CAPTIONS ######################################################## #}
+
+    <tr class="tr_spacer_con">
+        </tr>
+    <tr>
+        <td class="dctdcon attrcon">{% trans "food quality" %}</td><td class="spacercon"></td> 
+        {% for key, conjoint in conjointtasks.items %}
+        <td class="dctdcon optioncon">{{ conjoint.food }}</td><td class="spacercon"></td>           
+        {% endfor %} 
+    </tr>   
+    <tr class="tr_spacer_con">
+        </tr>
+    <tr>
+        <td class="dctdcon attrcon">{% trans "customers recommending" %}</td><td class="spacercon"></td> 
+        {% for key, conjoint in conjointtasks.items %}
+        <td class="dctdcon optioncon">{{ conjoint.recommending}}</td><td class="spacercon"></td>           
+        {% endfor %} 
+    </tr>   
+    <tr class="tr_spacer_con">
+        </tr>
+    <tr>
+        <td class="dctdcon attrcon">{% trans "distance to CBD" %}</td><td class="spacercon"></td> 
+        {% for key, conjoint in conjointtasks.items %}
+        <td class="dctdcon optioncon">{{ conjoint.distance}}</td><td class="spacercon"></td>           
+        {% endfor %} 
+    </tr>   
+    <tr class="tr_spacer_con">
+        </tr>
+    <tr>
+        <td class="dctdcon attrcon">{% trans "sea view" %}</td><td class="spacercon"></td> 
+        {% for key, conjoint in conjointtasks.items %}
+        <td class="dctdcon optioncon">{{ conjoint.view}}</td><td class="spacercon"></td>           
+        {% endfor %} 
+    </tr>   
+    <tr class="tr_spacer_con">
+        </tr>
+    <tr>
+        <td class="dctdcon attrcon">{% trans "price per person" %}</td><td class="spacercon"></td> 
+        {% for key, conjoint in conjointtasks.items %}
+        <td class="dctdcon optioncon">{{ conjoint.price}}</td><td class="spacercon"></td>           
+        {% endfor %} 
+    </tr>   
+    <tr class="tr_spacer_con">
+        </tr>
+    <tr>
+        <td class="dctdcon attrcon">{% trans "room category" %}</td><td class="spacercon"></td> 
+        {% for key, conjoint in conjointtasks.items %}
+        <td class="dctdcon optioncon">{{ conjoint.room }}</td><td class="spacercon"></td>           
+        {% endfor %} 
+    </tr>   
+
+    <tr style="height:80px;"></tr>
+{# ######################################################################## #}
+    <tr>
+    <td class="dctdcon attrcon" style="background:#fff;">
+    {# spacer  #}
+    </td> 
+    <td class="spacercon"></td>
+    {% for key, conjoint in conjointtasks.items %}
+    <td class="dctdcon" style="background:#fff;"> 
+    <select name="select_con{{ conjoint.id }}" class="conjoint_select">
+    <option value="">{% trans "--select--" %}</option>
+    <option value="0">{% trans "0 (definitely reject)" %}</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">{% trans "10 (definitely accept)" %}</option>
+    </select>
+    </td> 
+    <td class="spacercon"></td>
+
+    {% endfor %} 
+    </tr>
+</table>
+</div>
+{# ######################################################################## #}
+
+   <input type="submit" class="weiter" name="{{ conjoint.id }}" value="{{ bt_label }}" >
+
+</form>
+
+{# ######################################################################## #}
+{# VALIDATE ALL REQUIRED INPUTS  #}
+<div class="fatErrorWrapper">
+<div id="fatError" style=""></div>
+
+{% if request.session.validation %}
+<script>
+    $(this).ready(function(){
+        var thisform = $('form');
+        window.log('validation is running...');
+        var validator = thisform.validate({
+            {# turn off debug to truly submit! #}
+            debug: true,
+            rules: {
+                {% for key,conjoint in conjointtasks.items %}
+                    {% if not forloop.last %}
+                        select_con{{ conjoint.id }}: "required",
+                    {% else %}
+                        select_con{{ conjoint.id }}: "required"
+                    {% endif %}
+                {% endfor %}
+                },
+            {# empty function places the usually obligatory error messages into nowhere #}
+            errorPlacement: function(error, element) {},
+            showErrors: function(errorMap, errorList) {
+                var errors = validator.numberOfInvalids();
+                $("#fatError").addClass("mainError");
+                {% if LANG == "en" %}
+                var errorText = "You have left "+errors+" questions unanswered!";
+                {% elif LANG == "de" %}
+                var errorText = "Du hast "+errors+" Fragen noch nicht beantwortet!";
+                {% endif %}
+                $("#fatError").text(errorText);
+                if (!errors) {
+                    window.log('hiding   ..  ');
+                    $("#fatError").hide();
+                };
+            },
+            errorClass: "invalid",
+            {# debug only #}
+            submitHandler: function(thisform) { 
+                // do other stuff for a valid form
+                thisform.submit();
+            }
+        });
+    });
+  </script>
+{% endif %}
+{# END # VALIDATE ALL REQUIRED INPUTS ##################################### #}
+{% endblock %}

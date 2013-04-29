@@ -92,31 +92,31 @@
     </td> 
     <td class="spacercon"></td>
     {% for key, conjoint in conjointtasks.items %}
-    <td class="dctdcon" style="background:#fff;"> 
-    <select name="select_con{{ conjoint.id }}" class="conjoint_select">
-    <option value="">{% trans "--select--" %}</option>
-    <option value="0">{% trans "0 (definitely reject)" %}</option>
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-    <option value="5">5</option>
-    <option value="6">6</option>
-    <option value="7">7</option>
-    <option value="8">8</option>
-    <option value="9">9</option>
-    <option value="10">{% trans "10 (definitely accept)" %}</option>
-    </select>
+{# name="select_con{{ conjoint.id }}" #}
+    <td class="slider_td" style="background:#fff;"> 
+{# ######################################################################## #}
+{% if request.session.resolution == "1650x1050" %}
+    <div name="select_con{{ conjoint.id }}" class="slider"> </div>
+{% elif request.session.resolution == "1280x1024" %}
+    <div name="select_con{{ conjoint.id }}" class="slider-1280"> </div>
+{% endif %}
+
+    <p name="select_con{{ conjoint.id }}" class="slider_value_display"></p>
+    <input type="hidden" name="select_con{{ conjoint.id }}" value="" />
+
+{# ######################################################################## #}
+
     </td> 
     <td class="spacercon"></td>
 
     {% endfor %} 
+
     </tr>
 </table>
 </div>
 {# ######################################################################## #}
 
-   <input type="submit" class="weiter" name="{{ conjoint.id }}" value="{{ bt_label }}" >
+<input type="submit" class="weiter" name="{{ conjoint.id }}" value="{{ bt_label }}" />
 
 </form>
 
@@ -132,6 +132,9 @@
         window.log('validation is running...');
         var validator = thisform.validate({
             {# turn off debug to truly submit! #}
+            {# hidden, invisible inputs are ignored by default...  #}
+            {# revert this behaviour with: #}
+            ignore: '',
             debug: true,
             rules: {
                 {% for key,conjoint in conjointtasks.items %}
@@ -157,6 +160,7 @@
                     window.log('hiding   ..  ');
                     $("#fatError").hide();
                 };
+                window.errorActive = true;
             },
             errorClass: "invalid",
             {# debug only #}
@@ -169,4 +173,90 @@
   </script>
 {% endif %}
 {# END # VALIDATE ALL REQUIRED INPUTS ##################################### #}
+
+{# SLIDER SCRIPT EVENTS ################################################### #}
+  
+    <script>
+        $(this).ready(function(){
+
+                var leftButtonDown = false;
+                $(document).mousedown(function(e){
+                    if(e.which === 1) leftButtonDown = true;
+                });
+                $(document).mouseup(function(e){
+                    if(e.which === 1) leftButtonDown = false;
+                });
+
+                $(".slider").mousemove(function(e){
+                    if (leftButtonDown){ //for 'drag' behaviour
+                        var knob_width = 24; //x-offset of dragging-knob in px
+                        var offset_Y = 35; //height per frame of sprite
+                        updateActiveState(e, this, knob_width, offset_Y)
+                    };
+                });
+                $(".slider").mousedown(function(e){
+                        var knob_width = 24;
+                        var offset_Y = 35;
+                        updateActiveState(e, this, knob_width, offset_Y)
+                        if (window.errorActive){
+                            var thisform = $('form');
+                            thisform.valid()
+                        };
+                });
+                $(".slider-1280").mousemove(function(e){
+                    if (leftButtonDown){
+                        var knob_width = 18;
+                        var offset_Y = 26;
+                        updateActiveState(e, this, knob_width, offset_Y)
+                    };
+                });
+                $(".slider-1280").mousedown(function(e){
+                        var knob_width = 18;
+                        var offset_Y = 26;
+                        updateActiveState(e, this, knob_width, offset_Y)
+                        if (window.errorActive){
+                            var thisform = $('form');
+                            thisform.valid()
+                        };
+                });
+                
+                var updateActiveState = function(e,slider, knob_width, offY){
+                    //for relative position to DOCUMENT with offset()
+                    var sliderPos = $(slider).offset();
+                    var x = e.pageX - sliderPos.left;
+                    var y = e.pageY - sliderPos.top;
+                    {# window.log(e.pageX, e.pageY); #}
+                    {# window.log(slider.offsetLeft, slider.offsetTop); #}
+                    {# window.log(x,y); #}
+                    //end
+                    var vertical_value = Math.max(0,Math.floor(x/knob_width)); //submitted value
+                    var state_y = Math.floor(vertical_value*offY + offY); //y-height for sprite
+                    window.log(state_y);
+                    $(slider).css({backgroundPosition:'0px -'+(state_y)+'px'});
+                    //for transmitting of a corret value there has to be a 
+                    // hidden input element with the same .NAME as the 
+                    // slider has. the <p> is for displaying purposes only and
+                    // works by the same name.
+                    var linking_name = $(slider).attr("name");
+                    $('input[name="'+linking_name+'"]').val(vertical_value);
+
+                    if (vertical_value == 0)
+                        $('p[name="'+linking_name+'"]').text("0 (definitely reject)");
+                    else if (vertical_value == 10)
+                        $('p[name="'+linking_name+'"]').text("10 (definitely accept)");
+                    else
+                        $('p[name="'+linking_name+'"]').text(vertical_value);
+
+
+                    {# var log_this = $('input[name="'+linking_name+'"]').val(); #}
+                    {# console.log(log_this, linking_name); #}
+                    {# window.log("vert: ",vertical_value); #}
+                };
+               
+        });
+        </script>
+
+{# END SLIDER SCRIPT####################################################### #}
+ 
+
 {% endblock %}

@@ -869,7 +869,7 @@ def makeParticipant(s):
     PCPT.fav_recommending = str(s['fav_recommending'][0])
     PCPT.fav_distance = str(s['fav_distance'][0])
     PCPT.fav_seaview = str(s['fav_seaview'][0])
-    # PCPT.fav_price = str(s['fav_price'][0])
+    PCPT.fav_price = str(s['fav_price'][0])
     PCPT.fav_room = str(s['fav_room'][0])
     PCPT.t_expl_7_fav =  ts_url_to_string('ctseqintro', 'favattributes', ts)
     PCPT.t_expl_8_ctseqintro =  ts_url_to_string('ct0', 'ctseqintro', ts)

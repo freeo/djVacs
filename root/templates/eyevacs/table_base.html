@@ -52,9 +52,14 @@
             font-size:2em;
             width:10.8em;
             height:3.25em;
+            background:#ddd;
+            outline:none;
+            border:0;
         }
-        .buy_button:focus {outline:none;}
-        .buy_button::-moz-focus-inner {border:0;}
+        .buy_button:active {
+            background:#ccf;
+        }
+        <!-- .buy_button:focus {outline:none;} ::-moz-focus-inner {border:0;} -->
             {% block style %}
             {% endblock %}
 
