@@ -786,6 +786,14 @@ def debugMakePCPT(condition, pub, ctlist, scale_sequences):
         debug_dict = debug.baselinehigh
     if condition == 's27042013':
         debug_dict = debug.s27042013
+    if condition == '130_1':
+        debug_dict = debug.p130_1
+    if condition == '130_2':
+        debug_dict = debug.p130_2
+    if condition == '147_1':
+        debug_dict = debug.p147_1
+    if condition == '147_2':
+        debug_dict = debug.p147_2
     debug_dict['pub_ctlist'] = ctlist
     debug_dict['pub_scale_sequences'] = scale_sequences
     makeParticipant(debug_dict)

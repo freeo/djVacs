@@ -524,7 +524,7 @@ def main():
     #3. chunk: <deadlock>
     #use it AFTER all experiments are created
     switch_deadlock =               1
-    switch_hlout_deadlock =         1
+    switch_hlout_deadlock =         0
 
     Echo()
 
