@@ -164,10 +164,12 @@ Show page list</label>
 <p style="margin-bottom:0px;" >Valid <br/> Participant?</p> 
 <label class="lbadmin" style="color:#fff; width:180px; margin-left:auto; margin-right:auto; text-align:center;"><input type="checkbox" name="cbox_valid_pcpt" />&nbsp;VALID </label>
 </div>
-{# <div style=" width:250px; margin-top:15px; text-align:left; background:#0fb"> #}
-{# <p style="margin-bottom:0px;" >Debug saving</p>  #}
-{# <label class="lbadmin" style="font-size:14px; width:180px; margin-left:auto; margin-right:auto; text-align:center;"><input type="checkbox" name="cbox_debugsaving" />&nbsp;use save function</label> #}
-{# </div> #}
+{% if manual_save %}
+<div style=" width:250px; margin-top:15px; padding-top:5px; text-align:left; background:#0fb; color:#444; text-align:center;">
+<p style="margin-bottom:0px;" >Manual saving</p> 
+<label class="lbadmin" style="font-size:14px; width:180px; margin-left:auto; margin-right:auto; text-align:center; color:#444 ;"><input type="checkbox" name="cbox_debugsaving" />&nbsp;save manually prepared pcpt</label>
+</div>
+{% endif %}
 
 </td>
 </tr>

@@ -164,6 +164,8 @@ def exp(request, exp_id):
     all_context['group3count'] = curr_exp.participant_set.filter(def_group=3).count
     all_context['group4count'] = curr_exp.participant_set.filter(def_group=4).count
 
+    all_context['manual_save'] = True
+
     #Give ALL the pubs to exp!
     pubs = curr_exp.pub_set.all()#order_by timestamp
     pubsList = []
@@ -377,6 +379,7 @@ def preparePcpt(request, exp_id):
         # pcpt.debugMakePCPT('baselinelow', pub, ctlist, scale_sequences)
         #pcpt.debugMakePCPT('baselinehigh', pub, ctlist, scale_sequences)
         # pcpt.debugMakePCPT('s27042013', pub, ctlist, scale_sequences)
+        pcpt.debugMakePCPT('130_1')
         return render(request, 'eyevacs/thankyou.html')
 
     #DEBUG Pubs

@@ -765,8 +765,15 @@ def checkCTs(pub, session_ct_ids):
     # if sorted(pub_ct_list) != sorted(session_ct_ids):
     for s_ct in session_ct_ids:
         if not s_ct in pub_ct_list:
-            raise Exception('CTs from session and pub object don\'t match!',
-                pub_ct_list,session_ct_ids)
+            error_file = open('./errors.txt', 'a')
+            # raise Exception('CTs from session and pub object don\'t match!',
+                # pub_ct_list,session_ct_ids)
+            d = datetime.datetime.now()
+            today = str(d.day)+'-'+str(d.month)+'-'+ str(d.year)+' '+str(d.hour)+':'+ str(d.minute)+' '
+            error_file.write(today)
+            error_file.write('pcpt '+str(pub.hard_id)+' not CT list matching '
+                'error: '+ str(pub_ct_list)+'  ***  '+str(session_ct_ids)+ '\n')
+            error_file.close()
 
 def checkRNDs(pub, session_rnd_ids):
     pub_rnds = pub.external_order_scale_set.all()
@@ -774,28 +781,64 @@ def checkRNDs(pub, session_rnd_ids):
     for id in pub_rnds:
         pub_rnd_list.append(id.pk)
     if sorted(pub_rnd_list) != sorted(session_rnd_ids):
-        raise Exception('RNDs from session and pub object don\'t match!',
-            pub_rnd_list,session_rnd_ids)
+        # raise Exception('RNDs from session and pub object don\'t match!',
+        #     pub_rnd_list,session_rnd_ids)
+        error_file = open('./errors.txt', 'a')
+        d = datetime.datetime.now()
+        today = str(d.day)+'-'+str(d.month)+'-'+ str(d.year)+' '+str(d.hour)+':'+ str(d.minute)+' '
+        error_file.write(today)
+        error_file.write('pcpt '+str(pub.hard_id)+' scale sequences list not '
+            'matching error: '+ str(pub_rnd_list)+'  ***  '
+            +str(session_rnd_ids)+ '\n')
+        error_file.close()
 
-def debugMakePCPT(condition, pub, ctlist, scale_sequences):
-    if condition == 'increasing':
+#def debugMakePCPT(condition, pub, ctlist, scale_sequences):
+def debugMakePCPT(case):
+    if case == 'increasing':
         debug_dict = debug.increasing
-    if condition == 'baselinelow':
+    if case == 'baselinelow':
         debug_dict = debug.baselinelow
-    if condition == 'baselinehigh':
+    if case == 'baselinehigh':
         debug_dict = debug.baselinehigh
-    if condition == 's27042013':
+    if case == 's27042013':
         debug_dict = debug.s27042013
-    if condition == '130_1':
+    if case == '130_1':
         debug_dict = debug.p130_1
-    if condition == '130_2':
+    if case == '130_2':
         debug_dict = debug.p130_2
-    if condition == '147_1':
+    if case == '147_1':
         debug_dict = debug.p147_1
-    if condition == '147_2':
+    if case == '147_2':
         debug_dict = debug.p147_2
-    debug_dict['pub_ctlist'] = ctlist
-    debug_dict['pub_scale_sequences'] = scale_sequences
+    #debug_dict['pub_ctlist'] = ctlist
+    #debug_dict['pub_scale_sequences'] = scale_sequences
+    #pub_hloutlist pub_hloutlist_IDs
+    debug_dict['pub_hloutlist'] = [External_Choice_Task.objects.get(pk=x) for x in  debug_dict['pub_hloutlist_IDs']]
+    #pub_ctlist pub_ctlist_IDs
+    if debug_dict['pub_condition'] in ('1', '2'):
+        debug_dict['pub_ctlist'] = [External_Choice_Task.objects.get(pk=x) for x in  debug_dict['pub_ctlist_IDs']]
+    elif debug_dict['pub_condition'] in ('3', '4'):
+        debug_dict['pub_ctlist'] = [External_Baseline_Choice_Task.objects.get(pk=x) for x in  debug_dict['pub_ctlist_IDs']]
+
+    #pub_scale_sequences pub_scale_sequences
+    unordered_dict = {}
+    ids = debug_dict['pub_scale_sequences_IDs']
+    unordered_dict ['rnd_max'] = External_Order_Scale.objects.get(pk=ids[0])
+    unordered_dict ['rnd_max'].pk = int('9999'+str(unordered_dict ['rnd_max'].pk))
+    unordered_dict ['rnd_regret'] = External_Order_Scale.objects.get(pk=ids[1])
+    unordered_dict ['rnd_regret'].pk = int('9999'+str(unordered_dict ['rnd_regret'].pk))
+    unordered_dict ['rnd_involvement'] = External_Order_Scale.objects.get(pk=ids[2])
+    unordered_dict ['rnd_involvement'].pk = int('9999'+str(unordered_dict ['rnd_involvement'].pk))
+    unordered_dict ['rnd_searchgoals'] = External_Order_Scale.objects.get(pk=ids[3])
+    unordered_dict ['rnd_searchgoals'].pk = int('9999'+str(unordered_dict ['rnd_searchgoals'].pk))
+    unordered_dict ['rnd_happiness'] = External_Order_Scale.objects.get(pk=ids[4])
+    unordered_dict ['rnd_happiness'].pk = int('9999'+str(unordered_dict ['rnd_happiness'].pk))
+
+    debug_dict['pub_scale_sequences'] = unordered_dict
+    # exc_str = str([x.id for x in debug_dict['pub_ctlist']])+'  ***  '+str(debug_dict['pub_ctlist_IDs']) +'\n'
+    # exc_str += str([x.id for x in debug_dict['pub_hloutlist']])+'  ***  '+str(debug_dict['pub_hloutlist_IDs']) +'\n'
+    # exc_str += str([x.id for x in debug_dict['pub_scale_sequences']])+'  ***  '+str(debug_dict['pub_scale_sequences_IDs'])
+    # raise Exception(exc_str)
     makeParticipant(debug_dict)
 
 def makeParticipant(s):
